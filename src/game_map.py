@@ -38,11 +38,12 @@ class GameMap:
 
     @property
     def actors(self):
-        """Iterate over this maps living actors."""
+        """Iterate over this maps actors."""
         yield from (
             entity
             for entity in self.entities
-            if isinstance(entity, Actor) and entity.is_alive
+            # if isinstance(entity, Actor) and entity.is_alive
+            if isinstance(entity, Actor)
         )
 
     @property

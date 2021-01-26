@@ -1,6 +1,7 @@
 from . import exceptions
 from . import render_functions
 from . import settings
+from .entity_factories import corpse_generator
 from .game_map import GameMap
 from .game_world import GameWorld
 from .message_log import MessageLog
@@ -44,6 +45,19 @@ class Engine:
                     entity.ai.perform()
                 except exceptions.Impossible:
                     pass # Ignore impossible action exceptions from AI
+
+        # Convert any dead monsters to corpse items
+        for actor in set(self.game_map.actors) - {self.player}:
+            if not actor.is_alive:
+                # Replace the actor with an item that is a corpse
+                corpse = corpse_generator(actor)
+
+                # Remove the dead actor from the map
+                self.game_map.entities.remove(actor)
+
+                # Replace it with the corpse item
+                self.game_map.entities.add(corpse)
+
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""

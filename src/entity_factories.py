@@ -6,6 +6,20 @@ from components.inventory import Inventory
 from components.level import Level
 from .item import Item
 from .actor import Actor
+from src.settings import RenderOrder
+
+
+def corpse_generator(actor):
+    corpse = Item(
+        x=actor.x,
+        y=actor.y,
+        char="%",
+        color=actor.color,
+        name=f'{actor.name} corpse',
+    )
+    corpse.render_order = RenderOrder.CORPSE
+    return corpse
+
 
 player = Actor(
     char="@",

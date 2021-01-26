@@ -1,6 +1,7 @@
 from src import color
 from components.base_component import BaseComponent
 from src.settings import RenderOrder
+from src.item import Item
 
 
 class Fighter(BaseComponent):
@@ -73,16 +74,12 @@ class Fighter(BaseComponent):
             death_message = f"The {self.parent.name} dies!"
             death_message_color = color.enemy_die
 
-        self.parent.char = "%"
-        self.parent.color = (191, 0, 0)
-        self.parent.blocks_movement = False
+        # self.parent.char = "%"
+        # self.parent.color = (191, 0, 0)
+        # self.parent.blocks_movement = False
         self.parent.ai = None
-        self.parent.name = f"{self.parent.name} corpse"
-        self.parent.render_order = RenderOrder.CORPSE
+        # self.parent.name = f"{self.parent.name} corpse"
+        # self.parent.render_order = RenderOrder.CORPSE
 
-        self.engine.message_log.add_message(
-            death_message,
-            death_message_color
-        )
+        self.engine.message_log.add_message(death_message, death_message_color)
         self.engine.player.level.add_xp(self.parent.level.xp_given)
-
