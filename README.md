@@ -7,18 +7,26 @@ $ pip install --upgrade pip
 
 ## Todo List
 # Phase 1: Easy Revisions:
-* todo: Change (E) to Equipped (change window size?)
-* todo: Sorted inventory
 
-* todo: Remove "that way is blocked for walls."
 
+* todo: Death screen/gameover screen, high scores
+* todo: Remove color from messages
+
+### Status bar
+* todo: Status bar: health, name, power/defense/level/turns
 * todo: Add player level to status bar.
 * todo: Add power, defense, to status bar.
 * todo: Add turns to status bar.
-* todo: Change player XP points to standard, instead of just the amount needed to level up.
+
+### Inventory
+* todo: Change (E) to Equipped (change window size?)
+* todo: Sorted inventory
+* 'q': To Quaff potions
+* 'r': To read scrolls
+* 'e': To eat
 
 ### Refactoring:
-* todo: Move main functionality to engine
+
 * todo: Add tests for map generation, procgen
 * todo: Add skeleton tests for other things that are testable...
 * todo: Replace deprecated tcod.fov functions with updated versions.
@@ -28,12 +36,12 @@ $ pip install --upgrade pip
 * Test components and actions?
 
 ### Monsters and Items
-* todo: Raise the orc damage so it goes through leather armor.
+
 * todo: Track monsters kills.
 * todo: Add better msg to drinking healing potion.
 * todo: Add random monster placement generator
 * todo: Add python typing???
-* todo: When monsters die, converted them to Items so we can pick them up!
+
 * todo: Made the radius of FOV a smaller.
 * todo: Infravision?
 * todo: Remember where items were
@@ -42,12 +50,12 @@ $ pip install --upgrade pip
 * todo: Robots
 * todo: Classic nethack monsters
 * todo: Genetic Experiments
-* todo: Monster Variations
+* todo: Monster Variations (rabid, mini, giant)
 * todo: Aliens
 * todo: Operatives
 * todo: Normal/Real monsters
 * todo: Items
-* todo: New potions/vials
+* todo: New potions > vials
 * todo: Melee weapons
 * todo: Ranged weapons
 * todo: Explosives
@@ -111,34 +119,40 @@ https://www.reddit.com/r/roguelikedev/comments/al06ab/exercise_ideas_for_libtcod
 
 
 # DONE:
+* SKIPPED: Add more science lab look to colors, gray/white
+* SKIPPED: Remove color from message console
+* SKIPPED: Break out actions to separate files in directory. messy...
+* SKIPPED: Rename Impossible to ImpossibleException
+* SKIPPED: Break input handlers apart to separate files.
+* SKIPPED: Remove "that way is blocked for walls."
+* SKIPPED: Move main functionality to engine
+
 
 * DONE: , to pickup
 * DONE: Ctrl-X for character info
 * DONE: Make sure title and messages reflect the LabHack theme.
-* SKIPPED: Add more science lab look to colors, gray/white
 * DONE: Removed HP from attack msg, instead say "hits"
 * DONE: Remove msg for gaining xp.
 * DONE: Say "the xxx dies", instead
 * DONE: Add ability to view messages after death
 * DONE: Remove level-up menu, make random instead.
-* SKIPPED: Remove color from message console
 * DONE: Extend the length of the message box
 * DONE: Move message rendering from the MessageLog to rendering_functions.
 * DONE: Move game_map rendering to rendering_functions
 * DONE: Go through and extract out obvious magic numbers, constants.
 * DONE: Convert src and tests files to package import format.
-* SKIPPED: Break out actions to separate files in directory. messy...
 * DONE: Refactor keys and inputs
 * DONE: Move Actor to own file
 * DONE: Move Item to own file
 * DONE: Move GameWorld to own file
 * DONE: Move Rect.. to own file
-* SKIPPED: Rename Impossible to ImpossibleException
 * DONE: Make sure confusion can't make monsters hit themselves.
-* SKIPPED: Break input handlers apart to separate files.
 * DONE: Move MainMenu class to input_handlers.
 * DONE: Move message box to top of screen
 * DONE: Separate root console
 * DONE: Separate map panel
 * DONE: Separate msg panel
 * DONE: Separate stat panel
+* DONE: Change player XP points to standard
+* DONE: When monsters die, converted them to Items so we can pick them up!
+* DONE: Raise the orc damage so it goes through leather armor.
