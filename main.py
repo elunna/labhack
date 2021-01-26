@@ -28,7 +28,7 @@ def main():
         vsync=True,
         renderer=tcod.RENDERER_SDL2,  # Fix green lines on Windows
     ) as context:
-        # The “order” argument affects the order of our x and y variables in
+        # The "order" argument affects the order of our x and y variables in
         # numpy (an underlying library that tcod uses). By default, numpy
         # accesses 2D arrays in [y, x] order, which is fairly unintuitive. By
         # setting order="F", we can change this to be [x, y] instead.

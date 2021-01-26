@@ -1,10 +1,14 @@
 # Lab Hack
 > A Roguelike Venture in Super-Science!
 
+### Install pip freeze requirements
+$ pip install -r requirements.txt
+$ pip install --upgrade pip
+
+## Todo List
 # Phase 1: Easy Revisions:
 * todo: Change (E) to Equipped (change window size?)
-
-* todo: Sorted inventory 
+* todo: Sorted inventory
 
 * todo: Remove "that way is blocked for walls."
 
