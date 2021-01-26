@@ -1,0 +1,20 @@
+# Virtual environment
+venv
+
+# Python project files
+*.pyc
+.ropeproject
+.env
+__pycache__
+pytest.ini
+
+# Pycharm project files
+.idea
+
+# Saved games
+*.sav
+
+
+# Misc files
+todo.txt
+brainstorm.txt
