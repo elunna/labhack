@@ -105,16 +105,26 @@ class MainGameEventHandler(EventHandler):
         https://python-tcod.readthedocs.io/en/latest/tcod/event.html
     """
     def ev_keydown(self, event):
-        # A key was pressed, determine which key and create an appropriate action.
-        action = None
+        # action = None
+        player = self.engine.player
 
+        # TODO: Crude way to handle paralysis, fix this later
+        if isinstance(player.ai, ai.ParalyzedAI):
+            action = player.ai.perform()
+            if action:
+                return action
+            # This is a hack, we don't want to skip the players turn when they
+            # break free of paralysis. This will skip enemy turns and give the
+            # player to act once they are unparalyzed.
+            return None
+
+        # A key was pressed, determine which key and create an appropriate action.
         key = event.sym
 
         # Used to tell us if a player is holding a modifier key like control,
         # alt, or shift.
         modifier = event.mod
 
-        player = self.engine.player
 
         # Handle >
         if key == tcod.event.K_PERIOD and modifier & (

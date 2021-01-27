@@ -147,3 +147,33 @@ class ConfusedEnemy(BaseAI):
             # The actor will either try to move or attack in the chosen random direction.
             # Its possible the actor will just bump into the wall, wasting a turn.
             return BumpAction(self.entity, direction_x, direction_y)
+
+
+
+class ParalyzedAI(BaseAI):
+    """ A confused enemy will stumble around aimlessly for a given number of turns, then
+        revert back to its previous AI. If an actor occupies a tile it is randomly moving
+        into, it will attack.
+    """
+
+    def __init__(self, entity, previous_ai, turns_remaining):
+        super().__init__(entity)
+
+        self.previous_ai = previous_ai
+        self.turns_remaining = turns_remaining
+
+    def perform(self):
+        # Causes the entity to stay frozen in place
+        # Revert the AI back to the original state if the effect has run its course.
+        if self.turns_remaining <= 0:
+            self.engine.message_log.add_message(
+                f"You are no longer paralyzed."
+            )
+            self.entity.ai = self.previous_ai
+        else:
+            self.engine.message_log.add_message(
+                f"You are frozen in place, helpless...."
+            )
+            # We can just use the wait action to simulate paralysis
+            self.turns_remaining -= 1
+            return WaitAction(self.entity)

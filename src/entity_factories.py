@@ -355,16 +355,23 @@ troll = Actor(
 
 health_potion = Item(
     char="!",
-    color=(127, 0, 255),
+    color=tcod.blue,
     name="Health Potion",
     consumable=consumable.HealingConsumable(amount=4),
 )
 
 confusion_potion = Item(
     char="!",
-    color=(127, 0, 255),
+    color=tcod.yellow,
     name="Potion of Confusion",
     consumable=consumable.ConfusionPotionConsumable(number_of_turns=8),
+)
+
+paralysis_potion = Item(
+    char="!",
+    color=tcod.red,
+    name="Potion of Paralysis",
+    consumable=consumable.ParalysisConsumable(number_of_turns=5),
 )
 
 lightning_scroll = Item(
@@ -419,7 +426,8 @@ chain_mail = Item(
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
-    0: [(health_potion, 35), (confusion_potion, 35)],
+    # 0: [(health_potion, 35), (confusion_potion, 35)],
+    0: [(health_potion, 35), (paralysis_potion, 35)],
     2: [(confusion_scroll, 10), (leather_armor, 5), (dagger, 5)],
     4: [(lightning_scroll, 25), (chain_mail, 5), (sword, 5), (fireball_scroll, 25)],
 }

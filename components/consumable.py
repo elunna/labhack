@@ -1,7 +1,7 @@
 from src.actions import ItemAction
 from components.base_component import BaseComponent
 from components.inventory import Inventory
-from components.ai import ConfusedEnemy
+from components.ai import ConfusedEnemy, ParalyzedAI
 from src.exceptions import Impossible
 from src import color, input_handlers
 
@@ -57,6 +57,25 @@ class ConfusionPotionConsumable(Consumable):
             f"You feel confused...", color.status_effect_applied
         )
         consumer.ai = ConfusedEnemy(
+            entity=consumer,
+            previous_ai=consumer.ai,
+            turns_remaining=self.number_of_turns,
+        )
+        self.consume()
+
+
+class ParalysisConsumable(Consumable):
+    def __init__(self, number_of_turns):
+        self.number_of_turns = number_of_turns
+
+    def activate(self, action):
+        consumer = action.entity
+
+        # TODO: Adjust for throwing at other monsters, etc.
+        self.engine.message_log.add_message(
+            f"You can't move...", color.status_effect_applied
+        )
+        consumer.ai = ParalyzedAI(
             entity=consumer,
             previous_ai=consumer.ai,
             turns_remaining=self.number_of_turns,
