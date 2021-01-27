@@ -41,10 +41,17 @@ class Engine:
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:
             if entity.ai:
+                # Get the next calculated action from the AI.
+                action = entity.ai.perform()
                 try:
-                    entity.ai.perform()
+                    # Execute the action
+                    action.perform()
+                    # entity.ai.perform()
                 except exceptions.Impossible:
                     pass # Ignore impossible action exceptions from AI
+                except AttributeError:
+                    pass
+
 
         # Convert any dead monsters to corpse items
         for actor in set(self.game_map.actors) - {self.player}:

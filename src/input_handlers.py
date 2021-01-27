@@ -88,6 +88,7 @@ class EventHandler(BaseEventHandler):
 
         self.engine.handle_enemy_turns()
         self.engine.update_fov()
+
         return True
 
     def ev_mousemotion(self, event):
@@ -132,6 +133,7 @@ class MainGameEventHandler(EventHandler):
             # TODO: Replace with a better use of the AI states in the future.
             # HumanAI might be this whole input handler, while there might be a
             # different event handler for confusion.
+            # ConfusedEventHandler could even be a subclass of Main...
             if isinstance(player.ai, ai.ConfusedEnemy):
                 action = player.ai.perform()
             else:
