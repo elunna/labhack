@@ -326,7 +326,7 @@ firefly = Actor(
     name="Fire Fly",
     ai_cls=HostileEnemy,
     equipment=Equipment(),
-    fighter=Fighter(hp=1, base_defense=4, base_power=1),
+    fighter=Fighter(hp=4, base_defense=1, base_power=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
 )
