@@ -76,6 +76,17 @@ class HeroControllerAI(BaseAI):
         pass
 
 
+class StationaryAI(BaseAI):
+    def __init__(self, entity):
+        super().__init__(entity)
+        self.path = []
+
+    def perform(self):
+        # Stationary monsters just sit there waiting.
+        return WaitAction(self.entity)
+
+
+
 class HostileEnemy(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)

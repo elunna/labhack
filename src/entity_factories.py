@@ -1,4 +1,4 @@
-from components.ai import HostileEnemy, HeroControllerAI
+from components.ai import HostileEnemy, HeroControllerAI, StationaryAI
 from components import consumable, equippable
 from components.equipment import Equipment
 from components.fighter import Fighter
@@ -192,7 +192,7 @@ brown_mold = Actor(
     char="F",
     color=tcod.amber,
     name="Brown Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
@@ -203,7 +203,7 @@ yellow_mold = Actor(
     char="F",
     color=tcod.yellow,
     name="Yellow Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
@@ -214,7 +214,7 @@ green_mold = Actor(
     char="F",
     color=tcod.dark_green,
     name="Green Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
@@ -225,7 +225,7 @@ red_mold = Actor(
     char="F",
     color=tcod.red,
     name="Red Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
@@ -258,7 +258,7 @@ disgusting_mold = Actor(
     char="F",
     color=tcod.cyan,
     name="Disgusting Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=8, base_defense=2, base_power=8),
     inventory=Inventory(capacity=0),
@@ -269,7 +269,7 @@ black_mold = Actor(
     char="F",
     color=tcod.darkest_gray,
     name="Black Mold",
-    ai_cls=HostileEnemy,
+    ai_cls=StationaryAI,
     equipment=Equipment(),
     fighter=Fighter(hp=10, base_defense=4, base_power=16),
     inventory=Inventory(capacity=0),
