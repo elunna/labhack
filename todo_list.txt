@@ -1,0 +1,174 @@
+
+## Todo List
+
+### Eye of Sauron is focused on...
+* todo: Update README for users on Windows, Mac, and Linux
+* todo: Add to pypip library for easier running
+* todo: Add LICENSE
+* todo: Separate Engine and Rendering
+* todo: Speed system
+
+Ideas:
+* Renderer (acts as the rendering engine, holds all the rendering methods.)
+* Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
+* That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
+
+
+### Easy changes
+* todo: Status bar: health, name, power/defense/level/turns
+* todo: Add player level to status bar.
+* todo: Add power, defense, to status bar.
+* todo: Add turns to status bar.
+* todo: Change (E) to Equipped (change window size?)
+* todo: Targeting needs to be offset +5 y
+* todo: Remove color from messages
+* todo: Testing for Rectangle
+* todo: Add (0, 0) to directions, but make sure monster doesn't attack itself.
+
+* todo: Rename all EventHandlers to just Handlers
+* todo: Rename ConfusedEnemy -> ConfusedAI
+* todo: Rendering constants to make it easier to manipulate and read. RENDERING = { HP_BAR }
+* todo: Add more science lab look to colors, gray/white
+* todo: Remove color from message console
+* todo: Hero starts with a Notebook?
+
+### Mini-Bosses (Relatively easy goals)
+* todo: logging
+* todo: Refactor more of the rendering in the event handlers out
+* todo: Move one Handler out at a time.
+* todo: 'q': To Quaff potions
+* todo: 'r': To read scrolls
+* todo: Add tests for map generation, procgen
+* todo: Add skeleton tests for other things that are testable...
+* todo: Tests for game_map
+* todo: Tests for procgen
+* todo: Grid movement
+* todo: Potion of Extra Healing
+* todo: Potion of sleeping
+* todo: Replace deprecated tcod.fov functions with updated versions.
+* todo: Track monsters kills.
+* todo: Death screen/gameover screen, high scores
+* todo: Add python typing
+
+#### Monsters and Items
+    * todo: Cold Damage
+    * todo: Fire Damage
+    * todo: Shock Damage
+    * todo: Paralysis attack
+    * todo: Physical damage: bite, hit, touch
+    * todo: Passive attack (reactive)
+    * todo: Sticky attack
+    * todo: Exploding, Self Destruct
+    * todo: Blinding attack
+    * todo: Hallucination attack
+
+### Big Bosses (Major and challenging goals)
+
+* todo: Sorted inventory
+* todo: Eating functionality
+* todo: Add random monster placement generator
+* todo: Hallucination
+* todo: Blindness
+* todo: More organized database of monsters.
+* todo: Add monster info to each monster
+* todo: Monsters get random items, weapons, armor
+* todo: Death drops
+* todo: Dnotation style damage
+* todo: up-stairs tile and ability to backtrack
+* todo: Graceful exit for going up first level stair.
+* todo: Randomized descriptions for items
+* todo: multi layered FOV, 2 radius: immediate and far.
+* todo: A basic stationary shopkeeper
+* todo: Infravision?
+* todo: Remember where items were
+* todo: Configurable UI, movable panels/inv/etc.
+* todo: New input handlers: options, discoveries, credits, help menu, lore.
+
+# Phase 2: Making the project FUN!
+* todo: Robots
+* todo: Genetic Experiments
+* todo: Monster Variations (rabid, mini, giant)
+* todo: Aliens
+* todo: Operatives
+* todo: Normal/Real monsters
+* todo: Items
+* todo: New potions > vials
+* todo: Melee weapons
+* todo: Ranged weapons
+* todo: Explosives
+* todo: Firearms
+* todo: Map features, traps, rooms
+
+
+
+
+
+
+
+# Resources and tutorials
+* [DONE]: http://rogueliketutorials.com/tutorials/tcod/v2/
+* todo: https://www.youtube.com/watch?v=GIF3LaRqgXo (Publishing (Perfect) Python Packages on PyPi)
+* todo: https://www.reddit.com/r/roguelikedev/comments/dsv9lq/roguelike_tutorial_hypothetical_extended_version/
+* todo: http://rogueliketutorials.com/tutorials/tcod/
+* todo: http://bfnightly.bracketproductions.com/rustbook/
+* todo: https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
+* todo: http://gamedevgeek.com/tutorials/managing-game-states-in-c/
+* todo: https://github.com/aBrydson/fun-with-python-tcod.git
+* todo: https://www.reddit.com/r/roguelikedev/comments/al06ab/exercise_ideas_for_libtcod/
+
+
+### Tutorials Completed
+* [DONE] http://rogueliketutorials.com/tutorials/tcod/v2/
+* https://www.reddit.com/r/roguelikedev/comments/dsv9lq/roguelike_tutorial_hypothetical_extended_version/
+* http://rogueliketutorials.com/tutorials/tcod/
+* http://bfnightly.bracketproductions.com/rustbook/
+
+
+# DONE:
+
+* SKIPPED: Break out actions to separate files in directory. messy...
+* SKIPPED: Rename Impossible to ImpossibleException
+* SKIPPED: Break input handlers apart to separate files.
+* SKIPPED: Remove "that way is blocked for walls."
+* SKIPPED: Move main functionality to engine
+* SKIPPED: Made the radius of FOV a smaller.
+
+# WAVE 1
+* DONE: , to pickup
+* DONE: Ctrl-X for character info
+* DONE: Make sure title and messages reflect the LabHack theme.
+* DONE: Removed HP from attack msg, instead say "hits"
+* DONE: Remove msg for gaining xp.
+* DONE: Say "the xxx dies", instead
+* DONE: Add ability to view messages after death
+* DONE: Remove level-up menu, make random instead.
+* DONE: Extend the length of the message box
+* DONE: Move message rendering from the MessageLog to rendering_functions.
+* DONE: Move game_map rendering to rendering_functions
+* DONE: Go through and extract out obvious magic numbers, constants.
+* DONE: Convert src and tests files to package import format.
+* DONE: Refactor keys and inputs
+* DONE: Move Actor to own file
+* DONE: Move Item to own file
+* DONE: Move GameWorld to own file
+* DONE: Move Rect.. to own file
+* DONE: Make sure confusion can't make monsters hit themselves.
+* DONE: Move MainMenu class to input_handlers.
+* DONE: Move message box to top of screen
+* DONE: Separate root console
+* DONE: Separate map panel
+* DONE: Separate msg panel
+* DONE: Separate stat panel
+* DONE: Change player XP points to standard
+* DONE: When monsters die, converted them to Items so we can pick them up!
+
+
+## WAVE 2
+* DONE: Raise the orc damage so it goes through leather armor.
+* done: Added a bunch of classic nethack monsters (b, j, e, F)
+* done: Potion of Confusion
+* done: StationaryAI
+* done: ParalyzedAI
+* done: Passive AI - for brown/yellow/green/red/disgusting/black mold
+* done: Stationary - doesn't move
+* done: Potion of paralysis
