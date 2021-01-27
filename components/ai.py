@@ -66,6 +66,16 @@ class BaseAI(Action):
         return [(index[0], index[1]) for index in path]
 
 
+class HeroControllerAI(BaseAI):
+    def __init__(self, entity):
+        super().__init__(entity)
+        self.path = []
+
+    def perform(self):
+        # TODO: Put human controlling code here.
+        pass
+
+
 class HostileEnemy(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)

@@ -1,4 +1,4 @@
-from components.ai import HostileEnemy
+from components.ai import HostileEnemy, HeroControllerAI
 from components import consumable, equippable
 from components.equipment import Equipment
 from components.fighter import Fighter
@@ -25,7 +25,7 @@ player = Actor(
     char="@",
     color=(255, 255, 255),
     name="Player",
-    ai_cls=HostileEnemy,
+    ai_cls=HeroControllerAI,
     equipment=Equipment(),
     fighter=Fighter(hp=30, base_defense=1, base_power=2),
 
@@ -360,6 +360,13 @@ health_potion = Item(
     consumable=consumable.HealingConsumable(amount=4),
 )
 
+confusion_potion = Item(
+    char="!",
+    color=(127, 0, 255),
+    name="Potion of Confusion",
+    consumable=consumable.ConfusionPotionConsumable(number_of_turns=8),
+)
+
 lightning_scroll = Item(
     char="~",
     color=(255, 255, 0),
@@ -412,7 +419,7 @@ chain_mail = Item(
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
-    0: [(health_potion, 35)],
+    0: [(health_potion, 35), (confusion_potion, 35)],
     2: [(confusion_scroll, 10), (leather_armor, 5), (dagger, 5)],
     4: [(lightning_scroll, 25), (chain_mail, 5), (sword, 5), (fireball_scroll, 25)],
 }

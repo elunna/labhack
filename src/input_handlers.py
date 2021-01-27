@@ -5,6 +5,7 @@ from . import settings
 from .settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
 from typing import Union
+from components import ai
 import os
 import src.actions
 import tcod
@@ -128,8 +129,13 @@ class MainGameEventHandler(EventHandler):
             return CharacterScreenEventHandler(self.engine)
 
         if key in MOVE_KEYS:
-            dx, dy = MOVE_KEYS[key]
-            action = src.actions.BumpAction(player, dx, dy)
+            # Check if player is confused
+            if isinstance(player.ai, ai.ConfusedEnemy):
+                action = player.ai.perform()
+
+            else:
+                dx, dy = MOVE_KEYS[key]
+                action = src.actions.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
             action = src.actions.WaitAction(player)
