@@ -5,12 +5,48 @@
 $ pip install -r requirements.txt
 $ pip install --upgrade pip
 
+
+
 ## Todo List
+Actor States
+    HumanControlAI - Player has total control over character
+    StunnedAI
+    ConfusedEnemy -> ConfusedAI
+    PassiveAI
+    ParalyzedAI
+    HallucinatingAI
+    Levitating
+    Flying
+
+
+* todo: Passive AI - for brown/yellow/green/red/disgusting/black mold
+* todo: Passive AI - for
+* todo: Grid movement
+* todo: Stationary - doesn't move
+* todo: Cold Damage
+* todo: Fire Damage
+* todo: Shock Damage
+* todo: Paralysis attack
+* todo: Physical damage: bite, hit, touch
+* todo: Passive attack (reactive)
+* todo: Sticky attack
+* todo: Exploding, Self Destruct
+* todo: Blinding attack
+* todo: Hallucination attack
+* todo: Potion of Confusion
+* todo: Potion of paralysis
+* todo: Potion of blindness
+* todo: Potion of Hallucination
+
+
+* todo:
 # Phase 1: Easy Revisions:
-
-
-* todo: Death screen/gameover screen, high scores
+* Targeting needs to be offset +5 y
+* Rename all EventHandlers to just Handlers
+* Refactor more of the rendering in the event handlers out
+* Move one Handler out at a time.
 * todo: Remove color from messages
+* todo: Made the radius of FOV a smaller.
 
 ### Status bar
 * todo: Status bar: health, name, power/defense/level/turns
@@ -36,19 +72,14 @@ $ pip install --upgrade pip
 * Test components and actions?
 
 ### Monsters and Items
-
+* todo: More organized database of monsters.
 * todo: Track monsters kills.
-* todo: Add better msg to drinking healing potion.
 * todo: Add random monster placement generator
-* todo: Add python typing???
 
-* todo: Made the radius of FOV a smaller.
-* todo: Infravision?
-* todo: Remember where items were
 
 # Phase 2: Making the project FUN!
 * todo: Robots
-* todo: Classic nethack monsters
+
 * todo: Genetic Experiments
 * todo: Monster Variations (rabid, mini, giant)
 * todo: Aliens
@@ -72,8 +103,12 @@ $ pip install --upgrade pip
 * todo: Graceful exit for going up first level stair.
 * todo: Speed system
 * todo: Randomized descriptions for items
-* todo: multi layered FOV, you have 2 radius - immediate and far. We cannot make out far away monsters, but they can follow us.
+* todo: multi layered FOV, 2 radius: immediate and far.
 * todo: A basic stationary shopkeeper
+* todo: Death screen/gameover screen, high scores
+* todo: Infravision?
+* todo: Remember where items were
+* todo: Add python typing???
 
 ### Other possible additions/revisions:
 * Scene Management
@@ -98,7 +133,7 @@ $ pip install --upgrade pip
 https://github.com/aBrydson/fun-with-python-tcod.git
 
 https://www.reddit.com/r/roguelikedev/comments/al06ab/exercise_ideas_for_libtcod/
-* convert field-of-view to use the Map class in python-tcod. It introduced the numpy ndarray and it took me ages to get it working properly.
+* convert FOV to use the Map class in python-tcod. It introduced the numpy ndarray and it took me ages to get it working properly.
 * Use rexpaint to draw a map of a region, with different background_colours for each country. Then using tcod load a console from the .xp file. Use mouse coordinates (cx,cy) to check the background colour of the cell against a dict of 'origins' which have the RGB of the background as the value - then print the key (the country's name) to a separate offscreen console. Then blit that console to the root, slightly offset from the mouse point. You don't need to use rexpaint (though it is super-handy) - the aim here is to understand how to index the console.bg array , so any console with two different background colours would work.
 
 * Fade from one offscreen console to another (a loading image and the aforementioned map in my case) using the console's bg_alpha and fg_alpha values. Thinking about it this might be the easiest of the three, but maybe because that's because I did it recently...
@@ -156,3 +191,4 @@ https://www.reddit.com/r/roguelikedev/comments/al06ab/exercise_ideas_for_libtcod
 * DONE: Change player XP points to standard
 * DONE: When monsters die, converted them to Items so we can pick them up!
 * DONE: Raise the orc damage so it goes through leather armor.
+* done: Classic nethack monsters
