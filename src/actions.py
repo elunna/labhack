@@ -140,7 +140,13 @@ class MovementAction(ActionWithDirection):
             raise exceptions.Impossible("That way is blocked.")
 
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
-            # Destination is blocked by a tile.
+            # Destination is blocked by a tile
+
+            from components.ai import ConfusedEnemy
+            if isinstance(self.entity.ai, ConfusedEnemy):
+                self.engine.message_log.add_message(f"You bonk into the wall...")
+                return
+
             raise exceptions.Impossible("That way is blocked.")
 
         # Theoretically, this bit of code won’t ever trigger, but it's a

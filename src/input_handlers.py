@@ -84,7 +84,6 @@ class EventHandler(BaseEventHandler):
             action.perform()
         except exceptions.Impossible as exc:
             self.engine.message_log.add_message(exc.args[0], color.impossible)
-
             return False  # Skip enemy turn on exceptions
 
         self.engine.handle_enemy_turns()
@@ -130,9 +129,11 @@ class MainGameEventHandler(EventHandler):
 
         if key in MOVE_KEYS:
             # Check if player is confused
+            # TODO: Replace with a better use of the AI states in the future.
+            # HumanAI might be this whole input handler, while there might be a
+            # different event handler for confusion.
             if isinstance(player.ai, ai.ConfusedEnemy):
                 action = player.ai.perform()
-
             else:
                 dx, dy = MOVE_KEYS[key]
                 action = src.actions.BumpAction(player, dx, dy)
