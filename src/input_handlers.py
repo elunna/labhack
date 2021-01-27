@@ -105,7 +105,7 @@ class MainGameEventHandler(EventHandler):
         https://python-tcod.readthedocs.io/en/latest/tcod/event.html
     """
     def ev_keydown(self, event):
-        # action = None
+        action = None
         player = self.engine.player
 
         # TODO: Crude way to handle paralysis, fix this later
