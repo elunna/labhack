@@ -6,6 +6,7 @@ venv
 .ropeproject
 .env
 __pycache__
+# components/__pycache__
 pytest.ini
 build/
 dist/
