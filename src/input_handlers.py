@@ -160,7 +160,7 @@ class MainGameEventHandler(EventHandler):
             return HistoryViewer(self.engine)
 
         elif key == tcod.event.K_COMMA:
-            action = src.actions.PickupAction(player)
+            action = actions.PickupAction(player)
 
         elif key == tcod.event.K_i:
             return InventoryActivateHandler(self.engine)
@@ -377,7 +377,7 @@ class InventoryActivateHandler(InventoryEventHandler):
             # Return the action for the selected item.
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
-            return src.actions.EquipAction(self.engine.player, item)
+            return actions.EquipAction(self.engine.player, item)
         else:
             return None
 
@@ -389,7 +389,7 @@ class InventoryDropHandler(InventoryEventHandler):
 
     def on_item_selected(self, item):
         """ Drop this item."""
-        return src.actions.DropItem(self.engine.player, item)
+        return actions.DropItem(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserEventHandler):
