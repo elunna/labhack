@@ -5,15 +5,15 @@ A Roguelike Venture in Super-Science! Instead of a dungeon, we descend into a de
 ## Installation
 ### Windows
 1. *Python 3+ is required:* https://www.python.org/downloads/
-  
+
 2. *Download the source:*
 
-* From https://github.com/elunna/labhack  
+* From https://github.com/elunna/labhack
 (if you have git)
 * ```git clone https://github.com/elunna/labhack```
 
 3. Open up a terminal and go to the project directory
-  
+
 4. Create a new virtual environment
 
 ```python -m venv ./venv```
@@ -24,7 +24,7 @@ A Roguelike Venture in Super-Science! Instead of a dungeon, we descend into a de
 
 ## Usage
 ### Command line:
-```python main.py```
+```python run.py```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

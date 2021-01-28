@@ -12,8 +12,8 @@ import tcod
 
 
 class Engine:
-    """ The driver of the game, manages the entities, events, and player and
-        makes sure that the screen is correctly updated.
+    """ The driver of the game. Manages the entities, actors, events, and player
+        and makes sure they are routed to the renderer..
     """
     game_map: GameMap
     game_world: GameWorld

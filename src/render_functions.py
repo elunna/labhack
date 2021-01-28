@@ -5,6 +5,11 @@ from src import tile_types
 import numpy as np
 
 
+class TcodRenderer:
+    """ Handle all the rendering details that the engine requires."""
+    pass
+
+
 def render_bar(console, current_value, maximum_value, total_width):
     bar_width = int(float(current_value) / maximum_value * total_width)
 
