@@ -1,7 +1,7 @@
-from . import color
-from .message_log import MessageLog
-from . import settings
-from . import tile_types
+from src import color
+from src.message_log import MessageLog
+from src import settings
+from src import tile_types
 import numpy as np
 
 

@@ -2,11 +2,10 @@
 ## Todo List
 
 ### Eye of Sauron is focused on...
-* todo: Update README for users on Windows, Mac, and Linux
 * todo: Add to pypip library for easier running
-* todo: Add LICENSE
 * todo: Separate Engine and Rendering
 * todo: Speed system
+* DONE: Add LICENSE
 
 Ideas:
 * Renderer (acts as the rendering engine, holds all the rendering methods.)
@@ -31,6 +30,9 @@ Ideas:
 * todo: Add more science lab look to colors, gray/white
 * todo: Remove color from message console
 * todo: Hero starts with a Notebook?
+Remove the color module and use tcods built-in colors?,
+Move color data to settings.
+* Simplify imports, reduce underscores, less "from" imports.
 
 ### Mini-Bosses (Relatively easy goals)
 * todo: logging
@@ -122,7 +124,7 @@ Ideas:
 * https://www.reddit.com/r/roguelikedev/comments/dsv9lq/roguelike_tutorial_hypothetical_extended_version/
 * http://rogueliketutorials.com/tutorials/tcod/
 * http://bfnightly.bracketproductions.com/rustbook/
-
+https://docs.python-guide.org/writing/structure/
 
 # DONE:
 

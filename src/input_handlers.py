@@ -1,18 +1,18 @@
-from . import color
-from . import exceptions
-from . import render_functions
-from . import settings
-from .settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
-from .setup_game import load_game, new_game
+from src import actions
+from src import color
+from src import exceptions
+from src import render_functions
+from src import settings
+from src.settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from src.setup_game import load_game, new_game
 from typing import Union
 from src.components import ai
 import os
-import src.actions
 import tcod
 import tcod.event
 import traceback
 
-ActionOrHandler = Union[src.actions.Action, "BaseEventHandler"]
+ActionOrHandler = Union[actions.Action, "BaseEventHandler"]
 """An event handler return value which can trigger an action or switch active handlers.
 
     If a handler is returned then it will become the active handler for future events.
@@ -29,7 +29,7 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
         if isinstance(state, BaseEventHandler):
             return state
 
-        assert not isinstance(state, src.actions.Action), f"{self!r} can not handle actions."
+        assert not isinstance(state, actions.Action), f"{self!r} can not handle actions."
         return self
 
     def on_render(self, console):
@@ -130,7 +130,7 @@ class MainGameEventHandler(EventHandler):
         if key == tcod.event.K_PERIOD and modifier & (
                 tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
-            return src.actions.TakeStairsAction(player)
+            return actions.TakeStairsAction(player)
 
         # Ctrl-X: Character Screen
         if key == tcod.event.K_x and modifier & (
@@ -148,10 +148,10 @@ class MainGameEventHandler(EventHandler):
                 action = player.ai.perform()
             else:
                 dx, dy = MOVE_KEYS[key]
-                action = src.actions.BumpAction(player, dx, dy)
+                action = actions.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
-            action = src.actions.WaitAction(player)
+            action = actions.WaitAction(player)
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit()

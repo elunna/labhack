@@ -1,5 +1,5 @@
 from src import color
-from base_component import BaseComponent
+from components.base_component import BaseComponent
 
 
 class Fighter(BaseComponent):

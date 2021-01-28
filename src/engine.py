@@ -1,10 +1,10 @@
-from . import exceptions
-from . import render_functions
-from . import settings
-from .entity_factories import corpse_generator
-from .game_map import GameMap
-from .game_world import GameWorld
-from .message_log import MessageLog
+from src import exceptions
+from src import render_functions
+from src import settings
+from src.entity_factories import corpse_generator
+from src.game_map import GameMap
+from src.game_world import GameWorld
+from src.message_log import MessageLog
 from tcod.map import compute_fov
 import lzma
 import pickle

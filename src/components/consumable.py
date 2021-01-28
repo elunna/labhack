@@ -1,6 +1,6 @@
-from ai import ConfusedEnemy, ParalyzedAI
-from base_component import BaseComponent
-from inventory import Inventory
+from components.ai import ConfusedEnemy, ParalyzedAI
+from components.base_component import BaseComponent
+from components.inventory import Inventory
 from src import color, input_handlers
 from src.actions import ItemAction
 from src.exceptions import Impossible

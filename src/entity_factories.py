@@ -5,8 +5,8 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from .item import Item
-from .actor import Actor
+from src.item import Item
+from src.actor import Actor
 from src.settings import RenderOrder
 import tcod
 
