@@ -1,4 +1,4 @@
-from setuptools import setup
+import setuptools
 from src import settings
 
 # Note on requirements.txt
@@ -13,22 +13,37 @@ with open("README.md", "r") as fh:
 
 
 # Project Configuration
-setup(
+setuptools.setup(
     # Name on pip, what you pip-install
     name='labhack',
-    url=settings.github
+    url=settings.github,
     author=settings.author,
     author_email=settings.email,
 
     # 0.0.x - says that it is unstable.
     version=settings.version,
 
-    description=settings.short_description
+    description=settings.short_description,
     long_description=long_description,
     long_description_content_type="text/markdown",
 
+    python_requires='>=3.6',
+
+    # Use this instead of package_dir) - looks simpler!
+    # automatically discover all packages and subpackages.
+    packages=setuptools.find_packages(),
+    # Where the code is
+    # package_dir={
+        # '': '.',
+        # '': 'components
+        # '': 'src',
+    # '},
+
     # list of the python code modules to install
-    py_modules=["helloworld"],
+    # If your project contains any single-file Python modules that aren’t part
+    # of a package, set py_modules to a list of the names of the modules (minus
+    # the .py extension) in order to make setuptools aware of them.
+    py_modules=["main"],
 
     # install_requires: For production dependencies
     # (Flask, Click, Numpy, Pandas)
@@ -47,11 +62,12 @@ setup(
             "pytest>=3.8",
         ],
     },
-    # Where the code is
-    package_dir={
-        '': '.',
-        '': 'components'},
-        '': 'src',
+
+    # Instead of manually handling images, manifest should do that...
+    include_package_data=True,
+    # data_files=[
+        # ('images', ['dejavu10x10_gs_tc.png', 'menu_background.png'])
+    # ],
 )
 
 # See https://pypi.org/classifiers

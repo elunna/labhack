@@ -11,7 +11,7 @@ short_description = 'A super-science roguelike'
 
 github="https://github.com/elunna/labhack"
 
-version = 0.0.1
+version = '0.0.1'
 
 """Filename info """
 tileset = "images/dejavu10x10_gs_tc.png"
