@@ -77,3 +77,14 @@ def load_game(filename):
 
     assert isinstance(engine, Engine)
     return engine
+
+
+def save_as(game_engine, filename):
+    """Save an Engine instance as a compressed file."""
+    # pickle serializes an object hierarchy in Python.
+    # lzma compresses the data
+
+    save_data = lzma.compress(pickle.dumps(game_engine))
+
+    with open(filename, "wb") as f:
+        f.write(save_data)

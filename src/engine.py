@@ -52,7 +52,6 @@ class Engine:
                 except AttributeError:
                     pass
 
-
         # Convert any dead monsters to corpse items
         for actor in set(self.game_map.actors) - {self.player}:
             if not actor.is_alive:
@@ -64,7 +63,6 @@ class Engine:
 
                 # Replace it with the corpse item
                 self.game_map.entities.add(corpse)
-
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
@@ -118,22 +116,3 @@ class Engine:
 
         self.msg_panel.clear()
         self.stat_panel.clear()
-
-        # blit(dest: tcod.console.Console,
-        #    dest_x: int = 0, dest_y: int = 0,
-        #    src_x: int = 0, src_y: int = 0,
-        #    width: int = 0, height: int = 0,
-        #    fg_alpha: float = 1.0, bg_alpha: float = 1.0,
-        #    key_color: Optional[Tuple[int, int, int]] = None) → None
-
-
-
-    def save_as(self, filename):
-        """Save this Engine instance as a compressed file."""
-        # pickle serializes an object hierarchy in Python.
-        # lzma compresses the data
-
-        save_data = lzma.compress(pickle.dumps(self))
-
-        with open(filename, "wb") as f:
-            f.write(save_data)

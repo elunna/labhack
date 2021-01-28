@@ -4,6 +4,7 @@ from src import color
 from src import exceptions
 from src import input_handlers
 from src import settings
+from src import setup_game
 
 
 def main():
@@ -73,7 +74,8 @@ def main():
 def save_game(handler, filename):
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, input_handlers.EventHandler):
-        handler.engine.save_as(filename)
+        setup_game.save_as(handler.engine, filename)
+        # handler.engine.save_as(filename)
         print("Game saved.")
 
 
