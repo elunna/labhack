@@ -429,9 +429,17 @@ item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     # 0: [(health_potion, 35), (confusion_potion, 35)],
-    0: [(health_potion, 35), (paralysis_potion, 35)],
-    2: [(confusion_scroll, 10), (leather_armor, 5), (dagger, 5)],
-    4: [(lightning_scroll, 25), (chain_mail, 5), (sword, 5), (fireball_scroll, 25)],
+    0: [
+        (health_potion, 35),
+        (paralysis_potion, 5),
+        (confusion_scroll, 10),
+        (lightning_scroll, 25),
+        (fireball_scroll, 25),
+        (leather_armor, 15),
+        (dagger, 15),
+        (chain_mail, 5),
+        (sword, 5),
+    ],
 }
 
 enemy_chances = {
