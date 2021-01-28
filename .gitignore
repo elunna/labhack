@@ -7,6 +7,9 @@ venv
 .env
 __pycache__
 pytest.ini
+build/
+dist/
+labhack.egg-info/
 
 # Pycharm project files
 .idea
