@@ -1,5 +1,21 @@
+MIN_WALL_LEN = 3
+
 class Rectangle:
+    """Creates a rectangle object.
+        Note: Each rectangle has a wall perimeter that is 1 unit thick.
+
+        x/y: Must be 0 or positive value (no negative space)
+        w/h: Must be 3 or more, otherwise there is no empty space within the rectangle.
+    """
     def __init__(self, x, y, width, height):
+        if x < 0 or y < 0:
+            raise ValueError('x and y must be positive values!')
+
+        if width < MIN_WALL_LEN or height < MIN_WALL_LEN:
+            raise ValueError(
+                'width and height must be a minimum of {}!'.format(MIN_WALL_LEN)
+            )
+
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
