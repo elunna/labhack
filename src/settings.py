@@ -1,14 +1,17 @@
 from enum import Enum, auto
-
 import tcod.event
 
 """ This is a collection of all the constants used in the project."""
 
 author = "Erik Lunna"
+email = "eslunna@gmail.com"
 title = "Lab Hack Version 1.0"
 title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
+short_description = 'A super-science roguelike'
 
-version = 1.0
+github="https://github.com/elunna/labhack"
+
+version = 0.0.1
 
 """Filename info """
 tileset = "images/dejavu10x10_gs_tc.png"
