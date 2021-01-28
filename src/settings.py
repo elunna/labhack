@@ -6,6 +6,7 @@ import tcod.event
 author = "Erik Lunna"
 email = "eslunna@gmail.com"
 title = "Lab Hack Version 1.0"
+pypi_title = 'labhack'
 title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
 short_description = 'A super-science roguelike'
 
