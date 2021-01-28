@@ -402,7 +402,9 @@ class SelectIndexHandler(AskUserEventHandler):
 
         super().__init__(engine)
         player = self.engine.player
-        engine.mouse_location = player.x, player.y
+
+        # TODO: Temp hack to fix the screen offset.
+        engine.mouse_location = player.x, player.y + settings.msg_panel_height
 
     def on_render(self, console):
         """ Highlight the tile under the cursor.
