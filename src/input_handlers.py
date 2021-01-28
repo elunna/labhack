@@ -5,7 +5,7 @@ from . import settings
 from .settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
 from typing import Union
-from components import ai
+from src.components import ai
 import os
 import src.actions
 import tcod

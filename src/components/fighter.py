@@ -1,7 +1,5 @@
 from src import color
-from components.base_component import BaseComponent
-from src.settings import RenderOrder
-from src.item import Item
+from base_component import BaseComponent
 
 
 class Fighter(BaseComponent):

@@ -1,5 +1,6 @@
 from components.ai import HostileEnemy, HeroControllerAI, StationaryAI
-from components import consumable, equippable
+from components import equippable
+from components import consumable
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -20,6 +21,7 @@ def corpse_generator(actor):
     )
     corpse.render_order = RenderOrder.CORPSE
     return corpse
+
 
 player = Actor(
     char="@",
@@ -474,7 +476,7 @@ enemy_chances = {
 
 
 list_of_monsters = [
-    ### low level 1
+    # low level 1
     brown_mold,
     yellow_mold,
     green_mold,
@@ -485,7 +487,7 @@ list_of_monsters = [
     grid_bug,
     firefly,
 
-    ### level 2
+    # level 2
     gas_spore,
     yellow_light,
     black_light,
@@ -496,7 +498,7 @@ list_of_monsters = [
     troll,
     orc,
 
-    ### Level 3
+    # Level 3
     jiggling_blob,
     lava_blob,
     static_blob,
@@ -505,7 +507,7 @@ list_of_monsters = [
     arc_bug,
     acid_blob,
 
-    ###Level 4
+    # Level 4
     gelatinous_cube,
     disgusting_mold,
     black_mold,
