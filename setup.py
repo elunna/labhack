@@ -32,6 +32,7 @@ setuptools.setup(
     # Use this instead of package_dir) - looks simpler!
     # automatically discover all packages and subpackages.
     packages=setuptools.find_packages(),
+
     # Where the code is
     # package_dir={
         # '': '.',
@@ -43,7 +44,8 @@ setuptools.setup(
     # If your project contains any single-file Python modules that aren’t part
     # of a package, set py_modules to a list of the names of the modules (minus
     # the .py extension) in order to make setuptools aware of them.
-    py_modules=["main"],
+
+    # py_modules=["main"],
 
     # install_requires: For production dependencies
     # (Flask, Click, Numpy, Pandas)
