@@ -5,6 +5,8 @@ A Roguelike Venture in Super-Science! Instead of a dungeon, we descend into a de
 LabHack
 
 ## Installation
+python3 -m pip install
+
 Run the following to install
 ```python
 pip install labhack
