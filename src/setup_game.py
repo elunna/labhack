@@ -32,17 +32,40 @@ def new_game():
     )
 
     # No starting inventory for now...
-    # dagger = copy.deepcopy(entity_factories.dagger)
-    # leather_armor = copy.deepcopy(entity_factories.leather_armor)
+    dagger = copy.deepcopy(entity_factories.dagger)
+    dagger.parent = player.inventory
+    player.inventory.items.append(dagger)
+    player.equipment.toggle_equip(dagger, add_message=False)
 
-    # dagger.parent = player.inventory
-    # leather_armor.parent = player.inventory
+    leather_armor = copy.deepcopy(entity_factories.leather_armor)
+    leather_armor.parent = player.inventory
+    player.inventory.items.append(leather_armor)
+    player.equipment.toggle_equip(leather_armor, add_message=False)
 
-    # player.inventory.items.append(dagger)
-    # player.equipment.toggle_equip(dagger, add_message=False)
+    # For debugging purposes, add every item to player's inventory
+    health_potion = copy.deepcopy(entity_factories.health_potion)
+    health_potion.parent = player.inventory
+    player.inventory.items.append(health_potion)
 
-    # player.inventory.items.append(leather_armor)
-    # player.equipment.toggle_equip(leather_armor, add_message=False)
+    confusion_potion = copy.deepcopy(entity_factories.confusion_potion)
+    confusion_potion.parent = player.inventory
+    player.inventory.items.append(confusion_potion)
+
+    paralysis_potion = copy.deepcopy(entity_factories.paralysis_potion)
+    paralysis_potion.parent = player.inventory
+    player.inventory.items.append(paralysis_potion)
+
+    lightning_scroll = copy.deepcopy(entity_factories.lightning_scroll)
+    lightning_scroll.parent = player.inventory
+    player.inventory.items.append(lightning_scroll)
+
+    confusion_scroll = copy.deepcopy(entity_factories.confusion_scroll)
+    confusion_scroll.parent = player.inventory
+    player.inventory.items.append(confusion_scroll)
+
+    fireball_scroll = copy.deepcopy(entity_factories.fireball_scroll)
+    fireball_scroll.parent = player.inventory
+    player.inventory.items.append(fireball_scroll)
 
     return engine
 
