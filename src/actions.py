@@ -144,7 +144,10 @@ class MovementAction(ActionWithDirection):
 
             from components.ai import ConfusedEnemy
             if isinstance(self.entity.ai, ConfusedEnemy):
-                self.engine.message_log.add_message(f"You bonk into the wall...")
+                if self.entity == self.engine.player:
+                    self.engine.message_log.add_message(f"You bonk into the wall...")
+                else:
+                    self.engine.message_log.add_message(f"The {self.entity.name} bonks into the wall...")
                 return
 
             raise exceptions.Impossible("That way is blocked.")

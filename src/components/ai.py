@@ -151,7 +151,6 @@ class ConfusedEnemy(BaseAI):
             return BumpAction(self.entity, direction_x, direction_y)
 
 
-
 class ParalyzedAI(BaseAI):
     """ A confused enemy will stumble around aimlessly for a given number of turns, then
         revert back to its previous AI. If an actor occupies a tile it is randomly moving

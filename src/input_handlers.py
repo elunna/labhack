@@ -76,7 +76,6 @@ class EventHandler(BaseEventHandler):
         """ Handle actions returned from event methods.
             Returns True if the action will advance a turn.
         """
-
         if action is None:
             return False
 
@@ -113,6 +112,7 @@ class MainGameEventHandler(EventHandler):
             action = player.ai.perform()
             if action:
                 return action
+
             # This is a hack, we don't want to skip the players turn when they
             # break free of paralysis. This will skip enemy turns and give the
             # player to act once they are unparalyzed.
@@ -124,7 +124,6 @@ class MainGameEventHandler(EventHandler):
         # Used to tell us if a player is holding a modifier key like control,
         # alt, or shift.
         modifier = event.mod
-
 
         # Handle >
         if key == tcod.event.K_PERIOD and modifier & (
