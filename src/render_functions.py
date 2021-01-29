@@ -3,6 +3,7 @@ from src.message_log import MessageLog
 from src import settings
 from src import tile_types
 import numpy as np
+import tcod
 
 
 class TcodRenderer:
@@ -136,3 +137,40 @@ def render_map(console, game_map):
                 string=entity.char,
                 fg=entity.color
             )
+
+
+def render_main_menu(console):
+    # Load the background image and remove the alpha channel.
+    background_image = tcod.image.load(settings.bg_img)[:, :, :3]
+
+    console.draw_semigraphics(background_image, 0, 0)
+
+    console.print(
+        console.width // 2,
+        console.height // 2 - 4,
+        settings.title_extended,
+        fg=color.menu_title,
+        alignment=tcod.CENTER,
+    )
+    console.print(
+        console.width // 2,
+        console.height - 2,
+        settings.author,
+        fg=color.menu_title,
+        alignment=tcod.CENTER,
+    )
+
+    menu_width = settings.menu_width
+
+    for i, text in enumerate(
+        ["[N] Play a new game", "[C] Continue last game", "[Q] Quit"]
+    ):
+        console.print(
+            console.width // 2,
+            console.height // 2 - 2 + i,
+            text.ljust(menu_width),
+            fg=color.menu_text,
+            bg=color.black,
+            alignment=tcod.CENTER,
+            bg_blend=tcod.BKGND_ALPHA(64),
+        )
