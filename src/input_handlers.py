@@ -504,15 +504,7 @@ class AreaRangedAttackHandler(SelectIndexHandler):
 
         x, y = self.engine.mouse_location
 
-        # Draw a rectangle around the targeted area, so the player can see the affected tiles.
-        console.draw_frame(
-            x=x - self.radius - 1,
-            y=y - self.radius - 1,
-            width=self.radius ** 2,
-            height=self.radius ** 2,
-            fg=color.red,
-            clear=False,
-        )
+        render_functions.draw_rect(console, x, y, self.radius)
 
     def on_index_selected(self, x, y):
         # same as the one we defined for SingleRangedAttackHandler.
