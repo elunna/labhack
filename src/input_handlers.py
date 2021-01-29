@@ -521,7 +521,6 @@ class AreaRangedAttackHandler(SelectIndexHandler):
 
 class PopupMessage(BaseEventHandler):
     """Display a popup text window."""
-
     def __init__(self, parent_handler, text):
         self.parent = parent_handler
         self.text = text
@@ -529,17 +528,7 @@ class PopupMessage(BaseEventHandler):
     def on_render(self, console):
         """Render the parent and dim the result, then print the message on top."""
         self.parent.on_render(console)
-        console.tiles_rgb["fg"] //= 8
-        console.tiles_rgb["bg"] //= 8
-
-        console.print(
-            console.width // 2,
-            console.height // 2,
-            self.text,
-            fg=color.white,
-            bg=color.black,
-            alignment=tcod.CENTER,
-        )
+        render_functions.render_popup_msg(console, self.text)
 
     def ev_keydown(self, event):
         """Any key returns to the parent handler."""
@@ -556,36 +545,7 @@ class LevelUpEventHandler(AskUserEventHandler):
     def on_render(self, console):
         super().on_render(console)
 
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
-
-        console.draw_frame(
-            x=x, y=0,
-            width=35,
-            height=8,
-            title=self.TITLE,
-            clear=True,
-            fg=(255, 255, 255),
-            bg=(0, 0, 0),
-        )
-
-        console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-        console.print(x=x + 1, y=2, string="Select an attribute to increase.")
-
-        console.print(
-            x=x + 1, y=4,
-            string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
-        )
-        console.print(
-            x=x + 1, y=5,
-            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
-        )
-        console.print(
-            x=x + 1, y=6,
-            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
-        )
+        render_functions.render_lvl_up_menu(self.TITLE, console, self.engine)
 
     def ev_keydown(self, event):
         player = self.engine.player
@@ -612,10 +572,12 @@ class LevelUpEventHandler(AskUserEventHandler):
 
 
 class CharacterScreenEventHandler(AskUserEventHandler):
+    TITLE = "Character Information"
+
     def on_render(self, console):
         super().on_render(console)
 
-        render_functions.render_char_scr(console, self.engine)
+        render_functions.render_char_scr(self.TITLE, console, self.engine)
 
 
 class MainMenuHandler(BaseEventHandler):

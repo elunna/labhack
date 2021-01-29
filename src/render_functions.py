@@ -176,9 +176,7 @@ def render_main_menu(console):
         )
 
 
-def render_char_scr(console, engine):
-    TITLE = "Character Information"
-
+def render_char_scr(title, console, engine):
     if engine.player.x <= 30:
         x = 40
     else:
@@ -186,13 +184,13 @@ def render_char_scr(console, engine):
 
     y = 0
 
-    width = len(TITLE) + 4
+    width = len(title) + 4
 
     console.draw_frame(
         x=x, y=y,
         width=width,
         height=7,
-        title=TITLE,
+        title=title,
         clear=True,
         fg=(255, 255, 255),
         bg=(0, 0, 0),
@@ -218,4 +216,51 @@ def render_char_scr(console, engine):
     console.print(
         x=x + 1, y=y + 5,
         string=f"Defense: {engine.player.fighter.defense}"
+    )
+
+
+def render_lvl_up_menu(title, console, engine):
+    if engine.player.x <= 30:
+        x = 40
+    else:
+        x = 0
+
+    console.draw_frame(
+        x=x, y=0,
+        width=35,
+        height=8,
+        title=title,
+        clear=True,
+        fg=(255, 255, 255),
+        bg=(0, 0, 0),
+    )
+
+    console.print(x=x + 1, y=1, string="Congratulations! You level up!")
+    console.print(x=x + 1, y=2, string="Select an attribute to increase.")
+
+    console.print(
+        x=x + 1, y=4,
+        string=f"a) Constitution (+20 HP, from {engine.player.fighter.max_hp})",
+    )
+    console.print(
+        x=x + 1, y=5,
+        string=f"b) Strength (+1 attack, from {engine.player.fighter.power})",
+    )
+    console.print(
+        x=x + 1, y=6,
+        string=f"c) Agility (+1 defense, from {engine.player.fighter.defense})",
+    )
+
+
+def render_popup_msg(console, text):
+    console.tiles_rgb["fg"] //= 8
+    console.tiles_rgb["bg"] //= 8
+
+    console.print(
+        console.width // 2,
+        console.height // 2,
+        text,
+        fg=color.white,
+        bg=color.black,
+        alignment=tcod.CENTER,
     )
