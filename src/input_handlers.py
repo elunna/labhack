@@ -12,6 +12,10 @@ import tcod
 import tcod.event
 import traceback
 
+""" Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument. 
+    That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
+"""
+
 ActionOrHandler = Union[actions.Action, "BaseEventHandler"]
 """An event handler return value which can trigger an action or switch active handlers.
 
