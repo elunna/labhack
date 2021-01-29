@@ -99,8 +99,10 @@ class EquipmentType(Enum):
     ARMOR = auto()
 
 
-"""Constants for input keys"""
-
+"""Constants for input keys
+    For reference, these are the event codes for tcod.
+    https://python-tcod.readthedocs.io/en/latest/tcod/event.html
+"""
 MOVE_KEYS = {
     # Arrow keys.
     tcod.event.K_UP: (0, -1),
@@ -149,4 +151,5 @@ CURSOR_Y_KEYS = {
 CONFIRM_KEYS = {
     tcod.event.K_RETURN,
     tcod.event.K_KP_ENTER,
+    tcod.event.K_SEMICOLON,
 }
