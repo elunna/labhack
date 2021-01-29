@@ -6,16 +6,11 @@ import numpy as np
 import tcod
 
 
-class TcodRenderer:
-    """ Handle all the rendering details that the engine requires."""
-    pass
-
-
-def render_all(engine, console, msg_panel, map_panel, stat_panel):
+def render_all(engine, renderer):
     # Message Panel
 
     render_messages(
-        console=msg_panel,
+        console=renderer.msg_panel,
         x=settings.msg_panel_x, y=0,
         width=settings.screen_width,
         height=settings.msg_panel_height,
@@ -23,34 +18,34 @@ def render_all(engine, console, msg_panel, map_panel, stat_panel):
     )
 
     # Map Panel
-    render_map(map_panel, engine.game_map)
+    render_map(renderer, engine.game_map)
 
     # Stat Panel
     render_names_at_mouse_location(
-        console=stat_panel,
+        console=renderer.stat_panel,
         x=settings.tooltip_x,
         y=settings.tooltip_y,
         engine=engine
     )
 
     render_bar(
-        console=stat_panel,
+        console=renderer.stat_panel,
         current_value=engine.player.fighter.hp,
         maximum_value=engine.player.fighter.max_hp,
         total_width=settings.hp_bar_width,
     )
 
     render_dungeon_lvl_text(
-        console=stat_panel,
+        console=renderer.stat_panel,
         dungeon_level=engine.game_world.current_floor,
     )
 
-    msg_panel.blit(console, 0, settings.msg_panel_y)
-    map_panel.blit(console, 0, settings.map_panel_y)
-    stat_panel.blit(console, 0, settings.stat_panel_y)
+    renderer.msg_panel.blit(renderer.root, 0, settings.msg_panel_y)
+    renderer.map_panel.blit(renderer.root, 0, settings.map_panel_y)
+    renderer.stat_panel.blit(renderer.root, 0, settings.stat_panel_y)
 
-    msg_panel.clear()
-    stat_panel.clear()
+    renderer.msg_panel.clear()
+    renderer.stat_panel.clear()
 
 
 def render_bar(console, current_value, maximum_value, total_width):
@@ -90,6 +85,7 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 
 def get_names_at_location(x, y, game_map):
+    # TODO: Move to game_map?s
     """ takes “x” and “y” variables, though these represent a spot on the map.
         We first check that the x and y coordinates are within the map, and are
         currently visible to the player. If they are, then we create a string of
@@ -108,12 +104,12 @@ def get_names_at_location(x, y, game_map):
 
 
 def render_names_at_mouse_location(console, x, y, engine):
-    """ takes the console, x and y coordinates (the location to draw the names),
+    """ takes the renderer, x and y coordinates (the location to draw the names),
         and the engine. From the engine, it grabs the mouse’s current x and y
         positions, and passes them to get_names_at_location, which we can assume
         for the moment will return the list of entity names we want. Once we
         have these entity names as a string, we can print that string to the
-        given x and y location on the screen, with console.print.
+        given x and y location on the screen, with renderer.print.
     """
     mouse_x, mouse_y = engine.mouse_location
 
@@ -129,7 +125,7 @@ def render_names_at_mouse_location(console, x, y, engine):
 def render_messages(console, x, y, width, height, messages):
     """Render the messages provided. Render this log over the given area.
             `x`, `y`, `width`, `height` is the rectangular region to render onto
-            the `console`.
+            the `renderer`.
     The `messages` are rendered starting at the last message and working
     backwards.
     """
@@ -143,15 +139,15 @@ def render_messages(console, x, y, width, height, messages):
                 return  # No more space to print messages.
 
 
-def render_map(console, game_map):
+def render_map(renderer, game_map):
     """Render all the tiles in the map.
         If a tile is in the "visible" array, then draw it with the "light" colors.
         If it isn't, but it's in the "explored" array, then draw it with the "dark" colors.
         Otherwise, the default is "SHROUD".
     """
 
-    # tiles_rgb method, much faster than using the console.print method
-    console.tiles_rgb[0: game_map.width, 0: game_map.height] = np.select(
+    # tiles_rgb method, much faster than using the renderer.print method
+    renderer.map_panel.tiles_rgb[0: game_map.width, 0: game_map.height] = np.select(
         # np.select allows us to conditionally draw the tiles we want, based on
         # what’s specified in condlist. Since we’re passing [self.visible, self.explored],
         # it will check if the tile being drawn is either visible, then explored.
@@ -173,7 +169,7 @@ def render_map(console, game_map):
     for entity in entities_sorted_for_rendering:
         # Only print entities that are in the FOV
         if game_map.visible[entity.x, entity.y]:
-            console.print(
+            renderer.map_panel.print(
                 x=entity.x,
                 y=entity.y,
                 string=entity.char,
@@ -181,22 +177,22 @@ def render_map(console, game_map):
             )
 
 
-def render_main_menu(console):
+def render_main_menu(renderer):
     # Load the background image and remove the alpha channel.
     background_image = tcod.image.load(settings.bg_img)[:, :, :3]
 
-    console.draw_semigraphics(background_image, 0, 0)
+    renderer.root.draw_semigraphics(background_image, 0, 0)
 
-    console.print(
-        console.width // 2,
-        console.height // 2 - 4,
+    renderer.root.print(
+        renderer.root.width // 2,
+        renderer.root.height // 2 - 4,
         settings.title_extended,
         fg=color.menu_title,
         alignment=tcod.CENTER,
     )
-    console.print(
-        console.width // 2,
-        console.height - 2,
+    renderer.root.print(
+        renderer.root.width // 2,
+        renderer.root.height - 2,
         settings.author,
         fg=color.menu_title,
         alignment=tcod.CENTER,
@@ -207,9 +203,9 @@ def render_main_menu(console):
     for i, text in enumerate(
         ["[N] Play a new game", "[C] Continue last game", "[Q] Quit"]
     ):
-        console.print(
-            console.width // 2,
-            console.height // 2 - 2 + i,
+        renderer.root.print(
+            renderer.root.width // 2,
+            renderer.root.height // 2 - 2 + i,
             text.ljust(menu_width),
             fg=color.menu_text,
             bg=color.black,
@@ -261,13 +257,13 @@ def render_char_scr(title, console, engine):
     )
 
 
-def render_lvl_up_menu(title, console, engine):
+def render_lvl_up_menu(title, renderer, engine):
     if engine.player.x <= 30:
         x = 40
     else:
         x = 0
 
-    console.draw_frame(
+    renderer.root.draw_frame(
         x=x, y=0,
         width=35,
         height=8,
@@ -277,30 +273,30 @@ def render_lvl_up_menu(title, console, engine):
         bg=(0, 0, 0),
     )
 
-    console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-    console.print(x=x + 1, y=2, string="Select an attribute to increase.")
+    renderer.root.print(x=x + 1, y=1, string="Congratulations! You level up!")
+    renderer.root.print(x=x + 1, y=2, string="Select an attribute to increase.")
 
-    console.print(
+    renderer.root.print(
         x=x + 1, y=4,
         string=f"a) Constitution (+20 HP, from {engine.player.fighter.max_hp})",
     )
-    console.print(
+    renderer.root.print(
         x=x + 1, y=5,
         string=f"b) Strength (+1 attack, from {engine.player.fighter.power})",
     )
-    console.print(
+    renderer.root.print(
         x=x + 1, y=6,
         string=f"c) Agility (+1 defense, from {engine.player.fighter.defense})",
     )
 
 
-def render_popup_msg(console, text):
-    console.tiles_rgb["fg"] //= 8
-    console.tiles_rgb["bg"] //= 8
+def render_popup_msg(renderer, text):
+    renderer.root.tiles_rgb["fg"] //= 8
+    renderer.root.tiles_rgb["bg"] //= 8
 
-    console.print(
-        console.width // 2,
-        console.height // 2,
+    renderer.root.print(
+        renderer.width // 2,
+        renderer.height // 2,
         text,
         fg=color.white,
         bg=color.black,

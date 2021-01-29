@@ -98,7 +98,7 @@ menu_text = white
 
 
 # For reference
-# Nethack console colors
+# Nethack renderer colors
 #define CLR_BLACK 0
 #define CLR_RED 1
 #define CLR_GREEN 2

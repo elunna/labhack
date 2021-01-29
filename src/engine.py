@@ -1,14 +1,10 @@
 from src import exceptions
-from src import render_functions
 from src import settings
 from src.entity_factories import corpse_generator
 from src.game_map import GameMap
 from src.game_world import GameWorld
 from src.message_log import MessageLog
 from tcod.map import compute_fov
-import lzma
-import pickle
-import tcod
 
 
 class Engine:
@@ -22,21 +18,6 @@ class Engine:
         self.message_log = MessageLog()
         self.mouse_location = (0, 0)
         self.player = player
-
-        # Define separate panels for the map, messages, and stats.
-        self.msg_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.msg_panel_height
-        )
-        self.map_panel = tcod.Console(
-            width=settings.map_width,
-            height=settings.map_height,
-            order="F",
-        )
-        self.stat_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.stat_panel_height
-        )
 
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:
@@ -76,12 +57,3 @@ class Engine:
 
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
-
-    def render(self, console):
-        render_functions.render_all(
-            self,
-            console,
-            self.msg_panel,
-            self.map_panel,
-            self.stat_panel
-        )
