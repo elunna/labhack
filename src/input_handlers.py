@@ -12,7 +12,7 @@ import tcod
 import tcod.event
 import traceback
 
-""" Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument. 
+""" Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
     That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
 """
 
@@ -362,7 +362,7 @@ class SelectMapIndexHandler(AskUserHandler):
         super().__init__(engine)
         player = self.engine.player
 
-        # TODO: Temp hack to fix the screen offset.
+        # Hack to fix the msg_panel offset.
         engine.mouse_location = player.x, player.y + settings.msg_panel_height
 
     def on_render(self, renderer):
@@ -444,7 +444,8 @@ class SingleRangedAttackHandler(SelectMapIndexHandler):
         self.callback = callback
 
     def on_index_selected(self, x, y):
-        return self.callback((x, y))
+        # Hack to fix the msg_panel offset.
+        return self.callback((x, y - 5))
 
 
 class AreaRangedAttackHandler(SelectMapIndexHandler):
@@ -467,7 +468,8 @@ class AreaRangedAttackHandler(SelectMapIndexHandler):
 
     def on_index_selected(self, x, y):
         # same as the one we defined for SingleRangedAttackHandler.
-        return self.callback((x, y))
+        # Hack to fix the msg_panel offset.
+        return self.callback((x, y - 5))
 
 
 class PopupMsgHandler(BaseEventHandler):
