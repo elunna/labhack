@@ -78,41 +78,10 @@ class Engine:
         self.game_map.explored |= self.game_map.visible
 
     def render(self, console):
-        # Message Panel
-        render_functions.render_messages(
-            console=self.msg_panel,
-            x=settings.msg_panel_x, y=0,
-            width=settings.screen_width,
-            height=settings.msg_panel_height,
-            messages=self.message_log.messages,
+        render_functions.render_all(
+            self,
+            console,
+            self.msg_panel,
+            self.map_panel,
+            self.stat_panel
         )
-
-        # Map Panel
-        render_functions.render_map(self.map_panel, self.game_map)
-
-        # Stat Panel
-        render_functions.render_names_at_mouse_location(
-            console=self.stat_panel,
-            x=settings.tooltip_x,
-            y=settings.tooltip_y,
-            engine=self
-        )
-
-        render_functions.render_bar(
-            console=self.stat_panel,
-            current_value=self.player.fighter.hp,
-            maximum_value=self.player.fighter.max_hp,
-            total_width=settings.hp_bar_width,
-        )
-
-        render_functions.render_dungeon_lvl_text(
-            console=self.stat_panel,
-            dungeon_level=self.game_world.current_floor,
-        )
-
-        self.msg_panel.blit(console, 0, settings.msg_panel_y)
-        self.map_panel.blit(console, 0, settings.map_panel_y)
-        self.stat_panel.blit(console, 0, settings.stat_panel_y)
-
-        self.msg_panel.clear()
-        self.stat_panel.clear()

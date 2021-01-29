@@ -11,6 +11,48 @@ class TcodRenderer:
     pass
 
 
+def render_all(engine, console, msg_panel, map_panel, stat_panel):
+    # Message Panel
+
+    render_messages(
+        console=msg_panel,
+        x=settings.msg_panel_x, y=0,
+        width=settings.screen_width,
+        height=settings.msg_panel_height,
+        messages=engine.message_log.messages,
+    )
+
+    # Map Panel
+    render_map(map_panel, engine.game_map)
+
+    # Stat Panel
+    render_names_at_mouse_location(
+        console=stat_panel,
+        x=settings.tooltip_x,
+        y=settings.tooltip_y,
+        engine=engine
+    )
+
+    render_bar(
+        console=stat_panel,
+        current_value=engine.player.fighter.hp,
+        maximum_value=engine.player.fighter.max_hp,
+        total_width=settings.hp_bar_width,
+    )
+
+    render_dungeon_lvl_text(
+        console=stat_panel,
+        dungeon_level=engine.game_world.current_floor,
+    )
+
+    msg_panel.blit(console, 0, settings.msg_panel_y)
+    map_panel.blit(console, 0, settings.map_panel_y)
+    stat_panel.blit(console, 0, settings.stat_panel_y)
+
+    msg_panel.clear()
+    stat_panel.clear()
+
+
 def render_bar(console, current_value, maximum_value, total_width):
     bar_width = int(float(current_value) / maximum_value * total_width)
 
