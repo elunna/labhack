@@ -174,3 +174,48 @@ def render_main_menu(console):
             alignment=tcod.CENTER,
             bg_blend=tcod.BKGND_ALPHA(64),
         )
+
+
+def render_char_scr(console, engine):
+    TITLE = "Character Information"
+
+    if engine.player.x <= 30:
+        x = 40
+    else:
+        x = 0
+
+    y = 0
+
+    width = len(TITLE) + 4
+
+    console.draw_frame(
+        x=x, y=y,
+        width=width,
+        height=7,
+        title=TITLE,
+        clear=True,
+        fg=(255, 255, 255),
+        bg=(0, 0, 0),
+    )
+
+    console.print(
+        x=x + 1, y=y + 1,
+        string=f"Level: {engine.player.level.current_level}"
+    )
+    console.print(
+        x=x + 1, y=y + 2,
+        string=f"XP: {engine.player.level.current_xp}"
+    )
+    console.print(
+        x=x + 1, y=y + 3,
+        string=f"XP for next Level: {engine.player.level.experience_to_next_level}",
+    )
+
+    console.print(
+        x=x + 1, y=y + 4,
+        string=f"Attack: {engine.player.fighter.power}"
+    )
+    console.print(
+        x=x + 1, y=y + 5,
+        string=f"Defense: {engine.player.fighter.defense}"
+    )
