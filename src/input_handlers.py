@@ -91,7 +91,16 @@ class EventHandler(BaseEventHandler):
             self.engine.message_log.add_message(exc.args[0], color.impossible)
             return False  # Skip enemy turn on exceptions
 
-        self.engine.handle_enemy_turns()
+        # Here - we will evaluate the player's energy
+        # Use up a turn worth of energy
+        self.engine.player.energymeter.burn_turn()
+
+        # If the player doesn't have enough energy for another turn, we'll
+        # run the enemy turns.
+        if self.engine.player.energymeter.burned_out():
+            self.engine.add_energy()
+            self.engine.handle_enemy_turns()
+
         self.engine.update_fov()
 
         return True

@@ -1,0 +1,68 @@
+How the event handling works...
+
+
+BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
+
+    def handle_events(self, event):
+        """Handle an event and return the next active event handler."""
+
+    def on_render()
+        raise NotImplementedError()
+
+    def ev_quit(self, event):
+        raise SystemExit()
+
+
+EventHandler(BaseEventHandler):
+   def handle_events(self, event):
+
+        First, if the event is a BaseEventHandler, it returns it.
+
+        Next, it handles the event.
+            If valid, ups the turn
+            Checks for dead player, returns GameOverHandler if dead.
+            Checks for player level up, and boost stat if so.
+            Returns the MainGameHandler
+
+        If False, returns itself.
+
+    def handle_action(self, action)
+        if action is None, returns False (not a valid action)
+
+        Tries to perform the action.
+            If we get an exception, we return False (not a valid action)
+
+        If it succeeded, we handle enemy turns and update the display
+
+    def ev_mousemotion(self, event):
+        returns the mouse coordinates.
+
+    def on_render(self, renderer):
+        renders everything
+
+MainGameHandler(EventHandler):
+
+    ev_keydown(self, event):
+        This handles key presses and delegates the action to a event handler
+
+-----------------------------------------------------------------------------
+Event Handler Hierarchy
+
+BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler])
+    EventHandler(BaseEventHandler)
+        MainGameHandler(EventHandler)
+        GameOverHandler(EventHandler)
+        HistoryHandler(EventHandler)
+    PopupMsgHandler(BaseEventHandler)
+    MainMenuHandler(BaseEventHandler)
+
+    AskUserHandler(EventHandler)
+        InventoryHandler(AskUserHandler)
+            InventoryActivateHandler(InventoryHandler)
+            InventoryDropHandler(InventoryHandler)
+        SelectMapIndexHandler(AskUserHandler)
+            MapLookHandler(SelectMapIndexHandler)
+            SingleRangedAttackHandler(SelectMapIndexHandler)
+            AreaRangedAttackHandler(SelectMapIndexHandler)
+        LevelUpHandler(AskUserHandler)
+        CharacterScrHandler(AskUserHandler)

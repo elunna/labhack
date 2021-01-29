@@ -1,5 +1,6 @@
 from components.ai import HostileEnemy, HeroControllerAI, StationaryAI
 from components import equippable
+from components.energy import EnergyMeter
 from components import consumable
 from components.equipment import Equipment
 from components.fighter import Fighter
@@ -7,7 +8,7 @@ from components.inventory import Inventory
 from components.level import Level
 from src.item import Item
 from src.actor import Actor
-from src.settings import RenderOrder
+from src import settings
 import tcod
 
 
@@ -19,7 +20,7 @@ def corpse_generator(actor):
         color=actor.color,
         name=f'{actor.name} corpse',
     )
-    corpse.render_order = RenderOrder.CORPSE
+    corpse.render_order = settings.RenderOrder.CORPSE
     return corpse
 
 
@@ -34,6 +35,7 @@ player = Actor(
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
     level=Level(level_up_base=200),
+    energymeter=EnergyMeter(threshold=settings.normal),
 )
 
 gas_spore = Actor(
@@ -45,6 +47,7 @@ gas_spore = Actor(
     fighter=Fighter(hp=8, base_defense=1, base_power=5),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 yellow_light = Actor(
@@ -56,6 +59,7 @@ yellow_light = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 black_light = Actor(
@@ -67,6 +71,7 @@ black_light = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 flaming_sphere = Actor(
@@ -78,6 +83,7 @@ flaming_sphere = Actor(
     fighter=Fighter(hp=2, base_defense=1, base_power=10),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 freezing_sphere = Actor(
@@ -89,6 +95,7 @@ freezing_sphere = Actor(
     fighter=Fighter(hp=2, base_defense=1, base_power=10),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 shocking_sphere = Actor(
@@ -100,6 +107,7 @@ shocking_sphere = Actor(
     fighter=Fighter(hp=2, base_defense=1, base_power=10),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 jiggling_blob = Actor(
@@ -111,6 +119,7 @@ jiggling_blob = Actor(
     fighter=Fighter(hp=11, base_defense=3, base_power=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 lava_blob = Actor(
@@ -122,6 +131,7 @@ lava_blob = Actor(
     fighter=Fighter(hp=11, base_defense=3, base_power=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 static_blob = Actor(
@@ -133,6 +143,7 @@ static_blob = Actor(
     fighter=Fighter(hp=11, base_defense=3, base_power=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 burbling_blob = Actor(
@@ -144,6 +155,7 @@ burbling_blob = Actor(
     fighter=Fighter(hp=11, base_defense=3, base_power=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 quivering_blob = Actor(
@@ -155,6 +167,7 @@ quivering_blob = Actor(
     fighter=Fighter(hp=6, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.slow)
 )
 
 gelatinous_cube = Actor(
@@ -166,6 +179,7 @@ gelatinous_cube = Actor(
     fighter=Fighter(hp=30, base_defense=5, base_power=15),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
 acid_blob = Actor(
@@ -177,6 +191,7 @@ acid_blob = Actor(
     fighter=Fighter(hp=8, base_defense=2, base_power=4),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=20),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 lichen = Actor(
@@ -188,6 +203,7 @@ lichen = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
 brown_mold = Actor(
@@ -199,6 +215,7 @@ brown_mold = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 yellow_mold = Actor(
@@ -210,6 +227,7 @@ yellow_mold = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 green_mold = Actor(
@@ -221,6 +239,7 @@ green_mold = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 red_mold = Actor(
@@ -232,6 +251,7 @@ red_mold = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 shrieker = Actor(
@@ -243,6 +263,7 @@ shrieker = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
 violet_fungus = Actor(
@@ -254,6 +275,7 @@ violet_fungus = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
 disgusting_mold = Actor(
@@ -265,6 +287,7 @@ disgusting_mold = Actor(
     fighter=Fighter(hp=8, base_defense=2, base_power=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 black_mold = Actor(
@@ -276,6 +299,7 @@ black_mold = Actor(
     fighter=Fighter(hp=10, base_defense=4, base_power=16),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 grid_bug = Actor(
@@ -287,6 +311,7 @@ grid_bug = Actor(
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 spark_bug = Actor(
@@ -298,6 +323,7 @@ spark_bug = Actor(
     fighter=Fighter(hp=2, base_defense=2, base_power=2),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 arc_bug = Actor(
@@ -309,6 +335,7 @@ arc_bug = Actor(
     fighter=Fighter(hp=4, base_defense=4, base_power=4),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 lightning_bug = Actor(
@@ -320,6 +347,7 @@ lightning_bug = Actor(
     fighter=Fighter(hp=8, base_defense=8, base_power=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 firefly = Actor(
@@ -331,6 +359,7 @@ firefly = Actor(
     fighter=Fighter(hp=4, base_defense=1, base_power=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 orc = Actor(
@@ -342,6 +371,7 @@ orc = Actor(
     fighter=Fighter(hp=10, base_defense=0, base_power=4),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=settings.normal)
 )
 
 troll = Actor(
@@ -353,6 +383,7 @@ troll = Actor(
     fighter=Fighter(hp=16, base_defense=2, base_power=6),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
+    energymeter=EnergyMeter(threshold=settings.fast)
 )
 
 health_potion = Item(
@@ -444,15 +475,16 @@ item_chances = {
 
 enemy_chances = {
     0: [
-        (brown_mold, 5),
-        (yellow_mold, 5),
-        (green_mold, 5),
-        (red_mold, 5),
         (shrieker, 5),
         (violet_fungus, 5),
         (lichen, 5),
         (grid_bug, 5),
         (firefly, 5),
+
+        (brown_mold, 5),
+        (yellow_mold, 5),
+        (green_mold, 5),
+        (red_mold, 5),
     ],
     2: [
         (troll, 15),
@@ -485,39 +517,41 @@ enemy_chances = {
 
 list_of_monsters = [
     # low level 1
-    brown_mold,
-    yellow_mold,
-    green_mold,
-    red_mold,
-    shrieker,
-    violet_fungus,
     lichen,
     grid_bug,
     firefly,
 
+    # brown_mold,
+    # yellow_mold,
+    # green_mold,
+    # red_mold,
+    # shrieker,
+    # violet_fungus,
+
+
     # level 2
-    gas_spore,
-    yellow_light,
-    black_light,
-    flaming_sphere,
-    freezing_sphere,
-    shocking_sphere,
-    spark_bug,
-    troll,
-    orc,
+    # gas_spore,
+    # yellow_light,
+    # black_light,
+    # flaming_sphere,
+    # freezing_sphere,
+    # shocking_sphere,
+    # spark_bug,
+    # troll,
+    # orc,
 
     # Level 3
-    jiggling_blob,
-    lava_blob,
-    static_blob,
-    burbling_blob,
-    quivering_blob,
-    arc_bug,
-    acid_blob,
+    # jiggling_blob,
+    # lava_blob,
+    # static_blob,
+    # burbling_blob,
+    # quivering_blob,
+    # arc_bug,
+    # acid_blob,
 
     # Level 4
-    gelatinous_cube,
-    disgusting_mold,
-    black_mold,
-    lightning_bug,
+    # gelatinous_cube,
+    # disgusting_mold,
+    # black_mold,
+    # lightning_bug,
 ]

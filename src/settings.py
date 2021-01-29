@@ -21,6 +21,18 @@ save_file = "../savegame.sav"
 
 fov_radius = 8
 
+# EnergyMeter and speed settings
+energy_per_turn = 10  # The standard energy gained per turn
+
+# These are thresholds based around the energy regeneration
+# TODO: Use an Enum instead?
+very_slow = 18
+slow = 14
+normal = 10
+fast = 6
+very_fast = 4
+
+
 # Define screen dimensions
 screen_width = 80
 screen_height = 55

@@ -20,19 +20,32 @@ class Engine:
         self.player = player
         self.turns = 0
 
+    def add_energy(self):
+        # Everyone gets an energy reboost!
+        # TODO: Maybe only entities within player's vision
+        # if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+
+        for entity in set(self.game_map.actors):
+            entity.energymeter.add_energy(settings.energy_per_turn)
+
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:
             if entity.ai:
-                # Get the next calculated action from the AI.
-                action = entity.ai.perform()
-                try:
-                    # Execute the action
-                    action.perform()
-                    # entity.ai.perform()
-                except exceptions.Impossible:
-                    pass # Ignore impossible action exceptions from AI
-                except AttributeError:
-                    pass
+                while not entity.energymeter.burned_out():
+                    # Get the next calculated action from the AI.
+                    action = entity.ai.perform()
+
+                    # We'll use the energy regardless.
+                    entity.energymeter.burn_turn()
+
+                    try:
+                        # Execute the action
+                        action.perform()
+                        # entity.ai.perform()
+                    except exceptions.Impossible:
+                        pass # Ignore impossible action exceptions from AI
+                    except AttributeError:
+                        pass
 
         # Convert any dead monsters to corpse items
         for actor in set(self.game_map.actors) - {self.player}:
@@ -48,7 +61,6 @@ class Engine:
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
-
         # Set the game_map’s visible tiles to the result of the compute_fov.
         self.game_map.visible[:] = compute_fov(
             self.game_map.tiles["transparent"],
