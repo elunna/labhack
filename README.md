@@ -22,9 +22,19 @@ A Roguelike Venture in Super-Science! Instead of a dungeon, we descend into a de
 
 ```pip install -r requirements.txt```
 
+## Updating
+Download git for easier updates: https://git-scm.com/downloads 
+
+Run this command in the root directory:
+```git pull origin master```
+
 ## Usage
-### Command line:
-```python run.py```
+### Windows Command line:
+```run_windows.bat```
+
+### Linux Command line:
+(You might have to make this file executable)
+```./run_linux.sh```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

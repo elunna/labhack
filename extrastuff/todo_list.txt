@@ -1,12 +1,10 @@
 ### Eye of Sauron is focused on...
 * todo: logging
 
-* todo: Speed system
 * todo: database of monsters.
 * todo: database of items.
 
-Enhance the status bar
-* todo: Add turns to status bar.
+
 
 ### Bugs
 * todo: Potion of confusion does not work
@@ -270,3 +268,6 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * done: Add player level to status bar.
 * done: Add power, defense, to status bar.
 * done: ; to select target (in addition to Enter)
+* done: Speed system
+* done: Add turns to status bar.
+* done: Enhance the status bar

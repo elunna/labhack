@@ -36,7 +36,7 @@ setuptools.setup(
     # Where the code is
     package_dir={
         '': 'src',
-    '},
+    },
 
     # list of the python code modules to install
     # If your project contains any single-file Python modules that aren’t part
