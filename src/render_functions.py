@@ -276,3 +276,46 @@ def draw_rect(console, x, y, radius):
         fg=color.red,
         clear=False,
     )
+
+
+def render_inv(title, console, engine):
+    number_of_items_in_inventory = len(engine.player.inventory.items)
+
+    height = number_of_items_in_inventory + 2
+
+    if height <= 3:
+        height = 3
+
+    if engine.player.x <= 30:
+        x = 40
+    else:
+        x = 0
+
+    y = 0
+
+    width = len(title) + 4
+
+    console.draw_frame(
+        x=x,
+        y=y,
+        width=width,
+        height=height,
+        title=title,
+        clear=True,
+        fg=(255, 255, 255),
+        bg=(0, 0, 0),
+    )
+
+    if number_of_items_in_inventory > 0:
+        for i, item in enumerate(engine.player.inventory.items):
+            item_key = chr(ord("a") + i)
+            is_equipped = engine.player.equipment.item_is_equipped(item)
+
+            item_string = f"({item_key}) {item.name}"
+
+            if is_equipped:
+                item_string = f"{item_string} (E)"
+
+            console.print(x + 1, y + i + 1, item_string)
+    else:
+        console.print(x + 1, y + 1, "(Empty)")
