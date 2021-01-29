@@ -1,36 +1,20 @@
 ### Eye of Sauron is focused on...
-## WAVE 3: Quality of life:
 * todo: logging
 
-* todo: Separate Engine and Rendering
-	* Renderer (acts as the rendering engine, holds all the rendering methods.)
-	* Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
-	* That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
-
-* todo: Targeting issues need to be fixed by using the map_panel instead of the root panel
 * todo: Speed system
 * todo: database of monsters.
 * todo: database of items.
 
 Enhance the status bar
-* todo: Status bar: health, name, power/defense/level/turns
-* todo: Add player level to status bar.
-* todo: Add power, defense, to status bar.
 * todo: Add turns to status bar.
 
 ### Bugs
-* todo: Fireball result Targeting needs to be offset +5 y
 * todo: Potion of confusion does not work
 * todo: Potion of paralysis does not work
-* todo: Fireball targeting is off (square is correct, white dot is not)
 * todo: Reduce range of fireball to 3x3
-* todo: Confusion targeting does not work.
-* todo: ; to select target (in addition to Enter)
 * todo: We can target Stationary monsters with confuse...
-
 * Add a repl/str for entity names
-
-
+,
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 
@@ -271,3 +255,18 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * Bug fixess....
 * FIXED: Confusion targeting starts up 5 squares
 * FIXED: Monsters bonking into wall appear as "You bonk into ..."
+
+## WAVE 3: Quality of life:
+* todo: Separate Engine and Rendering
+* done: Renderer holds all consoles
+* Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
+* That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
+
+* done: Fireball result Targeting needs to be offset +5 y
+* done: Fireball targeting is off (square is correct, white dot is not)
+* done: Confusion targeting does not work.
+* done: Mouse look shows coords
+* done: Status bar: health, name, power/defense/level/turns
+* done: Add player level to status bar.
+* done: Add power, defense, to status bar.
+* done: ; to select target (in addition to Enter)

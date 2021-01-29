@@ -18,6 +18,7 @@ class Engine:
         self.message_log = MessageLog()
         self.mouse_location = (0, 0)
         self.player = player
+        self.turns = 0
 
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:

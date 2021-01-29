@@ -60,7 +60,9 @@ class EventHandler(BaseEventHandler):
             return action_or_state
 
         if self.handle_action(action_or_state):
-            # A valid action was performed.
+            # A valid action was performed. Increase turn counter
+            self.engine.turns += 1
+
             if not self.engine.player.is_alive:
                 # The player was killed sometime during or after the action.
                 return GameOverHandler(self.engine)
@@ -106,9 +108,6 @@ class EventHandler(BaseEventHandler):
 
 
 class MainGameHandler(EventHandler):
-    """ For reference, these are the event codes for tcod.
-        https://python-tcod.readthedocs.io/en/latest/tcod/event.html
-    """
     def ev_keydown(self, event):
         action = None
         player = self.engine.player

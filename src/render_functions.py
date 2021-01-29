@@ -37,6 +37,7 @@ def render_all(engine, renderer):
 
     render_stats(
         console=renderer.stat_panel,
+        engine=engine,
         player=engine.player
     )
 
@@ -82,15 +83,16 @@ def render_bar(console, current_value, maximum_value, total_width):
     )
 
 
-def render_stats(console, player):
+def render_stats(console, engine, player):
     # Power
     pow_str = f"POW: {player.fighter.power}"
     def_str = f"DEF: {player.fighter.defense}"
     xl_str = f"XL: {player.level.current_level}"
+    turn_str = f"Turns: {engine.turns}"
 
     console.print(
         x=22, y=settings.hp_bar_y,
-        string=f"{pow_str} | {def_str} | {xl_str}"
+        string=f"{pow_str} | {def_str} | {xl_str} | {turn_str}"
     )
 
 
