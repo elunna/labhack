@@ -319,3 +319,25 @@ def render_inv(title, console, engine):
             console.print(x + 1, y + i + 1, item_string)
     else:
         console.print(x + 1, y + 1, "(Empty)")
+
+
+def render_history(title, console, engine, cursor):
+    log_console = tcod.Console(console.width - 6, console.height - 6)
+
+    # Draw a frame with a custom banner title.
+    log_console.draw_frame(0, 0, log_console.width, log_console.height)
+
+    log_console.print_box(
+        0, 0, log_console.width, 1, f"┤{title}├", alignment=tcod.CENTER
+    )
+
+    # Render the message log using the cursor parameter.
+    # self.engine.message_log.render_messages(
+    render_messages(
+        console=log_console,
+        x=1, y=1,
+        width=log_console.width - 2,
+        height=log_console.height - 2,
+        messages=engine.message_log.messages[: cursor + 1],
+    )
+    log_console.blit(console, 3, 3)
