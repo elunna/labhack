@@ -119,7 +119,7 @@ def render_names_at_mouse_location(console, x, y, engine):
         game_map=engine.game_map
     )
 
-    console.print(x=x, y=y, string=f"Looking at: {names_at_mouse_location}")
+    console.print(x=x, y=y, string=f"({mouse_x},{mouse_y}): {names_at_mouse_location}")
 
 
 def render_messages(console, x, y, width, height, messages):
