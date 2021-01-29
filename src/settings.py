@@ -42,6 +42,10 @@ map_height = 45
 # Stat Panel
 stat_panel_y = msg_panel_height + map_height
 stat_panel_height = 5
+stat_str_x = 22
+stat_def_x = 30
+stat_xl_x = 40
+stat_turns_x = 50
 
 hp_bar_x = 0
 hp_bar_y = 0

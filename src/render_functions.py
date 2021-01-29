@@ -35,6 +35,11 @@ def render_all(engine, renderer):
         total_width=settings.hp_bar_width,
     )
 
+    render_stats(
+        console=renderer.stat_panel,
+        player=engine.player
+    )
+
     render_dungeon_lvl_text(
         console=renderer.stat_panel,
         dungeon_level=engine.game_world.current_floor,
@@ -74,6 +79,18 @@ def render_bar(console, current_value, maximum_value, total_width):
         x=1, y=settings.hp_bar_y,
         string=f"HP: {current_value}/{maximum_value}",
         fg=color.bar_text
+    )
+
+
+def render_stats(console, player):
+    # Power
+    pow_str = f"POW: {player.fighter.power}"
+    def_str = f"DEF: {player.fighter.defense}"
+    xl_str = f"XL: {player.level.current_level}"
+
+    console.print(
+        x=22, y=settings.hp_bar_y,
+        string=f"{pow_str} | {def_str} | {xl_str}"
     )
 
 
