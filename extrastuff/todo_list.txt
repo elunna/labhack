@@ -4,11 +4,7 @@
 * todo: database of monsters.
 * todo: database of items.
 
-
-
 ### Bugs
-* todo: Potion of confusion does not work
-* todo: Potion of paralysis does not work
 * todo: Reduce range of fireball to 3x3
 * todo: We can target Stationary monsters with confuse...
 * Add a repl/str for entity names
@@ -271,3 +267,5 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * done: Speed system
 * done: Add turns to status bar.
 * done: Enhance the status bar
+* done: Potion of confusion does not work
+* done: Potion of paralysis does not work
