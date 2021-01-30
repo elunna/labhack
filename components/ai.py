@@ -13,7 +13,7 @@ class BaseAI(Action):
         # act will have to have an AI class that inherits from this one.
         raise NotImplementedError()
 
-    def get_path_to(self, dest_x, dest_y):
+    def get_path_to(self, dest_x, dest_y, grid_movement=False):
         """ Compute and return a path to the target position.
             If there is no valid path then returns an empty list.
 
@@ -41,6 +41,11 @@ class BaseAI(Action):
             https://python-tcod.readthedocs.io/en/latest/tcod/path.html
 
         """
+        if grid_movement:
+            diagonal = 0
+        else:
+            diagonal = 3
+
         # Copy the walkable array.
         cost = np.array(self.entity.gamemap.tiles["walkable"], dtype=np.int8)
 
@@ -54,7 +59,11 @@ class BaseAI(Action):
                 cost[entity.x, entity.y] += 10
 
         # Create a graph from the cost array and pass that graph to a new pathfinder.
-        graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=3)
+        # greed is used to define the heuristic. To get the fastest accurate heuristic
+        # greed should be the lowest non-zero value on the cost array. Higher values
+        # may be used for an inaccurate but faster heuristic.
+        graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=diagonal)
+
         pathfinder = tcod.path.Pathfinder(graph)
 
         pathfinder.add_root((self.entity.x, self.entity.y))  # Start position.
@@ -86,7 +95,6 @@ class StationaryAI(BaseAI):
         return WaitAction(self.entity)
 
 
-
 class ApproachAI(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)
@@ -115,7 +123,43 @@ class ApproachAI(BaseAI):
             )
 
         # If the entity is not in the player’s vision, simply wait.
+        # This keeps burning up enemy energy so they don't have a ton of moves
+        # built up before we see them.
         return WaitAction(self.entity)
+
+
+class GridMoveAI(ApproachAI):
+    """ The Grid Bug can only (and attack) in the 4 cardinal directions:
+        N E S W.
+    """
+    def __init__(self, entity):
+        super().__init__(entity)
+        self.path = []
+
+    def perform(self):
+        target = self.engine.player
+        dx = target.x - self.entity.x
+        dy = target.y - self.entity.y
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+
+        if self.engine.game_map.visible[self.entity.x, self.entity.y]:
+            # Only attack in "grid" directions: N/W/S/E of the entity
+            if distance <= 1 and (dx, dy) in settings.CARDINAL_DIRECTIONS:
+                return MeleeAction(self.entity, dx, dy)
+
+            self.path = self.get_path_to(target.x, target.y, grid_movement=True)
+
+        if self.path:
+            # Move towards the player.
+            dest_x, dest_y = self.path.pop(0)
+
+            return MovementAction(
+                self.entity, dest_x - self.entity.x, dest_y - self.entity.y,
+            )
+
+        # Entity is not in the player’s vision, simply wait.
+        return WaitAction(self.entity)
+
 
 
 class ConfusedAI(BaseAI):

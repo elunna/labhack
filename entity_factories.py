@@ -1,4 +1,4 @@
-from components.ai import ApproachAI, HeroControllerAI, StationaryAI
+from components.ai import ApproachAI, HeroControllerAI, StationaryAI, GridMoveAI
 from components import equippable
 from components.energy import EnergyMeter
 from components import consumable
@@ -306,7 +306,7 @@ grid_bug = Actor(
     char="x",
     color=tcod.magenta,
     name="Grid Bug",
-    ai_cls=ApproachAI,
+    ai_cls=GridMoveAI,
     equipment=Equipment(),
     fighter=Fighter(hp=1, base_defense=1, base_power=2),
     inventory=Inventory(capacity=0),

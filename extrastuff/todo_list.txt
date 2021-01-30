@@ -1,39 +1,36 @@
-### Eye of Sauron is focused on...
+### Eye of Sauron is focused on... WAVE 4
 * todo: logging
-
 * todo: database of monsters.
 * todo: database of items.
-
-### Bugs
-
-* todo: We can target Stationary monsters with confuse...
-* Add a repl/str for entity names
-
------------------------------------------------------------------------
------------------------------------------------------------------------
-
-### Easy changes
-* todo: Remove color from messages
-* todo: Add (0, 0) to directions, but make sure monster doesn't attack itself.
+* todo: Super classes (mob types) of monsters (blobs, fungi)
 * todo: Add more science lab look to colors, gray/white
-* todo: Remove color from message console
-* todo: Hero starts with a Notebook?
-* todo: Test that tcod calls are up to date
-
-*** Refactoring
-* todo: Simplify imports, reduce underscores, less "from" imports.
-* todo: Rename ConfusedEnemy -> ConfusedAI
-
-
-### Mini-Bosses (Relatively easy goals)
+* todo: Add more unpredictable movement for monsters, occasional wandering.
 * todo: Move one Handler out at a time.
+* todo: Sorted inventory
+* todo: Potion of Extra Healing
 * todo: 'q': To Quaff potions
 * todo: 'r': To read scrolls
 * todo: Add skeleton tests for other things that are testable...
-* todo: Tests for game_map
-* todo: Tests for procgen
-* todo: Grid movement
-* todo: Potion of Extra Healing
+* todo: Tests for game_map (import from previous projects)
+* todo: Tests for procgen (import from previous projects)
+* todo: Dnotation style damage
+* todo: Critical hits?
+
+
+### Bugs
+* todo: We can target Stationary monsters with confuse...
+* The "cursor" stays invisible in one spot. Maybe it should follow the player.
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+### Easy changes
+* todo: Hero starts with a Notebook?
+* todo: Test that tcod calls are up to date
+* todo: Add a repl/str for entity names
+
+*** Refactoring
+* todo: Simplify imports, reduce underscores, less "from" imports.
+
+### Mini-Bosses (Relatively easy goals)
 * todo: Potion of sleeping
 * todo: Replace deprecated tcod.fov functions with updated versions.
 * todo: Track monsters kills.
@@ -43,6 +40,7 @@
 * todo: More advanced monster AI
 * todo: More equipment: Jewelry, watches, belts, Helmet, Gloves, Boots, glasses
 
+WAVE 5:
 todo: The Wandering Merchant
 	* The Wandering Merchant doesn't really wander
 	* he is stationed next to each entry staircase
@@ -64,7 +62,8 @@ todo: The Wandering Merchant
 * todo: Hallucination attack
 
 ### Big Bosses (Major and challenging goals)
-* todo: Sorted inventory
+
+
 * todo: Eating functionality
 * todo: Add random monster placement generator
 * todo: Hallucination
@@ -73,7 +72,7 @@ todo: The Wandering Merchant
 * todo: Add monster info to each monster
 * todo: Monsters get random items, weapons, armor
 * todo: Death drops
-* todo: Dnotation style damage
+
 * todo: up-stairs tile and ability to backtrack
 * todo: Graceful exit for going up first level stair.
 * todo: Randomized descriptions for items
@@ -87,6 +86,8 @@ todo: The Wandering Merchant
 * todo: Implement mobs of monsters
 * todo: Skills
 * todo: cursed, uncursed, and blessed
+* todo: Eventually, all actors are processed in a main game loop
+
 
 # Phase 2: Making the project FUN!
 * todo: Robots
@@ -248,12 +249,12 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * FIXED: Confusion targeting starts up 5 squares
 * FIXED: Monsters bonking into wall appear as "You bonk into ..."
 
+
 ## WAVE 3: Quality of life:
 * todo: Separate Engine and Rendering
 * done: Renderer holds all consoles
 * Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
 * That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
-
 * done: Fireball result Targeting needs to be offset +5 y
 * done: Fireball targeting is off (square is correct, white dot is not)
 * done: Confusion targeting does not work.
@@ -270,3 +271,9 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * done: Change (E) to Equipped (change window size?)
 * done: Rename all EventHandlers to just Handlers
 * done: Refactor more of the rendering in the event handlers out
+* done: Remove color from messages
+* done: Add (0, 0) to directions, but make sure monster doesn't attack itself.
+* done: Remove color from message console
+* done: Rename ConfusedEnemy -> ConfusedAI
+* done: Rename HostileEnemy -> ApproachAI
+* done: Grid movement

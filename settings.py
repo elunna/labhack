@@ -98,6 +98,13 @@ DIRECTIONS = [
     (0, 0),  # None/Wait
 ]
 
+CARDINAL_DIRECTIONS = [
+    (0, -1),  # North
+    (-1, 0),  # West
+    (1, 0),  # East
+    (0, 1),  # South
+]
+
 """Enums"""
 
 
