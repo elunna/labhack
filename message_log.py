@@ -1,4 +1,4 @@
-from src import color
+import color
 import textwrap
 
 

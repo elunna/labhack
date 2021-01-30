@@ -1,7 +1,7 @@
-from src import color
-from src.message_log import MessageLog
-from src import settings
-from src import tile_types
+import color
+from message_log import MessageLog
+import settings
+import tile_types
 import numpy as np
 import tcod
 

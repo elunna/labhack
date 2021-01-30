@@ -1,12 +1,11 @@
-from src import actions
-from src import color
-from src import exceptions
-from src import render_functions
-from src import settings
-from src.settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
-from src.setup_game import load_game, new_game
+import actions
+import color
+import exceptions
+import render_functions
+import settings
+from setup_game import load_game, new_game
 from typing import Union
-from src.components import ai
+from components import ai
 import os
 import tcod
 import tcod.event
@@ -151,7 +150,7 @@ class MainGameHandler(EventHandler):
         ):
             return CharacterScrHandler(self.engine)
 
-        if key in MOVE_KEYS:
+        if key in settings.MOVE_KEYS:
             # Check if player is confused
             # TODO: Replace with a better use of the AI states in the future.
             # HumanAI might be this whole input handler, while there might be a
@@ -160,10 +159,10 @@ class MainGameHandler(EventHandler):
             if isinstance(player.ai, ai.ConfusedEnemy):
                 action = player.ai.perform()
             else:
-                dx, dy = MOVE_KEYS[key]
+                dx, dy = settings.MOVE_KEYS[key]
                 action = actions.BumpAction(player, dx, dy)
 
-        elif key in WAIT_KEYS:
+        elif key in settings.WAIT_KEYS:
             action = actions.WaitAction(player)
 
         elif key == tcod.event.K_ESCAPE:
@@ -191,8 +190,8 @@ class MainGameHandler(EventHandler):
 class GameOverHandler(EventHandler):
     def on_quit(self):
         """Handle exiting out of a finished game."""
-        if os.path.exists("../savegame.sav"):
-            os.remove("../savegame.sav")  # Deletes the active save file.
+        if os.path.exists("savegame.sav"):
+            os.remove("savegame.sav")  # Deletes the active save file.
 
         raise exceptions.QuitWithoutSaving()  # Avoid saving a finished game.
 
@@ -232,8 +231,8 @@ class HistoryHandler(EventHandler):
     def ev_keydown(self, event):
         # Fancy conditional movement to make it feel right.
         # TODO: Add info on controlling the history viewer to a help screen.
-        if event.sym in CURSOR_Y_KEYS:
-            adjust = CURSOR_Y_KEYS[event.sym]
+        if event.sym in settings.CURSOR_Y_KEYS:
+            adjust = settings.CURSOR_Y_KEYS[event.sym]
 
             if adjust < 0 and self.cursor == 0:
                 # Only move from the top to the bottom when you're on the edge.
@@ -398,7 +397,7 @@ class SelectMapIndexHandler(AskUserHandler):
         """
         key = event.sym
 
-        if key in MOVE_KEYS:
+        if key in settings.MOVE_KEYS:
             modifier = 1  # Holding modifier keys will speed up key movement.
             if event.mod & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
                 modifier *= 5
@@ -408,7 +407,7 @@ class SelectMapIndexHandler(AskUserHandler):
                 modifier *= 20
 
             x, y = self.engine.mouse_location
-            dx, dy = MOVE_KEYS[key]
+            dx, dy = settings.MOVE_KEYS[key]
             x += dx * modifier
             y += dy * modifier
             # Clamp the cursor index to the map size.
@@ -416,7 +415,7 @@ class SelectMapIndexHandler(AskUserHandler):
             y = max(0, min(y, self.engine.game_map.height - 1))
             self.engine.mouse_location = x, y
             return None
-        elif key in CONFIRM_KEYS:
+        elif key in settings.CONFIRM_KEYS:
             return self.on_index_selected(*self.engine.mouse_location)
         return super().ev_keydown(event)
 

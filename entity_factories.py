@@ -6,9 +6,9 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from src.item import Item
-from src.actor import Actor
-from src import settings
+from item import Item
+from actor import Actor
+import settings
 import tcod
 
 

@@ -1,5 +1,5 @@
-from src.entity import Entity
-from src.settings import RenderOrder
+from entity import Entity
+from settings import RenderOrder
 
 
 class Item(Entity):

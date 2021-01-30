@@ -1,5 +1,5 @@
-from src.actions import Action, BumpAction, MeleeAction, MovementAction, WaitAction
-from src import settings
+from actions import Action, BumpAction, MeleeAction, MovementAction, WaitAction
+import settings
 import numpy as np  # type: ignore
 import random
 import tcod

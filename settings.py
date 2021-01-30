@@ -17,7 +17,7 @@ version = '0.0.2'
 """Filename info """
 tileset = "images/dejavu10x10_gs_tc.png"
 bg_img = "images/menu_background.png"
-save_file = "../savegame.sav"
+save_file = "savegame.sav"
 
 fov_radius = 8
 

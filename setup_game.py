@@ -1,9 +1,9 @@
 """Handle the loading and initialization of game sessions."""
-from src import color
-from src import entity_factories
-from src import settings
-from src.engine import Engine
-from src.game_world import GameWorld
+import color
+import entity_factories
+import settings
+from engine import Engine
+from game_world import GameWorld
 import copy
 import lzma
 import pickle

@@ -1,9 +1,10 @@
+from actions import ItemAction
 from components.ai import ConfusedEnemy, ParalyzedAI
 from components.base_component import BaseComponent
 from components.inventory import Inventory
-from src import color, input_handlers
-from src.actions import ItemAction
-from src.exceptions import Impossible
+from exceptions import Impossible
+import color
+import input_handlers
 
 
 class Consumable(BaseComponent):

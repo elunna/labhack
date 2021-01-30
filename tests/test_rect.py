@@ -1,7 +1,7 @@
 """ Tests for rectangle.py """
 
 import pytest
-from src import rectangle
+import rectangle
 
 """ Tests for Rectangle.__init__(x, y, width, height) """
 

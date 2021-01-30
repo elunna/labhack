@@ -1,3 +1,6 @@
+from procgen import generate_dungeon
+
+
 class GameWorld:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
     """
@@ -22,7 +25,7 @@ class GameWorld:
 
     def generate_floor(self):
         # Generate new map each time we go down a floor.
-        from .procgen import generate_dungeon
+
 
         self.current_floor += 1
 

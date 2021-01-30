@@ -1,6 +1,6 @@
-from src import tile_types
-from src.item import Item
-from src.actor import Actor
+import tile_types
+from item import Item
+from actor import Actor
 import numpy as np
 
 

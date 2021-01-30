@@ -1,8 +1,8 @@
-from src import tile_types
-from src.entity_factories import item_chances, enemy_chances
-from src.game_map import GameMap
-from src.rectangle import Rectangle
-from src.settings import max_items_by_floor, max_monsters_by_floor
+import tile_types
+from entity_factories import item_chances, enemy_chances
+from game_map import GameMap
+from rectangle import Rectangle
+from settings import max_items_by_floor, max_monsters_by_floor
 import random
 import tcod
 

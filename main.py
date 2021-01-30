@@ -1,10 +1,10 @@
 import traceback
 import tcod
-from src import color
-from src import exceptions
-from src import input_handlers
-from src import settings
-from src import setup_game
+import color
+import exceptions
+import input_handlers
+import settings
+import setup_game
 
 
 class Renderer:

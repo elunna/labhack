@@ -1,5 +1,5 @@
 import setuptools
-from src import settings
+import settings
 
 # Note on requirements.txt
 # if we are using this setup.py file, we don't really need a requirements.txt file. Required modules can all be done from here, with some advantages.

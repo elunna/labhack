@@ -1,4 +1,5 @@
-from src import exceptions, color
+import exceptions
+import color
 
 
 class Action:
