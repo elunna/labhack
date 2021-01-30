@@ -105,7 +105,8 @@ class EventHandler(BaseEventHandler):
         return True
 
     def ev_mousemotion(self, event):
-        if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
+        # Correct for msg_panel offset
+        if self.engine.game_map.in_bounds(event.tile.x, event.tile.y - settings.msg_panel_height):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
     def on_render(self, renderer):
@@ -373,11 +374,10 @@ class SelectMapIndexHandler(AskUserHandler):
         engine.mouse_location = player.x, player.y + settings.msg_panel_height
 
     def on_render(self, renderer):
-        """ Highlight the tile under the cursor.
-            render the renderer as normal, by calling super().on_render, but it
-            also adds a cursor on top, that can be used to show where the current
-            cursor position is. This is especially useful if the player is
-            navigating around with the keyboard.
+        """ Highlight the tile under the cursor. Render the renderer as normal,
+            by calling super().on_render, but it also adds a cursor on top, that
+            can be used to show where the current cursor position is. This is
+            especially useful if the player is navigating around with the keyboard.
          """
         super().on_render(renderer)
         x, y = self.engine.mouse_location
@@ -410,9 +410,13 @@ class SelectMapIndexHandler(AskUserHandler):
             dx, dy = settings.MOVE_KEYS[key]
             x += dx * modifier
             y += dy * modifier
+
             # Clamp the cursor index to the map size.
             x = max(0, min(x, self.engine.game_map.width - 1))
-            y = max(0, min(y, self.engine.game_map.height - 1))
+            y = max(
+                settings.msg_panel_height,
+                min(y, self.engine.game_map.height - 1 + settings.msg_panel_height)
+            )
             self.engine.mouse_location = x, y
             return None
         elif key in settings.CONFIRM_KEYS:
@@ -424,6 +428,7 @@ class SelectMapIndexHandler(AskUserHandler):
              also returns the location, if the clicked space is within the map boundaries.
         """
         if self.engine.game_map.in_bounds(*event.tile):
+            # TODO: Add offset to event.tile?
             if event.button == 1:
                 return self.on_index_selected(*event.tile)
         return super().ev_mousebuttondown(event)
