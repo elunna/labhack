@@ -118,7 +118,7 @@ class ApproachAI(BaseAI):
         return WaitAction(self.entity)
 
 
-class ConfusedEnemy(BaseAI):
+class ConfusedAI(BaseAI):
     """ A confused enemy will stumble around aimlessly for a given number of turns, then
         revert back to its previous AI. If an actor occupies a tile it is randomly moving
         into, it will attack.

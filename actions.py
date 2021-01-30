@@ -150,8 +150,8 @@ class MovementAction(ActionWithDirection):
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
             # Destination is blocked by a tile
 
-            from components.ai import ConfusedEnemy
-            if isinstance(self.entity.ai, ConfusedEnemy):
+            from components.ai import ConfusedAI
+            if isinstance(self.entity.ai, ConfusedAI):
                 if self.entity == self.engine.player:
                     self.engine.message_log.add_message(f"You bonk into the wall...")
                 else:

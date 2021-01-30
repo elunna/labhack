@@ -157,7 +157,7 @@ class MainGameHandler(EventHandler):
             # HumanAI might be this whole input handler, while there might be a
             # different event handler for confusion.
             # ConfusedEventHandler could even be a subclass of Main...
-            if isinstance(player.ai, ai.ConfusedEnemy):
+            if isinstance(player.ai, ai.ConfusedAI):
                 action = player.ai.perform()
             else:
                 dx, dy = settings.MOVE_KEYS[key]
