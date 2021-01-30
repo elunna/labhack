@@ -27,9 +27,7 @@ def new_game():
     engine.game_world.generate_floor()
     engine.update_fov()
 
-    engine.message_log.add_message(
-        "Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text
-    )
+    engine.message_log.add_message("Hello and welcome, adventurer, to yet another dungeon!")
 
     # No starting inventory for now...
     dagger = copy.deepcopy(entity_factories.dagger)

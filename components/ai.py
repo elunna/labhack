@@ -167,14 +167,10 @@ class ParalyzedAI(BaseAI):
         # Causes the entity to stay frozen in place
         # Revert the AI back to the original state if the effect has run its course.
         if self.turns_remaining <= 0:
-            self.engine.message_log.add_message(
-                f"You are no longer paralyzed."
-            )
+            self.engine.message_log.add_message(f"You are no longer paralyzed.")
             self.entity.ai = self.previous_ai
         else:
-            self.engine.message_log.add_message(
-                f"You are frozen in place, helpless...."
-            )
+            self.engine.message_log.add_message(f"You are frozen in place, helpless....")
             # We can just use the wait action to simulate paralysis
             self.turns_remaining -= 1
             return WaitAction(self.entity)

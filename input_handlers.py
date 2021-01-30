@@ -87,7 +87,7 @@ class EventHandler(BaseEventHandler):
         try:
             action.perform()
         except exceptions.Impossible as exc:
-            self.engine.message_log.add_message(exc.args[0], color.impossible)
+            self.engine.message_log.add_message(exc.args[0])
             return False  # Skip enemy turn on exceptions
 
         # Here - we will evaluate the player's energy
@@ -323,7 +323,7 @@ class InventoryHandler(AskUserHandler):
             try:
                 selected_item = player.inventory.items[index]
             except IndexError:
-                self.engine.message_log.add_message("Invalid entry.", color.invalid)
+                self.engine.message_log.add_message("Invalid entry.")
                 return None
             return self.on_item_selected(selected_item)
         return super().ev_keydown(event)
@@ -529,7 +529,7 @@ class LevelUpHandler(AskUserHandler):
             else:
                 player.level.increase_defense()
         else:
-            self.engine.message_log.add_message("Invalid entry.", color.invalid)
+            self.engine.message_log.add_message("Invalid entry.")
 
             return None
 

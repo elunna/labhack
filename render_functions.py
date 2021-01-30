@@ -152,7 +152,8 @@ def render_messages(console, x, y, width, height, messages):
 
     for message in reversed(messages):
         for line in reversed(list(MessageLog.wrap(message.full_text, width))):
-            console.print(x=x, y=y + y_offset, string=line, fg=message.fg)
+            # console.print(x=x, y=y + y_offset, string=line, fg=message.fg)
+            console.print(x=x, y=y + y_offset, string=line, fg=tcod.white)
             y_offset -= 1
             if y_offset < 0:
                 return  # No more space to print messages.

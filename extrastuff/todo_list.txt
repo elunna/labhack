@@ -5,31 +5,27 @@
 * todo: database of items.
 
 ### Bugs
-* todo: Reduce range of fireball to 3x3
+
 * todo: We can target Stationary monsters with confuse...
 * Add a repl/str for entity names
-,
+
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 
 ### Easy changes
-* todo: Change (E) to Equipped (change window size?)
 * todo: Remove color from messages
 * todo: Add (0, 0) to directions, but make sure monster doesn't attack itself.
-* todo: Rename all EventHandlers to just Handlers
-* todo: Rename ConfusedEnemy -> ConfusedAI
 * todo: Add more science lab look to colors, gray/white
 * todo: Remove color from message console
 * todo: Hero starts with a Notebook?
-* todo: Remove the color module and use tcods built-in colors?,
-* todo: Move color data to settings.
-* todo: Simplify imports, reduce underscores, less "from" imports.
 * todo: Test that tcod calls are up to date
-* todo: Rendering constants to make it easier to manipulate and read. RENDERING = { HP_BAR }
+
+*** Refactoring
+* todo: Simplify imports, reduce underscores, less "from" imports.
+* todo: Rename ConfusedEnemy -> ConfusedAI
+
 
 ### Mini-Bosses (Relatively easy goals)
-
-* todo: Refactor more of the rendering in the event handlers out
 * todo: Move one Handler out at a time.
 * todo: 'q': To Quaff potions
 * todo: 'r': To read scrolls
@@ -199,6 +195,8 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * SKIPPED: Move main functionality to engine
 * SKIPPED: Made the radius of FOV a smaller.
 * SKIPPED: Add to pypip library for easier running
+* SKIPPED: Reduce range of fireball to 3x3
+* SKIPPED: Remove the color module and use tcods built-in colors?,
 
 # WAVE 1
 * DONE: , to pickup
@@ -269,3 +267,6 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * done: Enhance the status bar
 * done: Potion of confusion does not work
 * done: Potion of paralysis does not work
+* done: Change (E) to Equipped (change window size?)
+* done: Rename all EventHandlers to just Handlers
+* done: Refactor more of the rendering in the event handlers out

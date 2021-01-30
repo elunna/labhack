@@ -39,7 +39,6 @@ class HealingConsumable(Consumable):
         if amount_recovered > 0:
             self.engine.message_log.add_message(
                 f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
-                color.health_recovered,
             )
             self.consume()
         else:
@@ -54,9 +53,7 @@ class ParalysisConsumable(Consumable):
         consumer = action.entity
 
         # TODO: Adjust for throwing at other monsters, etc.
-        self.engine.message_log.add_message(
-            f"You can't move...", color.status_effect_applied
-        )
+        self.engine.message_log.add_message(f"You can't move...")
         consumer.ai = ParalyzedAI(
             entity=consumer,
             previous_ai=consumer.ai,
@@ -98,9 +95,7 @@ class ConfusionConsumable(Consumable):
         self.number_of_turns = number_of_turns
 
     def get_action(self, consumer):
-        self.engine.message_log.add_message(
-            "Select a target location.", color.needs_target
-        )
+        self.engine.message_log.add_message("Select a target location.")
         return input_handlers.SingleRangedAttackHandler(
             self.engine,
             # “xy” will be the coordinates of the target. The lambda function
@@ -122,8 +117,7 @@ class ConfusionConsumable(Consumable):
             raise Impossible("You cannot confuse yourself!")
 
         self.engine.message_log.add_message(
-            f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
-            color.status_effect_applied,
+            f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
         )
         target.ai = ConfusedEnemy(
             entity=target, previous_ai=target.ai, turns_remaining=self.number_of_turns,
@@ -139,9 +133,7 @@ class ConfusionPotionConsumable(Consumable):
         consumer = action.entity
 
         # TODO: Adjust for throwing at other monsters, etc.
-        self.engine.message_log.add_message(
-            f"You feel confused...", color.status_effect_applied
-        )
+        self.engine.message_log.add_message(f"You feel confused...")
         consumer.ai = ConfusedEnemy(
             entity=consumer,
             previous_ai=consumer.ai,
@@ -157,9 +149,7 @@ class FireballDamageConsumable(Consumable):
 
     def get_action(self, consumer):
         # asks the user to select a target, and switches the event handler
-        self.engine.message_log.add_message(
-            "Select a target location.", color.needs_target
-        )
+        self.engine.message_log.add_message("Select a target location.")
         return input_handlers.AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
