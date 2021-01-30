@@ -111,7 +111,7 @@ class MeleeAction(ActionWithDirection):
         elif self.target_actor == self.entity:
             # An entity targeted itself.
             self.engine.message_log.add_message(
-                f"The {self.entity.player} mutters angrily to itself...",
+                f"The {self.entity.name} mutters angrily to itself...",
             )
             return WaitAction(self.entity)
 
