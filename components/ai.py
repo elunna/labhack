@@ -87,7 +87,7 @@ class StationaryAI(BaseAI):
 
 
 
-class HostileEnemy(BaseAI):
+class ApproachAI(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)
         self.path = []

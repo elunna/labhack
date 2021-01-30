@@ -95,6 +95,7 @@ DIRECTIONS = [
     (-1, 1),  # Southwest
     (0, 1),  # South
     (1, 1),  # Southeast
+    (0, 0),  # None/Wait
 ]
 
 """Enums"""

@@ -108,6 +108,13 @@ class MeleeAction(ActionWithDirection):
 
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
+        elif self.target_actor == self.entity:
+            # An entity targeted itself.
+            self.engine.message_log.add_message(
+                f"The {self.entity.player} mutters angrily to itself...",
+            )
+            return WaitAction(self.entity)
+
 
         damage = self.entity.fighter.power - target.fighter.defense
 
