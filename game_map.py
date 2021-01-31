@@ -1,5 +1,5 @@
 import tile_types
-from item import Item
+import items
 import actors
 import numpy as np
 
@@ -54,7 +54,7 @@ class GameMap:
 
     @property
     def items(self):
-        yield from (entity for entity in self.entities if isinstance(entity, Item))
+        yield from (entity for entity in self.entities if isinstance(entity, items.Item))
 
     def get_blocking_entity_at_location(self, location_x, location_y):
         for entity in self.entities:

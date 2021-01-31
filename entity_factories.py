@@ -6,14 +6,14 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from item import Item
+import items
 import actors
 import settings
 import tcod
 
 
 def corpse_generator(actor):
-    corpse = Item(
+    corpse = items.Item(
         x=actor.x,
         y=actor.y,
         char="%",
@@ -386,70 +386,70 @@ troll = actors.Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-health_potion = Item(
+health_potion = items.Item(
     char="!",
     color=tcod.blue,
     name="Health Potion",
     consumable=consumable.HealingConsumable(amount=4),
 )
 
-confusion_potion = Item(
+confusion_potion = items.Item(
     char="!",
     color=tcod.yellow,
     name="Potion of Confusion",
     consumable=consumable.ConfusionPotionConsumable(number_of_turns=8),
 )
 
-paralysis_potion = Item(
+paralysis_potion = items.Item(
     char="!",
     color=tcod.red,
     name="Potion of Paralysis",
     consumable=consumable.ParalysisConsumable(number_of_turns=5),
 )
 
-lightning_scroll = Item(
+lightning_scroll = items.Item(
     char="~",
     color=(255, 255, 0),
     name="Lightning Scroll",
     consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
 )
 
-confusion_scroll = Item(
+confusion_scroll = items.Item(
     char="~",
     color=(207, 63, 255),
     name="Confusion Scroll",
     consumable=consumable.ConfusionConsumable(number_of_turns=10),
 )
 
-fireball_scroll = Item(
+fireball_scroll = items.Item(
     char="~",
     color=(255, 0, 0),
     name="Fireball Scroll",
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 
-dagger = Item(
+dagger = items.Item(
     char="/",
     color=(0, 191, 255),
     name="Dagger",
     equippable=equippable.Dagger()
 )
 
-sword = Item(
+sword = items.Item(
     char="/",
     color=(0, 191, 255),
     name="Sword",
     equippable=equippable.Sword()
 )
 
-leather_armor = Item(
+leather_armor = items.Item(
    char="[",
    color=(139, 69, 19),
    name="Leather Armor",
    equippable=equippable.LeatherArmor(),
 )
 
-chain_mail = Item(
+chain_mail = items.Item(
     char="[",
     color=(139, 69, 19),
     name="Chain Mail",

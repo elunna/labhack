@@ -1,18 +1,18 @@
-""" Tests for item.py """
+""" Tests for items.py """
 
 import pytest
-import item
+import items
 import entity
 from settings import RenderOrder
 
 
 def test_Item_subclass_of_Entity():
-    i = item.Item()
+    i = items.Item()
     assert isinstance (i, entity.Entity)
 
 
 def test_Item_init_defaults():
-    i = item.Item()
+    i = items.Item()
     assert i.x == 0
     assert i.y == 0
     assert i.char == '?'
