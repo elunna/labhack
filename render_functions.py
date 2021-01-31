@@ -1,9 +1,63 @@
 import color
 from msg_log import MessageLog
-import settings
-import tile_types
+import logger
 import numpy as np
+import settings
 import tcod
+import tile_types
+
+log = logger.get_logger(__name__)
+
+class Renderer:
+    """ Handle all the rendering details that the engine requires."""
+    def __init__(self):
+        log.debug('Initializing Renderer')
+        # Specify font for tileset
+        tileset = tcod.tileset.load_tilesheet(
+            path=settings.tileset,
+            columns=32,
+            rows=8,
+            charmap=tcod.tileset.CHARMAP_TCOD
+        )
+
+        # Create the screen
+        # Good info on how to use this:
+        # https://python-tcod.readthedocs.io/en/latest/tcod/context.html
+
+        # To make this easier to put into a class, I removed the with/as context usage - Erik
+        self.context = tcod.context.new_terminal(
+            settings.screen_width,
+            settings.screen_height,
+            tileset=tileset,
+            title=settings.title,
+            vsync=True,
+            renderer=tcod.RENDERER_SDL2,  # Fix green lines on Windows
+        )
+
+        # The "order" argument affects the order of our x and y variables in
+        # numpy (an underlying library that tcod uses). By default, numpy
+        # accesses 2D arrays in [y, x] order, which is fairly unintuitive. By
+        # setting order="F", we can change this to be [x, y] instead.
+        self.root = tcod.Console(
+            settings.screen_width,
+            settings.screen_height,
+            order="F"
+        )
+
+        # Define separate panels for the map, messages, and stats.
+        self.msg_panel = tcod.Console(
+            width=settings.screen_width,
+            height=settings.msg_panel_height
+        )
+        self.map_panel = tcod.Console(
+            width=settings.map_width,
+            height=settings.map_height,
+            order="F",
+        )
+        self.stat_panel = tcod.Console(
+            width=settings.screen_width,
+            height=settings.stat_panel_height
+        )
 
 
 def render_all(engine, renderer):
