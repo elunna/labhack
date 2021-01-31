@@ -1,6 +1,6 @@
 import tile_types
 from item import Item
-from actor import Actor
+import actors
 import numpy as np
 
 import logger
@@ -49,7 +49,7 @@ class GameMap:
             entity
             for entity in self.entities
             # if isinstance(entity, Actor) and entity.is_alive
-            if isinstance(entity, Actor)
+            if isinstance(entity, actors.Actor)
         )
 
     @property

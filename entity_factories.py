@@ -7,7 +7,7 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 from item import Item
-from actor import Actor
+import actors
 import settings
 import tcod
 
@@ -24,7 +24,7 @@ def corpse_generator(actor):
     return corpse
 
 
-player = Actor(
+player = actors.Actor(
     char="@",
     color=(255, 255, 255),
     name="Player",
@@ -38,7 +38,7 @@ player = Actor(
     energymeter=EnergyMeter(threshold=settings.normal),
 )
 
-gas_spore = Actor(
+gas_spore = actors.Actor(
     char="e",
     color=tcod.gray,
     name="gas spore",
@@ -50,7 +50,7 @@ gas_spore = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-yellow_light = Actor(
+yellow_light = actors.Actor(
     char="e",
     color=tcod.yellow,
     name="yellow light",
@@ -62,7 +62,7 @@ yellow_light = Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-black_light = Actor(
+black_light = actors.Actor(
     char="e",
     color=tcod.purple,
     name="black light",
@@ -74,7 +74,7 @@ black_light = Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-flaming_sphere = Actor(
+flaming_sphere = actors.Actor(
     char="e",
     color=tcod.red,
     name="flaming sphere",
@@ -86,7 +86,7 @@ flaming_sphere = Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-freezing_sphere = Actor(
+freezing_sphere = actors.Actor(
     char="e",
     color=tcod.blue,
     name="freezing sphere",
@@ -98,7 +98,7 @@ freezing_sphere = Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-shocking_sphere = Actor(
+shocking_sphere = actors.Actor(
     char="e",
     color=tcod.azure,
     name="shocking sphere",
@@ -110,7 +110,7 @@ shocking_sphere = Actor(
     energymeter=EnergyMeter(threshold=settings.fast)
 )
 
-jiggling_blob = Actor(
+jiggling_blob = actors.Actor(
     char="b",
     color=tcod.magenta,
     name="jiggling blob",
@@ -122,7 +122,7 @@ jiggling_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-lava_blob = Actor(
+lava_blob = actors.Actor(
     char="b",
     color=tcod.red,
     name="lava blob",
@@ -134,7 +134,7 @@ lava_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-static_blob = Actor(
+static_blob = actors.Actor(
     char="b",
     color=tcod.violet,
     name="static blob",
@@ -146,7 +146,7 @@ static_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-burbling_blob = Actor(
+burbling_blob = actors.Actor(
     char="b",
     color=tcod.dark_gray,
     name="burbling blob",
@@ -158,7 +158,7 @@ burbling_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-quivering_blob = Actor(
+quivering_blob = actors.Actor(
     char="b",
     color=tcod.white,
     name="quivering blob",
@@ -170,7 +170,7 @@ quivering_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.slow)
 )
 
-gelatinous_cube = Actor(
+gelatinous_cube = actors.Actor(
     char="b",
     color=tcod.light_blue,
     name="gelatinous cube",
@@ -182,7 +182,7 @@ gelatinous_cube = Actor(
     energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
-acid_blob = Actor(
+acid_blob = actors.Actor(
     char="b",
     color=tcod.light_green,
     name="acid blob",
@@ -194,7 +194,7 @@ acid_blob = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-lichen = Actor(
+lichen = actors.Actor(
     char="F",
     color=tcod.light_green,
     name="Lichen",
@@ -206,7 +206,7 @@ lichen = Actor(
     energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
-brown_mold = Actor(
+brown_mold = actors.Actor(
     char="F",
     color=tcod.amber,
     name="Brown Mold",
@@ -218,7 +218,7 @@ brown_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-yellow_mold = Actor(
+yellow_mold = actors.Actor(
     char="F",
     color=tcod.yellow,
     name="Yellow Mold",
@@ -230,7 +230,7 @@ yellow_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-green_mold = Actor(
+green_mold = actors.Actor(
     char="F",
     color=tcod.dark_green,
     name="Green Mold",
@@ -242,7 +242,7 @@ green_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-red_mold = Actor(
+red_mold = actors.Actor(
     char="F",
     color=tcod.red,
     name="Red Mold",
@@ -254,7 +254,7 @@ red_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-shrieker = Actor(
+shrieker = actors.Actor(
     char="F",
     color=tcod.purple,
     name="Shrieker",
@@ -266,7 +266,7 @@ shrieker = Actor(
     energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
-violet_fungus = Actor(
+violet_fungus = actors.Actor(
     char="F",
     color=tcod.violet,
     name="Violet Fungus",
@@ -278,7 +278,7 @@ violet_fungus = Actor(
     energymeter=EnergyMeter(threshold=settings.very_slow)
 )
 
-disgusting_mold = Actor(
+disgusting_mold = actors.Actor(
     char="F",
     color=tcod.cyan,
     name="Disgusting Mold",
@@ -290,7 +290,7 @@ disgusting_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-black_mold = Actor(
+black_mold = actors.Actor(
     char="F",
     color=tcod.darkest_gray,
     name="Black Mold",
@@ -302,7 +302,7 @@ black_mold = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-grid_bug = Actor(
+grid_bug = actors.Actor(
     char="x",
     color=tcod.magenta,
     name="Grid Bug",
@@ -314,7 +314,7 @@ grid_bug = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-spark_bug = Actor(
+spark_bug = actors.Actor(
     char="x",
     color=tcod.violet,
     name="Spark Bug",
@@ -326,7 +326,7 @@ spark_bug = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-arc_bug = Actor(
+arc_bug = actors.Actor(
     char="x",
     color=tcod.orange,
     name="Arc Bug",
@@ -338,7 +338,7 @@ arc_bug = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-lightning_bug = Actor(
+lightning_bug = actors.Actor(
     char="x",
     color=tcod.light_yellow,
     name="Lightning Bug",
@@ -350,7 +350,7 @@ lightning_bug = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-firefly = Actor(
+firefly = actors.Actor(
     char="x",
     color=tcod.light_red,
     name="Fire Fly",
@@ -362,7 +362,7 @@ firefly = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-orc = Actor(
+orc = actors.Actor(
     char="o",
     color=tcod.yellow,
     name="Orc",
@@ -374,7 +374,7 @@ orc = Actor(
     energymeter=EnergyMeter(threshold=settings.normal)
 )
 
-troll = Actor(
+troll = actors.Actor(
     char="T",
     color=tcod.amber,
     name="Troll",

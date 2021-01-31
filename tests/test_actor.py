@@ -1,4 +1,4 @@
-""" Tests for actor.py """
+""" Tests for actors.py """
 
 import pytest
 
