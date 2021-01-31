@@ -4,8 +4,7 @@ import pytest
 import game_map
 
 def test_GameMap_init():
-    g = game_map.GameMap(engine=None, width=10, height=15)
-    assert g.engine is None
+    g = game_map.GameMap(width=10, height=15)
     assert g.width == 10
     assert g.height == 15
     assert g.entities == set()

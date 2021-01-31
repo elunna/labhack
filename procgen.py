@@ -41,12 +41,11 @@ def generate_map(
         room_max_size,
         map_width,
         map_height,
-        engine):
+        floor_number):
     """Generate a new dungeon map."""
     log.debug('Generating new game map...')
 
-    player = engine.player
-    dungeon = game_map.GameMap(engine, map_width, map_height, entities=[player])
+    dungeon = game_map.GameMap(map_width, map_height)
     rooms = []
 
     center_of_last_room = (0, 0)
@@ -72,8 +71,6 @@ def generate_map(
         dungeon.tiles[new_room.inner] = tile_types.floor
 
         if len(rooms) == 0:
-            # The first room, where the player starts.
-            player.place(*new_room.center, dungeon)
 
             center_of_first_room = new_room.center
 
@@ -88,7 +85,7 @@ def generate_map(
         place_entities(
             new_room,
             dungeon,
-            engine.game_world.current_floor,
+            floor_number
         )
 
         # Finally, append the new room to the list.

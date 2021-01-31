@@ -9,15 +9,18 @@ log = logger.get_logger(__name__)
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, engine, width, height, entities=()):
+    def __init__(self, width, height, entities=(), engine=None):
         log.debug(f'Initializing new GameMap: width={width} height={height}')
-        # TODO: Remove engine dependency
 
-        self.engine = engine
         self.width, self.height = width, height
         self.entities = set(entities)
         self.downstairs_location = (0, 0)
         self.upstairs_location = (0, 0)
+
+        # Engine should be decoupled from this. For now, we can make it an
+        # optional para to make testing way easier. If something needs this to
+        # have an engine reference, they can add it themselves!
+        self.engine = engine
 
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
