@@ -10,31 +10,6 @@ import tile_types
 log = logger.get_logger(__name__)
 
 
-def place_entities(room, dungeon, floor_number):
-    log.debug('Placing entities in room...')
-    number_of_monsters = random.randint(
-        0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
-    )
-
-    number_of_items = random.randint(
-        0, get_max_value_for_floor(max_items_by_floor, floor_number)
-    )
-
-    monsters = get_entities_at_random(
-        entity_factories.enemy_chances, number_of_monsters, floor_number
-    )
-    items = get_entities_at_random(
-        entity_factories.item_chances, number_of_items, floor_number
-    )
-
-    for entity in monsters + items:
-        x = random.randint(room.x1 + 1, room.x2 - 1)
-        y = random.randint(room.y1 + 1, room.y2 - 1)
-
-        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            entity.spawn(dungeon, x, y)
-
-
 def generate_map(
         max_rooms,
         room_min_size,
@@ -45,21 +20,14 @@ def generate_map(
     """Generate a new dungeon map."""
     log.debug('Generating new game map...')
 
+    # Create new GameMap, filled with walls
     dungeon = game_map.GameMap(map_width, map_height)
     rooms = []
 
     center_of_last_room = (0, 0)
 
     for r in range(max_rooms):
-        room_width = random.randint(room_min_size, room_max_size)
-        room_height = random.randint(room_min_size, room_max_size)
-
-        x = random.randint(0, dungeon.width - room_width - 1)
-        y = random.randint(0, dungeon.height - room_height - 1)
-
-        # "RectangularRoom" class makes rectangles easier to work with
-        log.debug(f'Creating new room {x}, {y}, {room_width}, {room_height}')
-        new_room = rectangle.Rectangle(x, y, room_width, room_height)
+        new_room = mk_room(dungeon, room_min_size, room_max_size)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):
@@ -100,6 +68,18 @@ def generate_map(
     dungeon.downstairs_location = center_of_last_room
 
     return dungeon
+
+
+def mk_room(dungeon, room_min_size, room_max_size):
+    room_width = random.randint(room_min_size, room_max_size)
+    room_height = random.randint(room_min_size, room_max_size)
+
+    x = random.randint(0, dungeon.width - room_width - 1)
+    y = random.randint(0, dungeon.height - room_height - 1)
+
+    log.debug(f'Creating new room {x}, {y}, {room_width}, {room_height}')
+
+    return rectangle.Rectangle(x, y, room_width, room_height)
 
 
 def tunnel_between(start, end):
@@ -178,3 +158,28 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     )
 
     return chosen_entities
+
+
+def place_entities(room, dungeon, floor_number):
+    log.debug('Placing entities in room...')
+    number_of_monsters = random.randint(
+        0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
+    )
+
+    number_of_items = random.randint(
+        0, get_max_value_for_floor(max_items_by_floor, floor_number)
+    )
+
+    monsters = get_entities_at_random(
+        entity_factories.enemy_chances, number_of_monsters, floor_number
+    )
+    items = get_entities_at_random(
+        entity_factories.item_chances, number_of_items, floor_number
+    )
+
+    for entity in monsters + items:
+        x = random.randint(room.x1 + 1, room.x2 - 1)
+        y = random.randint(room.y1 + 1, room.y2 - 1)
+
+        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+            entity.spawn(dungeon, x, y)
