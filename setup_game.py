@@ -31,7 +31,7 @@ def new_game():
     engine.game_world.generate_floor()
     engine.update_fov()
 
-    engine.message_log.add_message("Hello and welcome, adventurer, to yet another dungeon!")
+    engine.msg_log.add_message("Hello and welcome, adventurer, to yet another dungeon!")
 
     log.debug('Granting player full spoiled inventory')
 

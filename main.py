@@ -99,7 +99,7 @@ def main():
 
             # Then print the error to the message log.
             if isinstance(handler, input_handlers.EventHandler):
-                handler.engine.message_log.add_message(traceback.format_exc())
+                handler.engine.msg_log.add_message(traceback.format_exc())
 
         except exceptions.QuitWithoutSaving:
             log.debug('exceptions.QuitWithoutSaving')

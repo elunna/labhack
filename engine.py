@@ -2,7 +2,7 @@ import exceptions
 import settings
 from game_map import GameMap
 from game_world import GameWorld
-from message_log import MessageLog
+from msg_log import MessageLog
 from tcod.map import compute_fov
 
 import logger
@@ -17,7 +17,7 @@ class Engine:
 
     def __init__(self, player):
         log.debug('Initializing Engine')
-        self.message_log = MessageLog()
+        self.msg_log = MessageLog()
         self.mouse_location = (0, 0)
         self.player = player
         self.turns = 0

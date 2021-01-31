@@ -1,5 +1,5 @@
 import color
-from message_log import MessageLog
+from msg_log import MessageLog
 import settings
 import tile_types
 import numpy as np
@@ -14,7 +14,7 @@ def render_all(engine, renderer):
         x=settings.msg_panel_x, y=0,
         width=settings.screen_width,
         height=settings.msg_panel_height,
-        messages=engine.message_log.messages,
+        messages=engine.msg_log.messages,
     )
 
     # Map Panel
@@ -390,12 +390,12 @@ def render_history(title, console, engine, cursor):
     )
 
     # Render the message log using the cursor parameter.
-    # self.engine.message_log.render_messages(
+    # self.engine.msg_log.render_messages(
     render_messages(
         console=log_console,
         x=1, y=1,
         width=log_console.width - 2,
         height=log_console.height - 2,
-        messages=engine.message_log.messages[: cursor + 1],
+        messages=engine.msg_log.messages[: cursor + 1],
     )
     log_console.blit(console, 3, 3)

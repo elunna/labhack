@@ -1,54 +1,29 @@
 ### Eye of Sauron is focused on...
-
-* todo: message_log -> msg_log
 * todo: Tests for msg_log (after we rename it)
 
-Tests for actions:
-    Action
-    ActionWithDirection,
-    BumpAction
-    ItemAction
-    DropItem
-    EquipAction
-    MeleeAction
-    MovementAction
-    PickupAction
-    TakeStairsAction
-    WaitAction
-
-* todo: Test that tcod calls are up to date
-* todo: Tests for engine: init, add_energy, handle_enemy_turns, update_fov?
-* todo: Tests for game_world
-
-* todo: Test for input_handlers? Start with types.
-
+* todo: Fix the circular imports in the tests - why is this happening?
 * todo: Flesh out unfinished tests, create fixtures, etc.
 * todo: Go through project TODOs and clean up code.
-* todo: Tile generation is so weird, is there a better more clear way? Tile object?
-
 * todo: AIs should have a yield_action instead of perform (to avoid confusion)
-* todo: Start Sphinx Documentation
-
 * todo: Make sure tests don't trigger logging
 * todo: Move Renderer to render_functions
 
 * todo: Move one Handler out at a time.
 
+* todo: Tile generation is so weird, is there a better more clear way? Tile object?
+* todo: Start Sphinx Documentation
 * todo: database of monsters -dict
 * todo: database of items - dict
 * todo: Super classes (mob types) of monsters (blobs, fungi)
 * todo: Add more science lab look to colors, gray/white
 * todo: Add more unpredictable movement for monsters, occasional wandering.
-
 * todo: Sorted inventory
 * todo: Potion of Extra Healing
 * todo: 'q': To Quaff potions
 * todo: 'r': To read scrolls
-
 * todo: Dnotation style damage
 * todo: Critical hits?
 * todo: ID's for entities?
-
 * todo: Add a repl/str for entity names
 
 
@@ -347,3 +322,4 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: Basic Tests for game_map
 
 * DONE: Skeleton Tests for procgen
+* done: message_log -> msg_log

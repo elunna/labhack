@@ -37,7 +37,7 @@ class HealingConsumable(Consumable):
         amount_recovered = consumer.fighter.heal(self.amount)
 
         if amount_recovered > 0:
-            self.engine.message_log.add_message(
+            self.engine.msg_log.add_message(
                 f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
             )
             self.consume()
@@ -53,7 +53,7 @@ class ParalysisConsumable(Consumable):
         consumer = action.entity
 
         # TODO: Adjust for throwing at other monsters, etc.
-        self.engine.message_log.add_message(f"You can't move...")
+        self.engine.msg_log.add_message(f"You can't move...")
         consumer.ai = ParalyzedAI(
             entity=consumer,
             previous_ai=consumer.ai,
@@ -81,7 +81,7 @@ class LightningDamageConsumable(Consumable):
                     closest_distance = distance
 
         if target:
-            self.engine.message_log.add_message(
+            self.engine.msg_log.add_message(
                 f"A lighting bolt zaps the {target.name} with a roaring crack!!"
             )
             target.fighter.take_damage(self.damage)
@@ -95,7 +95,7 @@ class ConfusionConsumable(Consumable):
         self.number_of_turns = number_of_turns
 
     def get_action(self, consumer):
-        self.engine.message_log.add_message("Select a target location.")
+        self.engine.msg_log.add_message("Select a target location.")
         return input_handlers.SingleRangedAttackHandler(
             self.engine,
             # “xy” will be the coordinates of the target. The lambda function
@@ -116,7 +116,7 @@ class ConfusionConsumable(Consumable):
         if target is consumer:
             raise Impossible("You cannot confuse yourself!")
 
-        self.engine.message_log.add_message(
+        self.engine.msg_log.add_message(
             f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
         )
         target.ai = ConfusedAI(
@@ -133,7 +133,7 @@ class ConfusionPotionConsumable(Consumable):
         consumer = action.entity
 
         # TODO: Adjust for throwing at other monsters, etc.
-        self.engine.message_log.add_message(f"You feel confused...")
+        self.engine.msg_log.add_message(f"You feel confused...")
         consumer.ai = ConfusedAI(
             entity=consumer,
             previous_ai=consumer.ai,
@@ -149,7 +149,7 @@ class FireballDamageConsumable(Consumable):
 
     def get_action(self, consumer):
         # asks the user to select a target, and switches the event handler
-        self.engine.message_log.add_message("Select a target location.")
+        self.engine.msg_log.add_message("Select a target location.")
         return input_handlers.AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
@@ -174,7 +174,7 @@ class FireballDamageConsumable(Consumable):
         targets_hit = False
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
-                self.engine.message_log.add_message(
+                self.engine.msg_log.add_message(
                     f"The {actor.name} is engulfed in a fiery explosion!"
                 )
                 actor.fighter.take_damage(self.damage)
