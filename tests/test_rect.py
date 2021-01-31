@@ -51,30 +51,23 @@ def test_Rectangle_inner_3x3_square_room():
     r = rectangle.Rectangle(0, 0, 3, 3)
     inner = r.inner
     assert len(inner) == 2  # We should get a Tuple length 2
-
-    # TODO: Check that this shouldn't be (1, 2)
-    assert inner[0] == slice(1, 3, None)  # x slice
-    assert inner[1] == slice(1, 3, None)  # y slice
+    assert inner[0] == slice(1, 2, None)  # x slice
+    assert inner[1] == slice(1, 2, None)  # y slice
 
 
 def test_Rectangle_inner_4x4_square_room():
     r = rectangle.Rectangle(0, 0, 4, 4)
     inner = r.inner
     assert len(inner) == 2  # We should get a Tuple length 2
-
-    # TODO: Check that these shouldn't be (1, 3)
-    assert inner[0] == slice(1, 4, None)  # x slice
-    assert inner[1] == slice(1, 4, None)  # y slice
+    assert inner[0] == slice(1, 3, None)  # x slice
+    assert inner[1] == slice(1, 3, None)  # y slice
 
 
 def test_Rectangle_inner_4x3_square_room():
     r = rectangle.Rectangle(0, 0, 4, 3)
     inner = r.inner
-
-    # TODO: Check that this shouldn't be (1, 3)
-    assert inner[0] == slice(1, 4, None)  # x slice
-    # TODO: Check that this shouldn't be (1, 2)
-    assert inner[1] == slice(1, 3, None)  # y slice
+    assert inner[0] == slice(1, 3, None)  # x slice
+    assert inner[1] == slice(1, 2, None)  # y slice
 
 
 def test_Rectangle_intersects_no_intersect_returns_False():

@@ -35,9 +35,8 @@ class Rectangle:
     def inner(self):
         """Return the inner area of this room as a 2D array index."""
         # Returns a Tuple[slice, slice]
-        return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
-
-        # Explanation for + 1 on self.x1 and self.y1
+        # +1 and -1 are necessary to retain the walls.
+        return slice(self.x1 + 1, self.x2 - 1), slice(self.y1 + 1, self.y2 - 1)
 
         # Ex: room at coordinates (1, 1) that goes to (6, 6).
 
