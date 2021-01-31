@@ -12,6 +12,18 @@ import settings
 import tcod
 
 
+def corpse_generator(actor):
+    corpse = Item(
+        x=actor.x,
+        y=actor.y,
+        char="%",
+        color=actor.color,
+        name=f'{actor.name} corpse',
+    )
+    corpse.render_order = settings.RenderOrder.CORPSE
+    return corpse
+
+
 player = Actor(
     char="@",
     color=(255, 255, 255),

@@ -1,5 +1,6 @@
 import exceptions
 import settings
+import entity_factories
 from game_map import GameMap
 from game_world import GameWorld
 from msg_log import MessageLog
@@ -59,7 +60,7 @@ class Engine:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
                 log.debug(f'{actor.name} is dead, converting to corpse')
-                corpse = corpse_generator(actor)
+                corpse = entity_factories.corpse_generator(actor)
 
                 # Remove the dead actor from the map
                 self.game_map.entities.remove(actor)
@@ -79,17 +80,3 @@ class Engine:
         # If a tile is "visible" it should be added to "explored".
         # | is the bitwise OR operator. |= is the bitwise OR equivalent of +=, -=, etc.
         self.game_map.explored |= self.game_map.visible
-
-
-def corpse_generator(actor):
-    corpse = Item(
-        x=actor.x,
-        y=actor.y,
-        char="%",
-        color=actor.color,
-        name=f'{actor.name} corpse',
-    )
-    corpse.render_order = settings.RenderOrder.CORPSE
-    return corpse
-
-
