@@ -38,7 +38,7 @@ class Engine:
             if entity.ai:
                 while not entity.energymeter.burned_out():
                     # Get the next calculated action from the AI.
-                    action = entity.ai.perform()
+                    action = entity.ai.yield_action()
 
                     log.debug(f'{entity.name} performs: {action.__class__.__name__}')
 

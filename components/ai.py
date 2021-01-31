@@ -8,7 +8,7 @@ import tcod
 class BaseAI(Action):
     entity = None
 
-    def perform(self):
+    def yield_action(self):
         # No perform implemented, since the entities which will be using AI to
         # act will have to have an AI class that inherits from this one.
         raise NotImplementedError()
@@ -80,7 +80,7 @@ class HeroControllerAI(BaseAI):
         super().__init__(entity)
         self.path = []
 
-    def perform(self):
+    def yield_action(self):
         # TODO: Put human controlling code here.
         pass
 
@@ -90,7 +90,7 @@ class StationaryAI(BaseAI):
         super().__init__(entity)
         self.path = []
 
-    def perform(self):
+    def yield_action(self):
         # Stationary monsters just sit there waiting.
         return WaitAction(self.entity)
 
@@ -100,7 +100,7 @@ class ApproachAI(BaseAI):
         super().__init__(entity)
         self.path = []
 
-    def perform(self):
+    def yield_action(self):
         target = self.engine.player
         dx = target.x - self.entity.x
         dy = target.y - self.entity.y
@@ -136,7 +136,7 @@ class GridMoveAI(ApproachAI):
         super().__init__(entity)
         self.path = []
 
-    def perform(self):
+    def yield_action(self):
         target = self.engine.player
         dx = target.x - self.entity.x
         dy = target.y - self.entity.y
@@ -173,7 +173,7 @@ class ConfusedAI(BaseAI):
         self.previous_ai = previous_ai
         self.turns_remaining = turns_remaining
 
-    def perform(self):
+    def yield_action(self):
         # causes the entity to move in a randomly selected direction.
         # Revert the AI back to the original state if the effect has run its course.
         if self.turns_remaining <= 0:
@@ -206,7 +206,7 @@ class ParalyzedAI(BaseAI):
         self.previous_ai = previous_ai
         self.turns_remaining = turns_remaining
 
-    def perform(self):
+    def yield_action(self):
         # Causes the entity to stay frozen in place
         # Revert the AI back to the original state if the effect has run its course.
         if self.turns_remaining <= 0:

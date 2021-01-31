@@ -127,7 +127,7 @@ class MainGameHandler(EventHandler):
 
         # TODO: Crude way to handle paralysis, fix this later
         if isinstance(player.ai, ai.ParalyzedAI):
-            action = player.ai.perform()
+            action = player.ai.yield_action()
             if action:
                 return action
 
@@ -162,7 +162,7 @@ class MainGameHandler(EventHandler):
             # different event handler for confusion.
             # ConfusedEventHandler could even be a subclass of Main...
             if isinstance(player.ai, ai.ConfusedAI):
-                action = player.ai.perform()
+                action = player.ai.yield_action()
             else:
                 dx, dy = settings.MOVE_KEYS[key]
                 action = actions.BumpAction(player, dx, dy)

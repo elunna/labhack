@@ -1,12 +1,11 @@
 ### Eye of Sauron is focused on...
 
-
 * todo: Fix the circular imports in the tests - why is this happening?
 * todo: Flesh out unfinished tests, create fixtures, etc.
 * todo: Go through project TODOs and clean up code.
-* todo: AIs should have a yield_action instead of perform (to avoid confusion)
+
 * todo: Make sure tests don't trigger logging
-* todo: Move Renderer to render_functions
+
 
 * todo: Move one Handler out at a time.
 
@@ -325,3 +324,5 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * done: message_log -> msg_log
 * DONE: Tests for msg_log (after we rename it)
 # DONE: Just use settings instead of these ugly args in GameWorld
+* DONE: Move Renderer to render_functions
+* DONE: AIs should have a yield_action instead of perform (to avoid confusion)
