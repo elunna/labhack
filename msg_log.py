@@ -1,10 +1,7 @@
-import color
+import logger
 import textwrap
 
-# Get a logger specific to actions.py
-import logger
 log = logger.get_logger(__name__)
-
 
 
 class Message:

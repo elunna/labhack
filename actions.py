@@ -1,8 +1,8 @@
-import color
 import exceptions
 import logger
 
 log = logger.get_logger(__name__)
+
 
 class Action:
     """ The template for a game action that affects gameplay."""

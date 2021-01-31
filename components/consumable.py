@@ -3,7 +3,6 @@ from components.ai import ConfusedAI, ParalyzedAI
 from components.base_component import BaseComponent
 from components.inventory import Inventory
 from exceptions import Impossible
-import color
 import input_handlers
 
 

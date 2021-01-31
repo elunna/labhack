@@ -1,5 +1,4 @@
 import actions
-import color
 import exceptions
 import render_functions
 import settings
@@ -387,8 +386,8 @@ class SelectMapIndexHandler(AskUserHandler):
          """
         super().on_render(renderer)
         x, y = self.engine.mouse_location
-        renderer.root.tiles_rgb["bg"][x, y] = color.white
-        renderer.root.tiles_rgb["fg"][x, y] = color.black
+        renderer.root.tiles_rgb["bg"][x, y] = tcod.white
+        renderer.root.tiles_rgb["fg"][x, y] = tcod.black
 
     def ev_keydown(self, event):
         """ Check for key movement or confirmation keys.

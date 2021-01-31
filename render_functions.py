@@ -8,6 +8,7 @@ import tile_types
 
 log = logger.get_logger(__name__)
 
+
 class Renderer:
     """ Handle all the rendering details that the engine requires."""
     def __init__(self):
@@ -385,7 +386,7 @@ def draw_rect(console, x, y, radius):
         y=y - radius - 1,
         width=radius ** 2,
         height=radius ** 2,
-        fg=color.red,
+        fg=tcod.red,
         clear=False,
     )
 

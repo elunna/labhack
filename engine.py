@@ -9,6 +9,7 @@ from tcod.map import compute_fov
 import logger
 log = logger.get_logger(__name__)
 
+
 class Engine:
     """ The driver of the game. Manages the entities, actors, events, and player
         and makes sure they are routed to the renderer..

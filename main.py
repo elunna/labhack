@@ -1,6 +1,5 @@
 import traceback
 import tcod
-import color
 import exceptions
 import logger
 import input_handlers
@@ -9,6 +8,7 @@ import settings
 import setup_game
 
 log = logger.get_logger(__name__)
+
 
 def main():
     renderer = render_functions.Renderer()
