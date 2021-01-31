@@ -73,8 +73,9 @@ def generate_map(
 
         if len(rooms) == 0:
             # The first room, where the player starts.
-            # Unpack the coordinate tuple
             player.place(*new_room.center, dungeon)
+
+            center_of_first_room = new_room.center
 
         else:  # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
@@ -90,12 +91,16 @@ def generate_map(
             engine.game_world.current_floor,
         )
 
-        # Put the downstair in the last room generated
-        dungeon.tiles[center_of_last_room] = tile_types.down_stairs
-        dungeon.downstairs_location = center_of_last_room
-
         # Finally, append the new room to the list.
         rooms.append(new_room)
+
+    # Put the upstair in the first room
+    dungeon.tiles[center_of_first_room] = tile_types.up_stairs
+    dungeon.upstairs_location = center_of_first_room
+
+    # Put the downstair in the last room generated
+    dungeon.tiles[center_of_last_room] = tile_types.down_stairs
+    dungeon.downstairs_location = center_of_last_room
 
     return dungeon
 
