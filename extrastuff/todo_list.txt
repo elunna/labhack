@@ -2,7 +2,7 @@
 * todo: Decouple engine from game_map??
 * todo: Separate player placement from dungeon generation.
 * todo: Flesh out unfinished tests, create fixtures, etc.
-todo: Break out generate_map into many sub functions and test...
+* todo: Break out generate_map into many sub functions and test...
 * todo: Go through project TODOs and clean up code.
 * todo: Rearrange some of the sneaky imports
 

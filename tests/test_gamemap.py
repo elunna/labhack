@@ -26,32 +26,44 @@ def test_GameMap_init():
     assert g.downstairs_location == (0, 0)
 
 
-@pytest.mark.skip(reason='Do later')
 def test_GameMap_gamemap():
-    pass
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    assert g.gamemap is g
 
 
-@pytest.mark.skip(reason='Do later')
-def test_GameMap_actors():
-    pass
+def test_GameMap_actors__none_by_default():
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    # We get a generator, need to convert to list.
+    assert list(g.actors) == []
 
 
-@pytest.mark.skip(reason='Do later')
-def test_GameMap_items():
-    pass
+def test_GameMap_items__none_by_default():
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    # We get a generator, need to convert to list.
+    assert list(g.items) == []
 
 
-@pytest.mark.skip(reason='Do later')
+# TODO: Test with walkable tile
+# TODO: Test with blocking entity
 def test_GameMap_get_blocking_entity_at_location():
-    pass
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    assert g.get_blocking_entity_at_location(0, 0) is None
 
 
-@pytest.mark.skip(reason='Do later')
+# TODO: Test with walkable tile
+# TODO: Test with blocking entity
 def test_GameMap_get_actor_at_location():
-    pass
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    assert g.get_actor_at_location(0, 0) is None
 
 
-@pytest.mark.skip(reason='Do later')
-def test_GameMap_in_bounds():
-    pass
+def test_GameMap_in_bounds__valid_loc():
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    assert g.in_bounds(0, 0)
+    assert g.in_bounds(9, 14)
 
+
+def test_GameMap_in_bounds__invalid_loc():
+    g = game_map.GameMap(engine=None, width=10, height=15)
+    assert not g.in_bounds(-1, -1)
+    assert not g.in_bounds(10, 15)
