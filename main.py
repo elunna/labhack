@@ -7,7 +7,6 @@ import input_handlers
 import settings
 import setup_game
 
-# Get a logger specific to main.py
 log = logger.get_logger(__name__)
 
 class Renderer:

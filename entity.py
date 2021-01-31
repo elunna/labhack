@@ -34,6 +34,8 @@ class Entity:
 
     @property
     def gamemap(self):
+        # TODO: Deal with this, find reasonable usage or factor out.
+        # Or check if parent is None first..
         return self.parent.gamemap
 
     def move(self, dx, dy):
@@ -43,6 +45,7 @@ class Entity:
 
     def spawn(self, gamemap, x, y):
         """Spawn a copy of this instance at the given location."""
+        # TODO: Move this to gamemap?
         clone = copy.deepcopy(self)
         clone.x = x
         clone.y = y
@@ -52,6 +55,7 @@ class Entity:
 
     def place(self, x, y, gamemap=None):
         """Place this entity at a new location.  Handles moving across GameMaps."""
+        # TODO: Move this to gamemap?
         self.x, self.y = x, y
 
         if gamemap:
@@ -65,4 +69,5 @@ class Entity:
         """Return the distance between the current entity and the given (x, y) coordinate.
             Return as a float value.
         """
+        # TODO: Move this to gamemap?
         return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)

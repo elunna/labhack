@@ -11,6 +11,9 @@ import tcod
 import tcod.event
 import traceback
 
+import logger
+log = logger.get_logger(__name__)
+
 """ Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
     That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
 """
@@ -49,6 +52,7 @@ class EventHandler(BaseEventHandler):
     """
 
     def __init__(self, engine):
+        log.debug(f'Initializing new {self.__class__.__name__}')
         self.engine = engine
 
     def handle_events(self, event):
@@ -215,6 +219,7 @@ class HistoryHandler(EventHandler):
     TITLE = "Message history"
 
     def __init__(self, engine):
+        log.debug(f'Initializing new {self.__class__.__name__}')
         super().__init__(engine)
         self.log_length = len(engine.message_log.messages)
         self.cursor = self.log_length - 1
@@ -366,6 +371,7 @@ class SelectMapIndexHandler(AskUserHandler):
 
     def __init__(self, engine):
         """ Sets the cursor to the player when this handler is constructed."""
+        log.debug(f'Initializing new {self.__class__.__name__}')
 
         super().__init__(engine)
         player = self.engine.player
@@ -450,6 +456,7 @@ class SingleRangedAttackHandler(SelectMapIndexHandler):
     """Handles targeting a single enemy. Only the enemy selected will be affected."""
 
     def __init__(self, engine, callback):
+        log.debug(f'Initializing new {self.__class__.__name__}')
         super().__init__(engine)
 
         # activates when the user selects a target.
@@ -464,6 +471,7 @@ class AreaRangedAttackHandler(SelectMapIndexHandler):
     """Handles targeting an area within a given radius. Any entity within the area will be affected."""
 
     def __init__(self, engine, radius, callback):
+        log.debug(f'Initializing new {self.__class__.__name__}')
         # callback: Callable[[Tuple[int, int]], Optional[Action]]
         super().__init__(engine)
 
@@ -487,6 +495,7 @@ class AreaRangedAttackHandler(SelectMapIndexHandler):
 class PopupMsgHandler(BaseEventHandler):
     """Display a popup text window."""
     def __init__(self, parent_handler, text):
+        log.debug(f'Initializing new {self.__class__.__name__}')
         self.parent = parent_handler
         self.text = text
 

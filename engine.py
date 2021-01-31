@@ -1,13 +1,11 @@
 import exceptions
-import logger
 import settings
-from entity_factories import corpse_generator
 from game_map import GameMap
 from game_world import GameWorld
 from message_log import MessageLog
 from tcod.map import compute_fov
 
-# Get a logger specific to engine.py
+import logger
 log = logger.get_logger(__name__)
 
 class Engine:
@@ -41,7 +39,7 @@ class Engine:
                     # Get the next calculated action from the AI.
                     action = entity.ai.perform()
 
-                    log.debug(f'{entity.name} performs: {action}')
+                    log.debug(f'{entity.name} performs: {action.__class__.__name__}')
 
                     # We'll use the energy regardless.
                     entity.energymeter.burn_turn()
@@ -57,7 +55,6 @@ class Engine:
                         log.debug(f'Entity action raised AttributeError')
                         pass
 
-        log.debug('Replacing dead monsters with corpse Items')
         for actor in set(self.game_map.actors) - {self.player}:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
@@ -82,3 +79,17 @@ class Engine:
         # If a tile is "visible" it should be added to "explored".
         # | is the bitwise OR operator. |= is the bitwise OR equivalent of +=, -=, etc.
         self.game_map.explored |= self.game_map.visible
+
+
+def corpse_generator(actor):
+    corpse = Item(
+        x=actor.x,
+        y=actor.y,
+        char="%",
+        color=actor.color,
+        name=f'{actor.name} corpse',
+    )
+    corpse.render_order = settings.RenderOrder.CORPSE
+    return corpse
+
+

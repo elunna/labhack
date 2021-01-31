@@ -161,7 +161,6 @@ class GridMoveAI(ApproachAI):
         return WaitAction(self.entity)
 
 
-
 class ConfusedAI(BaseAI):
     """ A confused enemy will stumble around aimlessly for a given number of turns, then
         revert back to its previous AI. If an actor occupies a tile it is randomly moving

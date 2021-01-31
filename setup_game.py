@@ -8,9 +8,13 @@ import copy
 import lzma
 import pickle
 
+import logger
+log = logger.get_logger(__name__)
 
 def new_game():
     """Return a brand new game session as an Engine instance."""
+    log.debug('Initializing new game')
+
     player = copy.deepcopy(entity_factories.player)
 
     engine = Engine(player=player)
@@ -29,7 +33,8 @@ def new_game():
 
     engine.message_log.add_message("Hello and welcome, adventurer, to yet another dungeon!")
 
-    # No starting inventory for now...
+    log.debug('Granting player full spoiled inventory')
+
     dagger = copy.deepcopy(entity_factories.dagger)
     dagger.parent = player.inventory
     player.inventory.items.append(dagger)
@@ -70,6 +75,8 @@ def new_game():
 
 def load_game(filename):
     """Load an Engine instance from a file."""
+    log.debug('Loading previous game.')
+
     with open(filename, "rb") as f:
         engine = pickle.loads(lzma.decompress(f.read()))
 
@@ -82,7 +89,9 @@ def save_as(game_engine, filename):
     # pickle serializes an object hierarchy in Python.
     # lzma compresses the data
 
+    log.debug('Compressing save data')
     save_data = lzma.compress(pickle.dumps(game_engine))
 
+    log.debug('Saving game.')
     with open(filename, "wb") as f:
         f.write(save_data)

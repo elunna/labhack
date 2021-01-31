@@ -1,6 +1,8 @@
-import exceptions
 import color
+import exceptions
+import logger
 
+log = logger.get_logger(__name__)
 
 class Action:
     """ The template for a game action that affects gameplay."""
@@ -57,6 +59,8 @@ class BumpAction(ActionWithDirection):
     """
 
     def perform(self):
+        log.debug(f'{self.entity.name}: BumpAction ({self.dx},{self.dy})')
+
         if self.target_actor:
             return MeleeAction(self.entity, self.dx, self.dy).perform()
 
@@ -79,6 +83,7 @@ class ItemAction(Action):
 
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""
+        log.debug(f'{self.item.name} has been invoked')
         if self.item.consumable:
             self.item.consumable.activate(self)
 
@@ -88,8 +93,10 @@ class DropItem(ItemAction):
         """Drop an item from an entity's possession."""
         # If the item is an equipped item, first unequip it.
         if self.entity.equipment.item_is_equipped(self.item):
+            log.debug(f'{self.item.name} is being unequipped before dropping..')
             self.entity.equipment.toggle_equip(self.item)
 
+        log.debug(f'{self.entity.name} drops the {self.item.name}.')
         self.entity.inventory.drop(self.item)
 
 
@@ -99,6 +106,7 @@ class EquipAction(Action):
         self.item = item
 
     def perform(self):
+        log.debug(f'{self.entity.name} is having its equip status being toggled.')
         self.entity.equipment.toggle_equip(self.item)
 
 
@@ -109,33 +117,21 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
         elif self.target_actor == self.entity:
-            # An entity targeted itself.
+            log.debug(f'{self.entity.name} targeted a MeleeAction at itself.')
             self.engine.message_log.add_message(
                 f"The {self.entity.name} mutters angrily to itself...",
             )
             return WaitAction(self.entity)
 
-
         damage = self.entity.fighter.power - target.fighter.defense
-
         attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name}"
 
-        if self.entity is self.engine.player:
-            attack_color = color.player_atk
-        else:
-            attack_color = color.enemy_atk
-
         if damage > 0:
-            self.engine.message_log.add_message(
-                # f"{attack_desc} for {damage} hit points.", attack_color
-                f"{attack_desc}!",
-            )
             target.fighter.hp -= damage
         else:
-            self.engine.message_log.add_message(
-                f"{attack_desc}... but does no damage!",
-            )
+            attack_desc += "... but does no damage!"
 
+        self.engine.message_log.add_message(attack_desc)
 
 class MovementAction(ActionWithDirection):
     """ Moves an entity to a new set of coordinates."""
@@ -148,9 +144,12 @@ class MovementAction(ActionWithDirection):
             raise exceptions.Impossible("That way is blocked.")
 
         if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
-            # Destination is blocked by a tile
 
+            # TODO: Find a better place for this import, at the top it causes a
+            # circular import....
             from components.ai import ConfusedAI
+
+            # Destination is blocked by a tile
             if isinstance(self.entity.ai, ConfusedAI):
                 if self.entity == self.engine.player:
                     self.engine.message_log.add_message(f"You bonk into the wall...")
@@ -166,6 +165,7 @@ class MovementAction(ActionWithDirection):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 
+        log.debug(f'{self.entity.name} moves {self.dx,self.dy}.')
         self.entity.move(self.dx, self.dy)
 
 

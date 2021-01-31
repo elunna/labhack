@@ -1,5 +1,7 @@
 from procgen import generate_dungeon
 
+import logger
+log = logger.get_logger(__name__)
 
 class GameWorld:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
@@ -15,6 +17,8 @@ class GameWorld:
             room_max_size,
             current_floor=0
     ):
+        log.debug(f'Initializing new GameWorld')
+
         self.engine = engine
         self.map_width = map_width
         self.map_height = map_height
@@ -25,8 +29,6 @@ class GameWorld:
 
     def generate_floor(self):
         # Generate new map each time we go down a floor.
-
-
         self.current_floor += 1
 
         self.engine.game_map = generate_dungeon(

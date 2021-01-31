@@ -1,6 +1,11 @@
 import color
 import textwrap
 
+# Get a logger specific to actions.py
+import logger
+log = logger.get_logger(__name__)
+
+
 
 class Message:
     def __init__(self, text):
@@ -20,6 +25,7 @@ class Message:
 
 class MessageLog:
     def __init__(self):
+        log.debug("Initializing MessageLog")
         self.messages = []
 
     def add_message(self, text, *, stack=True):
@@ -28,6 +34,7 @@ class MessageLog:
             If `stack` is True then the message can stack with a previous message
             of the same text.
         """
+        log.debug(f"msg: {text}")
         if stack and self.messages and text == self.messages[-1].plain_text:
             self.messages[-1].count += 1
         else:

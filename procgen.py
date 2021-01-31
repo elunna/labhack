@@ -3,11 +3,14 @@ from entity_factories import item_chances, enemy_chances
 from game_map import GameMap
 from rectangle import Rectangle
 from settings import max_items_by_floor, max_monsters_by_floor
+import logger
 import random
 import tcod
 
+log = logger.get_logger(__name__)
 
 def place_entities(room, dungeon, floor_number):
+    log.debug('Placing entities in room...')
     number_of_monsters = random.randint(
         0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
     )
@@ -39,6 +42,7 @@ def generate_dungeon(
         map_height,
         engine):
     """Generate a new dungeon map."""
+    log.debug('Generating new game map...')
 
     player = engine.player
     dungeon = GameMap(engine, map_width, map_height, entities=[player])
@@ -54,6 +58,7 @@ def generate_dungeon(
         y = random.randint(0, dungeon.height - room_height - 1)
 
         # "RectangularRoom" class makes rectangles easier to work with
+        log.debug(f'Creating new room {x}, {y}, {room_width}, {room_height}')
         new_room = Rectangle(x, y, room_width, room_height)
 
         # Run through the other rooms and see if they intersect with this one.
