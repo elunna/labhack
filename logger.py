@@ -21,7 +21,7 @@ def get_logger(name):
 
     # setup filename:
     dt = datetime.datetime
-    file_stamp = 'session {}'.format(dt.now().strftime('%m-%d-%Y %H:%M:%S'))
+    file_stamp = 'session {}'.format(dt.now().strftime('%m-%d-%Y_%H.%M.%S'))
     DEBUG_FILE = 'logs/{}.log'.format(file_stamp)
 
     # Setup file handlers
