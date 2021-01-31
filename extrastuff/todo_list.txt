@@ -1,31 +1,77 @@
-### Eye of Sauron is focused on... WAVE 4
-* todo: logging
-* todo: database of monsters.
-* todo: database of items.
+### Eye of Sauron is focused on...
+
+* todo: message_log -> msg_log
+* todo: Tests for msg_log (after we rename it)
+
+Tests for actions:
+    Action
+    ActionWithDirection,
+    BumpAction
+    ItemAction
+    DropItem
+    EquipAction
+    MeleeAction
+    MovementAction
+    PickupAction
+    TakeStairsAction
+    WaitAction
+
+* todo: Test that tcod calls are up to date
+* todo: Tests for engine: init, add_energy, handle_enemy_turns, update_fov?
+* todo: Tests for game_world
+
+* todo: Test for input_handlers? Start with types.
+
+* todo: Flesh out unfinished tests, create fixtures, etc.
+* todo: Go through project TODOs and clean up code.
+* todo: Tile generation is so weird, is there a better more clear way? Tile object?
+
+* todo: AIs should have a yield_action instead of perform (to avoid confusion)
+* todo: Start Sphinx Documentation
+
+* todo: Make sure tests don't trigger logging
+* todo: Move Renderer to render_functions
+
+* todo: Move one Handler out at a time.
+
+* todo: database of monsters -dict
+* todo: database of items - dict
 * todo: Super classes (mob types) of monsters (blobs, fungi)
 * todo: Add more science lab look to colors, gray/white
 * todo: Add more unpredictable movement for monsters, occasional wandering.
-* todo: Move one Handler out at a time.
+
 * todo: Sorted inventory
 * todo: Potion of Extra Healing
 * todo: 'q': To Quaff potions
 * todo: 'r': To read scrolls
-* todo: Add skeleton tests for other things that are testable...
-* todo: Tests for game_map (import from previous projects)
-* todo: Tests for procgen (import from previous projects)
+
 * todo: Dnotation style damage
 * todo: Critical hits?
+* todo: ID's for entities?
+
+* todo: Add a repl/str for entity names
 
 
 ### Bugs
 * todo: We can target Stationary monsters with confuse...
 * The "cursor" stays invisible in one spot. Maybe it should follow the player.
+* todo: Things can hit the player after death?
+
+
+
+
+
+
+
+
+
+
+
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 ### Easy changes
 * todo: Hero starts with a Notebook?
-* todo: Test that tcod calls are up to date
-* todo: Add a repl/str for entity names
+
 
 *** Refactoring
 * todo: Simplify imports, reduce underscores, less "from" imports.
@@ -277,3 +323,27 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * done: Rename ConfusedEnemy -> ConfusedAI
 * done: Rename HostileEnemy -> ApproachAI
 * done: Grid movement
+
+WAVE 4
+* DONE: logging for main
+* DONE: logging for engine
+* DONE: Auto-log all messages sent to message log
+* DONE: logging for actions
+* DONE: logging for message_log
+* DONE: logging for setup_game
+* DONE: logging for game_map
+* DONE: logging for game_world
+* DONE: logging for input_handlers
+* DONE: logging for procgen
+
+* SKIPPED: logging for components?
+
+SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_factories, rectangle
+
+
+* DONE: Basic Tests for Entity
+* DONE: Basic Tests for Actor
+* DONE: Basic Tests for Item
+* DONE: Basic Tests for game_map
+
+* DONE: Skeleton Tests for procgen

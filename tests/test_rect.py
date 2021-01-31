@@ -3,8 +3,6 @@
 import pytest
 import rectangle
 
-""" Tests for Rectangle.__init__(x, y, width, height) """
-
 
 def test_Rectangle_init():
     r = rectangle.Rectangle(0, 0, 3, 3)
@@ -48,7 +46,7 @@ def test_Rectangle_center():
     center = (1, 1)
     assert r.center == center
 
-""" Tests for Rectangle.inner() """
+
 def test_Rectangle_inner_3x3_square_room():
     r = rectangle.Rectangle(0, 0, 3, 3)
     inner = r.inner
@@ -79,9 +77,6 @@ def test_Rectangle_inner_4x3_square_room():
     assert inner[1] == slice(1, 3, None)  # y slice
 
 
-""" Tests for Rectangle.intersects(other) """
-
-
 def test_Rectangle_intersects_no_intersect_returns_False():
     r1 = rectangle.Rectangle(0, 0, 3, 3)
     r2 = rectangle.Rectangle(10, 10, 3, 3)
@@ -96,7 +91,6 @@ def test_Rectangle_intersects_both_rects_intersect_returns_True():
     assert r2.intersects(r1)
 
 
-""" Tests for Rectangle.within(x, y) """
 # Not implemented yet.
 
 # def test_Rectangle_within__valid_returns_True():

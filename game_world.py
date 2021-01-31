@@ -18,6 +18,7 @@ class GameWorld:
             current_floor=0
     ):
         log.debug(f'Initializing new GameWorld')
+        # TODO: Just use settings instead of these ugly args.
 
         self.engine = engine
         self.map_width = map_width

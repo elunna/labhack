@@ -42,6 +42,9 @@ def generate_dungeon(
         map_height,
         engine):
     """Generate a new dungeon map."""
+    # TODO: Remove all these args, just use settings module...
+    # TODO: Rename to generate_map
+
     log.debug('Generating new game map...')
 
     player = engine.player

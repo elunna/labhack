@@ -10,6 +10,7 @@ class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
     def __init__(self, engine, width, height, entities=()):
         log.debug(f'Initializing new GameMap: width={width} height={height}')
+        # TODO: Remove engine dependency
 
         self.engine = engine
         self.width, self.height = width, height
@@ -38,6 +39,7 @@ class GameMap:
 
     @property
     def gamemap(self):
+        # TODO: What is the purpose of this?
         return self
 
     @property
