@@ -44,7 +44,6 @@ class Actor(Entity):
         self.energymeter = energymeter
         self.energymeter.parent = self
 
-
     @property
     def is_alive(self):
         """Returns True as long as this actor can perform actions."""

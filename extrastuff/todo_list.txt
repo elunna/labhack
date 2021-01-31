@@ -1,14 +1,11 @@
 ### Eye of Sauron is focused on...
-
-* todo: Fix the circular imports in the tests - why is this happening?
 * todo: Flesh out unfinished tests, create fixtures, etc.
 * todo: Go through project TODOs and clean up code.
-* todo: Simplify imports, reduce underscores,
+* todo: Rearrange some of the sneaky imports
 
-
-
-* todo: Make sure tests don't trigger logging
-
+* todo: Decouple engine from game_map??
+* todo: Engine is coupled in a few weird places? Uncouple.
+* todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
 
 * todo: Tile generation is so weird, is there a better more clear way? Tile object?
@@ -16,14 +13,7 @@
 * todo: database of monsters -dict
 * todo: database of items - dict
 * todo: Super classes (mob types) of monsters (blobs, fungi)
-* todo: Add more science lab look to colors, gray/white
-* todo: Add more unpredictable movement for monsters, occasional wandering.
-* todo: Sorted inventory
-* todo: Potion of Extra Healing
-* todo: 'q': To Quaff potions
-* todo: 'r': To read scrolls
-* todo: Dnotation style damage
-* todo: Critical hits?
+
 * todo: ID's for entities?
 * todo: Add a repl/str for entity names
 
@@ -39,17 +29,21 @@
 
 
 
-
-
-
-
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 ### Easy changes
 * todo: Hero starts with a Notebook?
-
+* todo: Add more science lab look to colors, gray/white
+* todo: Add more unpredictable movement for monsters, occasional wandering.
+* todo: Sorted inventory
+* todo: Potion of Extra Healing
+* todo: 'q': To Quaff potions
+* todo: 'r': To read scrolls
+* todo: Dnotation style damage
+* todo: Critical hits?
 
 *** Refactoring
+
 
 ### Mini-Bosses (Relatively easy goals)
 * todo: Potion of sleeping
@@ -214,11 +208,12 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * SKIPPED: Rename Impossible to ImpossibleException
 * SKIPPED: Break input handlers apart to separate files.
 * SKIPPED: Remove "that way is blocked for walls."
-* SKIPPED: Move main functionality to engine
 * SKIPPED: Made the radius of FOV a smaller.
 * SKIPPED: Add to pypip library for easier running
 * SKIPPED: Reduce range of fireball to 3x3
 * SKIPPED: Remove the color module and use tcods built-in colors?,
+* SKIPPED: Make sure tests don't trigger logging
+
 
 # WAVE 1
 * DONE: , to pickup
@@ -329,3 +324,5 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: AIs should have a yield_action instead of perform (to avoid confusion)
 * DONE: Reduce the use of "from" imports.
 * DONE: Create a AI base class, to replace Action?
+* DONE: Simplify imports, reduce underscores,
+* DONE: Fix the circular imports in the tests - why is this happening?

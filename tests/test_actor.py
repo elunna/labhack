@@ -1,17 +1,27 @@
 """ Tests for actors.py """
 
 import pytest
+import entity_factories
+import copy
+import actors
+import entity
 
-@pytest.mark.skip(reason='Circular import error with entity_factories')
 def test_Actor_subclass_of_Entity():
-    pass
+    player = copy.deepcopy(entity_factories.player)
+    assert isinstance(player, actors.Actor)
+    assert isinstance(player, entity.Entity)
 
 
-@pytest.mark.skip(reason='Circular import error with entity_factories')
 def test_Actor_init_defaults():
-    pass
+    player = copy.deepcopy(entity_factories.player)
+    # Just test that Actor has standard components included
+    assert player.inventory
+    assert player.fighter
+    assert player.equipment
+    assert player.level
+    assert player.energymeter
 
 
-@pytest.mark.skip(reason='Circular import error with entity_factories')
 def test_Actor_is_alive():
-    pass
+    player = copy.deepcopy(entity_factories.player)
+    assert player.is_alive
