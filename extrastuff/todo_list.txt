@@ -1,5 +1,5 @@
 ### Eye of Sauron is focused on...
-* todo: Tests for msg_log (after we rename it)
+
 
 * todo: Fix the circular imports in the tests - why is this happening?
 * todo: Flesh out unfinished tests, create fixtures, etc.
@@ -323,3 +323,5 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 
 * DONE: Skeleton Tests for procgen
 * done: message_log -> msg_log
+* DONE: Tests for msg_log (after we rename it)
+# DONE: Just use settings instead of these ugly args in GameWorld

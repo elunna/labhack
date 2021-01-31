@@ -19,14 +19,7 @@ def new_game():
 
     engine = Engine(player=player)
 
-    engine.game_world = GameWorld(
-        engine=engine,
-        max_rooms=settings.max_rooms,
-        room_min_size=settings.room_min_size,
-        room_max_size=settings.room_max_size,
-        map_width=settings.map_width,
-        map_height=settings.map_height,
-    )
+    engine.game_world = GameWorld(engine=engine)
 
     engine.game_world.generate_floor()
     engine.update_fov()
