@@ -1,4 +1,5 @@
 import exceptions
+import logger
 import settings
 from entity_factories import corpse_generator
 from game_map import GameMap
@@ -6,6 +7,8 @@ from game_world import GameWorld
 from message_log import MessageLog
 from tcod.map import compute_fov
 
+# Get a logger specific to engine.py
+log = logger.get_logger(__name__)
 
 class Engine:
     """ The driver of the game. Manages the entities, actors, events, and player
@@ -15,12 +18,14 @@ class Engine:
     game_world: GameWorld
 
     def __init__(self, player):
+        log.debug('Initializing Engine')
         self.message_log = MessageLog()
         self.mouse_location = (0, 0)
         self.player = player
         self.turns = 0
 
     def add_energy(self):
+        log.debug('add_energy()')
         # Everyone gets an energy reboost!
         # TODO: Maybe only entities within player's vision
         # if self.engine.game_map.visible[self.entity.x, self.entity.y]:
@@ -29,11 +34,14 @@ class Engine:
             entity.energymeter.add_energy(settings.energy_per_turn)
 
     def handle_enemy_turns(self):
+        log.debug('handle_enemy_turns')
         for entity in set(self.game_map.actors) - {self.player}:
             if entity.ai:
                 while not entity.energymeter.burned_out():
                     # Get the next calculated action from the AI.
                     action = entity.ai.perform()
+
+                    log.debug(f'{entity.name} performs: {action}')
 
                     # We'll use the energy regardless.
                     entity.energymeter.burn_turn()
@@ -43,14 +51,17 @@ class Engine:
                         action.perform()
                         # entity.ai.perform()
                     except exceptions.Impossible:
+                        log.debug(f'Entity action raised Impossible exception')
                         pass # Ignore impossible action exceptions from AI
                     except AttributeError:
+                        log.debug(f'Entity action raised AttributeError')
                         pass
 
-        # Convert any dead monsters to corpse items
+        log.debug('Replacing dead monsters with corpse Items')
         for actor in set(self.game_map.actors) - {self.player}:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
+                log.debug(f'{actor.name} is dead, converting to corpse')
                 corpse = corpse_generator(actor)
 
                 # Remove the dead actor from the map
@@ -69,4 +80,5 @@ class Engine:
         )
 
         # If a tile is "visible" it should be added to "explored".
+        # | is the bitwise OR operator. |= is the bitwise OR equivalent of +=, -=, etc.
         self.game_map.explored |= self.game_map.visible

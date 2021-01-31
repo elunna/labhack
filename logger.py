@@ -33,8 +33,8 @@ def get_logger(name):
     ch.setLevel(logging.INFO)  # Only INFO or higher printers to console.
 
     # Setup formatting
-    debug_fmt = logging.Formatter('%(asctime)s - %(module)s - %(levelname)s - %(message)s',
-                                  "%d-%m-%y %H:%M:%S")
+    debug_fmt = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s - %(message)s',
+                                  "%H:%M:%S")
 
     ch_fmt = logging.Formatter('%(message)s')
 
