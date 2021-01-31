@@ -4,13 +4,22 @@ import numpy as np  # type: ignore
 import random
 import tcod
 
+class BaseAI:
+    def __init__(self, entity):
+        self.entity = entity
 
-class BaseAI(actions.Action):
-    entity = None
+    @property
+    def engine(self):
+        """Return the engine this action belongs to."""
+        return self.entity.gamemap.engine
 
     def yield_action(self):
-        # No perform implemented, since the entities which will be using AI to
-        # act will have to have an AI class that inherits from this one.
+        """ Generate an action with the objects needed to determine its scope.
+            `self.engine` is the scope this action is being performed in.
+            `self.entity` is the object performing the action.
+
+            This method must be overridden by Action subclasses.
+        """
         raise NotImplementedError()
 
     def get_path_to(self, dest_x, dest_y, grid_movement=False):

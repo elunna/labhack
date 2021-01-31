@@ -5,7 +5,7 @@
 * todo: Go through project TODOs and clean up code.
 * todo: Simplify imports, reduce underscores,
 
-* todo: Create a AI base class, to replace Action?
+
 
 * todo: Make sure tests don't trigger logging
 
@@ -328,3 +328,4 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: Move Renderer to render_functions
 * DONE: AIs should have a yield_action instead of perform (to avoid confusion)
 * DONE: Reduce the use of "from" imports.
+* DONE: Create a AI base class, to replace Action?
