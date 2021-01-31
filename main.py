@@ -2,14 +2,18 @@ import traceback
 import tcod
 import color
 import exceptions
+import logger
 import input_handlers
 import settings
 import setup_game
 
+# Get a logger specific to main.py
+log = logger.get_logger(__name__)
 
 class Renderer:
     """ Handle all the rendering details that the engine requires."""
     def __init__(self):
+        log.debug('Initializing Renderer')
         # Specify font for tileset
         tileset = tcod.tileset.load_tilesheet(
             path=settings.tileset,
@@ -63,8 +67,10 @@ def main():
 
     # Our first event handler is the Main Menu handler.
     handler = input_handlers.MainMenuHandler()
+    log.debug('Created first handler: MainMenuHandler')
 
     # Game loop
+    log.debug('Entering game loop')
     while True:
         renderer.root.clear()
         # root_console.clear()
@@ -75,6 +81,13 @@ def main():
         # Draw the screen
         renderer.context.present(renderer.root)
 
+        """ Finally, applications should wrap a try/except block around the main
+            application code to send any exceptions through the logging interface
+            instead of just to stderr.  This is known as a global try catch handler.
+            It should not be where you handle all your exception logging, you should
+            continue to plan for exceptions in try catch blocks at necessary points
+            in your code as a rule of thumb.
+        """
         try:
             for event in tcod.event.wait():
                 renderer.context.convert_event(event)
@@ -83,27 +96,32 @@ def main():
         except Exception:  # Handle exceptions in game.
             # TODO: Check that this doesn't go at the end of the block
             traceback.print_exc()  # Print error to stderr.
+            log.debug(traceback.format_exc())
 
             # Then print the error to the message log.
             if isinstance(handler, input_handlers.EventHandler):
                 handler.engine.message_log.add_message(traceback.format_exc())
 
         except exceptions.QuitWithoutSaving:
+            log.debug('exceptions.QuitWithoutSaving')
             raise
         except SystemExit:  # Save and Quit
+            log.debug('exceptions.SystemExit')
             save_game(handler, settings.save_file)
             raise
         except BaseException:  # Save on any other unexpected exception
+            log.debug('exceptions.BaseException')
             save_game(handler, settings.save_file)
             raise
 
 
 def save_game(handler, filename):
+    # TODO: Remove this function? Is it needed?
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, input_handlers.EventHandler):
         setup_game.save_as(handler.engine, filename)
         # handler.engine.save_as(filename)
-        print("Game saved.")
+        log.info("Game saved.")
 
 
 if __name__ == "__main__":
