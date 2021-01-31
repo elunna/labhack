@@ -1,11 +1,11 @@
-from actions import Action, BumpAction, MeleeAction, MovementAction, WaitAction
+import actions
 import settings
 import numpy as np  # type: ignore
 import random
 import tcod
 
 
-class BaseAI(Action):
+class BaseAI(actions.Action):
     entity = None
 
     def yield_action(self):
@@ -92,7 +92,7 @@ class StationaryAI(BaseAI):
 
     def yield_action(self):
         # Stationary monsters just sit there waiting.
-        return WaitAction(self.entity)
+        return actions.WaitAction(self.entity)
 
 
 class ApproachAI(BaseAI):
@@ -109,7 +109,7 @@ class ApproachAI(BaseAI):
         if self.engine.game_map.visible[self.entity.x, self.entity.y]:
             # If the player is right next to the entity, attack the player.
             if distance <= 1:
-                return MeleeAction(self.entity, dx, dy)
+                return actions.MeleeAction(self.entity, dx, dy)
 
             self.path = self.get_path_to(target.x, target.y)
 
@@ -118,14 +118,14 @@ class ApproachAI(BaseAI):
             # to attack, then move towards the player.
             dest_x, dest_y = self.path.pop(0)
 
-            return MovementAction(
+            return actions.MovementAction(
                 self.entity, dest_x - self.entity.x, dest_y - self.entity.y,
             )
 
         # If the entity is not in the player’s vision, simply wait.
         # This keeps burning up enemy energy so they don't have a ton of moves
         # built up before we see them.
-        return WaitAction(self.entity)
+        return actions.WaitAction(self.entity)
 
 
 class GridMoveAI(ApproachAI):
@@ -145,7 +145,7 @@ class GridMoveAI(ApproachAI):
         if self.engine.game_map.visible[self.entity.x, self.entity.y]:
             # Only attack in "grid" directions: N/W/S/E of the entity
             if distance <= 1 and (dx, dy) in settings.CARDINAL_DIRECTIONS:
-                return MeleeAction(self.entity, dx, dy)
+                return actions.MeleeAction(self.entity, dx, dy)
 
             self.path = self.get_path_to(target.x, target.y, grid_movement=True)
 
@@ -153,12 +153,12 @@ class GridMoveAI(ApproachAI):
             # Move towards the player.
             dest_x, dest_y = self.path.pop(0)
 
-            return MovementAction(
+            return actions.MovementAction(
                 self.entity, dest_x - self.entity.x, dest_y - self.entity.y,
             )
 
         # Entity is not in the player’s vision, simply wait.
-        return WaitAction(self.entity)
+        return actions.WaitAction(self.entity)
 
 
 class ConfusedAI(BaseAI):
@@ -191,7 +191,7 @@ class ConfusedAI(BaseAI):
 
             # The actor will either try to move or attack in the chosen random direction.
             # Its possible the actor will just bump into the wall, wasting a turn.
-            return BumpAction(self.entity, direction_x, direction_y)
+            return actions.BumpAction(self.entity, direction_x, direction_y)
 
 
 class ParalyzedAI(BaseAI):
@@ -216,4 +216,4 @@ class ParalyzedAI(BaseAI):
             self.engine.msg_log.add_message(f"You are frozen in place, helpless....")
             # We can just use the wait action to simulate paralysis
             self.turns_remaining -= 1
-            return WaitAction(self.entity)
+            return actions.WaitAction(self.entity)

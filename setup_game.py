@@ -1,6 +1,6 @@
 """Handle the loading and initialization of game sessions."""
 from engine import Engine
-from game_world import GameWorld
+import game_world
 import copy
 import entity_factories
 import lzma
@@ -8,6 +8,7 @@ import pickle
 
 import logger
 log = logger.get_logger(__name__)
+
 
 def new_game():
     """Return a brand new game session as an Engine instance."""
@@ -17,7 +18,7 @@ def new_game():
 
     engine = Engine(player=player)
 
-    engine.game_world = GameWorld(engine=engine)
+    engine.game_world = game_world.GameWorld(engine=engine)
 
     engine.game_world.generate_floor()
     engine.update_fov()

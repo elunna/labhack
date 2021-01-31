@@ -1,8 +1,9 @@
 from procgen import generate_map
-
 import logger
 import settings
+
 log = logger.get_logger(__name__)
+
 
 class GameWorld:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.

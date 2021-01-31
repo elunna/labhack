@@ -3,9 +3,11 @@
 * todo: Fix the circular imports in the tests - why is this happening?
 * todo: Flesh out unfinished tests, create fixtures, etc.
 * todo: Go through project TODOs and clean up code.
+* todo: Simplify imports, reduce underscores,
+
+* todo: Create a AI base class, to replace Action?
 
 * todo: Make sure tests don't trigger logging
-
 
 * todo: Move one Handler out at a time.
 
@@ -48,7 +50,6 @@
 
 
 *** Refactoring
-* todo: Simplify imports, reduce underscores, less "from" imports.
 
 ### Mini-Bosses (Relatively easy goals)
 * todo: Potion of sleeping
@@ -326,3 +327,4 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 # DONE: Just use settings instead of these ugly args in GameWorld
 * DONE: Move Renderer to render_functions
 * DONE: AIs should have a yield_action instead of perform (to avoid confusion)
+* DONE: Reduce the use of "from" imports.

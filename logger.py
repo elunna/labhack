@@ -1,7 +1,5 @@
-"""
-Sets up a basic logger for projects.
-The file writing handler writes explicit date/time/loglevel/msg to debug.log.
-The console handler just prints the msg to console.
+""" Sets up a basic logger for projects. The file writing handler writes explicit
+date/time/loglevel/msg to debug.log. The console handler just prints the msg to console.
 """
 
 import datetime

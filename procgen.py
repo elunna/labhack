@@ -1,13 +1,14 @@
-import tile_types
-from entity_factories import item_chances, enemy_chances
-from game_map import GameMap
-from rectangle import Rectangle
 from settings import max_items_by_floor, max_monsters_by_floor
+import entity_factories
+import game_map
 import logger
 import random
+import rectangle
 import tcod
+import tile_types
 
 log = logger.get_logger(__name__)
+
 
 def place_entities(room, dungeon, floor_number):
     log.debug('Placing entities in room...')
@@ -20,10 +21,10 @@ def place_entities(room, dungeon, floor_number):
     )
 
     monsters = get_entities_at_random(
-        enemy_chances, number_of_monsters, floor_number
+        entity_factories.enemy_chances, number_of_monsters, floor_number
     )
     items = get_entities_at_random(
-        item_chances, number_of_items, floor_number
+        entity_factories.item_chances, number_of_items, floor_number
     )
 
     for entity in monsters + items:
@@ -45,7 +46,7 @@ def generate_map(
     log.debug('Generating new game map...')
 
     player = engine.player
-    dungeon = GameMap(engine, map_width, map_height, entities=[player])
+    dungeon = game_map.GameMap(engine, map_width, map_height, entities=[player])
     rooms = []
 
     center_of_last_room = (0, 0)
@@ -59,7 +60,7 @@ def generate_map(
 
         # "RectangularRoom" class makes rectangles easier to work with
         log.debug(f'Creating new room {x}, {y}, {room_width}, {room_height}')
-        new_room = Rectangle(x, y, room_width, room_height)
+        new_room = rectangle.Rectangle(x, y, room_width, room_height)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):

@@ -1,5 +1,6 @@
 MIN_WALL_LEN = 3
 
+
 class Rectangle:
     """Creates a rectangle object.
         Note: Each rectangle has a wall perimeter that is 1 unit thick.

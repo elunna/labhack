@@ -1,16 +1,16 @@
+from components import ai
+from typing import Union
 import actions
 import exceptions
+import logger
+import os
 import render_functions
 import settings
-from setup_game import load_game, new_game
-from typing import Union
-from components import ai
-import os
+import setup_game
 import tcod
 import tcod.event
 import traceback
 
-import logger
 log = logger.get_logger(__name__)
 
 """ Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
@@ -576,7 +576,7 @@ class MainMenuHandler(BaseEventHandler):
 
             try:
                 return MainGameHandler(
-                    load_game(settings.save_file)
+                    setup_game.load_game(settings.save_file)
                 )
             except FileNotFoundError:
                 return PopupMsgHandler(
@@ -591,6 +591,6 @@ class MainMenuHandler(BaseEventHandler):
                 )
 
         elif event.sym == tcod.event.K_n:
-            return MainGameHandler(new_game())
+            return MainGameHandler(setup_game.new_game())
 
         return None

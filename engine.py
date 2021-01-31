@@ -1,12 +1,12 @@
-import exceptions
-import settings
-import entity_factories
 from game_map import GameMap
 from game_world import GameWorld
-from msg_log import MessageLog
 from tcod.map import compute_fov
-
+import entity_factories
+import exceptions
 import logger
+import msg_log
+import settings
+
 log = logger.get_logger(__name__)
 
 
@@ -19,7 +19,7 @@ class Engine:
 
     def __init__(self, player):
         log.debug('Initializing Engine')
-        self.msg_log = MessageLog()
+        self.msg_log = msg_log.MessageLog()
         self.mouse_location = (0, 0)
         self.player = player
         self.turns = 0
@@ -52,7 +52,7 @@ class Engine:
                         # entity.ai.perform()
                     except exceptions.Impossible:
                         log.debug(f'Entity action raised Impossible exception')
-                        pass # Ignore impossible action exceptions from AI
+                        pass  # Ignore impossible action exceptions from AI
                     except AttributeError:
                         log.debug(f'Entity action raised AttributeError')
                         pass

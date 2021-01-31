@@ -1,6 +1,6 @@
 import color
-from msg_log import MessageLog
 import logger
+import msg_log
 import numpy as np
 import settings
 import tcod
@@ -206,7 +206,7 @@ def render_messages(console, x, y, width, height, messages):
     y_offset = height - 1
 
     for message in reversed(messages):
-        for line in reversed(list(MessageLog.wrap(message.full_text, width))):
+        for line in reversed(list(msg_log.MessageLog.wrap(message.full_text, width))):
             # console.print(x=x, y=y + y_offset, string=line, fg=message.fg)
             console.print(x=x, y=y + y_offset, string=line, fg=tcod.white)
             y_offset -= 1

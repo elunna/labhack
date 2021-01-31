@@ -1,10 +1,11 @@
-import tile_types
-import items
 import actors
-import numpy as np
-
+import items
 import logger
+import numpy as np
+import tile_types
+
 log = logger.get_logger(__name__)
+
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """

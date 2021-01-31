@@ -1,11 +1,11 @@
-import traceback
-import tcod
 import exceptions
-import logger
 import input_handlers
+import logger
 import render_functions
 import settings
 import setup_game
+import tcod
+import traceback
 
 log = logger.get_logger(__name__)
 
