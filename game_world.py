@@ -1,4 +1,4 @@
-from procgen import generate_dungeon
+from procgen import generate_map
 
 import logger
 import settings
@@ -17,7 +17,7 @@ class GameWorld:
         # Generate new map each time we go down a floor.
         self.current_floor += 1
 
-        self.engine.game_map = generate_dungeon(
+        self.engine.game_map = generate_map(
             max_rooms=settings.max_rooms,
             room_min_size=settings.room_min_size,
             room_max_size=settings.room_max_size,

@@ -34,7 +34,7 @@ def place_entities(room, dungeon, floor_number):
             entity.spawn(dungeon, x, y)
 
 
-def generate_dungeon(
+def generate_map(
         max_rooms,
         room_min_size,
         room_max_size,
@@ -42,9 +42,6 @@ def generate_dungeon(
         map_height,
         engine):
     """Generate a new dungeon map."""
-    # TODO: Remove all these args, just use settings module...
-    # TODO: Rename to generate_map
-
     log.debug('Generating new game map...')
 
     player = engine.player
