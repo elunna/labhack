@@ -21,13 +21,13 @@ def generate_map(
     log.debug('Generating new game map...')
 
     # Create new GameMap, filled with walls
-    dungeon = game_map.GameMap(map_width, map_height)
+    new_map = game_map.GameMap(map_width, map_height)
     rooms = []
 
     center_of_last_room = (0, 0)
 
     for r in range(max_rooms):
-        new_room = mk_room(dungeon, room_min_size, room_max_size)
+        new_room = mk_room(new_map, room_min_size, room_max_size)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):
@@ -36,23 +36,22 @@ def generate_map(
         # If there are no intersections then the room is valid.
 
         # Dig out this rooms inner area.
-        dungeon.tiles[new_room.inner] = tile_types.floor
+        new_map.tiles[new_room.inner] = tile_types.floor
 
         if len(rooms) == 0:
-
             center_of_first_room = new_room.center
 
         else:  # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
-                dungeon.tiles[x, y] = tile_types.floor
+                new_map.tiles[x, y] = tile_types.floor
 
             center_of_last_room = new_room.center
 
         # Populate the room with monsters
         place_entities(
             new_room,
-            dungeon,
+            new_map,
             floor_number
         )
 
@@ -60,14 +59,14 @@ def generate_map(
         rooms.append(new_room)
 
     # Put the upstair in the first room
-    dungeon.tiles[center_of_first_room] = tile_types.up_stairs
-    dungeon.upstairs_location = center_of_first_room
+    new_map.tiles[center_of_first_room] = tile_types.up_stairs
+    new_map.upstairs_location = center_of_first_room
 
     # Put the downstair in the last room generated
-    dungeon.tiles[center_of_last_room] = tile_types.down_stairs
-    dungeon.downstairs_location = center_of_last_room
+    new_map.tiles[center_of_last_room] = tile_types.down_stairs
+    new_map.downstairs_location = center_of_last_room
 
-    return dungeon
+    return new_map
 
 
 def mk_room(dungeon, room_min_size, room_max_size):
