@@ -143,7 +143,7 @@ class MovementAction(ActionWithDirection):
             # Destination is out of bounds.
             raise exceptions.Impossible("That way is blocked.")
 
-        if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
+        if not self.engine.game_map.walkable(dest_x, dest_y):
 
             # TODO: Find a better place for this import, at the top it causes a
             # circular import....

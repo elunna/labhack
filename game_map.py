@@ -80,3 +80,7 @@ class GameMap:
     def in_bounds(self, x, y):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
+
+
+    def walkable(self, x, y):
+        return self.tiles["walkable"][x, y]

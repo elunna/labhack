@@ -7,11 +7,11 @@
 * todo: Rearrange some of the sneaky imports
 
 
-* todo: Engine is coupled in a few weird places? Uncouple.
+
 * todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
 
-* todo: Tile generation is so weird, is there a better more clear way? Tile object?
+
 * todo: Start Sphinx Documentation
 * todo: database of monsters -dict
 * todo: database of items - dict
@@ -217,7 +217,7 @@ https://users.freebasic-portal.de/rdc/tutorials.html#mozTocId58846
 * SKIPPED: Reduce range of fireball to 3x3
 * SKIPPED: Remove the color module and use tcods built-in colors?,
 * SKIPPED: Make sure tests don't trigger logging
-
+* SKIPPED: Tile generation is so weird, is there a better more clear way? Tile object?
 
 # WAVE 1
 * DONE: , to pickup
@@ -333,3 +333,5 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: up-stairs tile
 * DONE: Decouple engine from game_map??
 * DONE: Separate player placement from dungeon generation.
+* DONE: Add walkable to gamemap'
+* DONE: Engine is coupled in a few weird places? Uncouple.

@@ -2,6 +2,7 @@
 
 import pytest
 import game_map
+import tile_types
 
 @pytest.fixture
 def test_map():
@@ -62,3 +63,13 @@ def test_GameMap_in_bounds__valid_loc(test_map):
 def test_GameMap_in_bounds__invalid_loc(test_map):
     assert not test_map.in_bounds(-1, -1)
     assert not test_map.in_bounds(10, 15)
+
+
+def test_GameMap_walkable__all_walls(test_map):
+    assert not test_map.walkable(0, 0)
+
+
+def test_GameMap_walkable__all_floor(test_map):
+    test_map.tiles[0:, 0:] = tile_types.floor
+    assert test_map.walkable(0, 0)
+    assert test_map.walkable(9, 14)
