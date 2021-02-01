@@ -145,6 +145,8 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
         can simply pass the number of entities we’ve decided to generate. Finally,
         we return the list of chosen entities.
     """
+    # TODO: Reduce this to only return one random entity...
+    # TODO: Turn this into a more functional object - EntityChooser...
     entity_weighted_chances = {}
 
     for key, values in weighted_chances_by_floor.items():
