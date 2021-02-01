@@ -25,6 +25,11 @@ def test_Entity_init_defaults():
     assert e.render_order == settings.RenderOrder.CORPSE
 
 
+def test_Entity_str():
+    e = entity.Entity()
+    assert str(e) == "<Unnamed>"
+
+
 def test_Entity_gamemap(open_map):
     # What if parent is not set?
     e = entity.Entity(parent=open_map)

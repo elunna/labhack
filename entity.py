@@ -32,6 +32,9 @@ class Entity:
             self.parent = parent
             parent.entities.add(self)
 
+    def __str__(self):
+        return self.name
+
     @property
     def gamemap(self):
         # TODO: Deal with this, find reasonable usage or factor out.
