@@ -5,7 +5,7 @@
 * todo: Break out generate_map into many sub functions and test...
 * todo: Go through project TODOs and clean up code.
 * todo: Rearrange some of the sneaky imports
-
+* todo: Allow creation of all floor maps.
 
 * todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
@@ -18,7 +18,6 @@
 
 * todo: ID's for entities?
 * todo: Add a repl/str for entity names
-
 
 ### Bugs
 * todo: We can target Stationary monsters with confuse...
@@ -89,8 +88,6 @@ todo: The Wandering Merchant
 * todo: Add monster info to each monster
 * todo: Monsters get random items, weapons, armor
 * todo: Death drops
-
-
 * todo: ability to backtrack upstairs
 * todo: Graceful exit for going up first level stair.
 * todo: Randomized descriptions for items
@@ -122,7 +119,8 @@ todo: The Wandering Merchant
 * todo: Wands (later to convert to guns)
 * todo: Explosives
 * todo: Firearms
-
+* todo: Scroll of Teleport
+* todo: Scroll of Magic Mapping
 
 ### Map features:
 * todo: Room walls and corners

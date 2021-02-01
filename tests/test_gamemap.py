@@ -8,6 +8,7 @@ import tile_types
 def test_map():
     return game_map.GameMap(width=10, height=15)
 
+
 def test_GameMap_init(test_map):
     assert test_map.width == 10
     assert test_map.height == 15
