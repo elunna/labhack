@@ -159,7 +159,7 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 
 def get_names_at_location(x, y, game_map):
-    # TODO: Move to game_map?s
+    # TODO: move get_names_at_location to GameMap
     """ takes “x” and “y” variables, though these represent a spot on the map.
         We first check that the x and y coordinates are within the map, and are
         currently visible to the player. If they are, then we create a string of

@@ -45,7 +45,6 @@ class GameMap:
 
     @property
     def gamemap(self):
-        # TODO: What is the purpose of this?
         return self
 
     @property
@@ -62,8 +61,7 @@ class GameMap:
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, items.Item))
 
-    # TODO: Rename to get_blocker_at
-    def get_blocking_entity_at_location(self, location_x, location_y):
+    def get_blocker_at(self, location_x, location_y):
         for entity in self.entities:
             if (
                     entity.blocks_movement
@@ -74,8 +72,7 @@ class GameMap:
 
         return None
 
-    # TODO: Rename to get_actor_at
-    def get_actor_at_location(self, x, y):
+    def get_actor_at(self, x, y):
         for actor in self.actors:
             if actor.x == x and actor.y == y:
                 return actor

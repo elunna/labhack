@@ -1,12 +1,18 @@
 """ Tests for gamemap.py """
 
-import pytest
+import copy
+import factories
 import game_map
+import pytest
 import tile_types
 
 @pytest.fixture
 def test_map():
     return game_map.GameMap(width=10, height=15)
+
+@pytest.fixture
+def empty_map():
+    return game_map.GameMap(width=10, height=10, fill_tile=tile_types.floor)
 
 
 def test_GameMap_init(test_map):
@@ -44,16 +50,28 @@ def test_GameMap_items__none_by_default(test_map):
     assert list(test_map.items) == []
 
 
-# TODO: Test with walkable tile
-# TODO: Test with blocking entity
-def test_GameMap_get_blocking_entity_at_location(test_map):
-    assert test_map.get_blocking_entity_at_location(0, 0) is None
+def test_GameMap_get_blocker_at__walls(test_map):
+    assert test_map.get_blocker_at(0, 0) is None
 
 
-# TODO: Test with walkable tile
-# TODO: Test with blocking entity
-def test_GameMap_get_actor_at_location(test_map):
-    assert test_map.get_actor_at_location(0, 0) is None
+def test_GameMap_get_blocker_at__floors(empty_map):
+    assert empty_map.get_blocker_at(0, 0) is None
+
+
+def test_GameMap_get_blocker_at__valid_blocker(empty_map):
+    player = copy.deepcopy(factories.player)
+    player.place(0, 0, empty_map)
+    assert empty_map.get_blocker_at(0, 0) is player
+
+
+def test_GameMap_get_actor_at(test_map):
+    assert test_map.get_actor_at(0, 0) is None
+
+
+def test_GameMap_get_actor_at__valid_actor(empty_map):
+    player = copy.deepcopy(factories.player)
+    player.place(0, 0, empty_map)
+    assert empty_map.get_actor_at(0, 0) is player
 
 
 def test_GameMap_in_bounds__valid_loc(test_map):

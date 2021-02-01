@@ -1,22 +1,39 @@
 ### Eye of Sauron is focused on...
 
 * todo: Go through project TODOs and clean up code.
-* todo: Refactor Entity to my updated style
+
+GameMap:
+# DONE: Rename get_blocking_entity_at_location to to get_blocker_at
+# DONE: Rename get_actor_at_location to get_actor_at
+* TODO: move get_names_at_location to GameMap
+
+
 * todo: Move one Handler out at a time.
 * todo: Start Sphinx Documentation
+todo: * Improve how paralysis is handled (ActorState Component?)
+todo: * Improve how confusion is handled (ActorState Component?)
+
+
+# TODO: Add info on controlling the history viewer to a help screen.
+# TODO: Add offset to event.tile?
+# TODO: procgen.tunnel: The angle corner is repeated, can we improve this?
+
+
+
+Entities/Bestiary
 * todo: database of monsters -dict
 * todo: database of items - dict
 * todo: Super classes (mob types) of monsters (blobs, fungi)
-
 * todo: ID's for entities?
 * todo: Add a repl/str for entity names
+* todo: Refactor Entity to my updated style
+
+
 
 ### Bugs
 * todo: We can target Stationary monsters with confuse...
 * The "cursor" stays invisible in one spot. Maybe it should follow the player.
 * todo: Things can hit the player after death?
-
-
 
 
 
