@@ -78,10 +78,28 @@ def test_dig_room(wall_map):
     assert not wall_map.tiles["walkable"][1, 2]
     assert not wall_map.tiles["walkable"][2, 2]
 
-@pytest.mark.skip(reason='Random factor in method')
-def test_tunnel_between():
-    pass
+def test_tunnel_between__horz_first(wall_map):
+    rect = rectangle.Rectangle(x=0, y=0, width=3, height=3)
+    start = (0, 0)
+    end = (2, 2)
+    result = procgen.tunnel_between(start, end, twist=1)
 
+    # corner is repeated
+    assert list(result) == [
+        (0, 0), (1, 0), (2, 0), (2, 0), (2, 1), (2, 2)
+    ]
+
+
+def test_tunnel_between__vert_first(wall_map):
+    rect = rectangle.Rectangle(x=0, y=0, width=3, height=3)
+    start = (0, 0)
+    end = (2, 2)
+    result = procgen.tunnel_between(start, end, twist=2)
+
+    # corner is repeated
+    assert list(result) == [
+        (0, 0), (0, 1), (0, 2), (0, 2), (1, 2), (2, 2)
+    ]
 
 
 @pytest.mark.skip(reason='Create sample tables for testing')

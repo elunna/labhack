@@ -111,6 +111,8 @@ def tunnel_between(start, end, twist=0):
     # converts the points in the line into, as you might have already guessed,
     # a list.
     # We can return generators to make this even better.
+
+    # TODO: The angle corner is repeated, can we improve this?
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
         yield x, y
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
