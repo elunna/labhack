@@ -3,8 +3,6 @@
 * todo: Go through project TODOs and clean up code.
 * todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
-
-
 * todo: Start Sphinx Documentation
 * todo: database of monsters -dict
 * todo: database of items - dict
@@ -49,6 +47,16 @@
 * todo: Periodic monster generation
 * todo: More advanced monster AI
 * todo: More equipment: Jewelry, watches, belts, Helmet, Gloves, Boots, glasses
+* todo: Items
+* todo: New potions > vials
+* todo: Melee weapons
+* todo: Ranged weapons
+* todo: Ranged monster attacks
+* todo: Wands (later to convert to guns)
+* todo: Explosives
+* todo: Firearms
+* todo: Scroll of Teleport
+* todo: Scroll of Magic Mapping
 
 WAVE 5:
 todo: The Wandering Merchant
@@ -59,21 +67,22 @@ todo: The Wandering Merchant
 	* Buy list - doesn't change
 	* sell list.
 
-#### Monsters and Items
+#### Monster Attacks
+* todo: Physical damage: bite, hit, touch
 * todo: Cold Damage
 * todo: Fire Damage
 * todo: Shock Damage
 * todo: Paralysis attack
-* todo: Physical damage: bite, hit, touch
 * todo: Passive attack (reactive)
 * todo: Sticky attack
 * todo: Exploding, Self Destruct
 * todo: Blinding attack
 * todo: Hallucination attack
+* todo: Scaring attack
+* todo: Healing "attack"
+
 
 ### Big Bosses (Major and challenging goals)
-
-
 * todo: Eating functionality
 * todo: Add random monster placement generator
 * todo: Hallucination
@@ -81,7 +90,7 @@ todo: The Wandering Merchant
 
 * todo: Add monster info to each monster
 * todo: Monsters get random items, weapons, armor
-* todo: Death drops
+* todo: Death drops: https://journal.stuffwithstuff.com/2014/07/05/dropping-loot/
 * todo: ability to backtrack upstairs
 * todo: Graceful exit for going up first level stair.
 * todo: Randomized descriptions for items
@@ -99,22 +108,22 @@ todo: The Wandering Merchant
 
 
 # Phase 2: Making the project FUN!
-* todo: Robots
-* todo: Genetic Experiments
+* todo: Robots.
+    Cleaning robot.
+    Search Drone (alerts all other monsters on level...)
+    Laser Turret, Heavy Turret, Light Turret
+    Broken Robot (Stationary)
+    Cyber-Dog
+    Cyber-Cat
+    Cyber-Rat
+    Nano-Drone
+    Borg Drone
+* todo: Genetic Experiments (Factory to produce gross things (half dog, half cat) etc, etc.
 * todo: Monster Variations (rabid, mini, giant)
 * todo: Aliens
 * todo: Operatives
 * todo: Normal/Real monsters
-* todo: Items
-* todo: New potions > vials
-* todo: Melee weapons
-* todo: Ranged weapons
-* todo: Ranged monster attacks
-* todo: Wands (later to convert to guns)
-* todo: Explosives
-* todo: Firearms
-* todo: Scroll of Teleport
-* todo: Scroll of Magic Mapping
+
 
 ### Map features:
 * todo: Room walls and corners
