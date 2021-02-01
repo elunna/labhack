@@ -1,7 +1,7 @@
 from game_map import GameMap
 from game_world import GameWorld
 from tcod.map import compute_fov
-import entity_factories
+import factories
 import exceptions
 import logger
 import msg_log
@@ -61,7 +61,7 @@ class Engine:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
                 log.debug(f'{actor.name} is dead, converting to corpse')
-                corpse = entity_factories.corpse_generator(actor)
+                corpse = factories.corpse_generator(actor)
 
                 # Remove the dead actor from the map
                 self.game_map.entities.remove(actor)

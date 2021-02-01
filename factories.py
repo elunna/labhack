@@ -6,8 +6,9 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-import items
 import actors
+import items
+import random
 import settings
 import tcod
 
@@ -22,6 +23,56 @@ def corpse_generator(actor):
     )
     corpse.render_order = settings.RenderOrder.CORPSE
     return corpse
+
+
+def get_max_value_for_floor(weighted_chances_by_floor, floor):
+    current_value = 0
+
+    for floor_minimum, value in weighted_chances_by_floor:
+        if floor_minimum > floor:
+            break
+        else:
+            current_value = value
+
+    return current_value
+
+
+def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor):
+    """ This function goes through they keys (floor numbers) and values (list of
+        weighted entities), stopping when the key is higher than the given floor
+        number. It sets up a dictionary of the weights for each entity, based on
+        which floor the player is currently on. So if we were trying to get the
+        weights for floor 6, entity_weighted_chances would look like this:
+            { orc: 80, troll: 30 }.
+
+        Then, we get both the keys and values in list format, so that they can
+        be passed to random.choices (it accepts choices and weights as lists).
+        k represents the number of items that random.choices should pick, so we
+        can simply pass the number of entities we’ve decided to generate. Finally,
+        we return the list of chosen entities.
+    """
+    # TODO: Reduce this to only return one random entity...
+    # TODO: Turn this into a more functional object - EntityChooser...
+    entity_weighted_chances = {}
+
+    for key, values in weighted_chances_by_floor.items():
+        if key > floor:
+            break
+        else:
+            for value in values:
+                entity = value[0]
+                weighted_chance = value[1]
+
+                entity_weighted_chances[entity] = weighted_chance
+
+    entities = list(entity_weighted_chances.keys())
+    entity_weighted_chance_values = list(entity_weighted_chances.values())
+
+    chosen_entities = random.choices(
+        entities, weights=entity_weighted_chance_values, k=number_of_entities
+    )
+
+    return chosen_entities
 
 
 player = actors.Actor(
@@ -555,3 +606,4 @@ list_of_monsters = [
     # black_mold,
     # lightning_bug,
 ]
+

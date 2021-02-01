@@ -7,7 +7,6 @@
 * todo: Rearrange some of the sneaky imports
 
 
-
 * todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
 
@@ -25,7 +24,7 @@
 * todo: We can target Stationary monsters with confuse...
 * The "cursor" stays invisible in one spot. Maybe it should follow the player.
 * todo: Things can hit the player after death?
-
+* todo: Items can spawn inside walls...
 
 
 
