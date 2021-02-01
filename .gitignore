@@ -21,5 +21,6 @@ logs/
 
 
 # Misc files
+extrastuff/*
 todo.txt
 brainstorm.txt
