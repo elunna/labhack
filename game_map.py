@@ -9,7 +9,12 @@ log = logger.get_logger(__name__)
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, width, height, entities=(), engine=None):
+    def __init__(self,
+                 width,
+                 height,
+                 entities=(),
+                 engine=None,
+                 fill_tile=tile_types.wall):
         log.debug(f'Initializing new GameMap: width={width} height={height}')
 
         self.width, self.height = width, height
@@ -21,7 +26,7 @@ class GameMap:
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
             (width, height),
-            fill_value=tile_types.wall,
+            fill_value=fill_tile,
             order="F"
         )
 

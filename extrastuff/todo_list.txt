@@ -1,9 +1,6 @@
 ### Eye of Sauron is focused on...
 
 * todo: Go through project TODOs and clean up code.
-
-* todo: Allow creation of all floor maps.
-
 * todo: Refactor Entity to my updated style
 * todo: Move one Handler out at a time.
 
@@ -333,3 +330,4 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * SKIPPED: Rearrange some of the sneaky imports
 * DONE: Items can spawn inside walls...
 * DONE: Break out generate_map into many sub functions and test...
+* DONE: Allow creation of all floor maps.
