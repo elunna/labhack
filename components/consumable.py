@@ -37,7 +37,7 @@ class HealingConsumable(Consumable):
 
         if amount_recovered > 0:
             self.engine.msg_log.add_message(
-                f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
+                f"You consume the {self.parent}, and recover {amount_recovered} HP!",
             )
             self.consume()
         else:
@@ -81,7 +81,7 @@ class LightningDamageConsumable(Consumable):
 
         if target:
             self.engine.msg_log.add_message(
-                f"A lighting bolt zaps the {target.name} with a roaring crack!!"
+                f"A lighting bolt zaps the {target} with a roaring crack!!"
             )
             target.fighter.take_damage(self.damage)
             self.consume()
@@ -116,7 +116,7 @@ class ConfusionConsumable(Consumable):
             raise Impossible("You cannot confuse yourself!")
 
         self.engine.msg_log.add_message(
-            f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
+            f"The eyes of the {target} look vacant, as it starts to stumble around!"
         )
         target.ai = ConfusedAI(
             entity=target, previous_ai=target.ai, turns_remaining=self.number_of_turns,
@@ -135,7 +135,7 @@ class ConfusionPotionConsumable(Consumable):
             self.engine.msg_log.add_message(f"You feel confused...")
         else:
             self.engine.msg_log.add_message(
-                f"The eyes of the {consumer.name} look vacant, as it starts to stumble around!"
+                f"The eyes of the {consumer} look vacant, as it starts to stumble around!"
             )
         consumer.ai = ConfusedAI(
             entity=consumer,
@@ -178,7 +178,7 @@ class FireballDamageConsumable(Consumable):
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
                 self.engine.msg_log.add_message(
-                    f"The {actor.name} is engulfed in a fiery explosion!"
+                    f"The {actor} is engulfed in a fiery explosion!"
                 )
                 actor.fighter.take_damage(self.damage)
                 targets_hit = True

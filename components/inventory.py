@@ -14,4 +14,4 @@ class Inventory(BaseComponent):
         self.items.remove(item)
         item.place(self.parent.x, self.parent.y, self.gamemap)
 
-        self.engine.msg_log.add_message(f"You dropped the {item.name}.")
+        self.engine.msg_log.add_message(f"You dropped the {item}.")

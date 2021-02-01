@@ -40,7 +40,7 @@ class Engine:
                     # Get the next calculated action from the AI.
                     action = entity.ai.yield_action()
 
-                    log.debug(f'{entity.name} performs: {action.__class__.__name__}')
+                    log.debug(f'{entity} performs: {action.__class__.__name__}')
 
                     # We'll use the energy regardless.
                     entity.energymeter.burn_turn()
@@ -60,7 +60,7 @@ class Engine:
         for actor in set(self.game_map.actors) - {self.player}:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
-                log.debug(f'{actor.name} is dead, converting to corpse')
+                log.debug(f'{actor} is dead, converting to corpse')
                 corpse = factories.corpse_generator(actor)
 
                 # Remove the dead actor from the map

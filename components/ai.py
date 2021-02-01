@@ -189,7 +189,7 @@ class ConfusedAI(BaseAI):
             if self.entity == self.engine.player:
                 self.engine.msg_log.add_message(f"You are no longer confused.")
             else:
-                self.engine.msg_log.add_message(f"The {self.entity.name} is no longer confused.")
+                self.engine.msg_log.add_message(f"The {self.entity} is no longer confused.")
 
             self.entity.ai = self.previous_ai
         else:

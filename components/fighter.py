@@ -67,7 +67,7 @@ class Fighter(BaseComponent):
         if self.engine.player is self.parent:
             death_message = "You died!"
         else:
-            death_message = f"The {self.parent.name} dies!"
+            death_message = f"The {self.parent} dies!"
 
         # self.parent.char = "%"
         # self.parent.color = (191, 0, 0)

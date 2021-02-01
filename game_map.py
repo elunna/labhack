@@ -97,7 +97,7 @@ class GameMap:
             return ""
 
         # Create a list of names for easy manipulation
-        entity_names = [e.name for e in self.entities if e.x == x and e.y == y]
+        entity_names = [str(e) for e in self.entities if e.x == x and e.y == y]
 
         # Sort them - so the list is predictable (and testable), then
         # capitalize and join them with commas.

@@ -168,7 +168,7 @@ def render_names_at_mouse_location(console, x, y, engine):
     """
     mouse_x, mouse_y = engine.mouse_location
 
-    names_at_mouse_location = self.engine.gamemap.get_names_at(
+    names_at_mouse_location = engine.game_map.get_names_at(
         x=mouse_x,
         y=mouse_y - settings.msg_panel_height,      # Need to correct for message window offset.
     )
@@ -404,7 +404,7 @@ def render_inv(title, console, engine):
             item_key = chr(ord("a") + i)
             is_equipped = engine.player.equipment.item_is_equipped(item)
 
-            item_string = f"({item_key}) {item.name}"
+            item_string = f"({item_key}) {item}"
 
             if is_equipped:
                 item_string = f"{item_string} (Equipped)"
