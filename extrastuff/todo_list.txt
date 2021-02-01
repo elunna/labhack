@@ -1,7 +1,5 @@
 ### Eye of Sauron is focused on...
 
-
-* todo: Flesh out unfinished tests, create fixtures, etc.
 * todo: Break out generate_map into many sub functions and test...
 * todo: Go through project TODOs and clean up code.
 * todo: Rearrange some of the sneaky imports
@@ -332,3 +330,4 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: Separate player placement from dungeon generation.
 * DONE: Add walkable to gamemap'
 * DONE: Engine is coupled in a few weird places? Uncouple.
+* DONE: Flesh out unfinished tests, create fixtures, etc.

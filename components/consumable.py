@@ -131,8 +131,12 @@ class ConfusionPotionConsumable(Consumable):
     def activate(self, action):
         consumer = action.entity
 
-        # TODO: Adjust for throwing at other monsters, etc.
-        self.engine.msg_log.add_message(f"You feel confused...")
+        if consumer == self.engine.player:
+            self.engine.msg_log.add_message(f"You feel confused...")
+        else:
+            self.engine.msg_log.add_message(
+                f"The eyes of the {consumer.name} look vacant, as it starts to stumble around!"
+            )
         consumer.ai = ConfusedAI(
             entity=consumer,
             previous_ai=consumer.ai,
