@@ -94,25 +94,25 @@ def test_GameMap_walkable__all_floor(test_map):
     assert test_map.walkable(9, 14)
 
 
-def test_GameMap_get_names_at_location__no_visible(empty_map):
+def test_GameMap_get_names_at__no_visible(empty_map):
     player = copy.deepcopy(factories.player)
     player.place(0, 0, empty_map)
-    result = empty_map.get_names_at_location(0, 1)
+    result = empty_map.get_names_at(0, 1)
     assert result == ""
 
 
-def test_GameMap_get_names_at_location__visible(empty_map):
+def test_GameMap_get_names_at__visible(empty_map):
     player = copy.deepcopy(factories.player)
     player.place(0, 0, empty_map)
 
     # Set map tile to visible
     empty_map.visible[0, 0] = True
 
-    result = empty_map.get_names_at_location(0, 0)
+    result = empty_map.get_names_at(0, 0)
     assert result == "Player"
 
 
-def test_GameMap_get_names_at_location__multiple_visible(empty_map):
+def test_GameMap_get_names_at__multiple_visible(empty_map):
     player = copy.deepcopy(factories.player)
     player.place(0, 0, empty_map)
     potion = copy.deepcopy(factories.health_potion)
@@ -121,5 +121,5 @@ def test_GameMap_get_names_at_location__multiple_visible(empty_map):
     # Set map tile to visible
     empty_map.visible[0, 0] = True
 
-    result = empty_map.get_names_at_location(0, 0)
-    assert result == "Health potion, player"
+    result = empty_map.get_names_at(0, 0)
+    assert result == "Health potion, Player"

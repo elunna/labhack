@@ -161,14 +161,14 @@ def render_dungeon_lvl_text(console, dungeon_level):
 def render_names_at_mouse_location(console, x, y, engine):
     """ takes the renderer, x and y coordinates (the location to draw the names),
         and the engine. From the engine, it grabs the mouse’s current x and y
-        positions, and passes them to get_names_at_location, which we can assume
+        positions, and passes them to get_names_at, which we can assume
         for the moment will return the list of entity names we want. Once we
         have these entity names as a string, we can print that string to the
         given x and y location on the screen, with renderer.print.
     """
     mouse_x, mouse_y = engine.mouse_location
 
-    names_at_mouse_location = self.engine.gamemap.get_names_at_location(
+    names_at_mouse_location = self.engine.gamemap.get_names_at(
         x=mouse_x,
         y=mouse_y - settings.msg_panel_height,      # Need to correct for message window offset.
     )

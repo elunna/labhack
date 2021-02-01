@@ -2,12 +2,6 @@
 
 * todo: Go through project TODOs and clean up code.
 
-GameMap:
-# DONE: Rename get_blocking_entity_at_location to to get_blocker_at
-# DONE: Rename get_actor_at_location to get_actor_at
-* TODO: move get_names_at_location to GameMap
-
-
 * todo: Move one Handler out at a time.
 * todo: Start Sphinx Documentation
 todo: * Improve how paralysis is handled (ActorState Component?)
@@ -357,3 +351,6 @@ SKIPPED: No logging for: entity, actor, item, exception, tile_types, entity_fact
 * DONE: Items can spawn inside walls...
 * DONE: Break out generate_map into many sub functions and test...
 * DONE: Allow creation of all floor maps.
+# DONE: Rename get_blocking_entity_at_location to to get_blocker_at
+# DONE: Rename get_actor_at_location to get_actor_at
+* DONE: move get_names_at_location to GameMap

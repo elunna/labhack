@@ -88,19 +88,17 @@ class GameMap:
         return self.tiles["walkable"][x, y]
 
 
-    def get_names_at_location(self, x, y):
-        """ takes “x” and “y” variables, though these represent a spot on the map.
-            We first check that the x and y coordinates are within the map, and are
-            currently visible to the player. If they are, then we create a string of
-            the entity names at that spot, separated by a comma. We then return that
-            string, adding capitalize to make sure the first letter in the string is
-            capitalized.
+    def get_names_at(self, x, y):
+        """ Checks a set of coordinates for entities. Creates a string of the
+            entity names, separated by commas, and capitalized.
         """
+        # First check the coordinates are valid and that the tile is visible
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
 
-        names = ", ".join(
-            entity.name for entity in self.entities if entity.x == x and entity.y == y
-        )
+        # Create a list of names for easy manipulation
+        entity_names = [e.name for e in self.entities if e.x == x and e.y == y]
 
-        return names.capitalize()
+        # Sort them - so the list is predictable (and testable), then
+        # capitalize and join them with commas.
+        return ", ".join(e.capitalize() for e in sorted(entity_names))
