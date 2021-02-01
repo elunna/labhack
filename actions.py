@@ -133,9 +133,9 @@ class MeleeAction(ActionWithDirection):
 
         self.engine.msg_log.add_message(attack_desc)
 
+
 class MovementAction(ActionWithDirection):
     """ Moves an entity to a new set of coordinates."""
-
     def perform(self):
         dest_x, dest_y = self.dest_xy
 
@@ -145,8 +145,7 @@ class MovementAction(ActionWithDirection):
 
         if not self.engine.game_map.walkable(dest_x, dest_y):
 
-            # TODO: Find a better place for this import, at the top it causes a
-            # circular import....
+            # TODO: Find a better place for this import, at the top it causes a circular import....
             from components.ai import ConfusedAI
 
             # Destination is blocked by a tile

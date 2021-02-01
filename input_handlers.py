@@ -102,6 +102,7 @@ class EventHandler(BaseEventHandler):
         if self.engine.player.energymeter.burned_out():
             self.engine.add_energy()
             self.engine.handle_enemy_turns()
+            self.engine.bring_out_the_dead()
 
         self.engine.update_fov()
 

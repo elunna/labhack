@@ -26,8 +26,7 @@ class Engine:
 
     def add_energy(self):
         log.debug('add_energy()')
-        # Everyone gets an energy reboost!
-        # TODO: Maybe only entities within player's vision
+        # All actors gets an energy reboost!
         # if self.engine.game_map.visible[self.entity.x, self.entity.y]:
 
         for entity in set(self.game_map.actors):
@@ -57,6 +56,7 @@ class Engine:
                         log.debug(f'Entity action raised AttributeError')
                         pass
 
+    def bring_out_the_dead(self):
         for actor in set(self.game_map.actors) - {self.player}:
             if not actor.is_alive:
                 # Replace the actor with an item that is a corpse
