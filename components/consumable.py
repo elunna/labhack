@@ -1,12 +1,12 @@
 from actions import ItemAction
 from components.ai import ConfusedAI, ParalyzedAI
-from components.component import BaseComponent
+from components.component import Component
 from components.inventory import Inventory
 from exceptions import Impossible
 import input_handlers
 
 
-class Consumable(BaseComponent):
+class Consumable(Component):
     def get_action(self, consumer):
         """Try to return the action for this item."""
         return ItemAction(consumer, self.parent)

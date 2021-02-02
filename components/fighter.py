@@ -1,7 +1,7 @@
-from components.component import BaseComponent
+from components.component import Component
 
 
-class Fighter(BaseComponent):
+class Fighter(Component):
     parent = None  # Should be Actor
 
     def __init__(self, hp, base_defense, base_power):

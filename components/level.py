@@ -1,8 +1,8 @@
-from components.component import BaseComponent
+from components.component import Component
 import random
 
 
-class Level(BaseComponent):
+class Level(Component):
     # parent: Actor
 
     def __init__(

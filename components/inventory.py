@@ -1,7 +1,7 @@
-from components.component import BaseComponent
+from components.component import Component
 
 
-class Inventory(BaseComponent):
+class Inventory(Component):
     def __init__(self, capacity):
         # Max number of items an Actor can hold.
         self.capacity = capacity

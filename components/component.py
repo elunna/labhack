@@ -1,4 +1,4 @@
-class BaseComponent:
+class Component:
     # entity: Entity  # Owning entity instance.
     parent = None
 
