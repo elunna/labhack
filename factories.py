@@ -9,6 +9,7 @@ from components.level import Level
 import actors
 import bestiary
 import items
+import item_db
 import random
 import settings
 import tcod
@@ -30,9 +31,25 @@ def mk_actor(monster_name):
 # Build a dict of monster names and Actors
 monsters = {m: mk_actor(m) for m in bestiary.monsters}
 
+def mk_item(item_name):
+    return items.Item(
+        char=item_db.items[item_name].get('char'),
+        color=item_db.items[item_name].get('color'),
+        name=item_db.items[item_name].get('name'),
+        consumable=item_db.items[item_name].get('consumable'),
+        equippable=item_db.items[item_name].get('equippable'),
+    )
+
+
+item_dict = {i: mk_item(i) for i in item_db.items}
+
 
 def get_monster(self, name):
     return monsters[name]
+
+
+def get_item(self, name):
+    return item_dict[name]
 
 
 def corpse_generator(actor):
@@ -110,91 +127,20 @@ player = actors.Actor(
     level=Level(level_up_base=200),
     energymeter=EnergyMeter(threshold=settings.normal),
 )
-
-health_potion = items.Item(
-    char="!",
-    color=tcod.blue,
-    name="Health Potion",
-    consumable=consumable.HealingConsumable(amount=4),
-)
-
-confusion_potion = items.Item(
-    char="!",
-    color=tcod.yellow,
-    name="Potion of Confusion",
-    consumable=consumable.ConfusionPotionConsumable(number_of_turns=8),
-)
-
-paralysis_potion = items.Item(
-    char="!",
-    color=tcod.red,
-    name="Potion of Paralysis",
-    consumable=consumable.ParalysisConsumable(number_of_turns=5),
-)
-
-lightning_scroll = items.Item(
-    char="~",
-    color=(255, 255, 0),
-    name="Lightning Scroll",
-    consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
-)
-
-confusion_scroll = items.Item(
-    char="~",
-    color=(207, 63, 255),
-    name="Confusion Scroll",
-    consumable=consumable.ConfusionConsumable(number_of_turns=10),
-)
-
-fireball_scroll = items.Item(
-    char="~",
-    color=(255, 0, 0),
-    name="Fireball Scroll",
-    consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
-)
-
-dagger = items.Item(
-    char="/",
-    color=(0, 191, 255),
-    name="Dagger",
-    equippable=equippable.Dagger()
-)
-
-sword = items.Item(
-    char="/",
-    color=(0, 191, 255),
-    name="Sword",
-    equippable=equippable.Sword()
-)
-
-leather_armor = items.Item(
-   char="[",
-   color=(139, 69, 19),
-   name="Leather Armor",
-   equippable=equippable.LeatherArmor(),
-)
-
-chain_mail = items.Item(
-    char="[",
-    color=(139, 69, 19),
-    name="Chain Mail",
-    equippable=equippable.ChainMail()
-)
-
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     # 0: [(health_potion, 35), (confusion_potion, 35)],
     0: [
-        (health_potion, 35),
-        (paralysis_potion, 5),
-        (confusion_scroll, 10),
-        (lightning_scroll, 25),
-        (fireball_scroll, 25),
-        (leather_armor, 15),
-        (dagger, 15),
-        (chain_mail, 5),
-        (sword, 5),
+        ("health potion", 35),
+        ("paralysis potion", 5),
+        ("confusion scroll", 10),
+        ("lightning scroll", 25),
+        ("fireball scroll", 25),
+        ("leather armor", 15),
+        ("dagger", 15),
+        ("chain mail", 5),
+        ("sword", 5),
     ],
 }
 

@@ -115,7 +115,7 @@ def test_GameMap_get_names_at__visible(empty_map):
 def test_GameMap_get_names_at__multiple_visible(empty_map):
     player = copy.deepcopy(factories.player)
     player.place(0, 0, empty_map)
-    potion = copy.deepcopy(factories.health_potion)
+    potion = factories.mk_item("health potion")
     potion.place(0, 0, empty_map)
 
     # Set map tile to visible

@@ -146,5 +146,6 @@ def place_entities(room, dungeon, floor_number):
         y = random.randint(room.y1 + 1, room.y2 - 2)
 
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            entity.spawn(dungeon, x, y)
+            # entity.spawn(dungeon, x, y)
+            factories.item_dict[entity].spawn(dungeon, x, y)
 
