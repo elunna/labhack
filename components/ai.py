@@ -87,7 +87,6 @@ class BaseAI:
 class HeroControllerAI(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)
-        self.path = []
 
     def yield_action(self):
         # TODO: Put human controlling code here.
@@ -97,7 +96,6 @@ class HeroControllerAI(BaseAI):
 class StationaryAI(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)
-        self.path = []
 
     def yield_action(self):
         # Stationary monsters just sit there waiting.
@@ -107,6 +105,7 @@ class StationaryAI(BaseAI):
 class ApproachAI(BaseAI):
     def __init__(self, entity):
         super().__init__(entity)
+        # TODO: Remove this?
         self.path = []
 
     def yield_action(self):
@@ -143,6 +142,8 @@ class GridMoveAI(ApproachAI):
     """
     def __init__(self, entity):
         super().__init__(entity)
+
+        # TODO: Remove this?
         self.path = []
 
     def yield_action(self):
