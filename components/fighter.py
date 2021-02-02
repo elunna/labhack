@@ -67,18 +67,14 @@ class Fighter(BaseComponent):
         if self.engine.player is self.parent:
             death_message = "You died!"
         else:
-            self.engine.player.level.add_xp(self.parent.level.xp_given)
             death_message = f"The {self.parent} dies!"
 
-        self.engine.msg_log.add_message(death_message)
-
-        # TODO: Eventually we will be able to turn the Actor into an Item here
         # self.parent.char = "%"
         # self.parent.color = (191, 0, 0)
         # self.parent.blocks_movement = False
         self.parent.ai = None
-        # self.fighter = None
         # self.parent.name = f"{self.parent.name} corpse"
         # self.parent.render_order = RenderOrder.CORPSE
 
-
+        self.engine.msg_log.add_message(death_message)
+        self.engine.player.level.add_xp(self.parent.level.xp_given)

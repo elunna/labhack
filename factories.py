@@ -525,19 +525,19 @@ item_chances = {
 }
 
 enemy_chances = {
-    # 0: [
-        # (shrieker, 5),
-        # (violet_fungus, 5),
-        # (lichen, 5),
-        # (grid_bug, 5),
-        # (firefly, 5),
-
-        # (brown_mold, 5),
-        # (yellow_mold, 5),
-        # (green_mold, 5),
-        # (red_mold, 5),
-    # ],
     0: [
+        (shrieker, 5),
+        (violet_fungus, 5),
+        (lichen, 5),
+        (grid_bug, 5),
+        (firefly, 5),
+
+        (brown_mold, 5),
+        (yellow_mold, 5),
+        (green_mold, 5),
+        (red_mold, 5),
+    ],
+    2: [
         (troll, 15),
         (gas_spore, 10),
         (yellow_light, 10),

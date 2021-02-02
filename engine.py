@@ -56,6 +56,19 @@ class Engine:
                         log.debug(f'Entity action raised AttributeError')
                         pass
 
+    def bring_out_the_dead(self):
+        for actor in set(self.game_map.actors) - {self.player}:
+            if not actor.is_alive:
+                # Replace the actor with an item that is a corpse
+                log.debug(f'{actor} is dead, converting to corpse')
+                corpse = factories.corpse_generator(actor)
+
+                # Remove the dead actor from the map
+                self.game_map.entities.remove(actor)
+
+                # Replace it with the corpse item
+                self.game_map.entities.add(corpse)
+
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
         # Set the game_map’s visible tiles to the result of the compute_fov.

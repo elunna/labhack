@@ -127,22 +127,11 @@ class MeleeAction(ActionWithDirection):
         attack_desc = f"The {self.entity.name.capitalize()} hits the {target}"
 
         if damage > 0:
-            self.engine.msg_log.add_message(attack_desc)
             target.fighter.hp -= damage
         else:
             attack_desc += "... but does no damage!"
-            self.engine.msg_log.add_message(attack_desc)
 
-
-        # Check if the target is dead
-        if not target.ai:
-            import factories
-            log.debug(f'{target} is dead, converting to corpse')
-
-            # Replace the actor with an item that is a corpse
-            corpse = factories.corpse_generator(target)
-            self.engine.game_map.entities.remove(target)
-            self.engine.game_map.entities.add(corpse)
+        self.engine.msg_log.add_message(attack_desc)
 
 
 class MovementAction(ActionWithDirection):
