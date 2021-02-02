@@ -132,10 +132,19 @@ def place_entities(room, dungeon, floor_number):
         factories.item_chances, number_of_items, floor_number
     )
 
-    for entity in monsters + items:
+    for entity in monsters:
+        # -2 so that things don't get stuck in walls.
+        x = random.randint(room.x1 + 1, room.x2 - 2)
+        y = random.randint(room.y1 + 1, room.y2 - 2)
+
+        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
+            factories.monsters[entity].spawn(dungeon, x, y)
+
+    for entity in items:
         # -2 so that things don't get stuck in walls.
         x = random.randint(room.x1 + 1, room.x2 - 2)
         y = random.randint(room.y1 + 1, room.y2 - 2)
 
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
             entity.spawn(dungeon, x, y)
+
