@@ -1,6 +1,6 @@
 from actions import ItemAction
 from components.ai import ConfusedAI, ParalyzedAI
-from components.base_component import BaseComponent
+from components.component import BaseComponent
 from components.inventory import Inventory
 from exceptions import Impossible
 import input_handlers

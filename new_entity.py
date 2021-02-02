@@ -13,6 +13,9 @@ class Entity(object):
         all the time.
     """
 
+    # parent: GameMap
+    # parent = None
+
     def __init__(self, **kwargs):
         self.components = kwargs
 
