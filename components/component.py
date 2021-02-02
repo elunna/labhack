@@ -4,8 +4,10 @@ class Component:
 
     @property
     def gamemap(self):
-        return self.parent.gamemap
+        if self.parent:
+            return self.parent.gamemap
 
     @property
     def engine(self):
-        return self.gamemap.engine
+        if self.parent:
+            return self.gamemap.engine
