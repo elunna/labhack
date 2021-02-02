@@ -74,18 +74,6 @@ room_max_size = 10
 room_min_size = 6
 max_rooms = 30
 
-# Entity settings
-max_items_by_floor = [
-    (1, 1),
-    (4, 2),
-]
-
-max_monsters_by_floor = [
-    (1, 2), # Levels 1-3
-    (4, 3), # Levels 4-5 etc
-    (6, 5),
-]
-
 DIRECTIONS = [
     (-1, -1),  # Northwest
     (0, -1),  # North
@@ -172,4 +160,75 @@ CONFIRM_KEYS = {
     tcod.event.K_RETURN,
     tcod.event.K_KP_ENTER,
     tcod.event.K_SEMICOLON,
+}
+
+""" Entity Generation """
+
+max_items_by_floor = [
+    (1, 1),
+    (4, 2),
+]
+
+max_monsters_by_floor = [
+    (1, 2), # Levels 1-3
+    (4, 3), # Levels 4-5 etc
+    (6, 5),
+]
+
+
+item_chances = {
+    # keys in the dictionary represent the floor number,
+    # and the value is a list of tuples.
+    # 0: [(health_potion, 35), (confusion_potion, 35)],
+    0: [
+        ("health potion", 35),
+        ("paralysis potion", 5),
+        ("confusion scroll", 10),
+        ("lightning scroll", 25),
+        ("fireball scroll", 25),
+        ("leather armor", 15),
+        ("dagger", 15),
+        ("chain mail", 5),
+        ("sword", 5),
+    ],
+}
+
+enemy_chances = {
+    0: [
+        ('shrieker', 5),
+        ('violet fungus', 5),
+        ('lichen', 5),
+        ('grid bug', 5),
+        ('firefly', 5),
+        ('brown mold', 5),
+        ('yellow mold', 5),
+        ('green mold', 5),
+        ('red mold', 5),
+    ],
+    2: [
+        ('troll', 15),
+        ('gas spore', 10),
+        ('yellow light', 10),
+        ('black light', 10),
+        ('flaming sphere', 10),
+        ('freezing sphere', 10),
+        ('shocking sphere', 10),
+        ('spark bug', 10),
+        ('orc', 10),
+    ],
+    3: [
+        ('jiggling blob', 20),
+        ('lava blob', 20),
+        ('static blob', 20),
+        ('burbling blob', 20),
+        ('quivering blob', 20),
+        ('arc bug', 20),
+        ('acid blob', 20),
+    ],
+    4: [
+        ('gelatinous cube', 50),
+        ('disgusting mold', 50),
+        ('black mold', 50),
+        ('lightning bug', 50),
+    ],
 }

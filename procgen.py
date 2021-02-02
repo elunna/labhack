@@ -4,6 +4,7 @@ import game_map
 import logger
 import random
 import rectangle
+import settings
 import tcod
 import tile_types
 
@@ -126,10 +127,10 @@ def place_entities(room, dungeon, floor_number):
     )
 
     monsters = factories.get_entities_at_random(
-        factories.enemy_chances, number_of_monsters, floor_number
+        settings.enemy_chances, number_of_monsters, floor_number
     )
     items = factories.get_entities_at_random(
-        factories.item_chances, number_of_items, floor_number
+        settings.item_chances, number_of_items, floor_number
     )
 
     for entity in monsters:
