@@ -5,6 +5,7 @@ from components.equipment import Equipment
 import factories
 import pytest
 
+
 @pytest.fixture
 def dagger():
     return factories.mk_item('dagger')
@@ -28,15 +29,16 @@ def test_Equipment_init():
 # TODO: Make sure init uses the equip function - we can't equip armor to weapon
 # slot, etc...
 
+
 def test_Equipment_init__with_weapon(dagger):
     e = Equipment(weapon=dagger)
     assert e.weapon == dagger
     assert e.armor is None
 
 
-def test_Equipment_init__with_weapon(leather_armor):
+def test_Equipment_init__with_armor(leather_armor):
     e = Equipment(armor=leather_armor)
-    assert e.weapon == None
+    assert e.weapon is None
     assert e.armor is leather_armor
 
 
@@ -167,6 +169,7 @@ def test_Equipment_toggle_equip__weapon2none(dagger):
     assert result
     assert e.weapon is None
 
+
 def test_Equipment_toggle_equip__armor2none(leather_armor):
     e = Equipment(armor=leather_armor)
     result = e.toggle_equip(leather_armor, False)
@@ -184,7 +187,7 @@ def test_Equipment_toggle_equip__weapon2weapon(dagger):
 
 def test_Equipment_toggle_equip__armor2armor(leather_armor):
     e = Equipment(armor=leather_armor)
-    chainmail= factories.mk_item('chain mail')
+    chainmail = factories.mk_item('chain mail')
     result = e.toggle_equip(chainmail, False)
     assert result
     assert e.armor == chainmail
@@ -197,4 +200,3 @@ def test_Equipment_toggle_equip__non_equippable__returns_False():
     assert result is False
     assert e.armor is None
     assert e.weapon is None
-

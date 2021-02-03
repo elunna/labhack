@@ -1,10 +1,8 @@
 """ Tests for procgen.py """
-
 import game_map
 import procgen
 import pytest
 import rectangle
-import tile_types
 
 
 @pytest.fixture
@@ -61,6 +59,7 @@ def test_mk_room_3x3(wall_map):
     # self.engine.game_map.tiles["walkable"][dest_x, dest_y]
     pass
 
+
 def test_dig_room(wall_map):
     rect = rectangle.Rectangle(x=0, y=0, width=3, height=3)
     procgen.dig_room(wall_map, rect)
@@ -78,8 +77,8 @@ def test_dig_room(wall_map):
     assert not wall_map.tiles["walkable"][1, 2]
     assert not wall_map.tiles["walkable"][2, 2]
 
-def test_tunnel_between__horz_first(wall_map):
-    rect = rectangle.Rectangle(x=0, y=0, width=3, height=3)
+
+def test_tunnel_between__horz_first():
     start = (0, 0)
     end = (2, 2)
     result = procgen.tunnel_between(start, end, twist=1)
@@ -90,8 +89,7 @@ def test_tunnel_between__horz_first(wall_map):
     ]
 
 
-def test_tunnel_between__vert_first(wall_map):
-    rect = rectangle.Rectangle(x=0, y=0, width=3, height=3)
+def test_tunnel_between__vert_first():
     start = (0, 0)
     end = (2, 2)
     result = procgen.tunnel_between(start, end, twist=2)
@@ -105,4 +103,3 @@ def test_tunnel_between__vert_first(wall_map):
 @pytest.mark.skip(reason='Method too complicated')
 def test_place_entities():
     pass
-

@@ -1,10 +1,10 @@
 """ Tests for actors.py """
 
-import pytest
 import factories
 import copy
 import actors
 import entity
+
 
 def test_Actor_subclass_of_Entity():
     player = copy.deepcopy(factories.player)

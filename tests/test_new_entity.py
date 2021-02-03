@@ -73,7 +73,7 @@ def test_Entity_init__rm_comp__success_returns_True():
 
 def test_Entity_init__rm_comp__fail_returns_False():
     e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    result = e.rm_comp('z')
+    e.rm_comp('z')
     # Raise exception?
 
 

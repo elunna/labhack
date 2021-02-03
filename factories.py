@@ -1,7 +1,5 @@
-from components.ai import ApproachAI, HeroControllerAI, StationaryAI, GridMoveAI
-from components import equippable
+from components.ai import HeroControllerAI
 from components.energy import EnergyMeter
-from components import consumable
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -12,7 +10,6 @@ import items
 import item_db
 import random
 import settings
-import tcod
 
 
 def mk_actor(monster_name):
@@ -28,8 +25,10 @@ def mk_actor(monster_name):
         energymeter=bestiary.monsters[monster_name]['energymeter'],
     )
 
+
 # Build a dict of monster names and Actors
 monsters = {m: mk_actor(m) for m in bestiary.monsters}
+
 
 def mk_item(item_name):
     return items.Item(
@@ -44,11 +43,11 @@ def mk_item(item_name):
 item_dict = {i: mk_item(i) for i in item_db.items}
 
 
-def get_monster(self, name):
+def get_monster(name):
     return monsters[name]
 
 
-def get_item(self, name):
+def get_item(name):
     return item_dict[name]
 
 
@@ -127,4 +126,3 @@ player = actors.Actor(
     level=Level(level_up_base=200),
     energymeter=EnergyMeter(threshold=settings.normal),
 )
-

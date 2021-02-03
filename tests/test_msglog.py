@@ -1,9 +1,8 @@
 """ Tests for msg_log.py """
-
-import pytest
 import msg_log
 
 test_text = 'This is a test'
+
 
 def test_Message():
     m = msg_log.Message(test_text)
@@ -45,8 +44,7 @@ def test_MessageLog__add_message_same():
     assert ml.messages[0].full_text == f'{test_text} (x2)'
 
 
-# wrap
-def test_MessageLog__add_message_same():
+def test_MessageLog__wrap():
     ml = msg_log.MessageLog()
     result = ml.wrap(test_text, 4)
 

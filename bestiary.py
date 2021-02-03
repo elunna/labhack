@@ -41,7 +41,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
-    "flaming sphere" : {
+    "flaming sphere": {
         "char": "e",
         "color": tcod.red,
         "ai_cls": ApproachAI,
@@ -52,7 +52,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
-    "freezing sphere" : {
+    "freezing sphere": {
         "char": "e",
         "color": tcod.blue,
         "ai_cls": ApproachAI,
@@ -63,7 +63,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
-    "shocking sphere" : {
+    "shocking sphere": {
         "char": "e",
         "color": tcod.azure,
         "ai_cls": ApproachAI,
@@ -74,7 +74,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
-    "jiggling blob" : {
+    "jiggling blob": {
         "char": "b",
         "color": tcod.magenta,
         "ai_cls": ApproachAI,
@@ -85,7 +85,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
-    "lava blob" : {
+    "lava blob": {
         "char": "b",
         "color": tcod.red,
         "ai_cls": ApproachAI,
@@ -96,7 +96,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
-    "static blob" : {
+    "static blob": {
         "char": "b",
         "color": tcod.violet,
         "ai_cls": ApproachAI,
@@ -107,7 +107,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
-    "burbling blob" : {
+    "burbling blob": {
         "char": "b",
         "color": tcod.dark_gray,
         "ai_cls": ApproachAI,
@@ -118,7 +118,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
-    "quivering blob" : {
+    "quivering blob": {
         "char": "b",
         "color": tcod.white,
         "ai_cls": ApproachAI,
@@ -129,7 +129,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
-    "gelatinous cube" : {
+    "gelatinous cube": {
         "char": "b",
         "color": tcod.light_blue,
         "ai_cls": ApproachAI,
@@ -140,7 +140,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.very_slow)
     },
 
-    "acid blob" : {
+    "acid blob": {
         "char": "b",
         "color": tcod.light_green,
         "ai_cls": ApproachAI,
@@ -151,7 +151,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
-    "lichen" : {
+    "lichen": {
         "char": "F",
         "color": tcod.light_green,
         "ai_cls": ApproachAI,
@@ -162,7 +162,7 @@ monsters = {
         "energymeter": EnergyMeter(threshold=settings.very_slow)
     },
 
-    "brown mold" : {
+    "brown mold": {
         "char": "F",
         "color": tcod.amber,
         "ai_cls": StationaryAI,

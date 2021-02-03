@@ -1,5 +1,4 @@
 from components.component import Component
-from settings import EquipmentType
 
 
 class Equipment(Component):

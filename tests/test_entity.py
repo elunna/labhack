@@ -6,6 +6,7 @@ import pytest
 import settings
 import tile_types
 
+
 @pytest.fixture
 def open_map():
     m = game_map.GameMap(width=10, height=10)

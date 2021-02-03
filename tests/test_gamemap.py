@@ -6,9 +6,11 @@ import game_map
 import pytest
 import tile_types
 
+
 @pytest.fixture
 def test_map():
     return game_map.GameMap(width=10, height=15)
+
 
 @pytest.fixture
 def empty_map():

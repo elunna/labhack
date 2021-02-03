@@ -1,5 +1,6 @@
 from components.component import Component
 
+
 class EnergyMeter(Component):
     def __init__(self, threshold):
         self.threshold = threshold

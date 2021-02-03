@@ -3,9 +3,10 @@
 from components.component import Component
 from components.energy import EnergyMeter
 
+
 def test_EnergyMeter_is_Component():
     em = EnergyMeter(threshold=10)
-    assert isinstance (em, Component)
+    assert isinstance(em, Component)
 
 
 def test_EnergyMeter_init():

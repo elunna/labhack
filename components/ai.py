@@ -4,6 +4,7 @@ import numpy as np  # type: ignore
 import random
 import tcod
 
+
 class BaseAI:
     def __init__(self, entity):
         self.entity = entity
@@ -109,6 +110,7 @@ class ApproachAI(BaseAI):
         self.path = []
 
     def yield_action(self):
+        # How do we get different targets available? yield_action(game_map, target?)
         target = self.engine.player
         dx = target.x - self.entity.x
         dy = target.y - self.entity.y

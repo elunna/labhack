@@ -71,4 +71,3 @@ up_stairs = new_tile(
     dark=(ord("<"), (0, 0, 100), (50, 50, 150)),  # Original
     light=(ord("<"), (255, 255, 255), (200, 180, 50)),  # Original
 )
-

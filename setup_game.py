@@ -3,10 +3,10 @@ from engine import Engine
 import game_world
 import copy
 import factories
+import logger
 import lzma
 import pickle
 
-import logger
 log = logger.get_logger(__name__)
 
 

@@ -6,7 +6,9 @@ from engine import Engine
 import components.ai
 import copy
 import factories
+import game_map
 import pytest
+import tile_types
 
 
 @pytest.fixture
@@ -179,10 +181,10 @@ def test_ConfusedAI_yield_action__no_turns_remaining():
         previous_ai=components.ai.HeroControllerAI,
         turns_remaining=4
     )
-    ai.yield_action() # 3 remaining
-    ai.yield_action() # 2 remaining
-    ai.yield_action() # 1 remaining
-    ai.yield_action() # 0 remaining
+    ai.yield_action()  # 3 remaining
+    ai.yield_action()  # 2 remaining
+    ai.yield_action()  # 1 remaining
+    ai.yield_action()  # 0 remaining
 
     assert isinstance(player.ai, components.ai.HeroControllerAI)
 
@@ -196,6 +198,7 @@ def test_ParalyzedAI_is_Component():
         turns_remaining=4
     )
     assert isinstance(ai, Component)
+
 
 def test_ParalyzedAI_init():
     player = copy.deepcopy(factories.player)
@@ -223,7 +226,7 @@ def test_ParalyzedAI_yield_action():
 
     result = ai.yield_action()
     assert isinstance(result, WaitAction)
-    assert at.turns_remaining == 3
+    assert ai.turns_remaining == 3
 
 
 @pytest.mark.skip(reason='Requires engine reference')
@@ -234,9 +237,9 @@ def test_ParalyzedAI_yield_action__no_turns_remaining():
         previous_ai=components.ai.HeroControllerAI,
         turns_remaining=4
     )
-    ai.yield_action() # 3 remaining
-    ai.yield_action() # 2 remaining
-    ai.yield_action() # 1 remaining
-    ai.yield_action() # 0 remaining
+    ai.yield_action()  # 3 remaining
+    ai.yield_action()  # 2 remaining
+    ai.yield_action()  # 1 remaining
+    ai.yield_action()  # 0 remaining
 
     assert isinstance(player.ai, components.ai.HeroControllerAI)

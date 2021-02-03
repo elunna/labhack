@@ -9,6 +9,8 @@ log = logger.get_logger(__name__)
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
+    # TODO: Allow passing a string to specify the tile-type? Or int? Char?
+    # '#' = Wall, '.' = Floor, ',' = grass?
     def __init__(self,
                  width,
                  height,
@@ -41,7 +43,6 @@ class GameMap:
             fill_value=False,
             order="F"
         )  # Tiles the player has seen before
-
 
     @property
     def gamemap(self):
@@ -83,10 +84,8 @@ class GameMap:
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
 
-
     def walkable(self, x, y):
         return self.tiles["walkable"][x, y]
-
 
     def get_names_at(self, x, y):
         """ Checks a set of coordinates for entities. Creates a string of the

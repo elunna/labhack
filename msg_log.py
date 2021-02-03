@@ -44,4 +44,3 @@ class MessageLog:
             yield from textwrap.wrap(
                 line, width, expand_tabs=True,
             )
-

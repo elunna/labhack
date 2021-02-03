@@ -23,6 +23,7 @@ def generate_map(
 
     # Create new GameMap, filled with walls
     new_map = game_map.GameMap(map_width, map_height)
+    # TODO: Add rooms to GameMap variables.
     rooms = []
 
     center_of_last_room = (0, 0)
@@ -110,6 +111,7 @@ def tunnel_between(start, end, twist=0):
     # We can return generators to make this even better.
 
     # TODO: The angle corner is repeated, can we improve this?
+    # TODO: Instead of generator, let's just return a list. Easier to comprehend.
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
         yield x, y
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():

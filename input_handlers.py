@@ -13,8 +13,9 @@ import traceback
 
 log = logger.get_logger(__name__)
 
-""" Each state(inputhandler) has a separate render/draw function, and is passed the current game engine as an argument.
-    That way you can segregate code for each screen and keep your render functions small, easy to read, and fast to compile.
+""" Each state(inputhandler) has a separate render/draw function, and is passed the current 
+game engine as an argument. That way you can segregate code for each screen and keep your 
+render functions small, easy to read, and fast to compile.
 """
 
 ActionOrHandler = Union[actions.Action, "BaseEventHandler"]

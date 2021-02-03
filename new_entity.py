@@ -65,15 +65,3 @@ class Entity(object):
             return True
         return False
 
-    def move(self, dx, dy):
-        # Move the entity by a given amount
-        dest_x = self.x + dx
-        dest_y = self.y + dy
-
-        if dest_x < 0 or dest_y < 0:
-            raise ValueError('move cannot place entity in a negative x or y: ({}, {})'.format(dest_x, dest_y))
-        self.x += dx
-        self.y += dy
-
-    def distance_to(self, other):
-        return stages.Stage.distance_between_entities(self, other)

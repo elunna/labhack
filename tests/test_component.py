@@ -3,7 +3,6 @@
 from components.component import Component
 
 
-# Tests for BaseComponent
 def test_Component__init():
     c = Component()
     assert c.parent is None

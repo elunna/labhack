@@ -1,14 +1,12 @@
 """ Tests for items.py """
-
-import pytest
-import items
-import entity
 from settings import RenderOrder
+import entity
+import items
 
 
 def test_Item_subclass_of_Entity():
     i = items.Item()
-    assert isinstance (i, entity.Entity)
+    assert isinstance(i, entity.Entity)
 
 
 def test_Item_init_defaults():

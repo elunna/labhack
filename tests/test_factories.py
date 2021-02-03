@@ -3,10 +3,6 @@ import factories
 import pytest
 
 
-# def test_MonsterFactory():
-    # mf = factories.MonsterFactory()
-
-
 max_foos_by_floor = [
     (0, 1), (2, 2), (3, 3), (5, 5)
 ]
@@ -45,5 +41,3 @@ weighted_chances = {
 @pytest.mark.skip(reason='Create sample tables for testing')
 def test_get_entities_at_random():
     pass
-
-
