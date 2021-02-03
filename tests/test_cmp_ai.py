@@ -36,12 +36,10 @@ def test_BaseAI__subclass_of_BaseAI_and_Component():
     assert isinstance(ai, BaseAI)
 
 
-@pytest.mark.skip(reason='Should we handle entity not having a gamemap/engine?')
-def test_BaseAI_engine():
+def test_BaseAI_engine__no_engine_set_on_entity():
     player = copy.deepcopy(factories.player)
     ai = components.ai.BaseAI(player)
-    result = ai.engine
-    assert isinstance(result, Engine)
+    assert ai.engine is None
 
 
 def test_BaseAI_yield_action():
