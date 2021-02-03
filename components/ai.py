@@ -3,16 +3,12 @@ import settings
 import numpy as np  # type: ignore
 import random
 import tcod
+from components.component import Component
 
 
-class BaseAI:
+class BaseAI(Component):
     def __init__(self, entity):
         self.entity = entity
-
-    @property
-    def engine(self):
-        """Return the engine this action belongs to."""
-        return self.entity.gamemap.engine
 
     def yield_action(self):
         """ Generate an action with the objects needed to determine its scope.
