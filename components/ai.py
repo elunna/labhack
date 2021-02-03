@@ -20,6 +20,7 @@ class BaseAI(Component):
         raise NotImplementedError()
 
     def get_path_to(self, dest_x, dest_y, grid_movement=False):
+        # TODO: Maybe move this to a pathfinding module?
         """ Compute and return a path to the target position.
             If there is no valid path then returns an empty list.
 
