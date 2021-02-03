@@ -1,3 +1,4 @@
+from components.component import Component
 import copy
 import math
 
@@ -54,6 +55,10 @@ class Entity(object):
         for k, v in kwargs.items():
             self.components[k] = v
 
+            # If Component, set it's parent
+            if isinstance(v, Component):
+                v.parent = self
+
     def has_comp(self, component):
         if component in self.components:
             return True
@@ -62,9 +67,10 @@ class Entity(object):
     def rm_comp(self, component):
         if component in self.components:
             self.components.pop(component)
+            # Set it's parent to None
+            component.parent = None
             return True
         return False
-
 
     @property
     def gamemap(self):
