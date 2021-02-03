@@ -1,8 +1,6 @@
 How the event handling works...
 
-
 BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
-
     def handle_events(self, event):
         """Handle an event and return the next active event handler."""
 
@@ -11,7 +9,6 @@ BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
 
     def ev_quit(self, event):
         raise SystemExit()
-
 
 EventHandler(BaseEventHandler):
    def handle_events(self, event):
@@ -66,3 +63,32 @@ BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler])
             AreaRangedAttackHandler(SelectMapIndexHandler)
         LevelUpHandler(AskUserHandler)
         CharacterScrHandler(AskUserHandler)
+
+      -----------------------------------------------------------------------------
+The Entity-Component System
+
+Entity:
+    parent = gamemap
+
+    methods:
+        str
+        gamemap
+        move (PositionComponent)
+        spawn
+        place (PositionComponent)
+        distance (PositionComponent)
+
+Component:
+    parent = entity
+
+    methods:
+        gamemap
+        engine
+
+
+Action:
+    All actions set the Entity
+    They can access the engine (and the gamemap) through the Entity.
+    methods:
+        engine
+        perform()
