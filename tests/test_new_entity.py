@@ -95,28 +95,3 @@ def test_Entity_init__blocks_component():
     assert e.blocks
     assert 'blocks' in e.components
 
-
-def test_Entity_move__to_a_negative_x():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    with pytest.raises(ValueError):
-        e.move(-1, 2)
-
-
-def test_Entity_move__to_a_negative_y():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    with pytest.raises(ValueError):
-        e.move(1, -2)
-
-
-def test_Entity_move__positive_values():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.move(1, 2)
-    assert e.x == 1
-    assert e.y == 2
-
-
-def test_Entity_move__negative_values():
-    e = Entity(x=10, y=10, char='@', color=None, name='Player')
-    e.move(-1, 2)
-    assert e.x == 9
-    assert e.y == 12
