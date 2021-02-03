@@ -1,5 +1,6 @@
 import pytest
 from new_entity import Entity
+from components.fighter import Fighter
 
 
 def test_Entity_init__defaults():
@@ -95,3 +96,18 @@ def test_Entity_init__blocks_component():
     assert e.blocks
     assert 'blocks' in e.components
 
+
+def test_Entity__with_Fighter():
+    e = Entity(
+        name='Player',
+        fighter=Fighter(hp=1, base_defense=2, base_power=3)
+    )
+
+    # Try all the different things with the Fighter components
+    assert e.fighter.hp == 1
+    assert e.fighter.base_defense == 2
+    assert e.fighter.base_power == 3
+    # assert "fighter" in e
+    assert e.has_comp("fighter")
+    e.rm_comp("fighter")
+    assert not e.has_comp("fighter")

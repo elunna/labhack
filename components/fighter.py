@@ -10,6 +10,8 @@ class Fighter(Component):
         self.base_defense = base_defense
         self.base_power = base_power
 
+    # TODO: Add contains for comps
+
     @property
     def hp(self):
         # Just returns the hp

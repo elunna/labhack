@@ -4,9 +4,6 @@ class Entity(object):
         A component must be of type: BaseComponent.
         All entities have some base info:
             x, y, char, name, color
-            x, y can be a PositionComponent
-            name can be a NameComponent (along with unidentified appearence)
-            char, color can be DisplayComponent
 
         This structure with getattr and setattr allows us to access attributes
         of components easily from the entity, without subcalling the components
