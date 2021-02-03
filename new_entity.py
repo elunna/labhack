@@ -1,3 +1,6 @@
+import copy
+import math
+
 class Entity(object):
     """ A generic object to represent players, enemies, items, etc.
         We use a dictionary to manage the entity's Components.
@@ -62,3 +65,43 @@ class Entity(object):
             return True
         return False
 
+
+    @property
+    def gamemap(self):
+        # TODO: Deal with this, find reasonable usage or factor out.
+        # Or check if parent is None first..
+        return self.parent.gamemap
+
+    def move(self, dx, dy):
+        # Move the entity by a given amount
+        self.x += dx
+        self.y += dy
+
+    def spawn(self, gamemap, x, y):
+        """Spawn a copy of this instance at the given location."""
+        # TODO: Move this to gamemap?
+        clone = copy.deepcopy(self)
+        clone.x = x
+        clone.y = y
+        clone.parent = gamemap
+        gamemap.entities.add(clone)
+        return clone
+
+    def place(self, x, y, gamemap=None):
+        """Place this entity at a new location.  Handles moving across GameMaps."""
+        # TODO: Move this to gamemap?
+        self.x, self.y = x, y
+
+        if gamemap:
+            if hasattr(self, "parent"):  # Possibly uninitialized.
+                if self.parent is self.gamemap:
+                    self.gamemap.entities.remove(self)
+            self.parent = gamemap
+            gamemap.entities.add(self)
+
+    def distance(self, x, y):
+        """Return the distance between the current entity and the given (x, y) coordinate.
+            Return as a float value.
+        """
+        # TODO: Move this to gamemap?
+        return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
