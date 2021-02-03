@@ -7,247 +7,17 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 
+
 monsters = {
-    "gas spore": {
-        "char": "e",
-        "color": tcod.gray,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=8, base_defense=1, base_power=5),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "yellow light": {
-        "char": "e",
-        "color": tcod.yellow,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.fast)
-    },
-
-    "black light": {
-        "char": "e",
-        "color": tcod.purple,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.fast)
-    },
-
-    "flaming sphere": {
-        "char": "e",
-        "color": tcod.red,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=2, base_defense=1, base_power=10),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.fast)
-    },
-
-    "freezing sphere": {
-        "char": "e",
-        "color": tcod.blue,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=2, base_defense=1, base_power=10),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.fast)
-    },
-
-    "shocking sphere": {
-        "char": "e",
-        "color": tcod.azure,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=2, base_defense=1, base_power=10),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.fast)
-    },
-
-    "jiggling blob": {
-        "char": "b",
-        "color": tcod.magenta,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=11, base_defense=3, base_power=3),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "lava blob": {
-        "char": "b",
-        "color": tcod.red,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=11, base_defense=3, base_power=3),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "static blob": {
-        "char": "b",
-        "color": tcod.violet,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=11, base_defense=3, base_power=3),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "burbling blob": {
-        "char": "b",
-        "color": tcod.dark_gray,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=11, base_defense=3, base_power=3),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "quivering blob": {
-        "char": "b",
-        "color": tcod.white,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=6, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.slow)
-    },
-
-    "gelatinous cube": {
-        "char": "b",
-        "color": tcod.light_blue,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=30, base_defense=5, base_power=15),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.very_slow)
-    },
-
-    "acid blob": {
-        "char": "b",
+    "cleaning robot": {
+        "char": "R",
         "color": tcod.light_green,
         "ai_cls": ApproachAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=8, base_defense=2, base_power=4),
+        "fighter": Fighter(hp=3, base_defense=1, base_power=1),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=20),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "lichen": {
-        "char": "F",
-        "color": tcod.light_green,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=1),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=2),
         "energymeter": EnergyMeter(threshold=settings.very_slow)
-    },
-
-    "brown mold": {
-        "char": "F",
-        "color": tcod.amber,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "yellow mold": {
-        "char": "F",
-        "color": tcod.yellow,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "green mold": {
-        "char": "F",
-        "color": tcod.dark_green,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "red mold": {
-        "char": "F",
-        "color": tcod.red,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "shrieker": {
-        "char": "F",
-        "color": tcod.purple,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.very_slow)
-    },
-
-    "violet fungus": {
-        "char": "F",
-        "color": tcod.violet,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.very_slow)
-    },
-
-    "disgusting mold": {
-        "char": "F",
-        "color": tcod.cyan,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=8, base_defense=2, base_power=8),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "black mold": {
-        "char": "F",
-        "color": tcod.darkest_gray,
-        "ai_cls": StationaryAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=10, base_defense=4, base_power=16),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
     "grid bug": {
@@ -255,75 +25,196 @@ monsters = {
         "color": tcod.magenta,
         "ai_cls": GridMoveAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=1, base_defense=1, base_power=2),
+        "fighter": Fighter(hp=1, base_defense=1, base_power=1),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=1),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
-    "spark bug": {
-        "char": "x",
-        "color": tcod.violet,
+    "mouse": {
+        "char": "r",
+        "color": tcod.gray,
         "ai_cls": ApproachAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=2, base_defense=2, base_power=2),
+        "fighter": Fighter(hp=2, base_defense=1, base_power=1),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=2),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
-    "arc bug": {
-        "char": "x",
-        "color": tcod.orange,
+    "broken robot": {
+        "char": "R",
+        "color": tcod.black,
+        "ai_cls": StationaryAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=8, base_defense=1, base_power=1),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.normal)
+    },
+
+    "drone zapper": {
+        "char": "R",
+        "color": tcod.blue,
         "ai_cls": ApproachAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=4, base_defense=4, base_power=4),
+        "fighter": Fighter(hp=4, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=2),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
-    "lightning bug": {
-        "char": "x",
-        "color": tcod.light_yellow,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=8, base_defense=8, base_power=8),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "firefly": {
-        "char": "x",
-        "color": tcod.light_red,
-        "ai_cls": ApproachAI,
-        "equipment": Equipment(),
-        "fighter": Fighter(hp=4, base_defense=1, base_power=1),
-        "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
-        "energymeter": EnergyMeter(threshold=settings.normal)
-    },
-
-    "orc": {
-        "char": "o",
+    "jumping spider": {
+        "char": "s",
         "color": tcod.yellow,
         "ai_cls": ApproachAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=10, base_defense=0, base_power=4),
+        "fighter": Fighter(hp=2, base_defense=1, base_power=4),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.fast)
+    },
+
+    "med-school dropout": {
+        "char": "@",
+        "color": tcod.white,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6, base_defense=1, base_power=2),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.slow)
+    },
+
+    "rabbit": {
+        "char": "r",
+        "color": tcod.white,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=2, base_defense=1, base_power=2),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.fast)
+    },
+
+    "venus fly trap": {
+        "char": "P",
+        "color": tcod.green,
+        "ai_cls": StationaryAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=5, base_defense=1, base_power=2),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=3),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
-    "troll": {
-        "char": "T",
-        "color": tcod.amber,
+    "face-sucker": {
+        "char": "Q",
+        "color": tcod.blue,
         "ai_cls": ApproachAI,
         "equipment": Equipment(),
-        "fighter": Fighter(hp=16, base_defense=2, base_power=6),
+        "fighter": Fighter(hp=5, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=100),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.very_fast)
+    },
+
+    "giant tick": {
+        "char": "a",
+        "color": tcod.gray,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=3, base_defense=1, base_power=5),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
         "energymeter": EnergyMeter(threshold=settings.fast)
+    },
+
+    "giant leech": {
+        "char": "L",
+        "color": tcod.dark_green,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=8, base_defense=1, base_power=5),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.slow)
+    },
+
+    "spiked drone": {
+        "char": "R",
+        "color": tcod.brass,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=5, base_defense=1, base_power=5),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.normal)
+    },
+
+    "defense turret": {
+        "char": "T",
+        "color": tcod.light_blue,
+        "ai_cls": StationaryAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=10, base_defense=1, base_power=2),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.fast)
+    },
+
+    "rookie agent": {
+        "char": "@",
+        "color": tcod.dark_gray,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=2, base_defense=1, base_power=2),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.fast)
+    },
+
+    "squealer": {
+        "char": "Q",
+        "color": tcod.light_purple,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6, base_defense=1, base_power=3),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.very_fast)
+    },
+
+    "henchman": {
+        "char": "@",
+        "color": tcod.gray,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6, base_defense=1, base_power=6),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.slow)
+    },
+
+    "mangler": {
+        "char": "Q",
+        "color": tcod.fuchsia,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6, base_defense=1, base_power=3),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.very_fast)
+    },
+
+    "scramper": {
+        "char": "Q",
+        "color": tcod.light_green,
+        "ai_cls": ApproachAI,
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=3, base_defense=1, base_power=6),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=2),
+        "energymeter": EnergyMeter(threshold=settings.very_fast)
     },
 }
