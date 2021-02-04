@@ -10,6 +10,7 @@ class Action:
     def __init__(self, entity):
         super().__init__()
         self.entity = entity
+        self.msg = ''
 
     @property
     def engine(self):
@@ -42,12 +43,14 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self):
         """Return the blocking entity at this actions destination.."""
-        return self.engine.game_map.get_blocker_at(*self.dest_xy)
+        # return self.engine.game_map.get_blocker_at(*self.dest_xy)
+        return self.entity.gamemap.get_blocker_at(*self.dest_xy)
 
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        return self.engine.game_map.get_actor_at(*self.dest_xy)
+        # return self.engine.game_map.get_actor_at(*self.dest_xy)
+        return self.entity.gamemap.get_actor_at(*self.dest_xy)
 
     def perform(self):
         raise NotImplementedError()

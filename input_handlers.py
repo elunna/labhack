@@ -13,8 +13,8 @@ import traceback
 
 log = logger.get_logger(__name__)
 
-""" Each state(inputhandler) has a separate render/draw function, and is passed the current 
-game engine as an argument. That way you can segregate code for each screen and keep your 
+""" Each state(inputhandler) has a separate render/draw function, and is passed the current
+game engine as an argument. That way you can segregate code for each screen and keep your
 render functions small, easy to read, and fast to compile.
 """
 
@@ -90,9 +90,14 @@ class EventHandler(BaseEventHandler):
 
         try:
             action.perform()
+
         except exceptions.Impossible as exc:
             self.engine.msg_log.add_message(exc.args[0])
             return False  # Skip enemy turn on exceptions
+
+        # Action messages:
+        if action.msg:
+            self.engine.msg_log.add_message(action.msg)
 
         # Here - we will evaluate the player's energy
         # Use up a turn worth of energy

@@ -79,4 +79,6 @@ class Fighter(Component):
         # self.parent.render_order = RenderOrder.CORPSE
 
         self.engine.msg_log.add_message(death_message)
+
+        # TODO: Other entities should be able to get xp
         self.engine.player.level.add_xp(self.parent.level.xp_given)
