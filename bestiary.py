@@ -16,7 +16,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=3, base_defense=1, base_power=1),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=4),
         "energymeter": EnergyMeter(threshold=settings.very_slow)
     },
 
@@ -49,7 +49,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=8, base_defense=1, base_power=1),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=5),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
@@ -60,7 +60,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=4, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=12),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
@@ -71,7 +71,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=2, base_defense=1, base_power=4),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=10),
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
@@ -82,7 +82,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=6, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=13),
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
@@ -93,7 +93,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=2, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=7),
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
@@ -104,7 +104,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=5, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=3),
+        "level": Level(xp_given=8),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
@@ -115,7 +115,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=5, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=27),
         "energymeter": EnergyMeter(threshold=settings.very_fast)
     },
 
@@ -126,7 +126,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=3, base_defense=1, base_power=5),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=21),
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
@@ -137,7 +137,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=8, base_defense=1, base_power=5),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=33),
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
@@ -148,7 +148,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=5, base_defense=1, base_power=5),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=25),
         "energymeter": EnergyMeter(threshold=settings.normal)
     },
 
@@ -159,7 +159,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=10, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=45),
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
@@ -170,7 +170,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=2, base_defense=1, base_power=2),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=35),
         "energymeter": EnergyMeter(threshold=settings.fast)
     },
 
@@ -181,7 +181,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=6, base_defense=1, base_power=3),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=55),
         "energymeter": EnergyMeter(threshold=settings.very_fast)
     },
 
@@ -192,7 +192,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=6, base_defense=1, base_power=6),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=65),
         "energymeter": EnergyMeter(threshold=settings.slow)
     },
 
@@ -203,7 +203,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=6, base_defense=1, base_power=3),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=75),
         "energymeter": EnergyMeter(threshold=settings.very_fast)
     },
 
@@ -214,7 +214,7 @@ monsters = {
         "equipment": Equipment(),
         "fighter": Fighter(hp=3, base_defense=1, base_power=6),
         "inventory": Inventory(capacity=0),
-        "level": Level(xp_given=2),
+        "level": Level(xp_given=80),
         "energymeter": EnergyMeter(threshold=settings.very_fast)
     },
 }
