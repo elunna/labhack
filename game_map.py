@@ -101,3 +101,12 @@ class GameMap:
         # Sort them - so the list is predictable (and testable), then
         # capitalize and join them with commas.
         return ", ".join(e.capitalize() for e in sorted(entity_names))
+
+    def get_player(self):
+        """ Searches for the Player entity and returns it, if the player is
+            not on the level this returns None.
+        """
+        for actor in self.actors:
+            if actor.name == 'Player':
+                return actor
+        return None
