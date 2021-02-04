@@ -2,6 +2,7 @@ from components.component import Component
 import copy
 import math
 
+
 class Entity(object):
     """ A generic object to represent players, enemies, items, etc.
         We use a dictionary to manage the entity's Components.
@@ -67,8 +68,10 @@ class Entity(object):
     def rm_comp(self, component):
         if component in self.components:
             self.components.pop(component)
-            # Set it's parent to None
-            component.parent = None
+
+            if isinstance(component, Component):
+                # Set it's parent to None
+                component.parent = None
             return True
         return False
 
