@@ -123,6 +123,6 @@ player = actors.Actor(
 
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
-    level=Level(level_up_base=200),
+    level=Level(),
     energymeter=EnergyMeter(threshold=settings.normal),
 )
