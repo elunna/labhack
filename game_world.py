@@ -17,6 +17,9 @@ class GameWorld:
         self.engine = engine
         self.current_floor = current_floor
 
+        # Auto generate the first level
+        self.generate_floor()
+
     def generate_floor(self):
         # Generate new map each time we go down a floor.
         self.current_floor += 1
@@ -29,10 +32,9 @@ class GameWorld:
             map_height=settings.map_height,
             floor_number=self.current_floor,
         )
-        # The first room, where the player starts.
-        self.engine.player.place(*new_map.upstairs_location, new_map)
 
         # Add the engine to the map.
         new_map.engine = self.engine
 
+        # Set the engine's current map to the new map
         self.engine.game_map = new_map

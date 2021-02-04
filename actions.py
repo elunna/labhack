@@ -198,8 +198,17 @@ class PickupAction(Action):
 class TakeStairsAction(Action):
     def perform(self):
         """ Take the stairs, if any exist at the entity's location. """
-        if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
+        your_location = (self.entity.x, self.entity.y)
+
+        if your_location == self.engine.game_map.downstairs_location:
+            # Generate a new floor
             self.engine.game_world.generate_floor()
+
+            upstair = self.engine.game_map.upstairs_location
+
+            # Move the player.
+            self.engine.player.place(*upstair, self.engine.game_map)
+
             self.engine.msg_log.add_message(
                 "You descend the staircase.",
             )

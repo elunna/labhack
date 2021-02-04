@@ -19,8 +19,13 @@ def new_game():
     engine = Engine(player=player)
 
     engine.game_world = game_world.GameWorld(engine=engine)
+    new_map = engine.game_map
 
-    engine.game_world.generate_floor()
+    # engine.game_world.generate_floor()
+
+    # The first room, where the player starts.
+    engine.player.place(*new_map.upstairs_location, new_map)
+
     engine.update_fov()
 
     engine.msg_log.add_message("Hello and welcome, adventurer, to yet another dungeon!")
