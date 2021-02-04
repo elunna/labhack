@@ -5,11 +5,14 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
 import actors
+import copy
 import bestiary
+import game_map
 import items
 import item_db
 import random
 import settings
+import tile_types
 
 
 def mk_actor(monster_name):
@@ -113,6 +116,7 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     return chosen_entities
 
 
+# TODO: Move to it's own module, create it's own class
 player = actors.Actor(
     char="@",
     color=(255, 255, 255),
@@ -126,3 +130,38 @@ player = actors.Actor(
     level=Level(),
     energymeter=EnergyMeter(threshold=settings.normal),
 )
+
+def cp_player():
+    return copy.deepcopy(player)
+
+def test_map():
+    # Door pending
+
+    #   0 1 2 3 4 5
+    # 0 # # . . . .
+    # 1 # # . . . .
+    # 2 . + . . . .
+    # 3 # # . . # .
+    # 4 # # . . # .
+    # 5 # # x . . $
+
+    new_map = game_map.GameMap(
+        width=6,
+        height=6,
+        entities=(),
+        engine=None,
+        fill_tile=tile_types.floor
+    )
+    walls = [(0, 0), (1, 0),
+             (0, 1), (1, 1),
+             (0, 3), (1, 3), (4, 3),
+             (0, 4), (1, 4), (4, 4),
+             (0, 5), (1, 5),
+             ]
+    for x, y in walls:
+        new_map.tiles[x, y] = tile_types.wall
+
+    grid_bug = mk_actor('grid bug')
+    grid_bug.place(2, 5, new_map)
+
+    return new_map
