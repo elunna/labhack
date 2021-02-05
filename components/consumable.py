@@ -3,7 +3,7 @@ from components.base_component import BaseComponent
 from components.inventory import Inventory
 from components.ai import ConfusedAI
 from src.exceptions import Impossible
-from src import color, input_handlers
+from src import color, handlers
 
 
 class Consumable(BaseComponent):
@@ -81,7 +81,7 @@ class ConfusionConsumable(Consumable):
         self.engine.message_log.add_message(
             "Select a target location.", color.needs_target
         )
-        return input_handlers.SingleRangedAttackHandler(
+        return handlers.SingleRangedAttackHandler(
             self.engine,
             # “xy” will be the coordinates of the target. The lambda function
             # executes ItemAction, which receives the consumer, the parent (the
@@ -121,7 +121,7 @@ class FireballDamageConsumable(Consumable):
         self.engine.message_log.add_message(
             "Select a target location.", color.needs_target
         )
-        return input_handlers.AreaRangedAttackHandler(
+        return handlers.AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
             callback=lambda xy: ItemAction(consumer, self.parent, xy),

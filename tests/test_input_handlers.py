@@ -1,4 +1,4 @@
-""" Tests for input_handlers.py """
+""" Tests for handlers.py """
 
 # ActionOrHandler
 
