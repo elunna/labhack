@@ -104,7 +104,7 @@ def test_Fighter_heal__over_max():
 
 def test_Fighter_take_damage__non_lethal():
     f = Fighter(hp=10, base_ac=15, base_pow=20)
-    f.take_damage(2)
+    f.take_dmg(2)
     assert f.hp == 8
 
 
@@ -112,7 +112,7 @@ def test_Fighter_take_damage__non_lethal():
 def test_Fighter_take_damage__lethal(player):
     f = Fighter(hp=10, base_ac=15, base_pow=20)
     f.parent = player  # Needs parent to check it's equipment
-    f.take_damage(1000)
+    f.take_dmg(1000)
     assert f.hp < 0
 
 

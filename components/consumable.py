@@ -67,7 +67,7 @@ class LightningDamageConsumable(Consumable):
             self.engine.message_log.add_message(
                 f"A lighting bolt zaps the {target.name} with a roaring crack!!"
             )
-            target.fighter.take_damage(self.damage)
+            target.fighter.take_dmg(self.damage)
             self.consume()
         else:
             raise Impossible("No enemy is close enough to strike.")
@@ -148,7 +148,7 @@ class FireballDamageConsumable(Consumable):
                 self.engine.message_log.add_message(
                     f"The {actor.name} is engulfed in a fiery explosion!"
                 )
-                actor.fighter.take_damage(self.damage)
+                actor.fighter.take_dmg(self.damage)
                 targets_hit = True
 
         if not targets_hit:
