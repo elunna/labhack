@@ -44,7 +44,7 @@ class ActionWithDirection(Action):
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        return self.engine.game_map.get_actor_at_location(*self.dest_xy)
+        return self.engine.game_map.get_actor_at(*self.dest_xy)
 
     def perform(self):
         raise NotImplementedError()
@@ -74,7 +74,7 @@ class ItemAction(Action):
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        return self.engine.game_map.get_actor_at_location(*self.target_xy)
+        return self.engine.game_map.get_actor_at(*self.target_xy)
 
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""

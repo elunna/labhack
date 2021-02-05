@@ -60,7 +60,7 @@ class GameMap:
 
         return None
 
-    def get_actor_at_location(self, x, y):
+    def get_actor_at(self, x, y):
         for actor in self.actors:
             if actor.x == x and actor.y == y:
                 return actor

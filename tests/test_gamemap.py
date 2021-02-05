@@ -61,12 +61,12 @@ def test_GameMap_get_blocking_entity_at_location__valid_blocker(test_map):
 
 
 def test_GameMap_get_actor_at_location__empty_tile(test_map):
-    result = test_map.get_actor_at_location(0, 0)
+    result = test_map.get_actor_at(0, 0)
     assert result is None
 
 
 def test_GameMap_get_actor_at_location__valid_actor(test_map):
-    result = test_map.get_actor_at_location(5, 5)
+    result = test_map.get_actor_at(5, 5)
     assert result.name == "Player"
 
 
