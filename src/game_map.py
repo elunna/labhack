@@ -6,7 +6,7 @@ import numpy as np
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, engine, width, height, entities=()):
+    def __init__(self, engine, width, height, entities=(), fill_tile=tile_types.wall):
         self.engine = engine
         self.width, self.height = width, height
         self.entities = set(entities)
@@ -14,7 +14,7 @@ class GameMap:
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
             (width, height),
-            fill_value=tile_types.wall,
+            fill_value=fill_tile,
             order="F"
         )
 
