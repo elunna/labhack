@@ -108,7 +108,7 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        damage = self.entity.fighter.pow - target.fighter.ac
+        damage = self.entity.fighter.power - target.fighter.defense
 
         attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name}"
 
