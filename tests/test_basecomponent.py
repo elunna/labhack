@@ -1,4 +1,4 @@
-""" Tests for component.py """
+""" Tests for basecomponent.py """
 
 from components.base_component import BaseComponent
 import pytest

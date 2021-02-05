@@ -1,3 +1,4 @@
+""" Tests for procgen.py """
 from src import procgen
 import pytest
 

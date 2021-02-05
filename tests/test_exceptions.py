@@ -1,4 +1,4 @@
-""" Tests for actors.py """
+""" Tests for exceptions.py """
 from src import exceptions
 
 

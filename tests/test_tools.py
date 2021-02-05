@@ -1,3 +1,4 @@
+""" Tools for testing """
 from src import factory
 from src import gamemap
 from src import tiles

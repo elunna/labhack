@@ -1,4 +1,4 @@
-""" Tests for inventiry.py """
+""" Tests for inventory.py """
 
 from components.base_component import BaseComponent
 from components.inventory import Inventory

@@ -1,3 +1,4 @@
+""" Tests for entity.py """
 from components.fighter import Fighter
 from src.entity import Entity
 from src.renderorder import RenderOrder

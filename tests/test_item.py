@@ -1,4 +1,4 @@
-""" Tests for items.py """
+""" Tests for item.py """
 from src.renderorder import RenderOrder
 from src import entity
 from src import item
