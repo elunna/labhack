@@ -198,3 +198,6 @@ def render_inv(console, engine, title):
         console.print(x + 1, y + 1, "(Empty)")
 
 
+def highlight_cursor(console, x, y):
+    console.tiles_rgb["bg"][x, y] = color.white
+    console.tiles_rgb["fg"][x, y] = color.black

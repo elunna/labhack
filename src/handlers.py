@@ -271,7 +271,7 @@ class InventoryHandler(AskUserHandler):
             If there’s nothing in the inventory, it just prints “Empty”.
         """
         super().on_render(console)
-        rendering.render_inv(console, self.engine)
+        rendering.render_inv(console, self.engine, self.TITLE)
 
     def ev_keydown(self, event):
         # takes the user’s input, from letters a - z, and associates that with
@@ -345,8 +345,7 @@ class SelectIndexHandler(AskUserHandler):
 
         super().on_render(console)
         x, y = self.engine.mouse_location
-        console.tiles_rgb["bg"][x, y] = color.white
-        console.tiles_rgb["fg"][x, y] = color.black
+        rendering.highlight_cursor(console, x, y)
 
     def ev_keydown(self, event):
         """ Check for key movement or confirmation keys.
