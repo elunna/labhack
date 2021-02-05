@@ -1,6 +1,6 @@
 from components.fighter import Fighter
 from src.entity import Entity
-from src.settings import RenderOrder
+from src.renderorder import RenderOrder
 import test_tools
 import pytest
 

@@ -1,6 +1,6 @@
 import copy
 import math
-from .settings import RenderOrder
+from .renderorder import RenderOrder
 
 
 class Entity:

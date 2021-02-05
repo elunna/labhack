@@ -1,5 +1,3 @@
-from enum import Enum, auto
-
 import tcod.event
 
 """ This is a collection of all the constants used in the project."""
@@ -78,18 +76,6 @@ DIRECTIONS = [
 ]
 
 """Enums"""
-
-
-class RenderOrder(Enum):
-    CORPSE = auto()
-    ITEM = auto()
-    ACTOR = auto()
-
-
-class EquipmentType(Enum):
-    WEAPON = auto()
-    ARMOR = auto()
-
 
 """Constants for input keys"""
 

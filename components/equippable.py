@@ -1,5 +1,5 @@
 from components.base_component import BaseComponent
-from src.settings import EquipmentType
+from src.equipment_types import EquipmentType
 
 
 class Equippable(BaseComponent):

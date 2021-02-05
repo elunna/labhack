@@ -1,5 +1,5 @@
 """ Tests for items.py """
-from src.settings import RenderOrder
+from src.renderorder import RenderOrder
 from src import entity
 from src import item
 
