@@ -33,6 +33,8 @@ def new_tile(*, walkable, transparent, dark, light):
     """Helper function for defining individual tile types """
     # *: Enforce the use of keywords, so that parameter order doesn't matter.
     # dark: Tuple[int, Tuple[int, int, int], Tuple[int, int, int]
+
+    # First arg = shape?
     return np.array((walkable, transparent, dark, light), dtype=tile_dt)
 
 
