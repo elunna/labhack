@@ -1,7 +1,7 @@
 from src.actions import ItemAction
 from components.base_component import BaseComponent
 from components.inventory import Inventory
-from components.ai import ConfusedEnemy
+from components.ai import ConfusedAI
 from src.exceptions import Impossible
 from src import color, input_handlers
 
@@ -105,7 +105,7 @@ class ConfusionConsumable(Consumable):
             f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
             color.status_effect_applied,
         )
-        target.ai = ConfusedEnemy(
+        target.ai = ConfusedAI(
             entity=target, previous_ai=target.ai, turns_remaining=self.number_of_turns,
         )
         self.consume()

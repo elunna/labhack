@@ -60,18 +60,18 @@ def test_BaseAI_get_path_to(player):
 
 @pytest.mark.skip(reason='Convert to BaseComponent later')
 def test_HostileEnemy_is_BaseComponent(player):
-    approach_ai = ai.HostileEnemy(player)
+    approach_ai = ai.HostileAI(player)
     assert isinstance(approach_ai, BaseComponent)
 
 
 def test_HostileEnemy_init(player):
-    approach_ai = ai.HostileEnemy(player)
+    approach_ai = ai.HostileAI(player)
     assert approach_ai.path == []
 
 
 @pytest.mark.skip(reason='REQUIRES the entity to have a gamemap and enginereference')
 def test_HostileEnemy_perform(player):
-    approach_ai = ai.HostileEnemy(player)
+    approach_ai = ai.HostileAI(player)
     assert approach_ai.path == []
 
     # TODO: Target can be anything in addition to the player
@@ -83,9 +83,9 @@ def test_HostileEnemy_perform(player):
 
 @pytest.mark.skip(reason='Convert to BaseComponent later')
 def test_ConfusedEnemy_is_BaseComponent(player):
-    confused_ai = ai.ConfusedEnemy(
+    confused_ai = ai.ConfusedAI(
         entity=player,
-        previous_ai=ai.HostileEnemy,
+        previous_ai=ai.HostileAI,
         turns_remaining=4
     )
     assert isinstance(confused_ai, BaseComponent)
@@ -93,20 +93,20 @@ def test_ConfusedEnemy_is_BaseComponent(player):
 
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedEnemy_init(player):
-    confused_ai = ai.ConfusedEnemy(
+    confused_ai = ai.ConfusedAI(
         entity=player,
-        previous_ai=ai.HostileEnemy,
+        previous_ai=ai.HostileAI,
         turns_remaining=4
     )
-    assert confused_ai.previous_ai == ai.HostileEnemy
+    assert confused_ai.previous_ai == ai.HostileAI
     assert confused_ai.turns_remaining == 4
 
 
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedEnemy_perform(player):
-    confused_ai = ai.ConfusedEnemy(
+    confused_ai = ai.ConfusedAI(
         entity=player,
-        previous_ai=ai.HostileEnemy,
+        previous_ai=ai.HostileAI,
         turns_remaining=4
     )
     result = confused_ai.perform()
@@ -116,9 +116,9 @@ def test_ConfusedEnemy_perform(player):
 
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedEnemy_perform__no_turns_remaining(player):
-    confused_ai = ai.ConfusedEnemy(
+    confused_ai = ai.ConfusedAI(
         entity=player,
-        previous_ai=ai.HostileEnemy,
+        previous_ai=ai.HostileAI,
         turns_remaining=4
     )
     confused_ai.perform()  # 3 remaining
@@ -126,4 +126,4 @@ def test_ConfusedEnemy_perform__no_turns_remaining(player):
     confused_ai.perform()  # 1 remaining
     confused_ai.perform()  # 0 remaining
 
-    assert isinstance(player.ai, ai.HostileEnemy)
+    assert isinstance(player.ai, ai.HostileAI)
