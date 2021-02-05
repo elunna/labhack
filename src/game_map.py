@@ -70,3 +70,12 @@ class GameMap:
     def in_bounds(self, x, y):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
+
+    def get_player(self):
+        # Crude - make better with a Hero component or something
+        for e in self.actors:
+            if e.name == "Player":
+                return e
+
+        return None
+
