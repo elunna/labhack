@@ -1,3 +1,4 @@
+from src import entity_factories
 from src import game_map
 from src import tile_types
 
@@ -10,7 +11,7 @@ def test_map():
     # 2 . + . . . .
     # 3 # # . . # .
     # 4 # # . . # .
-    # 5 # # . . . .
+    # 5 # # . . . @
 
     new_map = game_map.GameMap(
         width=6,
@@ -25,7 +26,9 @@ def test_map():
              (0, 4), (1, 4), (4, 4),
              (0, 5), (1, 5),
              ]
+
     for x, y in walls:
         new_map.tiles[x, y] = tile_types.wall
 
+    entity_factories.player.spawn(new_map, 5, 5)
     return new_map
