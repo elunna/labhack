@@ -5,7 +5,7 @@ from components import ai
 from src import actions
 from src import engine
 from src import factory
-from src import game_map
+from src import gamemap
 from src import tile_types
 import copy
 import pytest
@@ -18,7 +18,7 @@ def player():
 
 @pytest.fixture
 def empty_map():
-    new_map = game_map.GameMap(
+    new_map = gamemap.GameMap(
         width=10,
         height=10,
         fill_tile=tile_types.floor

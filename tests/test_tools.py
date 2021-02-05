@@ -1,5 +1,5 @@
 from src import factory
-from src import game_map
+from src import gamemap
 from src import tile_types
 
 def test_map():
@@ -13,7 +13,7 @@ def test_map():
     # 4 # # . . # .
     # 5 # # . . . @
 
-    new_map = game_map.GameMap(
+    new_map = gamemap.GameMap(
         width=6,
         height=6,
         entities=(),

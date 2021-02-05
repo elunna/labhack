@@ -1,6 +1,6 @@
 from . import tile_types
 from .factory import item_chances, enemy_chances
-from .game_map import GameMap
+from .gamemap import GameMap
 from .rectangle import Rectangle
 from .settings import max_items_by_floor, max_monsters_by_floor
 import random

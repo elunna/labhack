@@ -1,7 +1,7 @@
 """ Tests for gamemap.py """
 
 from src import factory
-from src import game_map
+from src import gamemap
 import pytest
 import test_tools
 
@@ -12,7 +12,7 @@ def test_map():
 
 
 def test_GameMap_init(test_map):
-    m = game_map.GameMap(engine=None, width=10, height=15)
+    m = gamemap.GameMap(engine=None, width=10, height=15)
     assert m.width == 10
     assert m.height == 15
     assert m.entities == set()
