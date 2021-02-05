@@ -2,7 +2,7 @@
 
 from src import setup_game
 from src.engine import Engine
-from src.game_world import GameWorld
+from src.gameworld import GameWorld
 
 
 def test_new_game__is_Engine():

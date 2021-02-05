@@ -3,7 +3,7 @@ from . import color
 from . import factory
 from . import settings
 from .engine import Engine
-from .game_world import GameWorld
+from .gameworld import GameWorld
 import copy
 import lzma
 import pickle

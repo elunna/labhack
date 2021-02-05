@@ -2,7 +2,7 @@ from . import exceptions
 from . import rendering
 from . import settings
 from .gamemap import GameMap
-from .game_world import GameWorld
+from .gameworld import GameWorld
 from .msglog import MsgLog
 from tcod.map import compute_fov
 import lzma
