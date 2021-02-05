@@ -16,10 +16,10 @@ class Equipment(BaseComponent):
         bonus = 0
 
         if self.weapon is not None and self.weapon.equippable is not None:
-            bonus += self.weapon.equippable.defense_bonus
+            bonus += self.weapon.equippable.ac_bonus
 
         if self.armor is not None and self.armor.equippable is not None:
-            bonus += self.armor.equippable.defense_bonus
+            bonus += self.armor.equippable.ac_bonus
 
         return bonus
 
@@ -28,10 +28,10 @@ class Equipment(BaseComponent):
         bonus = 0
 
         if self.weapon is not None and self.weapon.equippable is not None:
-            bonus += self.weapon.equippable.power_bonus
+            bonus += self.weapon.equippable.pow_bonus
 
         if self.armor is not None and self.armor.equippable is not None:
-            bonus += self.armor.equippable.power_bonus
+            bonus += self.armor.equippable.pow_bonus
 
         return bonus
 

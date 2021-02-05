@@ -579,11 +579,11 @@ class LevelUpHandler(AskUserHandler):
         )
         console.print(
             x=x + 1, y=5,
-            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
+            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.pow})",
         )
         console.print(
             x=x + 1, y=6,
-            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
+            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.ac})",
         )
 
     def ev_keydown(self, event):
@@ -650,11 +650,11 @@ class CharacterScreenHandler(AskUserHandler):
 
         console.print(
             x=x + 1, y=y + 4,
-            string=f"Attack: {self.engine.player.fighter.power}"
+            string=f"Attack: {self.engine.player.fighter.pow}"
         )
         console.print(
             x=x + 1, y=y + 5,
-            string=f"Defense: {self.engine.player.fighter.defense}"
+            string=f"Defense: {self.engine.player.fighter.ac}"
         )
 
 

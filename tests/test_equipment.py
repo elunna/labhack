@@ -49,7 +49,7 @@ def test_Equipment_defense_bonus__default_is_0():
 
 def test_Equipment_defense_bonus__with_armor(leather_armor):
     e = Equipment(armor=leather_armor)
-    assert e.defense_bonus == leather_armor.equippable.defense_bonus
+    assert e.defense_bonus == leather_armor.equippable.ac_bonus
 
 
 def test_Equipment_power_bonus__default_is_0():
@@ -59,7 +59,7 @@ def test_Equipment_power_bonus__default_is_0():
 
 def test_Equipment_power_bonus__with_weapon(dagger):
     e = Equipment(weapon=dagger)
-    assert e.power_bonus == dagger.equippable.power_bonus
+    assert e.power_bonus == dagger.equippable.pow_bonus
 
 
 def test_Equipment_item_is_equipped__none_equipped():
