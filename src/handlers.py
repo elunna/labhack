@@ -192,26 +192,8 @@ class HistoryHandler(EventHandler):
 
     def on_render(self, console):
         super().on_render(console)  # Draw the main state as the background.
+        rendering.render_history(console, self.engine, self.cursor)
 
-        log_console = tcod.Console(console.width - 6, console.height - 6)
-
-        # Draw a frame with a custom banner title.
-        log_console.draw_frame(0, 0, log_console.width, log_console.height)
-
-        log_console.print_box(
-            0, 0, log_console.width, 1, "┤Message history├", alignment=tcod.CENTER
-        )
-
-        # Render the message log using the cursor parameter.
-        # self.engine.message_log.render_messages(
-        rendering.render_messages(
-            console=log_console,
-            x=1, y=1,
-            width=log_console.width - 2,
-            height=log_console.height - 2,
-            messages=self.engine.message_log.messages[: self.cursor + 1],
-        )
-        log_console.blit(console, 3, 3)
 
     def ev_keydown(self, event):
         # Fancy conditional movement to make it feel right.
