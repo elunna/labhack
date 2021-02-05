@@ -3,7 +3,7 @@ from . import render_functions
 from . import settings
 from .game_map import GameMap
 from .game_world import GameWorld
-from .message_log import MessageLog
+from .msglog import MsgLog
 from tcod.map import compute_fov
 import lzma
 import pickle
@@ -19,7 +19,7 @@ class Engine:
 
     def __init__(self, player):
         # TODO: Remove requirement for player
-        self.message_log = MessageLog()
+        self.message_log = MsgLog()
         self.mouse_location = (0, 0)
         self.player = player
 

@@ -2,7 +2,7 @@ from . import color
 import textwrap
 
 
-class Message:
+class Msg:
     def __init__(self, text, fg=(255, 255, 255)):
         self.plain_text = text
         self.fg = fg  # Foreground color: Tuple[int, int, int]
@@ -20,7 +20,7 @@ class Message:
         return self.plain_text
 
 
-class MessageLog:
+class MsgLog:
     def __init__(self):
         self.messages = []
 
@@ -33,7 +33,7 @@ class MessageLog:
         if stack and self.messages and text == self.messages[-1].plain_text:
             self.messages[-1].count += 1
         else:
-            self.messages.append(Message(text, fg))
+            self.messages.append(Msg(text, fg))
 
     @staticmethod
     def wrap(string, width):
