@@ -1,4 +1,4 @@
-from components.base_component import BaseComponent
+from components.component import Component
 import random
 
 
@@ -9,7 +9,7 @@ def myround(x, base=25):
     return base * round(x/base)
 
 
-class Level(BaseComponent):
+class Level(Component):
     # parent: Actor
 
     def __init__(

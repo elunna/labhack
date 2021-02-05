@@ -1,9 +1,9 @@
 from src import color
-from components.base_component import BaseComponent
+from components.component import Component
 from src.renderorder import RenderOrder
 
 
-class Fighter(BaseComponent):
+class Fighter(Component):
     # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 

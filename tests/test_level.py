@@ -1,12 +1,12 @@
 """ Tests for level.py """
 
 from components.level import Level
-from components.base_component import BaseComponent
+from components.component import Component
 import pytest
 
 def test_Level_init__is_BaseComponent():
     l = Level()
-    assert isinstance(l, BaseComponent)
+    assert isinstance(l, Component)
 
 
 def test_Level_init__defaults():

@@ -1,6 +1,6 @@
 """ Tests for equipment.py """
 
-from components.base_component import BaseComponent
+from components.component import Component
 from components.equipment import Equipment
 from src import factory as ef
 import pytest
@@ -18,7 +18,7 @@ def leather_armor():
 
 def test_Equipment_is_BaseComponent():
     e = Equipment()
-    assert isinstance(e, BaseComponent)
+    assert isinstance(e, Component)
 
 
 def test_Equipment_init():

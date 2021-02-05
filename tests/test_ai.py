@@ -1,6 +1,6 @@
 """ Tests for ai.py """
 
-from components.base_component import BaseComponent
+from components.component import Component
 from components import ai
 from src import actions
 from src import engine
@@ -34,7 +34,7 @@ def test_BaseAI_init(player):
 @pytest.mark.skip(reason='Convert to BaseComponent later')
 def test_BaseAI_is_BaseComponent(player):
     base_ai = ai.BaseAI(player)
-    assert isinstance(base_ai, BaseComponent)
+    assert isinstance(base_ai, Component)
 
 
 @pytest.mark.skip(reason='Should we handle entity not having a gamemap/engine?')
@@ -61,7 +61,7 @@ def test_BaseAI_get_path_to(player):
 @pytest.mark.skip(reason='Convert to BaseComponent later')
 def test_HostileEnemy_is_BaseComponent(player):
     approach_ai = ai.HostileAI(player)
-    assert isinstance(approach_ai, BaseComponent)
+    assert isinstance(approach_ai, Component)
 
 
 def test_HostileEnemy_init(player):
@@ -88,7 +88,7 @@ def test_ConfusedEnemy_is_BaseComponent(player):
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
-    assert isinstance(confused_ai, BaseComponent)
+    assert isinstance(confused_ai, Component)
 
 
 @pytest.mark.skip(reason='Engine reference issues')

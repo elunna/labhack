@@ -1,12 +1,12 @@
 """ Tests for equippable.py """
 from components.equippable import Equippable
-from components.base_component import BaseComponent
+from components.component import Component
 import pytest
 
 
 def test_Equippable_is_BaseComponent():
     e = Equippable("armor")
-    assert isinstance(e, BaseComponent)
+    assert isinstance(e, Component)
 
 
 def test_Equippable_init__defaults():

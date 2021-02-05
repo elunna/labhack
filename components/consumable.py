@@ -1,5 +1,5 @@
 from components.ai import ConfusedAI
-from components.base_component import BaseComponent
+from components.component import Component
 from components.inventory import Inventory
 from src import actions
 from src import color
@@ -7,7 +7,7 @@ from src import exceptions
 from src import handlers
 
 
-class Consumable(BaseComponent):
+class Consumable(Component):
     def get_action(self, consumer):
         """Try to return the action for this item."""
         return actions.ItemAction(consumer, self.parent)

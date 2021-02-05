@@ -1,13 +1,13 @@
 """ Tests for inventory.py """
 
-from components.base_component import BaseComponent
+from components.component import Component
 from components.inventory import Inventory
 import pytest
 
 
 def test_Inventory_is_BaseComponent():
     i = Inventory(10)
-    assert isinstance(i, BaseComponent)
+    assert isinstance(i, Component)
 
 
 def test_Inventory_init():

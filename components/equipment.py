@@ -1,8 +1,8 @@
-from components.base_component import BaseComponent
+from components.component import Component
 from src.equipment_types import EquipmentType
 
 
-class Equipment(BaseComponent):
+class Equipment(Component):
     """ An Actor can equip a piece of Equipment. The weapon and armor attributes
         are what will hold the actual equippable entity. Both can be set to None,
         which represents nothing equipped in those slots.

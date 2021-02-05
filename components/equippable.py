@@ -1,8 +1,8 @@
-from components.base_component import BaseComponent
+from components.component import Component
 from src.equipment_types import EquipmentType
 
 
-class Equippable(BaseComponent):
+class Equippable(Component):
     # parent: Item
     parent = None
 
