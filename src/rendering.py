@@ -231,31 +231,74 @@ def render_popup(console, text):
 def render_levelup_menu(console, engine, title):
     if engine.player.x <= 30:
             x = 40
-        else:
-            x = 0
+    else:
+        x = 0
 
-        console.draw_frame(
-            x=x, y=0,
-            width=35,
-            height=8,
-            title=self.TITLE,
-            clear=True,
-            fg=(255, 255, 255),
-            bg=(0, 0, 0),
-        )
+    console.draw_frame(
+        x=x, y=0,
+        width=35,
+        height=8,
+        title=self.TITLE,
+        clear=True,
+        fg=(255, 255, 255),
+        bg=(0, 0, 0),
+    )
 
-        console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-        console.print(x=x + 1, y=2, string="Select an attribute to increase.")
+    console.print(x=x + 1, y=1, string="Congratulations! You level up!")
+    console.print(x=x + 1, y=2, string="Select an attribute to increase.")
 
-        console.print(
-            x=x + 1, y=4,
-            string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
-        )
-        console.print(
-            x=x + 1, y=5,
-            string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
-        )
-        console.print(
-            x=x + 1, y=6,
-            string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
-        )
+    console.print(
+        x=x + 1, y=4,
+        string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
+    )
+    console.print(
+        x=x + 1, y=5,
+        string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
+    )
+    console.print(
+        x=x + 1, y=6,
+        string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
+    )
+
+def render_character_stats(console, engine, title):
+    if engine.player.x <= 30:
+        x = 40
+    else:
+        x = 0
+
+    y = 0
+
+    width = len(title) + 4
+
+    console.draw_frame(
+        x=x, y=y,
+        width=width,
+        height=7,
+        title=title,
+        clear=True,
+        fg=(255, 255, 255),
+        bg=(0, 0, 0),
+    )
+
+    console.print(
+        x=x + 1, y=y + 1,
+        string=f"Level: {engine.player.level.current_level}"
+    )
+    console.print(
+        x=x + 1, y=y + 2,
+        string=f"XP: {engine.player.level.current_xp}"
+    )
+    console.print(
+        x=x + 1, y=y + 3,
+        string=f"XP for next Level: {engine.player.level.experience_to_next_level}",
+    )
+
+    console.print(
+        x=x + 1, y=y + 4,
+        string=f"Attack: {engine.player.fighter.power}"
+    )
+    console.print(
+        x=x + 1, y=y + 5,
+        string=f"Defense: {engine.player.fighter.defense}"
+    )
+
