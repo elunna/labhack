@@ -2,7 +2,7 @@ from . import color
 from . import exceptions
 from . import rendering
 from . import settings
-from .settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
 from typing import Union
 import os
