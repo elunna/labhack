@@ -82,7 +82,7 @@ class EventHandler(BaseEventHandler):
         try:
             action.perform()
         except exceptions.Impossible as exc:
-            self.engine.message_log.add_message(exc.args[0], color.impossible)
+            self.engine.msglog.add_message(exc.args[0], color.impossible)
 
             return False  # Skip enemy turn on exceptions
 
@@ -187,7 +187,7 @@ class HistoryHandler(EventHandler):
 
     def __init__(self, engine):
         super().__init__(engine)
-        self.log_length = len(engine.message_log.messages)
+        self.log_length = len(engine.msglog.messages)
         self.cursor = self.log_length - 1
 
     def on_render(self, console):
@@ -284,7 +284,7 @@ class InventoryHandler(AskUserHandler):
             try:
                 selected_item = player.inventory.items[index]
             except IndexError:
-                self.engine.message_log.add_message("Invalid entry.", color.invalid)
+                self.engine.msglog.add_message("Invalid entry.", color.invalid)
                 return None
             return self.on_item_selected(selected_item)
         return super().ev_keydown(event)
@@ -492,7 +492,7 @@ class LevelUpHandler(AskUserHandler):
             else:
                 player.level.increase_defense()
         else:
-            self.engine.message_log.add_message("Invalid entry.", color.invalid)
+            self.engine.msglog.add_message("Invalid entry.", color.invalid)
 
             return None
 

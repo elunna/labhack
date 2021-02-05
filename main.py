@@ -55,7 +55,7 @@ def main():
 
                 # Then print the error to the message log.
                 if isinstance(handler, handlers.EventHandler):
-                    handler.engine.message_log.add_message(
+                    handler.engine.msglog.add_message(
                         traceback.format_exc(), color.error
                     )
 

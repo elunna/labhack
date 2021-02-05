@@ -81,7 +81,7 @@ class Fighter(Component):
         self.parent.name = f"{self.parent.name} corpse"
         self.parent.render_order = RenderOrder.CORPSE
 
-        self.engine.message_log.add_message(
+        self.engine.msglog.add_message(
             death_message,
             death_message_color
         )

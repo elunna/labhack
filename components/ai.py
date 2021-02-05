@@ -118,7 +118,7 @@ class ConfusedAI(BaseAI):
         # causes the entity to move in a randomly selected direction.
         # Revert the AI back to the original state if the effect has run its course.
         if self.turns_remaining <= 0:
-            self.engine.message_log.add_message(
+            self.engine.msglog.add_message(
                 f"The {self.entity.name} is no longer confused."
             )
             self.entity.ai = self.previous_ai

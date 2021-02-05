@@ -27,7 +27,7 @@ def new_game():
     engine.game_world.generate_floor()
     engine.update_fov()
 
-    engine.message_log.add_message(
+    engine.msglog.add_message(
         "Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text
     )
 

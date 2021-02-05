@@ -5,7 +5,7 @@ import pytest
 
 def test_Engine_init():
     e = engine.Engine(player="Player")
-    assert e.message_log.messages == []
+    assert e.msglog.messages == []
     assert e.mouse_location == (0, 0)
     assert e.player == "Player"
 

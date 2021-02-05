@@ -37,7 +37,7 @@ class HealingConsumable(Consumable):
         amount_recovered = consumer.fighter.heal(self.amount)
 
         if amount_recovered > 0:
-            self.engine.message_log.add_message(
+            self.engine.msglog.add_message(
                 f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
                 color.health_recovered,
             )
@@ -65,7 +65,7 @@ class LightningDamageConsumable(Consumable):
                     closest_distance = distance
 
         if target:
-            self.engine.message_log.add_message(
+            self.engine.msglog.add_message(
                 f"A lighting bolt zaps the {target.name} with a roaring crack!!"
             )
             target.fighter.take_dmg(self.damage)
@@ -79,7 +79,7 @@ class ConfusionConsumable(Consumable):
         self.number_of_turns = number_of_turns
 
     def get_action(self, consumer):
-        self.engine.message_log.add_message(
+        self.engine.msglog.add_message(
             "Select a target location.", color.needs_target
         )
         return handlers.SingleRangedAttackHandler(
@@ -102,7 +102,7 @@ class ConfusionConsumable(Consumable):
         if target is consumer:
             raise exceptions.Impossible("You cannot confuse yourself!")
 
-        self.engine.message_log.add_message(
+        self.engine.msglog.add_message(
             f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
             color.status_effect_applied,
         )
@@ -119,7 +119,7 @@ class FireballDamageConsumable(Consumable):
 
     def get_action(self, consumer):
         # asks the user to select a target, and switches the event handler
-        self.engine.message_log.add_message(
+        self.engine.msglog.add_message(
             "Select a target location.", color.needs_target
         )
         return handlers.AreaRangedAttackHandler(
@@ -146,7 +146,7 @@ class FireballDamageConsumable(Consumable):
         targets_hit = False
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
-                self.engine.message_log.add_message(
+                self.engine.msglog.add_message(
                     f"The {actor.name} is engulfed in a fiery explosion!"
                 )
                 actor.fighter.take_dmg(self.damage)

@@ -150,7 +150,7 @@ def render_history(console, engine, cursor):
         x=1, y=1,
         width=log_console.width - 2,
         height=log_console.height - 2,
-        messages=engine.message_log.messages[: cursor + 1],
+        messages=engine.msglog.messages[: cursor + 1],
     )
     log_console.blit(console, 3, 3)
 

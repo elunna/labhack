@@ -19,7 +19,7 @@ class Engine:
 
     def __init__(self, player):
         # TODO: Remove requirement for player
-        self.message_log = msglog.MsgLog()
+        self.msglog = msglog.MsgLog()
         self.mouse_location = (0, 0)
         self.player = player
 
@@ -66,7 +66,7 @@ class Engine:
             x=settings.msg_panel_x, y=0,
             width=settings.screen_width,
             height=settings.msg_panel_height,
-            messages=self.message_log.messages,
+            messages=self.msglog.messages,
         )
 
         # Map Panel

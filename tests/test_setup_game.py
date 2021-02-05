@@ -22,7 +22,7 @@ def test_new_game__player():
 
 def test_new_game__first_msg():
     game = setup_game.new_game()
-    result = game.message_log.messages[0]
+    result = game.msglog.messages[0]
     assert result.plain_text == "Hello and welcome, adventurer, to yet another dungeon!"
 
 
