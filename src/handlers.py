@@ -271,46 +271,7 @@ class InventoryHandler(AskUserHandler):
             If there’s nothing in the inventory, it just prints “Empty”.
         """
         super().on_render(console)
-        number_of_items_in_inventory = len(self.engine.player.inventory.items)
-
-        height = number_of_items_in_inventory + 2
-
-        if height <= 3:
-            height = 3
-
-        if self.engine.player.x <= 30:
-            x = 40
-        else:
-            x = 0
-
-        y = 0
-
-        width = len(self.TITLE) + 4
-
-        console.draw_frame(
-            x=x,
-            y=y,
-            width=width,
-            height=height,
-            title=self.TITLE,
-            clear=True,
-            fg=(255, 255, 255),
-            bg=(0, 0, 0),
-        )
-
-        if number_of_items_in_inventory > 0:
-            for i, item in enumerate(self.engine.player.inventory.items):
-                item_key = chr(ord("a") + i)
-                is_equipped = self.engine.player.equipment.item_is_equipped(item)
-
-                item_string = f"({item_key}) {item.name}"
-
-                if is_equipped:
-                    item_string = f"{item_string} (E)"
-
-                console.print(x + 1, y + i + 1, item_string)
-        else:
-            console.print(x + 1, y + 1, "(Empty)")
+        rendering.render_inv(console, self.engine)
 
     def ev_keydown(self, event):
         # takes the user’s input, from letters a - z, and associates that with
