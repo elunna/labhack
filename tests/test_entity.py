@@ -2,13 +2,13 @@
 from components.fighter import Fighter
 from src.entity import Entity
 from src.renderorder import RenderOrder
-import test_tools
+import toolkit
 import pytest
 
 
 @pytest.fixture
 def test_map():
-    return test_tools.test_map()
+    return toolkit.test_map()
 
 
 def test_Entity_init__defaults():

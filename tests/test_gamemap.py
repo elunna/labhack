@@ -3,12 +3,12 @@
 from src import factory
 from src import gamemap
 import pytest
-import test_tools
+import toolkit
 
 
 @pytest.fixture
 def test_map():
-    return test_tools.test_map()
+    return toolkit.test_map()
 
 
 def test_GameMap_init(test_map):

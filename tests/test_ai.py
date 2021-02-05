@@ -9,11 +9,11 @@ from src import gamemap
 from src import tiles
 import copy
 import pytest
-import test_tools
+import toolkit
 
 @pytest.fixture
 def player():
-    new_map = test_tools.test_map()
+    new_map = toolkit.test_map()
     return new_map.get_player()
 
 @pytest.fixture
