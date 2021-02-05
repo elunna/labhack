@@ -1,4 +1,4 @@
-class Rectangle:
+class Rect:
     def __init__(self, x, y, width, height):
         if width < 3 or height < 3:
             raise ValueError("Width and height must be at least 3 or greater.")

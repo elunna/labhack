@@ -1,7 +1,7 @@
 from . import tiles
 from . import factory
 from . import gamemap
-from . import rectangle
+from . import rect
 from . import settings
 import random
 import tcod
@@ -59,7 +59,7 @@ def generate_dungeon(
         y = random.randint(0, dungeon.height - room_height - 1)
 
         # "RectangularRoom" class makes rectangles easier to work with
-        new_room = rectangle.Rectangle(x, y, room_width, room_height)
+        new_room = rect.Rect(x, y, room_width, room_height)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):
