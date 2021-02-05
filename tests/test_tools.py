@@ -1,4 +1,4 @@
-from src import entity_factories
+from src import factory
 from src import game_map
 from src import tile_types
 
@@ -30,5 +30,5 @@ def test_map():
     for x, y in walls:
         new_map.tiles[x, y] = tile_types.wall
 
-    entity_factories.player.spawn(new_map, 5, 5)
+    factory.player.spawn(new_map, 5, 5)
     return new_map

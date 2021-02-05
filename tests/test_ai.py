@@ -4,7 +4,7 @@ from components.base_component import BaseComponent
 from components import ai
 from src import actions
 from src import engine
-from src import entity_factories
+from src import factory
 from src import game_map
 from src import tile_types
 import copy

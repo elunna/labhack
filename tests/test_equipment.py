@@ -2,7 +2,7 @@
 
 from components.base_component import BaseComponent
 from components.equipment import Equipment
-from src import entity_factories as ef
+from src import factory as ef
 import pytest
 
 

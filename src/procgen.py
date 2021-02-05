@@ -1,5 +1,5 @@
 from . import tile_types
-from .entity_factories import item_chances, enemy_chances
+from .factory import item_chances, enemy_chances
 from .game_map import GameMap
 from .rectangle import Rectangle
 from .settings import max_items_by_floor, max_monsters_by_floor

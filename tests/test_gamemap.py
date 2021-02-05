@@ -1,6 +1,6 @@
 """ Tests for gamemap.py """
 
-from src import entity_factories
+from src import factory
 from src import game_map
 import pytest
 import test_tools
@@ -111,7 +111,7 @@ def test_GameMap_get_names_at__visible(test_map):
 
 @pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_GameMap_get_names_at__multiple_visible(test_map):
-    potion = entity_factories.health_potion
+    potion = factory.health_potion
     potion.place(5, 5, test_map)
 
     # Set map tile to visible
