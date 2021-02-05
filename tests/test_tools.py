@@ -1,6 +1,6 @@
 from src import factory
 from src import gamemap
-from src import tile_types
+from src import tiles
 
 def test_map():
     # Door pending
@@ -18,7 +18,7 @@ def test_map():
         height=6,
         entities=(),
         engine=None,
-        fill_tile=tile_types.floor
+        fill_tile=tiles.floor
     )
     walls = [(0, 0), (1, 0),
              (0, 1), (1, 1),
@@ -28,7 +28,7 @@ def test_map():
              ]
 
     for x, y in walls:
-        new_map.tiles[x, y] = tile_types.wall
+        new_map.tiles[x, y] = tiles.wall
 
     factory.player.spawn(new_map, 5, 5)
     return new_map

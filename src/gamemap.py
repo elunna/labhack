@@ -1,4 +1,4 @@
-from . import tile_types
+from . import tiles
 from .item import Item
 from .actor import Actor
 import numpy as np
@@ -6,7 +6,7 @@ import numpy as np
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, engine, width, height, entities=(), fill_tile=tile_types.wall):
+    def __init__(self, engine, width, height, entities=(), fill_tile=tiles.wall):
         self.engine = engine
         self.width, self.height = width, height
         self.entities = set(entities)

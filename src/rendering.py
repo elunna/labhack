@@ -1,7 +1,7 @@
 from . import color
 from .msglog import MsgLog
 from . import settings
-from . import tile_types
+from . import tiles
 import numpy as np
 
 
@@ -114,7 +114,7 @@ def render_map(console, game_map):
 
         condlist=[game_map.visible, game_map.explored],
         choicelist=[game_map.tiles["light"], game_map.tiles["dark"]],
-        default=tile_types.SHROUD,
+        default=tiles.SHROUD,
     )
 
     # Sort the entities by render order.

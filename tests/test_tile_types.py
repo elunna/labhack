@@ -1,5 +1,5 @@
-""" Tests for tile_types.py """
-from src import tile_types
+""" Tests for tiles.py """
+from src import tiles
 import numpy
 import pytest
 
@@ -25,12 +25,12 @@ array(
 
 
 def test_graphic_dt():
-    gdt = tile_types.graphic_dt
+    gdt = tiles.graphic_dt
     assert isinstance(gdt, numpy.dtype)
 
 
 def test_tile_dt():
-    tdt = tile_types.tile_dt
+    tdt = tiles.tile_dt
     assert isinstance(tdt, numpy.dtype)
 
 
@@ -38,7 +38,7 @@ def test_tile_dt():
 
 
 def test_SHROUD():
-    shroud = tile_types.SHROUD
+    shroud = tiles.SHROUD
     assert isinstance(shroud, numpy.ndarray)
     assert shroud.size == 1
     assert shroud.itemsize == 10
@@ -57,7 +57,7 @@ def test_SHROUD():
 
 
 def test_new_tile__floor():
-    floor = tile_types.floor
+    floor = tiles.floor
     assert isinstance(floor, numpy.ndarray)
     assert floor.size == 1
     assert floor.itemsize == 22
@@ -65,17 +65,17 @@ def test_new_tile__floor():
 
 
 def test_new_tile__floor__walkable():
-    floor = tile_types.floor
+    floor = tiles.floor
     assert floor['walkable']
 
 
 def test_new_tile__floor__transparent():
-    floor = tile_types.floor
+    floor = tiles.floor
     assert floor['transparent']
 
 
 def test_new_tile__wall():
-    wall = tile_types.wall
+    wall = tiles.wall
     assert isinstance(wall, numpy.ndarray)
     assert wall.size == 1
     assert wall.itemsize == 22
@@ -83,17 +83,17 @@ def test_new_tile__wall():
 
 
 def test_new_tile__wall__not_walkable():
-    wall = tile_types.wall
+    wall = tiles.wall
     assert not wall['transparent']
 
 
 def test_new_tile__wall__not_transparent():
-    wall = tile_types.wall
+    wall = tiles.wall
     assert not wall['walkable']
 
 
 def test_new_tile__stairs():
-    stairs = tile_types.down_stairs
+    stairs = tiles.down_stairs
     assert isinstance(stairs, numpy.ndarray)
     assert stairs.size == 1
     assert stairs.itemsize == 22
@@ -101,10 +101,10 @@ def test_new_tile__stairs():
 
 
 def test_new_tile__stairs__walkable():
-    stairs = tile_types.down_stairs
+    stairs = tiles.down_stairs
     assert stairs['walkable']
 
 
 def test_new_tile__stairs__transparent():
-    stairs = tile_types.down_stairs
+    stairs = tiles.down_stairs
     assert stairs['transparent']

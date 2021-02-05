@@ -6,7 +6,7 @@ from src import actions
 from src import engine
 from src import factory
 from src import gamemap
-from src import tile_types
+from src import tiles
 import copy
 import pytest
 import test_tools
@@ -21,7 +21,7 @@ def empty_map():
     new_map = gamemap.GameMap(
         width=10,
         height=10,
-        fill_tile=tile_types.floor
+        fill_tile=tiles.floor
     )
 
 # All of these should be BaseComponents
