@@ -17,7 +17,7 @@ def test_Entity_init__defaults():
     assert e.y == 0
     assert e.char == '?'
     assert e.color == (255, 255, 255)
-    assert e.name == 'unnamed'
+    assert e.name == '<Unnamed>'
     assert e.blocks_movement is False
     assert e.render_order == RenderOrder.CORPSE
 
@@ -54,13 +54,11 @@ def test_Entity_init__renderorder():
     assert e.render_order == RenderOrder.CORPSE
 
 
-@pytest.mark.skip(reason='No str yet')
 def test_Entity_str__has_name():
     e = Entity(name='Player')
     assert str(e) == 'Player'
 
 
-@pytest.mark.skip(reason='No str yet')
 def test_Entity_str__unnamed():
     e = Entity()
     assert str(e) == '<Unnamed>'
