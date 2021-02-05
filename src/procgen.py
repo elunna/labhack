@@ -1,8 +1,8 @@
 from . import tiles
-from .factory import item_chances, enemy_chances
-from .gamemap import GameMap
-from .rectangle import Rectangle
-from .settings import max_items_by_floor, max_monsters_by_floor
+from . import factory
+from . import gamemap
+from . import rectangle
+from . import settings
 import random
 import tcod
 
@@ -14,18 +14,18 @@ import tcod
 
 def place_entities(room, dungeon, floor_number):
     number_of_monsters = random.randint(
-        0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
+        0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
     )
 
     number_of_items = random.randint(
-        0, get_max_value_for_floor(max_items_by_floor, floor_number)
+        0, get_max_value_for_floor(settings.max_items_by_floor, floor_number)
     )
 
     monsters = get_entities_at_random(
-        enemy_chances, number_of_monsters, floor_number
+        factory.enemy_chances, number_of_monsters, floor_number
     )
     items = get_entities_at_random(
-        item_chances, number_of_items, floor_number
+        factory.item_chances, number_of_items, floor_number
     )
 
     for entity in monsters + items:
@@ -46,7 +46,7 @@ def generate_dungeon(
     """Generate a new dungeon map."""
 
     player = engine.player
-    dungeon = GameMap(engine, map_width, map_height, entities=[player])
+    dungeon = gamemap.GameMap(engine, map_width, map_height, entities=[player])
     rooms = []
 
     center_of_last_room = (0, 0)
@@ -59,7 +59,7 @@ def generate_dungeon(
         y = random.randint(0, dungeon.height - room_height - 1)
 
         # "RectangularRoom" class makes rectangles easier to work with
-        new_room = Rectangle(x, y, room_width, room_height)
+        new_room = rectangle.Rectangle(x, y, room_width, room_height)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):

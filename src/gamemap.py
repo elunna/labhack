@@ -1,6 +1,6 @@
+from . import actor
+from . import item
 from . import tiles
-from .item import Item
-from .actor import Actor
 import numpy as np
 
 
@@ -42,12 +42,12 @@ class GameMap:
         yield from (
             entity
             for entity in self.entities
-            if isinstance(entity, Actor) and entity.is_alive
+            if isinstance(entity, actor.Actor) and entity.is_alive
         )
 
     @property
     def items(self):
-        yield from (entity for entity in self.entities if isinstance(entity, Item))
+        yield from (entity for entity in self.entities if isinstance(entity, item.Item))
 
     def blocking_entity_at(self, location_x, location_y):
         for entity in self.entities:
@@ -61,9 +61,9 @@ class GameMap:
         return None
 
     def get_actor_at(self, x, y):
-        for actor in self.actors:
-            if actor.x == x and actor.y == y:
-                return actor
+        for a in self.actors:
+            if a.x == x and a.y == y:
+                return a
 
         return None
 

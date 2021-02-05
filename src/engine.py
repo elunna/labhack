@@ -1,9 +1,9 @@
 from . import exceptions
+from . import gamemap
+from . import gameworld
+from . import msglog
 from . import rendering
 from . import settings
-from .gamemap import GameMap
-from .gameworld import GameWorld
-from .msglog import MsgLog
 from tcod.map import compute_fov
 import lzma
 import pickle
@@ -14,12 +14,12 @@ class Engine:
     """ The driver of the game, manages the entities, events, and player and
         makes sure that the screen is correctly updated.
     """
-    game_map: GameMap
-    game_world: GameWorld
+    game_map: gamemap.GameMap
+    game_world: gameworld.GameWorld
 
     def __init__(self, player):
         # TODO: Remove requirement for player
-        self.message_log = MsgLog()
+        self.message_log = msglog.MsgLog()
         self.mouse_location = (0, 0)
         self.player = player
 

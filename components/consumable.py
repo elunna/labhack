@@ -1,15 +1,16 @@
-from src.actions import ItemAction
+from components.ai import ConfusedAI
 from components.base_component import BaseComponent
 from components.inventory import Inventory
-from components.ai import ConfusedAI
-from src.exceptions import Impossible
-from src import color, handlers
+from src import actions
+from src import color
+from src import exceptions
+from src import handlers
 
 
 class Consumable(BaseComponent):
     def get_action(self, consumer):
         """Try to return the action for this item."""
-        return ItemAction(consumer, self.parent)
+        return actions.ItemAction(consumer, self.parent)
 
     def activate(self, action):
         """Invoke this items ability.
@@ -42,7 +43,7 @@ class HealingConsumable(Consumable):
             )
             self.consume()
         else:
-            raise Impossible(f"Your health is already full.")
+            raise exceptions.Impossible(f"Your health is already full.")
 
 
 class LightningDamageConsumable(Consumable):
@@ -70,7 +71,7 @@ class LightningDamageConsumable(Consumable):
             target.fighter.take_dmg(self.damage)
             self.consume()
         else:
-            raise Impossible("No enemy is close enough to strike.")
+            raise exceptions.Impossible("No enemy is close enough to strike.")
 
 
 class ConfusionConsumable(Consumable):
@@ -86,7 +87,7 @@ class ConfusionConsumable(Consumable):
             # “xy” will be the coordinates of the target. The lambda function
             # executes ItemAction, which receives the consumer, the parent (the
             # item), and the “xy” coordinates.
-            callback=lambda xy: ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: actions.ItemAction(consumer, self.parent, xy),
         )
 
     def activate(self, action):
@@ -95,11 +96,11 @@ class ConfusionConsumable(Consumable):
         target = action.target_actor
 
         if not self.engine.game_map.visible[action.target_xy]:
-            raise Impossible("You cannot target an area that you cannot see.")
+            raise exceptions.Impossible("You cannot target an area that you cannot see.")
         if not target:
-            raise Impossible("You must select an enemy to target.")
+            raise exceptions.Impossible("You must select an enemy to target.")
         if target is consumer:
-            raise Impossible("You cannot confuse yourself!")
+            raise exceptions.Impossible("You cannot confuse yourself!")
 
         self.engine.message_log.add_message(
             f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
@@ -124,7 +125,7 @@ class FireballDamageConsumable(Consumable):
         return handlers.AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
-            callback=lambda xy: ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: actions.ItemAction(consumer, self.parent, xy),
         )
 
     def activate(self, action):
@@ -140,7 +141,7 @@ class FireballDamageConsumable(Consumable):
         target_xy = action.target_xy
 
         if not self.engine.game_map.visible[target_xy]:
-            raise Impossible("You cannot target an area that you cannot see.")
+            raise exceptions.Impossible("You cannot target an area that you cannot see.")
 
         targets_hit = False
         for actor in self.engine.game_map.actors:
@@ -152,5 +153,5 @@ class FireballDamageConsumable(Consumable):
                 targets_hit = True
 
         if not targets_hit:
-            raise Impossible("There are no targets in the radius.")
+            raise exceptions.Impossible("There are no targets in the radius.")
         self.consume()

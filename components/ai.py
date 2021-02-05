@@ -1,4 +1,10 @@
-from src.actions import Action, BumpAction, MeleeAction, MovementAction, WaitAction
+from src.actions import (
+    Action,
+    BumpAction,
+    MeleeAction,
+    MovementAction,
+    WaitAction
+)
 from src import settings
 import numpy as np  # type: ignore
 import random

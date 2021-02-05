@@ -1,9 +1,9 @@
 """Handle the loading and initialization of game sessions."""
 from . import color
 from . import factory
+from . import gameworld
 from . import settings
 from .engine import Engine
-from .gameworld import GameWorld
 import copy
 import lzma
 import pickle
@@ -15,7 +15,7 @@ def new_game():
 
     engine = Engine(player=player)
 
-    engine.game_world = GameWorld(
+    engine.game_world = gameworld.GameWorld(
         engine=engine,
         max_rooms=settings.max_rooms,
         room_min_size=settings.room_min_size,

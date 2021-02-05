@@ -1,5 +1,5 @@
 from . import color
-from .msglog import MsgLog
+from . import msglog
 from . import settings
 from . import tiles
 import numpy as np
@@ -88,7 +88,7 @@ def render_messages(console, x, y, width, height, messages):
     y_offset = height - 1
 
     for message in reversed(messages):
-        for line in reversed(list(MsgLog.wrap(message.full_text, width))):
+        for line in reversed(list(msglog.MsgLog.wrap(message.full_text, width))):
             console.print(x=x, y=y + y_offset, string=line, fg=message.fg)
             y_offset -= 1
             if y_offset < 0:
