@@ -58,7 +58,7 @@ class EventHandler(BaseEventHandler):
             # A valid action was performed.
             if not self.engine.player.is_alive:
                 # The player was killed sometime during or after the action.
-                return GameOverEventHandler(self.engine)
+                return GameOverHandler(self.engine)
 
             # Player leveled up
             elif self.engine.player.level.requires_level_up:
@@ -68,7 +68,7 @@ class EventHandler(BaseEventHandler):
                 # Instead, boost a random stat.
                 self.engine.player.level.get_random_stat_increase()
 
-            return MainGameEventHandler(self.engine)  # Return to the main handler.
+            return MainGameHandler(self.engine)  # Return to the main handler.
         return self
 
     def handle_action(self, action):
@@ -103,7 +103,7 @@ class EventHandler(BaseEventHandler):
         self.engine.render(console)
 
 
-class MainGameEventHandler(EventHandler):
+class MainGameHandler(EventHandler):
     """ For reference, these are the event codes for tcod.
         https://python-tcod.readthedocs.io/en/latest/tcod/event.html
     """
@@ -129,7 +129,7 @@ class MainGameEventHandler(EventHandler):
         if key == tcod.event.K_x and modifier & (
                 tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL
         ):
-            return CharacterScreenEventHandler(self.engine)
+            return CharacterScreenHandler(self.engine)
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
@@ -142,7 +142,7 @@ class MainGameEventHandler(EventHandler):
             raise SystemExit()
 
         elif key == tcod.event.K_v:
-            return HistoryViewer(self.engine)
+            return HistoryHandler(self.engine)
 
         elif key == tcod.event.K_COMMA:
             action = src.actions.PickupAction(player)
@@ -160,7 +160,7 @@ class MainGameEventHandler(EventHandler):
         return action
 
 
-class GameOverEventHandler(EventHandler):
+class GameOverHandler(EventHandler):
     def on_quit(self):
         """Handle exiting out of a finished game."""
         if os.path.exists("../savegame.sav"):
@@ -179,10 +179,10 @@ class GameOverEventHandler(EventHandler):
 
         # Still can view history on death
         elif key == tcod.event.K_v:
-            return HistoryViewer(self.engine)
+            return HistoryHandler(self.engine)
 
 
-class HistoryViewer(EventHandler):
+class HistoryHandler(EventHandler):
     """Print the history on a larger window which can be navigated."""
 
     def __init__(self, engine):
@@ -237,13 +237,13 @@ class HistoryViewer(EventHandler):
 
             # First, Check if the player is dead...
             if not self.engine.player.is_alive:
-                return GameOverEventHandler(self.engine)
+                return GameOverHandler(self.engine)
 
-            return MainGameEventHandler(self.engine)
+            return MainGameHandler(self.engine)
         return None
 
 
-class AskUserEventHandler(EventHandler):
+class AskUserHandler(EventHandler):
     """Handles user input for actions which require special input.
          by default, just exits itself when any key is pressed, besides one of
          the “modifier” keys (shift, control, and alt). It also exits when
@@ -272,10 +272,10 @@ class AskUserEventHandler(EventHandler):
 
         By default this returns to the main event handler.
         """
-        return MainGameEventHandler(self.engine)
+        return MainGameHandler(self.engine)
 
 
-class InventoryEventHandler(AskUserEventHandler):
+class InventoryHandler(AskUserHandler):
     """ This handler lets the user select an item.
         What happens then depends on the subclass.
     """
@@ -351,7 +351,7 @@ class InventoryEventHandler(AskUserEventHandler):
         raise NotImplementedError()
 
 
-class InventoryActivateHandler(InventoryEventHandler):
+class InventoryActivateHandler(InventoryHandler):
     """Handle using an inventory item."""
 
     TITLE = "Select an item to use"
@@ -367,7 +367,7 @@ class InventoryActivateHandler(InventoryEventHandler):
             return None
 
 
-class InventoryDropHandler(InventoryEventHandler):
+class InventoryDropHandler(InventoryHandler):
     """ Handle dropping an inventory item."""
 
     TITLE = "Select an item to drop"
@@ -377,7 +377,7 @@ class InventoryDropHandler(InventoryEventHandler):
         return src.actions.DropItem(self.engine.player, item)
 
 
-class SelectIndexHandler(AskUserEventHandler):
+class SelectIndexHandler(AskUserHandler):
     """ Handles asking the user for an index on the map.
         what we’ll use when we want to select a tile on the map.
     """
@@ -391,7 +391,6 @@ class SelectIndexHandler(AskUserEventHandler):
 
         # Hack to fix the msg_panel offset.
         engine.mouse_location = player.x, player.y + settings.msg_panel_height
-
 
     def on_render(self, console):
         """ Highlight the tile under the cursor.
@@ -466,7 +465,7 @@ class LookHandler(SelectIndexHandler):
 
     def on_index_selected(self, x, y):
         """ Returns to main handler when it receives a confirmation key."""
-        return MainGameEventHandler(self.engine)
+        return MainGameHandler(self.engine)
 
 
 class SingleRangedAttackHandler(SelectIndexHandler):
@@ -518,7 +517,8 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         # Hack to fix the msg_panel offset.
         return self.callback((x, y - 5))
 
-class PopupMessage(BaseEventHandler):
+
+class PopupMsgHandler(BaseEventHandler):
     """Display a popup text window."""
 
     def __init__(self, parent_handler, text):
@@ -545,7 +545,7 @@ class PopupMessage(BaseEventHandler):
         return self.parent
 
 
-class LevelUpEventHandler(AskUserEventHandler):
+class LevelUpHandler(AskUserHandler):
     """ PAUSED: For now this function is on hold until a more advanced skill tree
         is developed. When a level up is triggered, we will instead give a boost
         to a random stat.
@@ -610,7 +610,7 @@ class LevelUpEventHandler(AskUserEventHandler):
         return None
 
 
-class CharacterScreenEventHandler(AskUserEventHandler):
+class CharacterScreenHandler(AskUserHandler):
     TITLE = "Character Information"
 
     def on_render(self, console):
@@ -706,22 +706,22 @@ class MainMenuHandler(BaseEventHandler):
         elif event.sym == tcod.event.K_c:
 
             try:
-                return MainGameEventHandler(
+                return MainGameHandler(
                     load_game(settings.save_file)
                 )
             except FileNotFoundError:
-                return PopupMessage(
+                return PopupMsgHandler(
                     self,
                     "No saved game to load."
                 )
             except Exception as exc:
                 traceback.print_exc()  # Print to stderr.
-                return PopupMessage(
+                return PopupMsgHandler(
                     self,
                     f"Failed to load save:\n{exc}"
                 )
 
         elif event.sym == tcod.event.K_n:
-            return MainGameEventHandler(new_game())
+            return MainGameHandler(new_game())
 
         return None
