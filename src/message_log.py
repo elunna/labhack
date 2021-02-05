@@ -3,7 +3,7 @@ import textwrap
 
 
 class Message:
-    def __init__(self, text, fg):
+    def __init__(self, text, fg=(255, 255, 255)):
         self.plain_text = text
         self.fg = fg  # Foreground color: Tuple[int, int, int]
 
