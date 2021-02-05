@@ -47,16 +47,16 @@ def test_GameMap_items__none_by_default(test_map):
 
 
 def test_GameMap_get_blocking_entity_at_location__walls(test_map):
-    assert test_map.get_blocking_entity_at_location(0, 0) is None
+    assert test_map.blocking_entity_at(0, 0) is None
 
 
 def test_GameMap_get_blocking_entity_at_location__floors(test_map):
-    assert test_map.get_blocking_entity_at_location(0, 0) is None
+    assert test_map.blocking_entity_at(0, 0) is None
 
 
 def test_GameMap_get_blocking_entity_at_location__valid_blocker(test_map):
     # test_map has player at (5, 5)
-    result = test_map.get_blocking_entity_at_location(5, 5)
+    result = test_map.blocking_entity_at(5, 5)
     assert result.name == "Player"
 
 

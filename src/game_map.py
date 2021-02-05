@@ -49,7 +49,7 @@ class GameMap:
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, Item))
 
-    def get_blocking_entity_at_location(self, location_x, location_y):
+    def blocking_entity_at(self, location_x, location_y):
         for entity in self.entities:
             if (
                     entity.blocks_movement

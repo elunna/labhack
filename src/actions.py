@@ -39,7 +39,7 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self):
         """Return the blocking entity at this actions destination.."""
-        return self.engine.game_map.get_blocking_entity_at_location(*self.dest_xy)
+        return self.engine.game_map.blocking_entity_at(*self.dest_xy)
 
     @property
     def target_actor(self):
@@ -145,7 +145,7 @@ class MovementAction(ActionWithDirection):
 
         # Theoretically, this bit of code won’t ever trigger, but it's a
         # safeguard.
-        if self.engine.game_map.get_blocking_entity_at_location(dest_x, dest_y):
+        if self.engine.game_map.blocking_entity_at(dest_x, dest_y):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 
