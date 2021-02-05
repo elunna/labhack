@@ -6,6 +6,11 @@ from .settings import max_items_by_floor, max_monsters_by_floor
 import random
 import tcod
 
+# Break up methods
+# mk_rooms: Create a set of rooms and dig them out of a map
+# tunnel_between
+# Place entity?
+
 
 def place_entities(room, dungeon, floor_number):
     number_of_monsters = random.randint(
