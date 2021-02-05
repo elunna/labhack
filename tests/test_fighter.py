@@ -102,14 +102,14 @@ def test_Fighter_heal__over_max():
     assert f.hp == 10
 
 
-def test_Fighter_take_damage__non_lethal():
-    f = Fighter(hp=10, base_ac=15, base_pow=20)
+def test_Fighter_take_dmg__non_lethal():
+    f = Fighter(hp=10, base_defense=15, base_power=20)
     f.take_dmg(2)
     assert f.hp == 8
 
 
 @pytest.mark.skip(reason='die References engine')
-def test_Fighter_take_damage__lethal(player):
+def test_Fighter_take_dmg__lethal(player):
     f = Fighter(hp=10, base_defense=15, base_power=20)
     f.parent = player  # Needs parent to check it's equipment
     f.take_dmg(1000)
