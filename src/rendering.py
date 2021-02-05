@@ -201,3 +201,16 @@ def render_inv(console, engine, title):
 def highlight_cursor(console, x, y):
     console.tiles_rgb["bg"][x, y] = color.white
     console.tiles_rgb["fg"][x, y] = color.black
+
+
+def draw_rect(console, x, y, radius):
+    # Draw a rectangle around the targeted area, so the player can see the affected tiles.
+    console.draw_frame(
+        x=x - radius - 1,
+        y=y - radius - 1,
+        width=radius ** 2,
+        height=radius ** 2,
+        fg=color.red,
+        clear=False,
+    )
+
