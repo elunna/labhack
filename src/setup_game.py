@@ -32,16 +32,37 @@ def new_game():
     )
 
     dagger = copy.deepcopy(entity_factories.dagger)
-    leather_armor = copy.deepcopy(entity_factories.leather_armor)
-
     dagger.parent = player.inventory
-    leather_armor.parent = player.inventory
-
     player.inventory.items.append(dagger)
     player.equipment.toggle_equip(dagger, add_message=False)
 
+    leather_armor = copy.deepcopy(entity_factories.leather_armor)
+    leather_armor.parent = player.inventory
     player.inventory.items.append(leather_armor)
     player.equipment.toggle_equip(leather_armor, add_message=False)
+
+    # For debugging purposes, add every item to player's inventory
+    # TODO: Factory for making these
+
+    # Health Potion
+    health_potion = copy.deepcopy(entity_factories.health_potion)
+    health_potion.parent = player.inventory
+    player.inventory.items.append(health_potion)
+
+    # Lightning scroll
+    lightning_scroll = copy.deepcopy(entity_factories.lightning_scroll)
+    lightning_scroll.parent = player.inventory
+    player.inventory.items.append(lightning_scroll)
+
+    # Confusion scroll
+    confusion_scroll = copy.deepcopy(entity_factories.confusion_scroll)
+    confusion_scroll.parent = player.inventory
+    player.inventory.items.append(confusion_scroll)
+
+    # Fireball scroll
+    fireball_scroll = copy.deepcopy(entity_factories.fireball_scroll)
+    fireball_scroll.parent = player.inventory
+    player.inventory.items.append(fireball_scroll)
 
     return engine
 
