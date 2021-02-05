@@ -1,5 +1,8 @@
 class Rectangle:
     def __init__(self, x, y, width, height):
+        if width < 3 or height < 3:
+            raise ValueError("Width and height must be at least 3 or greater.")
+
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
@@ -18,7 +21,7 @@ class Rectangle:
     def inner(self):
         """Return the inner area of this room as a 2D array index."""
         # Returns a Tuple[slice, slice]
-        return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
+        return slice(self.x1 + 1, self.x2 - 1), slice(self.y1 + 1, self.y2 - 1)
 
         # Explanation for + 1 on self.x1 and self.y1
 
