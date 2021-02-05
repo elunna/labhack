@@ -170,7 +170,7 @@ def render_inv(console, engine, title):
 
     y = 0
 
-    width = len(title) + 4
+    width = len(title) + 10
 
     console.draw_frame(
         x=x,
@@ -191,7 +191,7 @@ def render_inv(console, engine, title):
             item_string = f"({item_key}) {item.name}"
 
             if is_equipped:
-                item_string = f"{item_string} (E)"
+                item_string = f"{item_string} (Equipped)"
 
             console.print(x + 1, y + i + 1, item_string)
     else:
