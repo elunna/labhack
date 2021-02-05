@@ -1,4 +1,4 @@
-""" Tests for render_functions.py"""
+""" Tests for rendering.py"""
 # render_bar
 
 # render_dungeon_lvl_text

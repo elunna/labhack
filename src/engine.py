@@ -1,5 +1,5 @@
 from . import exceptions
-from . import render_functions
+from . import rendering
 from . import settings
 from .game_map import GameMap
 from .game_world import GameWorld
@@ -61,7 +61,7 @@ class Engine:
 
     def render(self, console):
         # Message Panel
-        render_functions.render_messages(
+        rendering.render_messages(
             console=self.msg_panel,
             x=settings.msg_panel_x, y=0,
             width=settings.screen_width,
@@ -70,24 +70,24 @@ class Engine:
         )
 
         # Map Panel
-        render_functions.render_map(self.map_panel, self.game_map)
+        rendering.render_map(self.map_panel, self.game_map)
 
         # Stat Panel
-        render_functions.render_names_at_mouse_location(
+        rendering.render_names_at_mouse_location(
             console=self.stat_panel,
             x=settings.tooltip_x,
             y=settings.tooltip_y,
             engine=self
         )
 
-        render_functions.render_bar(
+        rendering.render_bar(
             console=self.stat_panel,
             current_value=self.player.fighter.hp,
             maximum_value=self.player.fighter.max_hp,
             total_width=settings.hp_bar_width,
         )
 
-        render_functions.render_dungeon_lvl_text(
+        rendering.render_dungeon_lvl_text(
             console=self.stat_panel,
             dungeon_level=self.game_world.current_floor,
         )

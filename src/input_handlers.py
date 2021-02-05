@@ -1,6 +1,6 @@
 from . import color
 from . import exceptions
-from . import render_functions
+from . import rendering
 from . import settings
 from .settings import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
@@ -204,7 +204,7 @@ class HistoryHandler(EventHandler):
 
         # Render the message log using the cursor parameter.
         # self.engine.message_log.render_messages(
-        render_functions.render_messages(
+        rendering.render_messages(
             console=log_console,
             x=1, y=1,
             width=log_console.width - 2,
