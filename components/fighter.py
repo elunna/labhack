@@ -4,6 +4,7 @@ from src.settings import RenderOrder
 
 
 class Fighter(BaseComponent):
+    # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 
     def __init__(self, hp, base_defense, base_power):
