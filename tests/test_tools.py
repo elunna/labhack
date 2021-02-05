@@ -1,0 +1,31 @@
+from src import game_map
+from src import tile_types
+
+def test_map():
+    # Door pending
+
+    #   0 1 2 3 4 5
+    # 0 # # . . . .
+    # 1 # # . . . .
+    # 2 . + . . . .
+    # 3 # # . . # .
+    # 4 # # . . # .
+    # 5 # # . . . .
+
+    new_map = game_map.GameMap(
+        width=6,
+        height=6,
+        entities=(),
+        engine=None,
+        fill_tile=tile_types.floor
+    )
+    walls = [(0, 0), (1, 0),
+             (0, 1), (1, 1),
+             (0, 3), (1, 3), (4, 3),
+             (0, 4), (1, 4), (4, 4),
+             (0, 5), (1, 5),
+             ]
+    for x, y in walls:
+        new_map.tiles[x, y] = tile_types.wall
+
+    return new_map
