@@ -214,3 +214,16 @@ def draw_rect(console, x, y, radius):
         clear=False,
     )
 
+
+def render_popup(console, text):
+    console.tiles_rgb["fg"] //= 8
+    console.tiles_rgb["bg"] //= 8
+
+    console.print(
+        console.width // 2,
+        console.height // 2,
+        text,
+        fg=color.white,
+        bg=color.black,
+        alignment=tcod.CENTER,
+    )
