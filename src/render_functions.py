@@ -71,7 +71,7 @@ def render_names_at_mouse_location(console, x, y, engine):
 
     names_at_mouse_location = get_names_at_location(
         x=mouse_x,
-        y=mouse_y - settings.msg_panel_height,      # Need to correct for message window offset.
+        y=mouse_y - settings.msg_panel_height,  # Hack: correct for message window offset.
         game_map=engine.game_map
     )
 

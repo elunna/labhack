@@ -91,7 +91,11 @@ class EventHandler(BaseEventHandler):
         return True
 
     def ev_mousemotion(self, event):
-        if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
+        # if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
+            # self.engine.mouse_location = event.tile.x, event.tile.y
+
+        # Correct for msg_panel offset
+        if self.engine.game_map.in_bounds(event.tile.x, event.tile.y - settings.msg_panel_height):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
     def on_render(self, console):
@@ -383,7 +387,11 @@ class SelectIndexHandler(AskUserEventHandler):
 
         super().__init__(engine)
         player = self.engine.player
-        engine.mouse_location = player.x, player.y
+        # engine.mouse_location = player.x, player.y
+
+        # Hack to fix the msg_panel offset.
+        engine.mouse_location = player.x, player.y + settings.msg_panel_height
+
 
     def on_render(self, console):
         """ Highlight the tile under the cursor.
@@ -426,7 +434,13 @@ class SelectIndexHandler(AskUserEventHandler):
             y += dy * modifier
             # Clamp the cursor index to the map size.
             x = max(0, min(x, self.engine.game_map.width - 1))
-            y = max(0, min(y, self.engine.game_map.height - 1))
+
+            # y = max(0, min(y, self.engine.game_map.height - 1))
+            # Hack to fix msg_panel offset
+            y = max(
+                settings.msg_panel_height,
+                min(y, self.engine.game_map.height - 1 + settings.msg_panel_height)
+            )
             self.engine.mouse_location = x, y
             return None
         elif key in CONFIRM_KEYS:
@@ -465,7 +479,10 @@ class SingleRangedAttackHandler(SelectIndexHandler):
         self.callback = callback
 
     def on_index_selected(self, x, y):
-        return self.callback((x, y))
+        # return self.callback((x, y))
+
+        # Hack to fix the msg_panel offset.
+        return self.callback((x, y - 5))
 
 
 class AreaRangedAttackHandler(SelectIndexHandler):
@@ -496,8 +513,10 @@ class AreaRangedAttackHandler(SelectIndexHandler):
 
     def on_index_selected(self, x, y):
         # same as the one we defined for SingleRangedAttackHandler.
-        return self.callback((x, y))
+        # return self.callback((x, y))
 
+        # Hack to fix the msg_panel offset.
+        return self.callback((x, y - 5))
 
 class PopupMessage(BaseEventHandler):
     """Display a popup text window."""
