@@ -1,75 +1,79 @@
-import exceptions
-import input_handlers
-import logger
-import render_functions
-import settings
-import setup_game
-import tcod
 import traceback
+import tcod
 
-log = logger.get_logger(__name__)
+import src.input_handlers
+from src import color, exceptions, input_handlers, settings
 
 
 def main():
-    renderer = render_functions.Renderer()
+    # Specify font for tileset
+    tileset = tcod.tileset.load_tilesheet(
+        path=settings.tileset,
+        columns=32,
+        rows=8,
+        charmap=tcod.tileset.CHARMAP_TCOD
+    )
 
     # Our first event handler is the Main Menu handler.
-    handler = input_handlers.MainMenuHandler()
-    log.debug('Created first handler: MainMenuHandler')
+    handler = src.input_handlers.MainMenuHandler()
 
-    # Game loop
-    log.debug('Entering game loop')
-    while True:
-        renderer.root.clear()
-        # root_console.clear()
+    # Create the screen
+    # Good info on how to use this:
+    # https://python-tcod.readthedocs.io/en/latest/tcod/context.html
+    with tcod.context.new_terminal(
+        settings.screen_width,
+        settings.screen_height,
+        tileset=tileset,
+        title=settings.title,
+        vsync=True,
+        renderer=tcod.RENDERER_SDL2,  # Fix green lines on Windows
+    ) as context:
+        # The “order” argument affects the order of our x and y variables in
+        # numpy (an underlying library that tcod uses). By default, numpy
+        # accesses 2D arrays in [y, x] order, which is fairly unintuitive. By
+        # setting order="F", we can change this to be [x, y] instead.
+        root_console = tcod.Console(settings.screen_width, settings.screen_height, order="F")
 
-        # on_render just tells the Engine class to call its render method, using the given renderer.
-        handler.on_render(renderer=renderer)
+        # Game loop
+        while True:
+            root_console.clear()
 
-        # Draw the screen
-        renderer.context.present(renderer.root)
+            # on_render just tells the Engine class to call its render method, using the given console.
+            handler.on_render(console=root_console)
 
-        """ Finally, applications should wrap a try/except block around the main
-            application code to send any exceptions through the logging interface
-            instead of just to stderr.  This is known as a global try catch handler.
-            It should not be where you handle all your exception logging, you should
-            continue to plan for exceptions in try catch blocks at necessary points
-            in your code as a rule of thumb.
-        """
-        try:
-            for event in tcod.event.wait():
-                renderer.context.convert_event(event)
-                handler = handler.handle_events(event)
+            # Draw the screen
+            context.present(root_console)
 
-        except Exception:  # Handle exceptions in game.
-            # TODO: Check that this doesn't go at the end of the block
-            traceback.print_exc()  # Print error to stderr.
-            log.debug(traceback.format_exc())
+            try:
+                for event in tcod.event.wait():
+                    context.convert_event(event)
+                    handler = handler.handle_events(event)
 
-            # Then print the error to the message log.
-            if isinstance(handler, input_handlers.EventHandler):
-                handler.engine.msg_log.add_message(traceback.format_exc())
+            except Exception:  # Handle exceptions in game.
+                # TODO: Check that this doesn't go at the end of the block
+                traceback.print_exc()  # Print error to stderr.
 
-        except exceptions.QuitWithoutSaving:
-            log.debug('exceptions.QuitWithoutSaving')
-            raise
-        except SystemExit:  # Save and Quit
-            log.debug('exceptions.SystemExit')
-            save_game(handler, settings.save_file)
-            raise
-        except BaseException:  # Save on any other unexpected exception
-            log.debug('exceptions.BaseException')
-            save_game(handler, settings.save_file)
-            raise
+                # Then print the error to the message log.
+                if isinstance(handler, input_handlers.EventHandler):
+                    handler.engine.message_log.add_message(
+                        traceback.format_exc(), color.error
+                    )
+
+            except exceptions.QuitWithoutSaving:
+                raise
+            except SystemExit:  # Save and Quit
+                save_game(handler, settings.save_file)
+                raise
+            except BaseException:  # Save on any other unexpected exception
+                save_game(handler, settings.save_file)
+                raise
 
 
 def save_game(handler, filename):
-    # TODO: Remove this function? Is it needed?
     """If the current event handler has an active Engine then save it."""
     if isinstance(handler, input_handlers.EventHandler):
-        setup_game.save_as(handler.engine, filename)
-        # handler.engine.save_as(filename)
-        log.info("Game saved.")
+        handler.engine.save_as(filename)
+        print("Game saved.")
 
 
 if __name__ == "__main__":

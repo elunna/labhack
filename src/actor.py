@@ -1,5 +1,5 @@
-from entity import Entity
-from settings import RenderOrder
+from src.entity import Entity
+from src.settings import RenderOrder
 
 
 class Actor(Entity):
@@ -14,7 +14,6 @@ class Actor(Entity):
         fighter,
         inventory,
         level,
-        energymeter,
     ):
 
         super().__init__(
@@ -28,21 +27,14 @@ class Actor(Entity):
         )
 
         self.ai = ai_cls(self)
-
         self.equipment = equipment
         self.equipment.parent = self
-
         self.fighter = fighter
         self.fighter.parent = self
-
         self.inventory = inventory
         self.inventory.parent = self
-
         self.level = level
         self.level.parent = self
-
-        self.energymeter = energymeter
-        self.energymeter.parent = self
 
     @property
     def is_alive(self):

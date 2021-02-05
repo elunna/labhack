@@ -1,22 +1,5 @@
-MIN_WALL_LEN = 3
-
-
 class Rectangle:
-    """Creates a rectangle object.
-        Note: Each rectangle has a wall perimeter that is 1 unit thick.
-
-        x/y: Must be 0 or positive value (no negative space)
-        w/h: Must be 3 or more, otherwise there is no empty space within the rectangle.
-    """
     def __init__(self, x, y, width, height):
-        if x < 0 or y < 0:
-            raise ValueError('x and y must be positive values!')
-
-        if width < MIN_WALL_LEN or height < MIN_WALL_LEN:
-            raise ValueError(
-                'width and height must be a minimum of {}!'.format(MIN_WALL_LEN)
-            )
-
         self.x1 = x
         self.y1 = y
         self.x2 = x + width
@@ -35,8 +18,9 @@ class Rectangle:
     def inner(self):
         """Return the inner area of this room as a 2D array index."""
         # Returns a Tuple[slice, slice]
-        # +1 and -1 are necessary to retain the walls.
-        return slice(self.x1 + 1, self.x2 - 1), slice(self.y1 + 1, self.y2 - 1)
+        return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
+
+        # Explanation for + 1 on self.x1 and self.y1
 
         # Ex: room at coordinates (1, 1) that goes to (6, 6).
 

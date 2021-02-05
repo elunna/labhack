@@ -1,7 +1,4 @@
-import exceptions
-import logger
-
-log = logger.get_logger(__name__)
+from src import exceptions, color
 
 
 class Action:
@@ -10,7 +7,6 @@ class Action:
     def __init__(self, entity):
         super().__init__()
         self.entity = entity
-        self.msg = ''
 
     @property
     def engine(self):
@@ -43,14 +39,12 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self):
         """Return the blocking entity at this actions destination.."""
-        # return self.engine.game_map.get_blocker_at(*self.dest_xy)
-        return self.entity.gamemap.get_blocker_at(*self.dest_xy)
+        return self.engine.game_map.get_blocking_entity_at_location(*self.dest_xy)
 
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        # return self.engine.game_map.get_actor_at(*self.dest_xy)
-        return self.entity.gamemap.get_actor_at(*self.dest_xy)
+        return self.engine.game_map.get_actor_at_location(*self.dest_xy)
 
     def perform(self):
         raise NotImplementedError()
@@ -62,8 +56,6 @@ class BumpAction(ActionWithDirection):
     """
 
     def perform(self):
-        log.debug(f'{self.entity}: BumpAction ({self.dx},{self.dy})')
-
         if self.target_actor:
             return MeleeAction(self.entity, self.dx, self.dy).perform()
 
@@ -82,11 +74,10 @@ class ItemAction(Action):
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        return self.engine.game_map.get_actor_at(*self.target_xy)
+        return self.engine.game_map.get_actor_at_location(*self.target_xy)
 
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""
-        log.debug(f'{self.item} has been invoked')
         if self.item.consumable:
             self.item.consumable.activate(self)
 
@@ -96,10 +87,8 @@ class DropItem(ItemAction):
         """Drop an item from an entity's possession."""
         # If the item is an equipped item, first unequip it.
         if self.entity.equipment.item_is_equipped(self.item):
-            log.debug(f'{self.item} is being unequipped before dropping..')
             self.entity.equipment.toggle_equip(self.item)
 
-        log.debug(f'{self.entity} drops the {self.item}.')
         self.entity.inventory.drop(self.item)
 
 
@@ -109,7 +98,6 @@ class EquipAction(Action):
         self.item = item
 
     def perform(self):
-        log.debug(f'{self.entity} is having its equip status being toggled.')
         self.entity.equipment.toggle_equip(self.item)
 
 
@@ -119,27 +107,31 @@ class MeleeAction(ActionWithDirection):
 
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
-        elif self.target_actor == self.entity:
-            log.debug(f'{self.entity} targeted a MeleeAction at itself.')
-            self.engine.msg_log.add_message(
-                f"The {self.entity} mutters angrily to itself...",
-            )
-            return WaitAction(self.entity)
 
         damage = self.entity.fighter.power - target.fighter.defense
-        attack_desc = f"The {self.entity.name.capitalize()} hits the {target}"
+
+        attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name}"
+
+        if self.entity is self.engine.player:
+            attack_color = color.player_atk
+        else:
+            attack_color = color.enemy_atk
 
         if damage > 0:
-            self.engine.msg_log.add_message(attack_desc)
+            self.engine.message_log.add_message(
+                # f"{attack_desc} for {damage} hit points.", attack_color
+                f"{attack_desc}!", attack_color
+            )
             target.fighter.hp -= damage
         else:
-            attack_desc += "... but does no damage!"
-            self.engine.msg_log.add_message(attack_desc)
-
+            self.engine.message_log.add_message(
+                f"{attack_desc}... but does no damage!", attack_color
+            )
 
 
 class MovementAction(ActionWithDirection):
     """ Moves an entity to a new set of coordinates."""
+
     def perform(self):
         dest_x, dest_y = self.dest_xy
 
@@ -147,28 +139,16 @@ class MovementAction(ActionWithDirection):
             # Destination is out of bounds.
             raise exceptions.Impossible("That way is blocked.")
 
-        if not self.engine.game_map.walkable(dest_x, dest_y):
-
-            # TODO: Find a better place for this import, at the top it causes a circular import....
-            from components.ai import ConfusedAI
-
-            # Destination is blocked by a tile
-            if isinstance(self.entity.ai, ConfusedAI):
-                if self.entity == self.engine.player:
-                    self.engine.msg_log.add_message(f"You bonk into the wall...")
-                else:
-                    self.engine.msg_log.add_message(f"The {self.entity} bonks into the wall...")
-                return
-
+        if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
+            # Destination is blocked by a tile.
             raise exceptions.Impossible("That way is blocked.")
 
         # Theoretically, this bit of code won’t ever trigger, but it's a
         # safeguard.
-        if self.engine.game_map.get_blocker_at(dest_x, dest_y):
+        if self.engine.game_map.get_blocking_entity_at_location(dest_x, dest_y):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 
-        log.debug(f'{self.entity} moves {self.dx,self.dy}.')
         self.entity.move(self.dx, self.dy)
 
 
@@ -192,7 +172,7 @@ class PickupAction(Action):
                 item.parent = self.entity.inventory
                 inventory.items.append(item)
 
-                self.engine.msg_log.add_message(f"You picked up the {item}!")
+                self.engine.message_log.add_message(f"You picked up the {item.name}!")
                 return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
@@ -201,19 +181,10 @@ class PickupAction(Action):
 class TakeStairsAction(Action):
     def perform(self):
         """ Take the stairs, if any exist at the entity's location. """
-        your_location = (self.entity.x, self.entity.y)
-
-        if your_location == self.engine.game_map.downstairs_location:
-            # Generate a new floor
+        if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
             self.engine.game_world.generate_floor()
-
-            upstair = self.engine.game_map.upstairs_location
-
-            # Move the player.
-            self.engine.player.place(*upstair, self.engine.game_map)
-
-            self.engine.msg_log.add_message(
-                "You descend the staircase.",
+            self.engine.message_log.add_message(
+                "You descend the staircase.", color.descend
             )
         else:
             raise exceptions.Impossible("There are no stairs here.")

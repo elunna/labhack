@@ -1,8 +1,8 @@
-import entity
-from settings import RenderOrder
+from src.entity import Entity
+from src.settings import RenderOrder
 
 
-class Item(entity.Entity):
+class Item(Entity):
     def __init__(
         self, *,
         x=0, y=0,

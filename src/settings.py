@@ -1,37 +1,21 @@
 from enum import Enum, auto
+
 import tcod.event
 
 """ This is a collection of all the constants used in the project."""
 
 author = "Erik Lunna"
-email = "eslunna@gmail.com"
 title = "Lab Hack Version 1.0"
-pypi_title = 'labhack'
 title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
-short_description = 'A super-science roguelike'
 
-github="https://github.com/elunna/labhack"
-
-version = '0.0.2'
+version = 1.0
 
 """Filename info """
 tileset = "images/dejavu10x10_gs_tc.png"
 bg_img = "images/menu_background.png"
-save_file = "savegame.sav"
+save_file = "../savegame.sav"
 
 fov_radius = 8
-
-# EnergyMeter and speed settings
-energy_per_turn = 10  # The standard energy gained per turn
-
-# These are thresholds based around the energy regeneration
-# TODO: Use an Enum instead?
-very_slow = 18
-slow = 14
-normal = 10
-fast = 6
-very_fast = 4
-
 
 # Define screen dimensions
 screen_width = 80
@@ -54,10 +38,6 @@ map_height = 45
 # Stat Panel
 stat_panel_y = msg_panel_height + map_height
 stat_panel_height = 5
-stat_str_x = 22
-stat_def_x = 30
-stat_xl_x = 40
-stat_turns_x = 50
 
 hp_bar_x = 0
 hp_bar_y = 0
@@ -74,6 +54,18 @@ room_max_size = 10
 room_min_size = 6
 max_rooms = 30
 
+# Entity settings
+max_items_by_floor = [
+    (1, 1),
+    (4, 2),
+]
+
+max_monsters_by_floor = [
+    (1, 2), # Levels 1-3
+    (4, 3), # Levels 4-5 etc
+    (6, 5),
+]
+
 DIRECTIONS = [
     (-1, -1),  # Northwest
     (0, -1),  # North
@@ -83,14 +75,6 @@ DIRECTIONS = [
     (-1, 1),  # Southwest
     (0, 1),  # South
     (1, 1),  # Southeast
-    (0, 0),  # None/Wait
-]
-
-CARDINAL_DIRECTIONS = [
-    (0, -1),  # North
-    (-1, 0),  # West
-    (1, 0),  # East
-    (0, 1),  # South
 ]
 
 """Enums"""
@@ -107,10 +91,8 @@ class EquipmentType(Enum):
     ARMOR = auto()
 
 
-"""Constants for input keys
-    For reference, these are the event codes for tcod.
-    https://python-tcod.readthedocs.io/en/latest/tcod/event.html
-"""
+"""Constants for input keys"""
+
 MOVE_KEYS = {
     # Arrow keys.
     tcod.event.K_UP: (0, -1),
@@ -159,66 +141,4 @@ CURSOR_Y_KEYS = {
 CONFIRM_KEYS = {
     tcod.event.K_RETURN,
     tcod.event.K_KP_ENTER,
-    tcod.event.K_SEMICOLON,
-}
-
-""" Entity Generation """
-
-max_items_by_floor = [
-    (1, 1),
-    (4, 2),
-]
-
-max_monsters_by_floor = [
-    (1, 2), # Levels 1-3
-    (4, 3), # Levels 4-5 etc
-    (6, 5),
-]
-
-
-item_chances = {
-    # keys in the dictionary represent the floor number,
-    # and the value is a list of tuples.
-    # 0: [(health_potion, 35), (confusion_potion, 35)],
-    0: [
-        ("health potion", 35),
-        ("paralysis potion", 5),
-        ("confusion scroll", 10),
-        ("lightning scroll", 25),
-        ("fireball scroll", 25),
-        ("leather armor", 15),
-        ("dagger", 15),
-        ("chain mail", 5),
-        ("sword", 5),
-    ],
-}
-
-enemy_chances = {
-    0: [
-        ('cleaning robot', 5),
-        ('grid bug', 5),
-        ('mouse', 5),
-        ('broken robot', 5),
-    ],
-    2: [
-        ('drone zapper', 10),
-        ('jumping spider', 10),
-        ('med-school dropout', 10),
-        ('rabbit', 10),
-        ('venus fly trap', 10),
-    ],
-    4: [
-        ('face-sucker', 15),
-        ('giant tick', 15),
-        ('giant leech', 15),
-        ('spiked drone', 15),
-    ],
-    6: [
-        ('defense turret', 20),
-        ('rookie agent', 20),
-        ('squealer', 20),
-        ('henchman', 20),
-        ('mangler', 20),
-        ('scramper', 20),
-    ],
 }

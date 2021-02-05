@@ -1,16 +1,8 @@
-from components.component import Component
-from settings import EquipmentType
+from components.base_component import BaseComponent
+from src.settings import EquipmentType
 
 
-class Equippable(Component):
-    """ Represents an item that can be wielded or worn, like a weapon or piece
-        of armor.
-        TODO: Add dict or enum for equipment_type
-        TODO: Check that equipment_type is valid
-        TODO: Erosion, Corrosion, Burnedness, etc
-        TODO: Enchantment level?
-
-    """
+class Equippable(BaseComponent):
     # parent: Item
     parent = None
 

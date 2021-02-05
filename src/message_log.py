@@ -1,12 +1,12 @@
-import logger
+from . import color
 import textwrap
-
-log = logger.get_logger(__name__)
 
 
 class Message:
-    def __init__(self, text):
+    def __init__(self, text, fg):
         self.plain_text = text
+        self.fg = fg  # Foreground color: Tuple[int, int, int]
+
         self.count = 1  # Shows how many times a msg is repeated
         # used to display something like “The Orc attacks (x3).” Rather than
         # crowding our message log with the same message over and over, we can
@@ -22,20 +22,18 @@ class Message:
 
 class MessageLog:
     def __init__(self):
-        log.debug("Initializing MessageLog")
         self.messages = []
 
-    def add_message(self, text, *, stack=True):
+    def add_message(self, text, fg=color.white, *, stack=True):
         """Add a message to this log.
             `text` is the message text, `fg` is the text color.
             If `stack` is True then the message can stack with a previous message
             of the same text.
         """
-        log.debug(f"msg: {text}")
         if stack and self.messages and text == self.messages[-1].plain_text:
             self.messages[-1].count += 1
         else:
-            self.messages.append(Message(text))
+            self.messages.append(Message(text, fg))
 
     @staticmethod
     def wrap(string, width):
@@ -44,3 +42,4 @@ class MessageLog:
             yield from textwrap.wrap(
                 line, width, expand_tabs=True,
             )
+

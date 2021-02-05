@@ -1,7 +1,9 @@
-from components.component import Component
+from src import color
+from components.base_component import BaseComponent
+from src.settings import RenderOrder
 
 
-class Fighter(Component):
+class Fighter(BaseComponent):
     parent = None  # Should be Actor
 
     def __init__(self, hp, base_defense, base_power):
@@ -9,8 +11,6 @@ class Fighter(Component):
         self._hp = hp
         self.base_defense = base_defense
         self.base_power = base_power
-
-    # TODO: Add contains for comps
 
     @property
     def hp(self):
@@ -68,17 +68,21 @@ class Fighter(Component):
     def die(self) -> None:
         if self.engine.player is self.parent:
             death_message = "You died!"
+            death_message_color = color.player_die
         else:
-            death_message = f"The {self.parent} dies!"
+            death_message = f"The {self.parent.name} dies!"
+            death_message_color = color.enemy_die
 
-        # self.parent.char = "%"
-        # self.parent.color = (191, 0, 0)
-        # self.parent.blocks_movement = False
+        self.parent.char = "%"
+        self.parent.color = (191, 0, 0)
+        self.parent.blocks_movement = False
         self.parent.ai = None
-        # self.parent.name = f"{self.parent.name} corpse"
-        # self.parent.render_order = RenderOrder.CORPSE
+        self.parent.name = f"{self.parent.name} corpse"
+        self.parent.render_order = RenderOrder.CORPSE
 
-        self.engine.msg_log.add_message(death_message)
-
-        # TODO: Other entities should be able to get xp
+        self.engine.message_log.add_message(
+            death_message,
+            death_message_color
+        )
         self.engine.player.level.add_xp(self.parent.level.xp_given)
+

@@ -1,7 +1,7 @@
-from components.component import Component
+from components.base_component import BaseComponent
 
 
-class Inventory(Component):
+class Inventory(BaseComponent):
     def __init__(self, capacity):
         # Max number of items an Actor can hold.
         self.capacity = capacity
@@ -14,4 +14,4 @@ class Inventory(Component):
         self.items.remove(item)
         item.place(self.parent.x, self.parent.y, self.gamemap)
 
-        self.engine.msg_log.add_message(f"You dropped the {item}.")
+        self.engine.message_log.add_message(f"You dropped the {item.name}.")
