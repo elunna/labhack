@@ -40,14 +40,10 @@ class Equipment(Component):
         return self.weapon == item or self.armor == item
 
     def unequip_message(self, item_name):
-        self.parent.gamemap.engine.msglog.add_message(
-            f"You remove the {item_name}."
-        )
+        return f"You remove the {item_name}."
 
     def equip_message(self, item_name):
-        self.parent.gamemap.engine.msglog.add_message(
-            f"You equip the {item_name}."
-        )
+        return f"You equip the {item_name}."
 
     def equip_to_slot(self, slot, item, add_message):
         """ Attempts to equip an item to a slot on the actor.
@@ -56,23 +52,23 @@ class Equipment(Component):
         current_item = getattr(self, slot)
 
         if current_item is not None:
-            self.unequip_from_slot(slot, add_message)
+            return self.unequip_from_slot(slot, add_message)
 
         setattr(self, slot, item)
 
         if add_message:
-            self.equip_message(item.name)
+            return self.equip_message(item.name)
 
     def unequip_from_slot(self, slot, add_message):
         """ Attempts to unequip an item to a slot on the actor.
             add_message: Optional boolean to specify if we want to print a message about equipping.
         """
         current_item = getattr(self, slot)
+        setattr(self, slot, None)
 
         if add_message:
-            self.unequip_message(current_item.name)
-
-        setattr(self, slot, None)
+            return self.unequip_message(current_item.name)
+        return ''
 
     def toggle_equip(self, equippable_item, add_message=True):
         """ Attempts to equip an unequipped item, or unequip an equipped item.
@@ -88,6 +84,7 @@ class Equipment(Component):
             slot = "armor"
 
         if getattr(self, slot) == equippable_item:
-            self.unequip_from_slot(slot, add_message)
+            result = self.unequip_from_slot(slot, add_message)
         else:
-            self.equip_to_slot(slot, equippable_item, add_message)
+            result = self.equip_to_slot(slot, equippable_item, add_message)
+        return result

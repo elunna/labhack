@@ -100,7 +100,7 @@ class EquipAction(Action):
 
     def perform(self):
         # TODO: Get msg
-        self.entity.equipment.toggle_equip(self.item)
+        self.msg = self.entity.equipment.toggle_equip(self.item)
 
 
 class MeleeAction(ActionWithDirection):
