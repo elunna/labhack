@@ -1,3 +1,4 @@
+from . import color
 from . import exceptions
 from . import gamemap
 from . import gameworld
@@ -42,9 +43,9 @@ class Engine:
         for entity in set(self.game_map.actors) - {self.player}:
             if entity.ai:
                 try:
-                    entity.ai.perform()
+                    self.handle_action(entity.ai.perform())
                 except exceptions.Impossible:
-                    pass # Ignore impossible action exceptions from AI
+                    pass  # Ignore impossible action exceptions from AI
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
@@ -106,8 +107,6 @@ class Engine:
         #    fg_alpha: float = 1.0, bg_alpha: float = 1.0,
         #    key_color: Optional[Tuple[int, int, int]] = None) → None
 
-
-
     def save_as(self, filename):
         """Save this Engine instance as a compressed file."""
         # pickle serializes an object hierarchy in Python.
@@ -117,3 +116,22 @@ class Engine:
 
         with open(filename, "wb") as f:
             f.write(save_data)
+
+    def handle_action(self, action):
+        if action is None:
+            return False
+
+        alt_action = action
+
+        while alt_action:
+            try:
+                alt_action = action.perform()
+            except exceptions.Impossible as exc:
+                self.msglog.add_message(exc.args[0], color.impossible)
+
+                return False  # Skip enemy turn on exceptions
+
+            # Display any messages from the action result
+            if action.msg:
+                self.msglog.add_message(action.msg)
+        return True
