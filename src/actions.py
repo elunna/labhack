@@ -7,7 +7,7 @@ class Action:
     def __init__(self, entity):
         super().__init__()
         self.entity = entity
-        self.msg = None
+        self.msg = ''
 
     @property
     def engine(self):

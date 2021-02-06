@@ -146,12 +146,11 @@ class FireballDamageConsumable(Consumable):
             raise exceptions.Impossible("You cannot target an area that you cannot see.")
 
         targets_hit = False
+
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
-                self.engine.msglog.add_message(
-                    f"The {actor.name} is engulfed in a fiery explosion!"
-                )
-                actor.fighter.take_dmg(self.damage)
+                action.msg += f"The {actor.name} is engulfed in a fiery explosion! "
+                action.msg += actor.fighter.take_dmg(self.damage)
                 targets_hit = True
 
         if not targets_hit:
