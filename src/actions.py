@@ -4,7 +4,6 @@ from src import exceptions
 
 class Action:
     """ The template for a game action that affects gameplay."""
-
     def __init__(self, entity):
         super().__init__()
         self.entity = entity
@@ -29,7 +28,6 @@ class Action:
 class ActionWithDirection(Action):
     def __init__(self, entity, dx, dy):
         super().__init__(entity)
-
         self.dx = dx
         self.dy = dy
 
@@ -56,13 +54,12 @@ class BumpAction(ActionWithDirection):
     """ When acting in a direction, decides which class, between MeleeAction and
         MovementAction to return.
     """
-
     def perform(self):
         if self.target_actor:
-            return MeleeAction(self.entity, self.dx, self.dy).perform()
+            return MeleeAction(self.entity, self.dx, self.dy)
 
         else:
-            return MovementAction(self.entity, self.dx, self.dy).perform()
+            return MovementAction(self.entity, self.dx, self.dy)
 
 
 class ItemAction(Action):
@@ -81,6 +78,7 @@ class ItemAction(Action):
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""
         if self.item.consumable:
+            # TODO: Get msg
             self.item.consumable.activate(self)
 
 
@@ -91,6 +89,7 @@ class DropItem(ItemAction):
         if self.entity.equipment.item_is_equipped(self.item):
             self.entity.equipment.toggle_equip(self.item)
 
+        # TODO: Get msg
         self.entity.inventory.drop(self.item)
 
 
@@ -100,6 +99,7 @@ class EquipAction(Action):
         self.item = item
 
     def perform(self):
+        # TODO: Get msg
         self.entity.equipment.toggle_equip(self.item)
 
 
@@ -120,15 +120,10 @@ class MeleeAction(ActionWithDirection):
             attack_color = color.enemy_atk
 
         if damage > 0:
-            self.engine.msglog.add_message(
-                # f"{attack_desc} for {damage} hit points.", attack_color
-                f"{attack_desc}!", attack_color
-            )
+            self.msg = f"{attack_desc} for {damage} hit points."
             target.fighter.hp -= damage
         else:
-            self.engine.msglog.add_message(
-                f"{attack_desc}... but does no damage!", attack_color
-            )
+            self.msg = f"{attack_desc}... but does no damage!"
 
 
 class MovementAction(ActionWithDirection):
@@ -156,7 +151,6 @@ class MovementAction(ActionWithDirection):
 
 class PickupAction(Action):
     """Pickup an item and add it to the inventory, if there is room for it."""
-
     def __init__(self, entity):
         super().__init__(entity)
 
@@ -170,11 +164,11 @@ class PickupAction(Action):
                 if len(inventory.items) >= inventory.capacity:
                     raise exceptions.Impossible("Your inventory is full.")
 
+
                 self.engine.game_map.entities.remove(item)
                 item.parent = self.entity.inventory
                 inventory.add_item(item)
-
-                self.engine.msglog.add_message(f"You picked up the {item.name}!")
+                self.msg = f"You picked up the {item.name}!"
                 return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
@@ -185,9 +179,8 @@ class TakeStairsAction(Action):
         """ Take the stairs, if any exist at the entity's location. """
         if (self.entity.x, self.entity.y) == self.engine.game_map.downstairs_location:
             self.engine.game_world.generate_floor()
-            self.engine.msglog.add_message(
-                "You descend the staircase.", color.descend
-            )
+
+            self.msg = "You descend the staircase."
         else:
             raise exceptions.Impossible("There are no stairs here.")
 

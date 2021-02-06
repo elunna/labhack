@@ -86,7 +86,7 @@ class HostileAI(BaseAI):
         if self.engine.game_map.visible[self.entity.x, self.entity.y]:
             # If the player is right next to the entity, attack the player.
             if distance <= 1:
-                return MeleeAction(self.entity, dx, dy).perform()
+                return MeleeAction(self.entity, dx, dy)
 
             self.path = self.get_path_to(target.x, target.y)
 
@@ -96,10 +96,10 @@ class HostileAI(BaseAI):
             dest_x, dest_y = self.path.pop(0)
             return MovementAction(
                 self.entity, dest_x - self.entity.x, dest_y - self.entity.y,
-            ).perform()
+            )
 
         # If the entity is not in the player’s vision, simply wait.
-        return WaitAction(self.entity).perform()
+        return WaitAction(self.entity)
 
 
 class ConfusedAI(BaseAI):
@@ -130,4 +130,4 @@ class ConfusedAI(BaseAI):
 
             # The actor will either try to move or attack in the chosen random direction.
             # Its possible the actor will just bump into the wall, wasting a turn.
-            return BumpAction(self.entity, direction_x, direction_y, ).perform()
+            return BumpAction(self.entity, direction_x, direction_y, )

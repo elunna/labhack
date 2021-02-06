@@ -128,10 +128,11 @@ class Engine:
                 alt_action = action.perform()
             except exceptions.Impossible as exc:
                 self.msglog.add_message(exc.args[0], color.impossible)
-
                 return False  # Skip enemy turn on exceptions
 
             # Display any messages from the action result
             if action.msg:
                 self.msglog.add_message(action.msg)
+            action = alt_action
+
         return True
