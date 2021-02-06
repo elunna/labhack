@@ -29,7 +29,6 @@ class Consumable(Component):
             inventory.rm_item(entity)
 
 
-
 class HealingConsumable(Consumable):
     def __init__(self, amount):
         self.amount = amount
@@ -39,10 +38,7 @@ class HealingConsumable(Consumable):
         amount_recovered = consumer.fighter.heal(self.amount)
 
         if amount_recovered > 0:
-            self.engine.msglog.add_message(
-                f"You consume the {self.parent.name}, and recover {amount_recovered} HP!",
-                color.health_recovered,
-            )
+            action.msg = f"You consume the {self.parent.name}, and recover {amount_recovered} HP!"
             self.consume()
         else:
             raise exceptions.Impossible(f"Your health is already full.")
