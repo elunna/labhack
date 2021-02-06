@@ -23,9 +23,6 @@ class Fighter(Component):
         # Never set the hp to less than 0 or higher than max_hp.
         self._hp = max(0, min(value, self.max_hp))
 
-        if self._hp == 0 and self.parent.ai:
-            self.die()
-
     @property
     def defense(self):
         return self.base_defense + self.defense_bonus
@@ -65,14 +62,15 @@ class Fighter(Component):
 
     def take_dmg(self, amount):
         self.hp -= amount
+        if self._hp == 0 and self.parent.ai:
+            return self.die()
+        return ''
 
-    def die(self) -> None:
+    def die(self):
         if self.engine.player is self.parent:
             death_message = "You died!"
-            death_message_color = color.player_die
         else:
             death_message = f"The {self.parent.name} dies!"
-            death_message_color = color.enemy_die
 
         self.parent.char = "%"
         self.parent.color = (191, 0, 0)
@@ -80,10 +78,6 @@ class Fighter(Component):
         self.parent.ai = None
         self.parent.name = f"{self.parent.name} corpse"
         self.parent.render_order = RenderOrder.CORPSE
-
-        self.engine.msglog.add_message(
-            death_message,
-            death_message_color
-        )
         self.engine.player.level.add_xp(self.parent.level.xp_given)
 
+        return death_message

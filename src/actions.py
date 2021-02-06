@@ -114,14 +114,9 @@ class MeleeAction(ActionWithDirection):
 
         attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name}"
 
-        if self.entity is self.engine.player:
-            attack_color = color.player_atk
-        else:
-            attack_color = color.enemy_atk
-
         if damage > 0:
-            self.msg = f"{attack_desc} for {damage} hit points."
-            target.fighter.hp -= damage
+            self.msg = f"{attack_desc} for {damage} hit points. "
+            self.msg += target.fighter.take_dmg(damage)
         else:
             self.msg = f"{attack_desc}... but does no damage!"
 
