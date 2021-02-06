@@ -133,6 +133,7 @@ def render_map(console, game_map):
                 fg=entity.color
             )
 
+
 def render_history(console, engine, cursor):
     log_console = tcod.Console(console.width - 6, console.height - 6)
 
@@ -156,13 +157,20 @@ def render_history(console, engine, cursor):
 
 
 def render_inv(console, engine, title):
-    number_of_items_in_inventory = len(engine.player.inventory.items)
+    """ Displays a nicely formatted list of our inventory, separated by category
+        Categories: weapons, armor, potions, scrolls
+    """
+    qty_of_items = len(engine.player.inventory.items)
+    item_groups = engine.player.inventory.sorted_dict()
 
-    height = number_of_items_in_inventory + 2
+    height_for_groups = (len(item_groups) * 2)
+    padding_space = 2
+    height = qty_of_items + height_for_groups + padding_space
 
     if height <= 3:
         height = 3
 
+    # TODO: Design decision, should inventory stay in one place?
     if engine.player.x <= 30:
         x = 40
     else:
@@ -183,17 +191,32 @@ def render_inv(console, engine, title):
         bg=(0, 0, 0),
     )
 
-    if number_of_items_in_inventory > 0:
-        for i, item in enumerate(engine.player.inventory.items):
-            item_key = chr(ord("a") + i)
-            is_equipped = engine.player.equipment.item_is_equipped(item)
+    if qty_of_items > 0:
+        i = 0  # Counter for vertical spacing
+        for char in settings.ITEM_CATEGORIES:
+            groups = item_groups.get(char)
+            if groups:
+                group_name = settings.ITEM_CATEGORIES[char]
+                console.print(x + 1, y + i + 1, f" {char}  {group_name}:")
+                i += 1
+            else:
+                continue
 
-            item_string = f"({item_key}) {item.name}"
+            for group in groups:
+                for letter in group:
+                    item_key = letter
+                    item = engine.player.inventory.items[letter]
+                    is_equipped = engine.player.equipment.item_is_equipped(item)
 
-            if is_equipped:
-                item_string = f"{item_string} (Equipped)"
+                    item_string = f"({item_key}) {item.name}"
 
-            console.print(x + 1, y + i + 1, item_string)
+                    if is_equipped:
+                        item_string = f"{item_string} (Equipped)"
+
+                    console.print(x + 1, y + i + 1, item_string)
+                    i += 1
+            i += 1 # Adds a space between categories
+
     else:
         console.print(x + 1, y + 1, "(Empty)")
 
@@ -228,6 +251,7 @@ def render_popup(console, text):
         alignment=tcod.CENTER,
     )
 
+
 def render_levelup_menu(console, engine, title):
     if engine.player.x <= 30:
             x = 40
@@ -238,7 +262,7 @@ def render_levelup_menu(console, engine, title):
         x=x, y=0,
         width=35,
         height=8,
-        title=self.TITLE,
+        title=title,
         clear=True,
         fg=(255, 255, 255),
         bg=(0, 0, 0),
@@ -249,16 +273,17 @@ def render_levelup_menu(console, engine, title):
 
     console.print(
         x=x + 1, y=4,
-        string=f"a) Constitution (+20 HP, from {self.engine.player.fighter.max_hp})",
+        string=f"a) Constitution (+20 HP, from {engine.player.fighter.max_hp})",
     )
     console.print(
         x=x + 1, y=5,
-        string=f"b) Strength (+1 attack, from {self.engine.player.fighter.power})",
+        string=f"b) Strength (+1 attack, from {engine.player.fighter.power})",
     )
     console.print(
         x=x + 1, y=6,
-        string=f"c) Agility (+1 defense, from {self.engine.player.fighter.defense})",
+        string=f"c) Agility (+1 defense, from {engine.player.fighter.defense})",
     )
+
 
 def render_character_stats(console, engine, title):
     if engine.player.x <= 30:

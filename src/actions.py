@@ -171,7 +171,7 @@ class PickupAction(Action):
 
                 self.engine.game_map.entities.remove(item)
                 item.parent = self.entity.inventory
-                inventory.items.append(item)
+                inventory.add_item(item)
 
                 self.engine.msglog.add_message(f"You picked up the {item.name}!")
                 return

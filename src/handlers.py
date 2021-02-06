@@ -277,12 +277,12 @@ class InventoryHandler(AskUserHandler):
         # takes the user’s input, from letters a - z, and associates that with
         # an index in the inventory.
         player = self.engine.player
-        key = event.sym
-        index = key - tcod.event.K_a
+        key = chr(event.sym)  # Get letter the player selected
 
-        if 0 <= index <= 26:
+        if key in player.inventory.items:
             try:
-                selected_item = player.inventory.items[index]
+                # selected_item = player.inventory.items[index]
+                selected_item = player.inventory.items.get(key)
             except IndexError:
                 self.engine.msglog.add_message("Invalid entry.", color.invalid)
                 return None

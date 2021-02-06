@@ -25,7 +25,9 @@ class Consumable(Component):
         inventory = entity.parent
 
         if isinstance(inventory, Inventory):
-            inventory.items.remove(entity)
+            # inventory.items.remove(entity)
+            inventory.rm_item(entity)
+
 
 
 class HealingConsumable(Consumable):
