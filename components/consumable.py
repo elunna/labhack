@@ -67,10 +67,8 @@ class LightningDamageConsumable(Consumable):
                     closest_distance = distance
 
         if target:
-            self.engine.msglog.add_message(
-                f"A lighting bolt zaps the {target.name} with a roaring crack!!"
-            )
-            target.fighter.take_dmg(self.damage)
+            action.msg = f"A lighting bolt zaps the {target.name} with a roaring crack!! "
+            action.msg += target.fighter.take_dmg(self.damage)
             self.consume()
         else:
             raise exceptions.Impossible("No enemy is close enough to strike.")
