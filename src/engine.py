@@ -1,3 +1,4 @@
+from . import color
 from . import exceptions
 from . import gamemap
 from . import gameworld
@@ -117,3 +118,18 @@ class Engine:
 
         with open(filename, "wb") as f:
             f.write(save_data)
+
+    def handle_action(self, action):
+        if action is None:
+            return False
+
+        try:
+            action.perform()
+        except exceptions.Impossible as exc:
+            self.msglog.add_message(exc.args[0], color.impossible)
+
+            return False  # Skip enemy turn on exceptions
+
+        self.handle_enemy_turns()
+        self.update_fov()
+        return True
