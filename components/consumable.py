@@ -104,10 +104,8 @@ class ConfusionConsumable(Consumable):
         if target is consumer:
             raise exceptions.Impossible("You cannot confuse yourself!")
 
-        self.engine.msglog.add_message(
-            f"The eyes of the {target.name} look vacant, as it starts to stumble around!",
-            color.status_effect_applied,
-        )
+        action.msg = f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
+
         target.ai = ConfusedAI(
             entity=target, previous_ai=target.ai, turns_remaining=self.number_of_turns,
         )
