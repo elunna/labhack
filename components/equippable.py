@@ -13,6 +13,17 @@ class Equippable(Component):
         self.ac_bonus = ac_bonus
 
 
+# TODO: Create Weapon class
+# TODO: Create Armor class
+# TODO: Other slots: Helmet, Boots, Gloves, Belt
+
+class Weapon(Equippable):
+    def __init__(self):
+        super().__init__(
+            equipment_type=EquipmentType.WEAPON,
+            power_bonus=2
+        )
+
 class Dagger(Equippable):
     def __init__(self):
         super().__init__(
