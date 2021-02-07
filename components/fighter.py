@@ -1,5 +1,5 @@
-from src import color
 from components.component import Component
+from components.attacks import AttackType
 from src.renderorder import RenderOrder
 
 
@@ -7,16 +7,21 @@ class Fighter(Component):
     # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 
-    def __init__(self, hp, base_defense, base_power, ac=10, strength=10, dexterity=10):
+    def __init__(self, hp, base_ac, base_power, ac=10, strength=10, dexterity=10, attacks=None):
         self.max_hp = hp
         self._hp = hp
-        self.base_defense = base_defense
+        self.base_ac = base_ac
         self.base_power = base_power
 
         # D&D attributes
-        self.ac = ac
         self.strength = strength
         self.dexterity = dexterity
+
+        if attacks:
+            self.attacks = attacks
+        else:
+            # set a default Attack
+            self.attacks = AttackType(description='punches', die_sides=6)
 
     @property
     def hp(self):
@@ -29,17 +34,17 @@ class Fighter(Component):
         self._hp = max(0, min(value, self.max_hp))
 
     @property
-    def defense(self):
-        return self.base_defense + self.defense_bonus
+    def ac(self):
+        return self.base_ac + self.ac_bonus
 
     @property
     def power(self):
         return self.base_power + self.power_bonus
 
     @property
-    def defense_bonus(self):
+    def ac_bonus(self):
         if self.parent.equipment:
-            return self.parent.equipment.defense_bonus
+            return self.parent.equipment.ac_bonus
         else:
             return 0
 

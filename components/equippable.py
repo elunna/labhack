@@ -6,11 +6,11 @@ class Equippable(Component):
     # parent: Item
     parent = None
 
-    def __init__(self, equipment_type, power_bonus=0, defense_bonus=0):
+    def __init__(self, equipment_type, power_bonus=0, ac_bonus=0):
         self.equipment_type = equipment_type
 
         self.power_bonus = power_bonus
-        self.defense_bonus = defense_bonus
+        self.ac_bonus = ac_bonus
 
 
 class Dagger(Equippable):
@@ -33,7 +33,7 @@ class LeatherArmor(Equippable):
     def __init__(self):
         super().__init__(
             equipment_type=EquipmentType.ARMOR,
-            defense_bonus=1
+            ac_bonus=1
         )
 
 
@@ -41,5 +41,5 @@ class ChainMail(Equippable):
     def __init__(self):
         super().__init__(
             equipment_type=EquipmentType.ARMOR,
-            defense_bonus=3
+            ac_bonus=3
         )

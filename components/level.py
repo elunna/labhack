@@ -90,7 +90,7 @@ class Level(Component):
 
     def increase_defense(self, amount = 1):
         # TODO: Move to FighterComponent?
-        self.parent.fighter.base_defense += amount
+        self.parent.fighter.base_ac += amount
         self.engine.msglog.add_message("Your movements are getting swifter!")
         self.increase_level()
 

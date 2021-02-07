@@ -14,7 +14,7 @@ player = actor.Actor(
     name="Player",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=30, base_defense=2, base_power=5),
+    fighter=Fighter(hp=30, base_ac=2, base_power=5),
 
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
@@ -27,7 +27,7 @@ orc = actor.Actor(
     name="Orc",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=10, base_defense=0, base_power=6),
+    fighter=Fighter(hp=10, base_ac=0, base_power=6),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
 )
@@ -38,7 +38,7 @@ troll = actor.Actor(
     name="Troll",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=16, base_defense=1, base_power=10),
+    fighter=Fighter(hp=16, base_ac=1, base_power=10),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
 )

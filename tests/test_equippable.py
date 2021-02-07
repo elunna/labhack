@@ -26,8 +26,8 @@ def test_Equippable_init__power_bonus():
 
 
 def test_Equippable_init__defense_bonus():
-    e = Equippable("armor", defense_bonus=1)
-    assert e.defense_bonus == 1
+    e = Equippable("armor", ac_bonus=1)
+    assert e.ac_bonus == 1
 
 
 def test_Equippable_init__power_bonus_negative():
@@ -36,8 +36,8 @@ def test_Equippable_init__power_bonus_negative():
 
 
 def test_Equippable_init__defense_bonus_negative():
-    e = Equippable("armor", defense_bonus=-1)
-    assert e.defense_bonus == -1
+    e = Equippable("armor", ac_bonus=-1)
+    assert e.ac_bonus == -1
 
 
 # No tests for Dagger/Sword/Leather Armor/ChainMail

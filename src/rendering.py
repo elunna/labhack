@@ -281,7 +281,7 @@ def render_levelup_menu(console, engine, title):
     )
     console.print(
         x=x + 1, y=6,
-        string=f"c) Agility (+1 defense, from {engine.player.fighter.defense})",
+        string=f"c) Agility (+1 defense, from {engine.player.fighter.ac})",
     )
 
 
@@ -324,8 +324,9 @@ def render_character_stats(console, engine, title):
     )
     console.print(
         x=x + 1, y=y + 5,
-        string=f"Defense: {engine.player.fighter.defense}"
+        string=f"AC: {engine.player.fighter.ac}"
     )
+
 
 def render_main_menu(console):
     # Load the background image and remove the alpha channel.

@@ -44,12 +44,12 @@ def test_Equipment_init__with_armor(leather_armor):
 
 def test_Equipment_defense_bonus__default_is_0():
     e = Equipment()
-    assert e.defense_bonus == 0
+    assert e.ac_bonus == 0
 
 
 def test_Equipment_defense_bonus__with_armor(leather_armor):
     e = Equipment(armor=leather_armor)
-    assert e.defense_bonus == leather_armor.equippable.defense_bonus
+    assert e.ac_bonus == leather_armor.equippable.ac_bonus
 
 
 def test_Equipment_power_bonus__default_is_0():
