@@ -7,11 +7,16 @@ class Fighter(Component):
     # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 
-    def __init__(self, hp, base_defense, base_power):
+    def __init__(self, hp, base_defense, base_power, ac=10, strength=10, dexterity=10):
         self.max_hp = hp
         self._hp = hp
         self.base_defense = base_defense
         self.base_power = base_power
+
+        # D&D attributes
+        self.ac = ac
+        self.strength = strength
+        self.dexterity = dexterity
 
     @property
     def hp(self):

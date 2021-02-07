@@ -1,6 +1,6 @@
 from src import color
 from src import exceptions
-
+import random
 
 class Action:
     """ The template for a game action that affects gameplay."""
@@ -106,19 +106,22 @@ class EquipAction(Action):
 class MeleeAction(ActionWithDirection):
     def perform(self):
         target = self.target_actor
-
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        damage = self.entity.fighter.power - target.fighter.defense
+        die = 20
+        target_base = 10
+        target_number = target_base + target.fighter.ac + target.level.current_level
+        roll = random.randint(1, die)
 
-        attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name}"
-
-        if damage > 0:
-            self.msg = f"{attack_desc} for {damage} hit points. "
-            self.msg += target.fighter.take_dmg(damage)
+        if roll < target_number:
+            # It's a HIT!
+            dmg = self.entity.fighter.power
+            attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name} for {dmg}! "
+            result = target.fighter.take_dmg(dmg)
+            self.msg = attack_desc + result
         else:
-            self.msg = f"{attack_desc}... but does no damage!"
+            self.msg = f"The {self.entity.name.capitalize()} misses the {target.name}."
 
 
 class MovementAction(ActionWithDirection):
