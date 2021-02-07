@@ -117,7 +117,7 @@ class MeleeAction(ActionWithDirection):
         if roll < target_number:
             # It's a hit!
             # dmg = self.entity.fighter.power
-            dmg = self.entity.fighter.attacks.roll_attack()
+            dmg = self.entity.fighter.attacks.roll_attacks()
             entity = self.entity.name.capitalize()
             atk_text = self.entity.fighter.attacks.description
             attack_desc = f"The {entity} {atk_text} the {target.name} for {dmg}! "
