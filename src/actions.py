@@ -115,9 +115,12 @@ class MeleeAction(ActionWithDirection):
         roll = random.randint(1, die)
 
         if roll < target_number:
-            # It's a HIT!
-            dmg = self.entity.fighter.power
-            attack_desc = f"The {self.entity.name.capitalize()} hits the {target.name} for {dmg}! "
+            # It's a hit!
+            # dmg = self.entity.fighter.power
+            dmg = self.entity.fighter.attacks.roll_attack()
+            entity = self.entity.name.capitalize()
+            atk_text = self.entity.fighter.attacks.description
+            attack_desc = f"The {entity} {atk_text} the {target.name} for {dmg}! "
             result = target.fighter.take_dmg(dmg)
             self.msg = attack_desc + result
         else:
