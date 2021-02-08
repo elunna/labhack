@@ -17,6 +17,14 @@ def player():
     return toolkit.cp_player()
 
 
+@pytest.fixture
+def testengine():
+    m = toolkit.test_map()
+    p = m.get_player()
+    e = engine.Engine(p)
+    e.game_map = m
+
+
 def test_Action_init(player):
     a = actions.Action(player)
     assert a.entity == player
@@ -461,14 +469,53 @@ def test_PickupAction_perform__multiple_items(test_map):
     assert a.msg == "You picked up the Lightning Scroll. "
 
 
-
 def test_TakeStairsAction_is_Action(test_map):
     player = test_map.get_player()
     a = actions.TakeStairsAction(entity=player)
     assert isinstance(a, actions.Action)
 
-# init
-# perform
+
+def test_TakeStairsAction_init(test_map):
+    player = test_map.get_player()
+    a = actions.TakeStairsAction(entity=player)
+    assert a.entity == player
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__player_removed_from_old_map(testengine):
+    player = testengine.game_map.get_player()
+    a = actions.TakeStairsAction(entity=player)
+    a.perform
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__level_changed(test_map):
+    pass
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__player_added_to_new_map(test_map):
+    pass
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__player_on_upstair(test_map):
+    pass
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__msg(test_map):
+    player = test_map.get_player()
+    a = actions.TakeStairsAction(entity=player)
+    assert a.msg == "You descend the stairs"
+
+
+@pytest.mark.skip(reason='Engine/GameWorld need updating')
+def test_TakeStairsAction_perform__no_stairs__raises_Impossible(test_map):
+    player = test_map.get_player()
+    a = actions.TakeStairsAction(entity=player)
+    with pytest.raises(exceptions.Impossible):
+        a.perform()
 
 
 def test_WaitAction_is_Action(test_map):
@@ -476,5 +523,17 @@ def test_WaitAction_is_Action(test_map):
     a = actions.WaitAction(entity=player)
     assert isinstance(a, actions.Action)
 
-# init
-# perform
+
+def test_WaitAction_init(test_map):
+    player = test_map.get_player()
+    a = actions.WaitAction(entity=player)
+    assert a.entity == player
+
+
+def test_WaitAction_init(test_map):
+    player = test_map.get_player()
+    a = actions.WaitAction(entity=player)
+    assert a.perform() is None
+    assert a.msg == ''
+
+
