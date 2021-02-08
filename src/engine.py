@@ -1,3 +1,4 @@
+from . import actions
 from . import color
 from . import exceptions
 from . import gamemap
@@ -117,22 +118,37 @@ class Engine:
         with open(filename, "wb") as f:
             f.write(save_data)
 
+    # def bring_out_the_dead(self):
+        # for entity in set(self.game_map.actors):
+            # if entity.ai and entity.fighter.is_dead():
+                # pass
+
+
     def handle_action(self, action):
         if action is None:
             return False
 
-        alt_action = action
+        action_queue = [action]
 
-        while alt_action:
+        while action_queue:
             try:
-                alt_action = action.perform()
+                current_action = action_queue[0]
+                result = current_action.perform()
             except exceptions.Impossible as exc:
                 self.msglog.add_message(exc.args[0], color.impossible)
                 return False  # Skip enemy turn on exceptions
 
-            # Display any messages from the action result
-            if action.msg:
-                self.msglog.add_message(action.msg)
-            action = alt_action
+            # Display any messages from the current action's result
+            if current_action.msg:
+                self.msglog.add_message(current_action.msg)
+
+            # Current action has been handled
+            action_queue.pop(0)
+
+            # Process results
+            if isinstance(result, actions.Action):
+                action_queue.append(result)
+            elif isinstance(result, list):
+                action_queue.extend(result)
 
         return True

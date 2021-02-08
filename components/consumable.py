@@ -14,6 +14,7 @@ class Consumable(Component):
 
     def activate(self, action):
         """Invoke this items ability.
+            Return the results as an Action or list of Actions
             `action` is the context for this activation.
         """
         raise NotImplementedError()
@@ -64,10 +65,13 @@ class LightningDamageConsumable(Consumable):
 
         if target:
             action.msg = f"A lighting bolt zaps the {target.name} with a roaring crack!! "
-            action.msg += target.fighter.take_dmg(self.damage)
+            target.fighter.hp -= self.damage
             self.consume()
         else:
             raise exceptions.Impossible("No enemy is close enough to strike.")
+
+        if target.fighter.is_dead():
+            return actions.DieAction(entity=target, cause=consumer)
 
 
 class ConfusionConsumable(Consumable):
@@ -133,18 +137,27 @@ class FireballDamageConsumable(Consumable):
             was damaged, the scroll is consumed.
         """
         target_xy = action.target_xy
+        consumer = action.entity
 
         if not self.engine.game_map.visible[target_xy]:
             raise exceptions.Impossible("You cannot target an area that you cannot see.")
 
         targets_hit = False
 
+        results = []
         for actor in self.engine.game_map.actors:
             if actor.distance(*target_xy) <= self.radius:
                 action.msg += f"The {actor.name} is engulfed in a fiery explosion! "
-                action.msg += actor.fighter.take_dmg(self.damage)
+                actor.fighter.hp -= self.damage
+
+                if actor.fighter.is_dead():
+                    results.append(actions.DieAction(entity=actor, cause=consumer))
+
                 targets_hit = True
 
         if not targets_hit:
             raise exceptions.Impossible("There are no targets in the radius.")
+
         self.consume()
+
+        return results
