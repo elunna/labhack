@@ -7,6 +7,30 @@ from components.inventory import Inventory
 from components.level import Level
 from . import actor
 from . import item
+import copy
+
+def make(entity_name):
+    if entity_name == 'player':
+        return copy.deepcopy(player)
+    elif entity_name == 'grid bug':
+        return copy.deepcopy(grid_bug)
+    elif entity_name == 'orc':
+        return copy.deepcopy(orc)
+    elif entity_name == 'troll':
+        return copy.deepcopy(troll)
+    elif entity_name == 'dagger':
+        return copy.deepcopy(dagger)
+    elif entity_name == 'sword':
+        return copy.deepcopy(sword)
+    elif entity_name == 'leather armor':
+        return copy.deepcopy(leather_armor)
+    elif entity_name == 'chain mail':
+        return copy.deepcopy(chain_mail)
+    elif entity_name == 'health potion':
+        return copy.deepcopy(health_potion)
+    elif entity_name == 'lightning scroll':
+        return copy.deepcopy(lightning_scroll)
+    return None
 
 player = actor.Actor(
     char="@",
