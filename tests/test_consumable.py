@@ -1,10 +1,12 @@
 """ Tests for consumable.py """
 import pytest
+
+import actions.itemaction
 import toolkit
 from components import consumable
 from components.component import Component
 from src import factory
-from src import actions
+from actions import actions
 
 
 @pytest.fixture
@@ -29,7 +31,7 @@ def test_Consumable_get_action(player):
     c.parent = factory.health_potion
     result = c.get_action(consumer=player)
 
-    assert isinstance(result, actions.ItemAction)
+    assert isinstance(result, actions.itemaction.ItemAction)
     assert result.entity == player
     assert result.item == factory.health_potion
 

@@ -1,4 +1,4 @@
-from . import actions
+from actions import actions
 from . import color
 from . import exceptions
 from . import gamemap

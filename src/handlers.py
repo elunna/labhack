@@ -1,3 +1,9 @@
+import actions.bumpaction
+import actions.dropitem
+import actions.equipaction
+import actions.pickupaction
+import actions.stairactions
+import actions.waitaction
 from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
 from . import color
@@ -6,12 +12,12 @@ from . import rendering
 from . import settings
 from typing import Union
 import os
-import src.actions
+import actions.actions
 import tcod
 import tcod.event
 import traceback
 
-ActionOrHandler = Union[src.actions.Action, "BaseEventHandler"]
+ActionOrHandler = Union[actions.actions.Action, "BaseEventHandler"]
 """An event handler return value which can trigger an action or switch active handlers.
 
     If a handler is returned then it will become the active handler for future events.
@@ -28,7 +34,7 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
         if isinstance(state, BaseEventHandler):
             return state
 
-        assert not isinstance(state, src.actions.Action), f"{self!r} can not handle actions."
+        assert not isinstance(state, actions.actions.Action), f"{self!r} can not handle actions."
         return self
 
     def on_render(self, console):
@@ -120,7 +126,7 @@ class MainGameHandler(EventHandler):
         if key == tcod.event.K_PERIOD and modifier & (
                 tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
-            return src.actions.TakeStairsAction(player)
+            return actions.stairactions.TakeStairsAction(player)
 
         # Ctrl-X: Character Screen
         if key == tcod.event.K_x and modifier & (
@@ -130,10 +136,10 @@ class MainGameHandler(EventHandler):
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            action = src.actions.BumpAction(player, dx, dy)
+            action = actions.bumpaction.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
-            action = src.actions.WaitAction(player)
+            action = actions.waitaction.WaitAction(player)
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit()
@@ -142,7 +148,7 @@ class MainGameHandler(EventHandler):
             return HistoryHandler(self.engine)
 
         elif key == tcod.event.K_COMMA:
-            action = src.actions.PickupAction(player)
+            action = actions.pickupaction.PickupAction(player)
 
         elif key == tcod.event.K_i:
             return InventoryActivateHandler(self.engine)
@@ -302,7 +308,7 @@ class InventoryActivateHandler(InventoryHandler):
             # Return the action for the selected item.
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
-            return src.actions.EquipAction(self.engine.player, item)
+            return actions.equipaction.EquipAction(self.engine.player, item)
         else:
             return None
 
@@ -314,7 +320,7 @@ class InventoryDropHandler(InventoryHandler):
 
     def on_item_selected(self, item):
         """ Drop this item."""
-        return src.actions.DropItem(self.engine.player, item)
+        return actions.dropitem.DropItem(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserHandler):

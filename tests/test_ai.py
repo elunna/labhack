@@ -2,12 +2,8 @@
 
 from components.component import Component
 from components import ai
-from src import actions
-from src import engine
-from src import factory
 from src import gamemap
 from src import tiles
-import copy
 import pytest
 import toolkit
 

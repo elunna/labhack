@@ -1,6 +1,15 @@
 """ Tests for actions.py """
-
-from src import actions
+import actions.bumpaction
+import actions.dieaction
+import actions.dropitem
+import actions.equipaction
+import actions.itemaction
+import actions.meleeaction
+import actions.moveaction
+import actions.pickupaction
+import actions.stairactions
+import actions.waitaction
+from actions import actions
 from src import exceptions
 from src import factory
 from src.renderorder import RenderOrder
@@ -92,19 +101,19 @@ def test_ActionWithDirection__perform(player):
 
 def test_BumpAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    a = actions.bumpaction.BumpAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
 
 
 def test_BumpAction_is_ActionWithDirection(test_map):
     player = test_map.get_player()
-    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    a = actions.bumpaction.BumpAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.ActionWithDirection)
 
 
 def test_BumpAction_init(test_map):
     player = test_map.get_player()
-    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    a = actions.bumpaction.BumpAction(entity=player, dx=1, dy=-1)
     assert a.entity == player
     assert a.dx == 1
     assert a.dy == -1
@@ -113,31 +122,31 @@ def test_BumpAction_init(test_map):
 
 def test_BumpAction_perform__Move(test_map):
     player = test_map.get_player()
-    a = actions.BumpAction(entity=player, dx=1, dy=1)
+    a = actions.bumpaction.BumpAction(entity=player, dx=1, dy=1)
     result = a.perform()
-    assert isinstance(result, actions.MovementAction)
+    assert isinstance(result, actions.moveaction.MovementAction)
 
 
 def test_BumpAction_perform__Move(test_map):
     # We'll attack the Grid Bug at (2, 5)
     player = test_map.get_player()
     player.place(2, 4, test_map)
-    a = actions.BumpAction(entity=player, dx=0, dy=1)
+    a = actions.bumpaction.BumpAction(entity=player, dx=0, dy=1)
     result = a.perform()
-    assert isinstance(result, actions.MeleeAction)
+    assert isinstance(result, actions.meleeaction.MeleeAction)
 
 
 def test_ItemAction_is_Action(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.ItemAction(entity=player, item=potion)
+    a = actions.itemaction.ItemAction(entity=player, item=potion)
     assert isinstance(a, actions.Action)
 
 
 def test_ItemAction_init(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.ItemAction(entity=player, item=potion)
+    a = actions.itemaction.ItemAction(entity=player, item=potion)
     assert a.item == potion
     assert a.entity == player
 
@@ -145,14 +154,14 @@ def test_ItemAction_init(test_map):
 def test_ItemAction_init__default_targetxy_is_playersxy(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.ItemAction(entity=player, item=potion)
+    a = actions.itemaction.ItemAction(entity=player, item=potion)
     assert a.target_xy == (player.x, player.y)
 
 
 def test_ItemAction_init__with_target_xy(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.ItemAction(entity=player, item=potion, target_xy=(1, 1))
+    a = actions.itemaction.ItemAction(entity=player, item=potion, target_xy=(1, 1))
     assert a.target_xy == (1, 1)
 
 
@@ -160,7 +169,7 @@ def test_ItemAction_target_actor(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
     # We'll target the grid bug
-    a = actions.ItemAction(entity=player, item=potion, target_xy=(2, 5))
+    a = actions.itemaction.ItemAction(entity=player, item=potion, target_xy=(2, 5))
     result = a.target_actor
     assert result.name == "Grid Bug"
 
@@ -174,21 +183,21 @@ def test_ItemAction_target_actor(test_map):
 def test_DropItem_is_Action(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
+    a = actions.dropitem.DropItem(entity=player, item=potion)
     assert isinstance(a, actions.Action)
 
 
 def test_DropItem_is_ItemAction(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
-    assert isinstance(a, actions.ItemAction)
+    a = actions.dropitem.DropItem(entity=player, item=potion)
+    assert isinstance(a, actions.itemaction.ItemAction)
 
 
 def test_DropItem_init(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
+    a = actions.dropitem.DropItem(entity=player, item=potion)
     assert a.entity == player
     assert a.item == potion
 
@@ -198,7 +207,7 @@ def test_DropItem_perform__item_leaves_inventory(test_map):
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
-    a = actions.DropItem(entity=player, item=item)
+    a = actions.dropitem.DropItem(entity=player, item=item)
     result = a.perform()
     assert item not in player.inventory.items
 
@@ -208,7 +217,7 @@ def test_DropItem_perform__item_appears_on_map(test_map):
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
-    a = actions.DropItem(entity=player, item=item)
+    a = actions.dropitem.DropItem(entity=player, item=item)
     result = a.perform()
     assert item in test_map.get_items_at(player.x, player.y)
 
@@ -218,14 +227,14 @@ def test_DropItem_perform__msg(test_map):
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
-    a = actions.DropItem(entity=player, item=item)
+    a = actions.dropitem.DropItem(entity=player, item=item)
     result = a.perform()
     assert a.msg == f"You dropped the {item.name}."
 
 
 def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
     player = test_map.get_player()
-    a = actions.DropItem(entity=player, item=factory.sword)
+    a = actions.dropitem.DropItem(entity=player, item=factory.sword)
 
     with pytest.raises(exceptions.Impossible):
         a.perform()
@@ -238,7 +247,7 @@ def test_DropItem_perform__equipped_item(test_map):
     player.equipment.toggle_equip(item)
     assert player.equipment.item_is_equipped(item)
 
-    a = actions.DropItem(entity=player, item=item)
+    a = actions.dropitem.DropItem(entity=player, item=item)
     result = a.perform()
 
     assert not player.equipment.item_is_equipped(item)
@@ -247,14 +256,14 @@ def test_DropItem_perform__equipped_item(test_map):
 def test_EquipAction_is_Action(test_map):
     player = test_map.get_player()
     armor = factory.leather_armor
-    a = actions.EquipAction(entity=player, item=armor)
+    a = actions.equipaction.EquipAction(entity=player, item=armor)
     assert isinstance(a, actions.Action)
 
 
 def test_EquipAction_init(test_map):
     player = test_map.get_player()
     armor = factory.leather_armor
-    a = actions.EquipAction(entity=player, item=armor)
+    a = actions.equipaction.EquipAction(entity=player, item=armor)
     assert a.entity == player
     assert a.item == armor
 
@@ -264,26 +273,26 @@ def test_EquipAction_perform(test_map):
     armor = factory.leather_armor
     assert not player.equipment.item_is_equipped(armor)
 
-    a = actions.EquipAction(entity=player, item=armor)
+    a = actions.equipaction.EquipAction(entity=player, item=armor)
     a.perform()
     assert player.equipment.item_is_equipped(armor)
 
 
 def test_MeleeAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
 
 
 def test_MeleeAction_is_ActionWithDirection(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.ActionWithDirection)
 
 
 def test_MeleeAction_is_ActionWithDirection(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=1, dy=-1)
     assert a.dx == 1
     assert a.dy == -1
     assert a.entity == player
@@ -291,7 +300,7 @@ def test_MeleeAction_is_ActionWithDirection(test_map):
 
 def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
@@ -302,7 +311,7 @@ def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
 
 def test_MeleeAction_calc_target_number(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
 
     target = factory.orc
     assert target.level.current_level == 1
@@ -315,7 +324,7 @@ def test_MeleeAction_calc_target_number(test_map):
 
 def test_MeleeAction_roll_hit_die(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     result = a.roll_hit_die()
     # Just testing that the random number is between 1 and the sides (usually
     # 20)
@@ -328,7 +337,7 @@ def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
 
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_weapon(target)
     attack_max = player.equipment.weapon.equippable.attack.die_sides
@@ -341,7 +350,7 @@ def test_MeleeAction_hit_with_weapon__msg(test_map):
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
 
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_weapon(target)
     assert a.msg == f"The Player hits the Orc with a Dagger for {result}! "
@@ -351,7 +360,7 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
     player = test_map.get_player()
     assert not player.equipment.weapon
 
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_barehands(target)
     attack_max = player.fighter.attacks.die_sides
@@ -362,7 +371,7 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
 def test_MeleeAction_hit_with_barehands__msg(test_map):
     player = test_map.get_player()
 
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_barehands(target)
     assert a.msg == f"The Player hits the Orc for {result}! "
@@ -370,7 +379,7 @@ def test_MeleeAction_hit_with_barehands__msg(test_map):
 
 def test_MeleeAction_miss(test_map):
     player = test_map.get_player()
-    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    a = actions.meleeaction.MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.miss(target)
     assert a.msg == f"The Player misses the Orc. "
@@ -378,19 +387,19 @@ def test_MeleeAction_miss(test_map):
 
 def test_MovementAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.MovementAction(entity=player, dx=1, dy=-1)
+    a = actions.moveaction.MovementAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
 
 
 def test_MovementAction_is_ActionWithDirection(test_map):
     player = test_map.get_player()
-    a = actions.MovementAction(entity=player, dx=1, dy=-1)
+    a = actions.moveaction.MovementAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.ActionWithDirection)
 
 
 def test_MovementAction_init(test_map):
     player = test_map.get_player()
-    a = actions.MovementAction(entity=player, dx=1, dy=-1)
+    a = actions.moveaction.MovementAction(entity=player, dx=1, dy=-1)
     assert a.dx == 1
     assert a.dy == -1
     assert a.entity == player
@@ -398,7 +407,7 @@ def test_MovementAction_init(test_map):
 
 def test_MovementAction_perform__success(test_map):
     player = test_map.get_player()
-    a = actions.MovementAction(entity=player, dx=-1, dy=0)
+    a = actions.moveaction.MovementAction(entity=player, dx=-1, dy=0)
     a.perform()
     assert player.x == 4
     assert player.y == 5
@@ -407,7 +416,7 @@ def test_MovementAction_perform__success(test_map):
 def test_MovementAction_perform__out_of_bounds__raises_Impossible(test_map):
     player = test_map.get_player()
     # Try to move out of the map bounds (we're at 5, 5)
-    a = actions.MovementAction(entity=player, dx=1, dy=1)
+    a = actions.moveaction.MovementAction(entity=player, dx=1, dy=1)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
@@ -415,7 +424,7 @@ def test_MovementAction_perform__out_of_bounds__raises_Impossible(test_map):
 def test_MovementAction_perform__blocked_by_wall__raises_Impossible(test_map):
     player = test_map.get_player()
     # Try to move into wall
-    a = actions.MovementAction(entity=player, dx=-1, dy=-1)
+    a = actions.moveaction.MovementAction(entity=player, dx=-1, dy=-1)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
@@ -423,26 +432,26 @@ def test_MovementAction_perform__blocked_by_wall__raises_Impossible(test_map):
 def test_MovementAction_perform__blocked_by_actor__raises_Impossible(test_map):
     player = test_map.get_player()
     # Try to move into orc
-    a = actions.MovementAction(entity=player, dx=0, dy=-1)
+    a = actions.moveaction.MovementAction(entity=player, dx=0, dy=-1)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
 
 def test_PickupAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.PickupAction(entity=player)
+    a = actions.pickupaction.PickupAction(entity=player)
     assert isinstance(a, actions.Action)
 
 
 def test_PickupAction_init(test_map):
     player = test_map.get_player()
-    a = actions.PickupAction(entity=player)
+    a = actions.pickupaction.PickupAction(entity=player)
     assert a.entity == player
 
 
 def test_PickupAction_perform__no_items__raises_Impossible(test_map):
     player = test_map.get_player()
-    a = actions.PickupAction(entity=player)
+    a = actions.pickupaction.PickupAction(entity=player)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
@@ -451,7 +460,7 @@ def test_PickupAction_perform__single_item(test_map):
     player = test_map.get_player()
     # Put a scroll at player location
     factory.lightning_scroll.spawn(test_map, player.x, player.y)
-    a = actions.PickupAction(entity=player)
+    a = actions.pickupaction.PickupAction(entity=player)
     a.perform()
     assert a.msg == "You picked up the Lightning Scroll. "
 
@@ -463,7 +472,7 @@ def test_PickupAction_perform__multiple_items(test_map):
     factory.lightning_scroll.spawn(test_map, player.x, player.y)
     factory.fireball_scroll.spawn(test_map, player.x, player.y)
 
-    a = actions.PickupAction(entity=player)
+    a = actions.pickupaction.PickupAction(entity=player)
     a.perform()
 
     # How do we know which item to pickup?
@@ -472,20 +481,20 @@ def test_PickupAction_perform__multiple_items(test_map):
 
 def test_TakeStairsAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.TakeStairsAction(entity=player)
+    a = actions.stairactions.TakeStairsAction(entity=player)
     assert isinstance(a, actions.Action)
 
 
 def test_TakeStairsAction_init(test_map):
     player = test_map.get_player()
-    a = actions.TakeStairsAction(entity=player)
+    a = actions.stairactions.TakeStairsAction(entity=player)
     assert a.entity == player
 
 
 @pytest.mark.skip(reason='Engine/GameWorld need updating')
 def test_TakeStairsAction_perform__player_removed_from_old_map(testengine):
     player = testengine.game_map.get_player()
-    a = actions.TakeStairsAction(entity=player)
+    a = actions.stairactions.TakeStairsAction(entity=player)
     a.perform
 
 
@@ -507,33 +516,33 @@ def test_TakeStairsAction_perform__player_on_upstair(test_map):
 @pytest.mark.skip(reason='Engine/GameWorld need updating')
 def test_TakeStairsAction_perform__msg(test_map):
     player = test_map.get_player()
-    a = actions.TakeStairsAction(entity=player)
+    a = actions.stairactions.TakeStairsAction(entity=player)
     assert a.msg == "You descend the stairs"
 
 
 @pytest.mark.skip(reason='Engine/GameWorld need updating')
 def test_TakeStairsAction_perform__no_stairs__raises_Impossible(test_map):
     player = test_map.get_player()
-    a = actions.TakeStairsAction(entity=player)
+    a = actions.stairactions.TakeStairsAction(entity=player)
     with pytest.raises(exceptions.Impossible):
         a.perform()
 
 
 def test_WaitAction_is_Action(test_map):
     player = test_map.get_player()
-    a = actions.WaitAction(entity=player)
+    a = actions.waitaction.WaitAction(entity=player)
     assert isinstance(a, actions.Action)
 
 
 def test_WaitAction_init(test_map):
     player = test_map.get_player()
-    a = actions.WaitAction(entity=player)
+    a = actions.waitaction.WaitAction(entity=player)
     assert a.entity == player
 
 
 def test_WaitAction_init(test_map):
     player = test_map.get_player()
-    a = actions.WaitAction(entity=player)
+    a = actions.waitaction.WaitAction(entity=player)
     assert a.perform() is None
     assert a.msg == ''
 
@@ -542,7 +551,7 @@ def test_DieAction_is_Action(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
 
-    a = actions.DieAction(entity=player, cause=orc)
+    a = actions.dieaction.DieAction(entity=player, cause=orc)
     assert isinstance(a, actions.Action)
 
 
@@ -550,7 +559,7 @@ def test_DieAction_init(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
 
-    a = actions.DieAction(entity=player, cause=orc)
+    a = actions.dieaction.DieAction(entity=player, cause=orc)
     assert a.entity == player
     assert a.cause == orc
 
@@ -558,7 +567,7 @@ def test_DieAction_init(test_map):
 def test_DieAction_perform__player_kills_enemy(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
-    a = actions.DieAction(entity=orc, cause=player)
+    a = actions.dieaction.DieAction(entity=orc, cause=player)
     a.perform()
 
     assert orc.char == "%"
@@ -572,7 +581,7 @@ def test_DieAction_perform__player_kills_enemy(test_map):
 def test_DieAction_perform__player_kills_enemy__xp(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
-    a = actions.DieAction(entity=orc, cause=player)
+    a = actions.dieaction.DieAction(entity=orc, cause=player)
     a.perform()
 
     assert player.level.current_xp == orc.level.xp_given
@@ -581,7 +590,7 @@ def test_DieAction_perform__player_kills_enemy__xp(test_map):
 def test_DieAction_perform__player_kills_enemy__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
-    a = actions.DieAction(entity=orc, cause=player)
+    a = actions.dieaction.DieAction(entity=orc, cause=player)
     a.perform()
 
     assert a.msg == "You kill the Orc!"
@@ -590,7 +599,7 @@ def test_DieAction_perform__player_kills_enemy__msg(test_map):
 def test_DieAction_perform__enemy_kills_player(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
-    a = actions.DieAction(entity=player, cause=orc)
+    a = actions.dieaction.DieAction(entity=player, cause=orc)
     a.perform()
 
     assert player.char == "%"
@@ -604,7 +613,7 @@ def test_DieAction_perform__enemy_kills_player(test_map):
 def test_DieAction_perform__enemy_kills_player__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.get_player()
-    a = actions.DieAction(entity=player, cause=orc)
+    a = actions.dieaction.DieAction(entity=player, cause=orc)
     a.perform()
 
     assert a.msg == "You died!"
@@ -613,7 +622,7 @@ def test_DieAction_perform__enemy_kills_player__msg(test_map):
 def test_DieAction_perform__enemy_kills_enemy__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     gridbug= test_map.get_actor_at(2, 5)
-    a = actions.DieAction(entity=gridbug, cause=orc)
+    a = actions.dieaction.DieAction(entity=gridbug, cause=orc)
     a.perform()
 
     assert a.msg == "The Orc kills the Grid Bug!"
@@ -622,7 +631,7 @@ def test_DieAction_perform__enemy_kills_enemy__msg(test_map):
 def test_DieAction_perform__enemy_kills_enemy__xp(test_map):
     orc = test_map.get_actor_at(5, 4)
     gridbug = test_map.get_actor_at(2, 5)
-    a = actions.DieAction(entity=gridbug, cause=orc)
+    a = actions.dieaction.DieAction(entity=gridbug, cause=orc)
     a.perform()
 
     assert orc.level.current_xp == gridbug.level.xp_given
