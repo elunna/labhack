@@ -176,9 +176,6 @@ def test_DropItem_is_ItemAction(test_map):
     assert isinstance(a, actions.ItemAction)
 
 
-
-# init
-
 def test_DropItem_init(test_map):
     player = test_map.get_player()
     potion = factory.health_potion
@@ -190,6 +187,7 @@ def test_DropItem_init(test_map):
 def test_DropItem_perform__item_leaves_inventory(test_map):
     player = test_map.get_player()
     item = player.inventory.items.get('a')  # Need the actual item from inv
+    assert item.name == "Dagger"
 
     a = actions.DropItem(entity=player, item=item)
     result = a.perform()
@@ -199,6 +197,7 @@ def test_DropItem_perform__item_leaves_inventory(test_map):
 def test_DropItem_perform__item_appears_on_map(test_map):
     player = test_map.get_player()
     item = player.inventory.items.get('a')  # Need the actual item from inv
+    assert item.name == "Dagger"
 
     a = actions.DropItem(entity=player, item=item)
     result = a.perform()
@@ -208,6 +207,7 @@ def test_DropItem_perform__item_appears_on_map(test_map):
 def test_DropItem_perform__msg(test_map):
     player = test_map.get_player()
     item = player.inventory.items.get('a')  # Need the actual item from inv
+    assert item.name == "Dagger"
 
     a = actions.DropItem(entity=player, item=item)
     result = a.perform()
@@ -222,8 +222,18 @@ def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
         a.perform()
 
 
-# drop item we don't have
-# drop equipped item
+def test_DropItem_perform__equipped_item(test_map):
+    player = test_map.get_player()
+    item = player.inventory.items.get('a')  # Need the actual item from inv
+    assert item.name == "Dagger"
+    player.equipment.toggle_equip(item)
+    assert player.equipment.item_is_equipped(item)
+
+    a = actions.DropItem(entity=player, item=item)
+    result = a.perform()
+
+    assert not player.equipment.item_is_equipped(item)
+
 
 def test_EquipAction_is_Action(test_map):
     player = test_map.get_player()
@@ -232,8 +242,22 @@ def test_EquipAction_is_Action(test_map):
     assert isinstance(a, actions.Action)
 
 
-# init
-# perform
+def test_EquipAction_init(test_map):
+    player = test_map.get_player()
+    armor = factory.leather_armor
+    a = actions.EquipAction(entity=player, item=armor)
+    assert a.entity == player
+    assert a.item == armor
+
+
+def test_EquipAction_perform(test_map):
+    player = test_map.get_player()
+    armor = factory.leather_armor
+    assert not player.equipment.item_is_equipped(armor)
+
+    a = actions.EquipAction(entity=player, item=armor)
+    a.perform()
+    assert player.equipment.item_is_equipped(armor)
 
 
 def test_MeleeAction_is_Action(test_map):
@@ -248,8 +272,100 @@ def test_MeleeAction_is_ActionWithDirection(test_map):
     assert isinstance(a, actions.ActionWithDirection)
 
 
-# init
-# perform
+def test_MeleeAction_is_ActionWithDirection(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    assert a.dx == 1
+    assert a.dy == -1
+    assert a.entity == player
+
+
+def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    with pytest.raises(exceptions.Impossible):
+        a.perform()
+
+# perform-Case: no target
+# perform-Case: miss, calls miss
+# perform-Case: hit w weapon, calls hit_with_weapon
+# perform-Case: hit w hands, calls hit_withhands_
+
+def test_MeleeAction_calc_target_number(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+
+    target = factory.orc
+    assert target.level.current_level == 1
+    assert target.fighter.ac == 7
+
+    result = a.calc_target_number(target)
+    expected = 10 + target.fighter.ac + target.level.current_level
+    assert result == expected
+
+
+def test_MeleeAction_roll_hit_die(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    result = a.roll_hit_die()
+    # Just testing that the random number is between 1 and the sides (usually
+    # 20)
+    assert result >= 1
+    assert result <= a.die
+
+
+def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
+    player = test_map.get_player()
+    dagger = player.inventory.items.get('a')
+    assert player.equipment.toggle_equip(dagger)
+
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    target = factory.orc
+    result = a.hit_with_weapon(target)
+    attack_max = player.equipment.weapon.equippable.attack.die_sides
+    assert result >= 1
+    assert result <= attack_max
+
+
+def test_MeleeAction_hit_with_weapon__msg(test_map):
+    player = test_map.get_player()
+    dagger = player.inventory.items.get('a')
+    assert player.equipment.toggle_equip(dagger)
+
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    target = factory.orc
+    result = a.hit_with_weapon(target)
+    assert a.msg == f"The Player hits the Orc with a Dagger for {result}! "
+
+
+def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
+    player = test_map.get_player()
+    assert not player.equipment.weapon
+
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    target = factory.orc
+    result = a.hit_with_barehands(target)
+    attack_max = player.fighter.attacks.die_sides
+    assert result >= 1
+    assert result <= attack_max
+
+
+def test_MeleeAction_hit_with_barehands__msg(test_map):
+    player = test_map.get_player()
+
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    target = factory.orc
+    result = a.hit_with_barehands(target)
+    assert a.msg == f"The Player hits the Orc for {result}! "
+
+
+def test_MeleeAction_miss(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=-1, dy=-1)
+    target = factory.orc
+    result = a.miss(target)
+    assert a.msg == f"The Player misses the Orc. "
+
 
 def test_MovementAction_is_Action(test_map):
     player = test_map.get_player()
