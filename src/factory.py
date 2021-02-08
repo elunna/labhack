@@ -145,14 +145,14 @@ leather_armor = item.Item(
    char="[",
    color=(139, 69, 19),
    name="Leather Armor",
-   equippable=equippable.Armor(ac_bonus=1),
+   equippable=equippable.Armor(ac_bonus=-1),
 )
 
 chain_mail = item.Item(
     char="[",
     color=(139, 69, 19),
     name="Chain Mail",
-    equippable=equippable.Armor(ac_bonus=3),
+    equippable=equippable.Armor(ac_bonus=-3),
 )
 
 item_chances = {
