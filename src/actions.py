@@ -144,8 +144,11 @@ class MeleeAction(ActionWithDirection):
             else:
                 dmg = self.hit_with_barehands(target)
 
-            result = target.fighter.take_dmg(dmg)
-            self.msg += result
+            target.fighter.hp -= dmg
+
+            # Check if the target is dead...
+            if target.fighter.is_dead():
+                return DieAction(entity=target, cause=self.entity)
 
         else:
             self.miss(target)
@@ -256,6 +259,8 @@ class DieAction(Action):
         self.cause = cause
 
     def perform(self):
+        # TODO: What if the cause is a non-actor? Trap, drowning, bomb, etc.
+
         # if self.entity == self.engine.player:
         if self.entity.name == "Player":
             self.msg = "You died!"

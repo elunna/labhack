@@ -71,26 +71,5 @@ class Fighter(Component):
 
         return amount_recovered
 
-    def take_dmg(self, amount):
-        self.hp -= amount
-        if self._hp == 0 and self.parent.ai:
-            return self.die()
-        return ''
-
-    def die(self):
-        if self.engine.player is self.parent:
-            death_message = "You died!"
-        else:
-            death_message = f"The {self.parent.name} dies!"
-
-        self.parent.char = "%"
-        self.parent.color = (191, 0, 0)
-        self.parent.blocks_movement = False
-        self.parent.ai = None
-        self.parent.name = f"{self.parent.name} corpse"
-        self.parent.render_order = RenderOrder.CORPSE
-
-        # The killer get xp
-        self.engine.player.level.add_xp(self.parent.level.xp_given)
-
-        return death_message
+    def is_dead(self):
+        return self.hp <= 0
