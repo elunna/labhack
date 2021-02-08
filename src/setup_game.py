@@ -34,12 +34,12 @@ def new_game():
     dagger = copy.deepcopy(factory.dagger)
     dagger.parent = player.inventory
     player.inventory.add_item(dagger)
-    player.equipment.toggle_equip(dagger, add_message=False)
+    player.equipment.toggle_equip(dagger)
 
     leather_armor = copy.deepcopy(factory.leather_armor)
     leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
-    player.equipment.toggle_equip(leather_armor, add_message=False)
+    player.equipment.toggle_equip(leather_armor)
 
     # For debugging purposes, add every item to player's inventory
     # TODO: Factory for making these

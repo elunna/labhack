@@ -1,5 +1,6 @@
 from components.component import Component
 from src.equipment_types import EquipmentType
+from src import exceptions
 
 
 class Equipment(Component):
@@ -8,8 +9,14 @@ class Equipment(Component):
         which represents nothing equipped in those slots.
     """
     def __init__(self, weapon=None, armor=None):
-        self.weapon = weapon
-        self.armor = armor
+        self.weapon = None
+        self.armor = None
+
+        if weapon:
+            self.toggle_equip(weapon)
+
+        if armor:
+            self.toggle_equip(armor)
 
     @property
     def ac_bonus(self):
@@ -40,51 +47,67 @@ class Equipment(Component):
         return self.weapon == item or self.armor == item
 
     def unequip_message(self, item_name):
-        return f"You remove the {item_name}."
+        return f"You remove the {item_name}. "
 
     def equip_message(self, item_name):
-        return f"You equip the {item_name}."
+        return f"You equip the {item_name}. "
 
-    def equip_to_slot(self, slot, item, add_message):
+    def equip_to_slot(self, slot, item):
         """ Attempts to equip an item to a slot on the actor.
-            add_message: Optional boolean to specify if we want to print a message about equipping.
+            If successful, returns a string describing what happened.
+            If not, returns an empty string.
         """
+
+        equippable = getattr(item, "equippable")
+        if not equippable:
+            raise exceptions.Impossible("f{item.name} is not an Equippable!")
+
+        # Check if item is suitable for the slot.
+        # Convert the enum to a str so we can compare...
+        item_slot = item.equippable.equipment_type.name.lower()
+
+        if item_slot != slot:
+            raise exceptions.Impossible("Cannot equip item f{item.name} to slot f{slot}!")
+
+        msg = ''
         current_item = getattr(self, slot)
 
         if current_item is not None:
-            return self.unequip_from_slot(slot, add_message)
+            msg += self.unequip_from_slot(slot)
 
         setattr(self, slot, item)
 
-        if add_message:
-            return self.equip_message(item.name)
+        msg += self.equip_message(item.name)
+        return msg
 
-    def unequip_from_slot(self, slot, add_message):
-        """ Attempts to unequip an item to a slot on the actor.
-            add_message: Optional boolean to specify if we want to print a message about equipping.
+
+    def unequip_from_slot(self, slot):
+        """ Attempts to unequip an item from a slot on the actor.
+            If successful, returns a string describing what happened.
+            If not, returns an empty string.
         """
         current_item = getattr(self, slot)
-        setattr(self, slot, None)
 
-        if add_message:
+        if current_item:
+            setattr(self, slot, None)
             return self.unequip_message(current_item.name)
-        return ''
+        return f'The {slot} slot is not equipped with anything!'
 
-    def toggle_equip(self, equippable_item, add_message=True):
+    def toggle_equip(self, item):
         """ Attempts to equip an unequipped item, or unequip an equipped item.
-            add_message: Optional boolean to specify if we want to print a message about equipping.
+            Returns a string describing what happened.
         """
+        # Can we equip it?
+        if not item.equippable:
+            raise exceptions.Impossible(f"We cannot equip the {item.name}!")
 
-        if (
-            equippable_item.equippable
-            and equippable_item.equippable.equipment_type == EquipmentType.WEAPON
-        ):
-            slot = "weapon"
-        else:
-            slot = "armor"
 
-        if getattr(self, slot) == equippable_item:
-            result = self.unequip_from_slot(slot, add_message)
+        # Does the item slot match what is available?
+        slot = item.equippable.equipment_type.name.lower()
+        if slot not in ["weapon", "armor"]:
+            raise exceptions.Impossible("Cannot equip item f{item.name} to slot f{slot}!")
+
+        if getattr(self, slot) == item:
+            return self.unequip_from_slot(slot)
         else:
-            result = self.equip_to_slot(slot, equippable_item, add_message)
-        return result
+            return self.equip_to_slot(slot, item)
