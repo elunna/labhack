@@ -102,7 +102,11 @@ class DropItem(ItemAction):
 
         if result:
             # Put it on the map
-            self.item.place(self.entity.x, self.entity.y, self.entity.gamemap)
+            # self.item.place(self.entity.x, self.entity.y, self.entity.gamemap)
+
+            self.entity.gamemap.entities.add(self.item)
+            self.item.x = self.entity.x
+            self.item.y = self.entity.y
 
             self.msg = f"You dropped the {self.item.name}."
         else:

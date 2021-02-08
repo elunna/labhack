@@ -24,21 +24,11 @@ def test_Fighter_hp_property():
     assert f.hp == 10
 
 
-@pytest.mark.skip(reason='die References engine')
 def test_Fighter_hp_setter__negative(player):
     f = Fighter(hp=10, base_ac=15, base_power=20)
     f.parent = player  # Needs parent to check it's ai
     f.hp = -1
     assert f.hp == 0
-
-
-@pytest.mark.skip(reason='die References engine')
-def test_Fighter_hp_setter__negative__dies(player, mocker):
-    f = Fighter(hp=10, base_ac=15, base_power=20)
-    f.parent = player  # Needs parent to check it's ai
-    mocker.patch(f.die)
-    f.hp = -1
-    f.die.assert_called_once()
 
 
 def test_Fighter_hp_setter__valid_num():
