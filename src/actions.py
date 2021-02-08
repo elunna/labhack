@@ -134,17 +134,17 @@ class MeleeAction(ActionWithDirection):
         entity = self.entity.name.capitalize()
         target_number = self.calc_target_number(target)
 
-        if self.roll_hit_die() < self.target_number:
+        if self.roll_hit_die() < self.calc_target_number(target):
             # It's a hit!
             result = 0
             # Calculate the damage
             if self.entity.equipment.weapon:
-                result = self.hit_with_weapon(target)
+                dmg = self.hit_with_weapon(target)
             else:
-                result = self.hit_with_barehands(target)
+                dmg = self.hit_with_barehands(target)
 
             result = target.fighter.take_dmg(dmg)
-            self.msg = attack_desc + result
+            self.msg += result
 
         else:
             self.miss(target)
