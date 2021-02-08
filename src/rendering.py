@@ -60,6 +60,21 @@ def get_names_at_location(x, y, game_map):
     return names.capitalize()
 
 
+def render_stats(console, engine, player):
+    # Power
+    pow_str = f"Str: {player.fighter.strength}"
+    def_str = f"AC: {player.fighter.ac}"
+    xl_str = f"XL: {player.level.current_level}"
+    # turn_str = f"Turns: {engine.turns}"
+    turn_str = f"Turns: n/a"
+
+    console.print(
+        x=22, y=settings.hp_bar_y,
+        string=f"{pow_str} | {def_str} | {xl_str} | {turn_str}"
+    )
+
+
+
 def render_names_at_mouse_location(console, x, y, engine):
     """ takes the console, x and y coordinates (the location to draw the names),
         and the engine. From the engine, it grabs the mouse’s current x and y

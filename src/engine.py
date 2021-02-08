@@ -82,6 +82,11 @@ class Engine:
             engine=self
         )
 
+        rendering.render_stats(
+            console=self.stat_panel,
+            engine=self,
+            player=self.player
+        )
         rendering.render_bar(
             console=self.stat_panel,
             current_value=self.player.fighter.hp,
