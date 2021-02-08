@@ -39,6 +39,22 @@ def test_map():
 
     # Create a player at 5, 5
     factory.player.spawn(new_map, 5, 5)
+    player = new_map.get_player()
+
+    # Give the player items for testing
+    dagger = copy.deepcopy(factory.dagger)
+    dagger.parent = player.inventory
+    player.inventory.add_item(dagger)
+
+    leather_armor = copy.deepcopy(factory.leather_armor)
+    leather_armor.parent = player.inventory
+    player.inventory.add_item(leather_armor)
+
+    health_potion = copy.deepcopy(factory.health_potion)
+    health_potion.parent = player.inventory
+    player.inventory.add_item(health_potion)
+
+
 
     # Create a grid bug at 2, 5
     factory.grid_bug.spawn(new_map, 2, 5)

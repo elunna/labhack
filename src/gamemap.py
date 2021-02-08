@@ -49,6 +49,9 @@ class GameMap:
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, item.Item))
 
+    def get_items_at(self, x, y):
+        return [i for i in self.items if i.x == x and i.y == y]
+
     def blocking_entity_at(self, location_x, location_y):
         for entity in self.entities:
             if (

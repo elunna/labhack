@@ -77,7 +77,8 @@ class ItemAction(Action):
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        return self.engine.game_map.get_actor_at(*self.target_xy)
+        # return self.engine.game_map.get_actor_at(*self.target_xy)
+        return self.entity.gamemap.get_actor_at(*self.target_xy)
 
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""
@@ -88,13 +89,21 @@ class ItemAction(Action):
 
 class DropItem(ItemAction):
     def perform(self):
-        """Drop an item from an entity's possession."""
+        """ Removes an item from an entity's inventory and places it on the
+            current game map, at the entity's coordinates.
+        """
         # If the item is an equipped item, first unequip it.
         if self.entity.equipment.item_is_equipped(self.item):
             self.entity.equipment.toggle_equip(self.item)
 
-        # TODO: Get msg
-        self.entity.inventory.drop(self.item)
+        # Remove it from inventory
+        self.entity.inventory.rm_item(self.item)
+
+        # Put it on the map
+        self.item.place(self.entity.x, self.entity.y, self.entity.gamemap)
+
+        self.msg = f"You dropped the {self.item.name}."
+
 
 
 class EquipAction(Action):

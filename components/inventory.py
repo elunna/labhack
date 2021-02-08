@@ -55,15 +55,6 @@ class Inventory(Component):
         if letter in self.items:
             self.items.pop(letter)
 
-    def drop(self, item):
-        """ Removes an item from the inventory and restores it to the game map,
-            at the player's current location.
-        """
-        # self.items.remove(item)
-        self.rm_item(item)
-        item.place(self.parent.x, self.parent.y, self.gamemap)
-        self.engine.msglog.add_message(f"You dropped the {item.name}.")
-
     def sorted_dict(self):
         # Sort out the items by char/category (weapons(/), potions(!), etc
         # Create a dict of char and values is a list of item letters

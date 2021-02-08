@@ -35,10 +35,15 @@ def test_Action_perform__not_implemented(player):
         a.perform()
 
 
-def test_ActionWithDirection_init(test_map):
+def test_ActionWithDirection_is_Action(test_map):
     player = test_map.get_player()
     a = actions.ActionWithDirection(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
+
+
+def test_ActionWithDirection_init(test_map):
+    player = test_map.get_player()
+    a = actions.ActionWithDirection(entity=player, dx=1, dy=-1)
     assert a.entity == player
     assert a.dx == 1
     assert a.dy == -1
@@ -67,37 +72,213 @@ def test_ActionWithDirection__target_actor(player):
     assert a.target_actor.name == "Grid Bug"
 
 
-# perform
+def test_ActionWithDirection__perform(player):
+    testmap = toolkit.test_map()
+    player.place(2, 4, testmap)
+    a = actions.ActionWithDirection(entity=player, dx=0, dy=1)
+    with pytest.raises(NotImplementedError):
+        a.perform()
 
-# BumpAction
-# init, is action
-# perform
 
-# ItemAction
+def test_BumpAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.Action)
+
+
+def test_BumpAction_is_ActionWithDirection(test_map):
+    player = test_map.get_player()
+    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.ActionWithDirection)
+
+
+def test_BumpAction_init(test_map):
+    player = test_map.get_player()
+    a = actions.BumpAction(entity=player, dx=1, dy=-1)
+    assert a.entity == player
+    assert a.dx == 1
+    assert a.dy == -1
+    assert a.msg == ''
+
+
+def test_BumpAction_perform__Move(test_map):
+    player = test_map.get_player()
+    a = actions.BumpAction(entity=player, dx=1, dy=1)
+    result = a.perform()
+    assert isinstance(result, actions.MovementAction)
+
+
+def test_BumpAction_perform__Move(test_map):
+    # We'll attack the Grid Bug at (2, 5)
+    player = test_map.get_player()
+    player.place(2, 4, test_map)
+    a = actions.BumpAction(entity=player, dx=0, dy=1)
+    result = a.perform()
+    assert isinstance(result, actions.MeleeAction)
+
+
+def test_ItemAction_is_Action(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.ItemAction(entity=player, item=potion)
+    assert isinstance(a, actions.Action)
+
+
+def test_ItemAction_init(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.ItemAction(entity=player, item=potion)
+    assert a.item == potion
+    assert a.entity == player
+
+
+def test_ItemAction_init__default_targetxy_is_playersxy(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.ItemAction(entity=player, item=potion)
+    assert a.target_xy == (player.x, player.y)
+
+
+def test_ItemAction_init__with_target_xy(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.ItemAction(entity=player, item=potion, target_xy=(1, 1))
+    assert a.target_xy == (1, 1)
+
+
+def test_ItemAction_target_actor(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    # We'll target the grid bug
+    a = actions.ItemAction(entity=player, item=potion, target_xy=(2, 5))
+    result = a.target_actor
+    assert result.name == "Grid Bug"
+
+
+# perform
+# perform with a consumable item
+# perform with a non-consumable item
+# perform with a reuseable/chargeable item?
+
+
+def test_DropItem_is_Action(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    assert isinstance(a, actions.Action)
+
+
+def test_DropItem_is_ItemAction(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    assert isinstance(a, actions.ItemAction)
+
+
+
 # init
-# target_actor
+
+def test_DropItem_init(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    assert a.entity == player
+    assert a.item == potion
+
+
 # perform
 
-# DropItem
-# perform
+def test_DropItem_perform__item_leaves_inventory(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    result = a.perform()
+    assert potion not in player.inventory.items
 
-# EquipAction
+
+def test_DropItem_perform__item_appears_on_map(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    result = a.perform()
+    assert potion in test_map.get_items_at(player.x, player.y)
+
+
+def test_DropItem_perform__msg(test_map):
+    player = test_map.get_player()
+    potion = factory.health_potion
+    a = actions.DropItem(entity=player, item=potion)
+    result = a.perform()
+    assert a.msg == "You dropped the Health Potion."
+
+
+# drop item we have
+# drop item we don't have
+# drop equipped item
+
+def test_EquipAction_is_Action(test_map):
+    player = test_map.get_player()
+    armor = factory.leather_armor
+    a = actions.EquipAction(entity=player, item=armor)
+    assert isinstance(a, actions.Action)
+
+
 # init
 # perform
 
 
-# MeleeAction
-# perform
+def test_MeleeAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.Action)
 
-# MovementAction
-# perform
 
-# PickupAction
+def test_MeleeAction_is_ActionWithDirection(test_map):
+    player = test_map.get_player()
+    a = actions.MeleeAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.ActionWithDirection)
+
+
 # init
 # perform
 
-# TakeStairsAction
+def test_MovementAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.MovementAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.Action)
+
+
+def test_MovementAction_is_ActionWithDirection(test_map):
+    player = test_map.get_player()
+    a = actions.MovementAction(entity=player, dx=1, dy=-1)
+    assert isinstance(a, actions.ActionWithDirection)
+
+
+# init
 # perform
 
-# WaitAction
+def test_PickupAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.PickupAction(entity=player)
+    assert isinstance(a, actions.Action)
+
+# init
+# perform
+
+
+def test_TakeStairsAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.TakeStairsAction(entity=player)
+    assert isinstance(a, actions.Action)
+
+# init
+# perform
+
+
+def test_WaitAction_is_Action(test_map):
+    player = test_map.get_player()
+    a = actions.WaitAction(entity=player)
+    assert isinstance(a, actions.Action)
+
+# init
 # perform
