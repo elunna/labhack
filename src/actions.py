@@ -1,6 +1,6 @@
-from src import color
 from src import exceptions
 import random
+
 
 class Action:
     """ The template for a game action that affects gameplay."""
@@ -109,22 +109,45 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        die = 20
+        # Determine if the entity will hit or miss the target entity.
+        # The entity will roll a 20 sided die, and try to get below a target number.
         target_base = 10
         target_number = target_base + target.fighter.ac + target.level.current_level
+        die = 20
         roll = random.randint(1, die)
+
+        # Setup for the attack descriptions
+        entity = self.entity.name.capitalize()
 
         if roll < target_number:
             # It's a hit!
-            # dmg = self.entity.fighter.power
-            dmg = self.entity.fighter.attacks.roll_attacks()
-            entity = self.entity.name.capitalize()
-            atk_text = self.entity.fighter.attacks.description
-            attack_desc = f"The {entity} {atk_text} the {target.name} for {dmg}! "
+            # Calculate the damage
+
+            # Does the attacker have a weapon?
+            if self.entity.equipment.weapon:
+                # Get the damage from the weapon
+                weapon = self.entity.equipment.weapon
+                dmg = weapon.equippable.attack.roll_dmg()
+                # atk_text = self.entity.fighter.attacks.description
+                attack_desc = f"The {entity} hits the {target.name} with a {weapon.name} for {dmg}! "
+
+                # TODO Case where we hit something
+                # TODO Case where something hits us
+
+            else:
+                # We'll use the entities "natural" attack, or Bare-Handed for our Hero.
+                dmg = self.entity.fighter.attacks.roll_dmg()
+                attack_desc = f"The {entity} hits the {target.name} for {dmg}! "
+
+                # TODO Case where we hit something
+                # TODO Case where something hits us
+
             result = target.fighter.take_dmg(dmg)
             self.msg = attack_desc + result
         else:
             self.msg = f"The {self.entity.name.capitalize()} misses the {target.name}."
+
+            # TODO Add "Wildly misses"
 
 
 class MovementAction(ActionWithDirection):
@@ -164,7 +187,6 @@ class PickupAction(Action):
             if actor_location_x == item.x and actor_location_y == item.y:
                 if len(inventory.items) >= inventory.capacity:
                     raise exceptions.Impossible("Your inventory is full.")
-
 
                 self.engine.game_map.entities.remove(item)
                 item.parent = self.entity.inventory

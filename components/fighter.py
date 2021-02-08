@@ -1,6 +1,7 @@
 from components.component import Component
 from components.attacks import AttackType
 from src.renderorder import RenderOrder
+import random
 
 
 class Fighter(Component):
@@ -21,7 +22,7 @@ class Fighter(Component):
             self.attacks = attacks
         else:
             # set a default Attack
-            self.attacks = AttackType(description='punches', die_sides=6)
+            self.attacks = AttackType(die_sides=6)
 
     @property
     def hp(self):

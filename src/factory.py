@@ -1,4 +1,4 @@
-from components import consumable
+from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
 from components.equipment import Equipment
@@ -71,32 +71,37 @@ fireball_scroll = item.Item(
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 
+
 dagger = item.Item(
     char="/",
     color=(0, 191, 255),
     name="Dagger",
-    equippable=equippable.Dagger()
+    equippable=equippable.Weapon(
+        attack=attacks.AttackType(die_sides=3),
+    ),
 )
 
 sword = item.Item(
     char="/",
     color=(0, 191, 255),
     name="Sword",
-    equippable=equippable.Sword()
+    equippable=equippable.Weapon(
+        attack=attacks.AttackType(die_sides=8)
+    ),
 )
 
 leather_armor = item.Item(
    char="[",
    color=(139, 69, 19),
    name="Leather Armor",
-   equippable=equippable.LeatherArmor(),
+   equippable=equippable.Armor(ac_bonus=1),
 )
 
 chain_mail = item.Item(
     char="[",
     color=(139, 69, 19),
     name="Chain Mail",
-    equippable=equippable.ChainMail()
+    equippable=equippable.Armor(ac_bonus=3),
 )
 
 item_chances = {
