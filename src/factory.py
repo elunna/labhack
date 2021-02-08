@@ -21,6 +21,17 @@ player = actor.Actor(
     level=Level(level_up_base=200),
 )
 
+grid_bug = actor.Actor(
+    char="x",
+    color=(0, 127, 0),
+    name="Grid Bug",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=1, base_ac=1, base_power=1),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=1),
+)
+
 orc = actor.Actor(
     char="o",
     color=(63, 127, 63),

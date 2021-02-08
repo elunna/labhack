@@ -35,10 +35,11 @@ def test_GameMap_gamemap(test_map):
     assert test_map.gamemap is test_map
 
 
-def test_GameMap_actors__none_by_default(test_map):
+def test_GameMap_actors(test_map):
     # We get a generator, need to convert to list.
     # assert list(test_map.actors) == []
-    assert len(list(test_map.actors)) == 1
+    # There are 2 actors in the test_map: Player and gridbug
+    assert len(list(test_map.actors)) == 2
 
 
 def test_GameMap_items__none_by_default(test_map):
