@@ -43,6 +43,10 @@ class Inventory(Component):
         while True:
             if self.current_letter not in self.items:
                 self.items[self.current_letter] = item
+
+                # Set the item's parent to be this inventory
+                item.parent = self
+
                 return True
             self.current_letter = self.letterroll.next_letter()
 
@@ -52,6 +56,10 @@ class Inventory(Component):
         for k, v in self.items.items():
             if v == item:
                 item = self.items.pop(k)
+
+                # Reset the item's parent to None
+                item.parent = None
+
                 return True
         return False
 
@@ -60,7 +68,11 @@ class Inventory(Component):
         # If the letter is being used, we remove the item and return True.
         # If no item is found using that letter, return False
         if letter in self.items:
-            self.items.pop(letter)
+            item = self.items.pop(letter)
+
+            # Reset the item's parent to None
+            item.parent = None
+
             return True
         return False
 
