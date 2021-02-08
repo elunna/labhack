@@ -1,7 +1,8 @@
 """ Tests for actions.py """
 
-from src import factory
 from src import actions
+from src import exceptions
+from src import factory
 import toolkit
 import pytest
 
@@ -186,33 +187,41 @@ def test_DropItem_init(test_map):
     assert a.item == potion
 
 
-# perform
-
 def test_DropItem_perform__item_leaves_inventory(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
+    item = player.inventory.items.get('a')  # Need the actual item from inv
+
+    a = actions.DropItem(entity=player, item=item)
     result = a.perform()
-    assert potion not in player.inventory.items
+    assert item not in player.inventory.items
 
 
 def test_DropItem_perform__item_appears_on_map(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
+    item = player.inventory.items.get('a')  # Need the actual item from inv
+
+    a = actions.DropItem(entity=player, item=item)
     result = a.perform()
-    assert potion in test_map.get_items_at(player.x, player.y)
+    assert item in test_map.get_items_at(player.x, player.y)
 
 
 def test_DropItem_perform__msg(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
-    a = actions.DropItem(entity=player, item=potion)
+    item = player.inventory.items.get('a')  # Need the actual item from inv
+
+    a = actions.DropItem(entity=player, item=item)
     result = a.perform()
-    assert a.msg == "You dropped the Health Potion."
+    assert a.msg == f"You dropped the {item.name}."
 
 
-# drop item we have
+def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
+    player = test_map.get_player()
+    a = actions.DropItem(entity=player, item=factory.sword)
+
+    with pytest.raises(exceptions.Impossible):
+        a.perform()
+
+
 # drop item we don't have
 # drop equipped item
 

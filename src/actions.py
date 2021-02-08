@@ -97,13 +97,15 @@ class DropItem(ItemAction):
             self.entity.equipment.toggle_equip(self.item)
 
         # Remove it from inventory
-        self.entity.inventory.rm_item(self.item)
+        result = self.entity.inventory.rm_item(self.item)
 
-        # Put it on the map
-        self.item.place(self.entity.x, self.entity.y, self.entity.gamemap)
+        if result:
+            # Put it on the map
+            self.item.place(self.entity.x, self.entity.y, self.entity.gamemap)
 
-        self.msg = f"You dropped the {self.item.name}."
-
+            self.msg = f"You dropped the {self.item.name}."
+        else:
+            raise exceptions.Impossible("You cannot drop an item you do not have!")
 
 
 class EquipAction(Action):
