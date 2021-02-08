@@ -62,6 +62,11 @@ class EventHandler(BaseEventHandler):
 
             # Player leveled up
             elif self.engine.player.level.requires_level_up:
+                next_level = self.engine.player.level.current_level + 1
+                self.engine.msglog.add_message(
+                    f"You advance to level {next_level}!"
+                )
+
                 # This handler is currently on hold.
                 # return LevelUpEventHandler(self.engine)
 
