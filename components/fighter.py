@@ -89,6 +89,8 @@ class Fighter(Component):
         self.parent.ai = None
         self.parent.name = f"{self.parent.name} corpse"
         self.parent.render_order = RenderOrder.CORPSE
+
+        # The killer get xp
         self.engine.player.level.add_xp(self.parent.level.xp_given)
 
         return death_message
