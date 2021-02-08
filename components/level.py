@@ -106,3 +106,6 @@ def display_chart(base=20, factor=2):
         if level.requires_level_up:
             level.increase_level()
 
+
+if __name__ == "__main__":
+    display_chart()
