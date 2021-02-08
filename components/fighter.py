@@ -21,8 +21,8 @@ class Fighter(Component):
         if attacks:
             self.attacks = attacks
         else:
-            # set a default Attack
-            self.attacks = AttackType(die_sides=6)
+            # set a default puny barehanded attack
+            self.attacks = AttackType(die_sides=2)
 
     @property
     def hp(self):

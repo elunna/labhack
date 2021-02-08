@@ -1,6 +1,7 @@
 from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
+from components.attacks import AttackType
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -51,7 +52,12 @@ grid_bug = actor.Actor(
     name="Grid Bug",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=1, base_ac=1, base_power=1),
+    fighter=Fighter(
+        hp=1,
+        base_ac=1,
+        base_power=1,
+        attacks=AttackType(die_sides=1),
+    ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
 )
@@ -62,7 +68,12 @@ orc = actor.Actor(
     name="Orc",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=6, base_ac=7, base_power=6),
+    fighter=Fighter(
+        hp=4,
+        base_ac=7,
+        base_power=3,
+        attacks=AttackType(die_sides=3),
+    ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
 )
@@ -73,7 +84,12 @@ troll = actor.Actor(
     name="Troll",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=16, base_ac=2, base_power=10),
+    fighter=Fighter(
+        hp=11,
+        base_ac=2,
+        base_power=10,
+        attacks=AttackType(die_sides=6),
+    ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
 )
@@ -82,7 +98,7 @@ health_potion = item.Item(
     char="!",
     color=(127, 0, 255),
     name="Health Potion",
-    consumable=consumable.HealingConsumable(amount=4),
+    consumable=consumable.HealingConsumable(amount=5),
 )
 
 lightning_scroll = item.Item(
