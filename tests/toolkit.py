@@ -17,7 +17,7 @@ def test_map():
     # 1 # # . . . .
     # 2 . + . . . .
     # 3 # # . . # .
-    # 4 # # . . # .
+    # 4 # # . . # o
     # 5 # # x . . @
 
     new_map = gamemap.GameMap(
@@ -54,9 +54,10 @@ def test_map():
     health_potion.parent = player.inventory
     player.inventory.add_item(health_potion)
 
-
-
     # Create a grid bug at 2, 5
     factory.grid_bug.spawn(new_map, 2, 5)
+
+    # Create a grid bug at 5, 4
+    factory.orc.spawn(new_map, 5, 4)
 
     return new_map

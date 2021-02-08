@@ -188,17 +188,17 @@ class MovementAction(ActionWithDirection):
     def perform(self):
         dest_x, dest_y = self.dest_xy
 
-        if not self.engine.game_map.in_bounds(dest_x, dest_y):
+        if not self.entity.gamemap.in_bounds(dest_x, dest_y):
             # Destination is out of bounds.
-            raise exceptions.Impossible("That way is blocked.")
+            raise exceptions.Impossible("That way is out of bounds!")
 
-        if not self.engine.game_map.tiles["walkable"][dest_x, dest_y]:
+        if not self.entity.gamemap.tiles["walkable"][dest_x, dest_y]:
             # Destination is blocked by a tile.
-            raise exceptions.Impossible("That way is blocked.")
+            raise exceptions.Impossible("That way is not walkable!")
 
         # Theoretically, this bit of code won’t ever trigger, but it's a
         # safeguard.
-        if self.engine.game_map.blocking_entity_at(dest_x, dest_y):
+        if self.entity.gamemap.blocking_entity_at(dest_x, dest_y):
             # Destination is blocked by an entity.
             raise exceptions.Impossible("That way is blocked.")
 
