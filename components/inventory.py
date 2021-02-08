@@ -6,6 +6,7 @@ import string
 
 class Inventory(Component):
     """ Dictionary based Inventory
+        # TODO: Add contains, add, remove, subscrioption, weight, size
         ex:
             $ XXX.XX dogecoin
             # Weapons
@@ -32,7 +33,7 @@ class Inventory(Component):
     def add_item(self, item):
         # Attempts to add an item to the inventory. Returns True if successful, False otherwise.
         # If we add the item
-        if len(self.items) >= 26:
+        if len(self.items) >= self.capacity:
             # Inventory full
             return False
 
@@ -46,14 +47,22 @@ class Inventory(Component):
             self.current_letter = self.letterroll.next_letter()
 
     def rm_item(self, item):
+        # Removes an item from the inventory. Returns True if successful, False
+        # otherwise.
         for k, v in self.items.items():
             if v == item:
                 item = self.items.pop(k)
-                return item
+                return True
+        return False
 
     def rm_letter(self, letter):
+        # Removes an item from the inventory by using it's assigned letter.
+        # If the letter is being used, we remove the item and return True.
+        # If no item is found using that letter, return False
         if letter in self.items:
             self.items.pop(letter)
+            return True
+        return False
 
     def sorted_dict(self):
         # Sort out the items by char/category (weapons(/), potions(!), etc
@@ -69,6 +78,9 @@ class LetterRoll:
         # self.letters = string.ascii_lowercase + string.ascii_uppercase
         self.letters = string.ascii_lowercase
         self.index = -1
+
+    def __len__(self):
+        return len(self.letters)
 
     def next_letter(self):
         self.index += 1
