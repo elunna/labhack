@@ -55,36 +55,44 @@ def test_HealingConsumable__is_Component():
     c = consumable.HealingConsumable(amount=5)
     assert isinstance(c, Component)
 
-@pytest.mark.skip(reason='Skeleton')
+
 def test_HealingConsumable__is_Consumable():
-    pass
+    c = consumable.HealingConsumable(amount=5)
+    assert isinstance(c, consumable.Consumable)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_HealingConsumable_init():
-    pass
+    c = consumable.HealingConsumable(amount=5)
+    assert c.parent is None
+    assert c.amount == 5
 
 
-@pytest.mark.skip(reason='Skeleton')
-def test_HealingConsumable_activate():
+@pytest.mark.skip(reason='Needs an ItemAction made')
+def test_HealingConsumable_activate__fullhealth_raises_Impossible(player):
     pass
+
+def test_HealingConsumable_activate__heals_and_consumes(player):
+    c = consumable.HealingConsumable(amount=5)
 
 
 def test_LightningDamageConsumable__is_Component():
     c = consumable.LightningDamageConsumable(damage=10, maximum_range=5)
     assert isinstance(c, Component)
 
-@pytest.mark.skip(reason='Skeleton')
+
 def test_LightningDamageConsumable__is_Consumable():
-    pass
+    c = consumable.LightningDamageConsumable(damage=10, maximum_range=5)
+    assert isinstance(c, consumable.Consumable)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_LightningDamageConsumable_init():
-    pass
+    c = consumable.LightningDamageConsumable(damage=10, maximum_range=5)
+    assert c.parent is None
+    assert c.damage == 10
+    assert c.maximum_range == 5
 
 
-@pytest.mark.skip(reason='Skeleton')
+@pytest.mark.skip(reason='Needs an ItemAction made')
 def test_LightningDamageConsumable_activate():
     pass
 
@@ -94,14 +102,15 @@ def test_ConfusionConsumable__is_Component():
     assert isinstance(c, Component)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_ConfusionConsumable__is_Consumable():
-    pass
+    c = consumable.ConfusionConsumable(number_of_turns=5)
+    assert isinstance(c, consumable.Consumable)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_ConfusionConsumable_init():
-    pass
+    c = consumable.ConfusionConsumable(number_of_turns=5)
+    assert c.parent is None
+    assert c.number_of_turns == 5
 
 
 @pytest.mark.skip(reason='Skeleton')
@@ -109,7 +118,7 @@ def test_ConfusionConsumable_get_action():
     pass
 
 
-@pytest.mark.skip(reason='Skeleton')
+@pytest.mark.skip(reason='Needs an ItemAction made')
 def test_ConfusionConsumable_activate():
     pass
 
@@ -119,14 +128,16 @@ def test_FireballDamageConsumable__is_Component():
     assert isinstance(c, Component)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_FireballDamageConsumable__is_Consumable():
-    pass
+    c = consumable.FireballDamageConsumable(damage=5, radius=3)
+    assert isinstance(c, consumable.Consumable)
 
 
-@pytest.mark.skip(reason='Skeleton')
 def test_FireballDamageConsumable_init():
-    pass
+    c = consumable.FireballDamageConsumable(damage=5, radius=3)
+    assert c.parent is None
+    assert c.damage == 5
+    assert c.radius == 3
 
 
 @pytest.mark.skip(reason='Skeleton')
@@ -134,7 +145,7 @@ def test_FireballDamageConsumable_get_action():
     pass
 
 
-@pytest.mark.skip(reason='Skeleton')
+@pytest.mark.skip(reason='Needs an ItemAction made')
 def test_FireballDamageConsumable_activate():
     pass
 
