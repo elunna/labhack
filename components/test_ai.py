@@ -1,11 +1,11 @@
 """ Tests for ai.py """
 
-from components.component import Component
-from components import ai
+from . import ai
+from .component import Component
 from src import gamemap
 from src import tiles
+from tests import toolkit
 import pytest
-import toolkit
 
 @pytest.fixture
 def player():

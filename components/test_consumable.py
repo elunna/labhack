@@ -1,12 +1,12 @@
 """ Tests for consumable.py """
-import pytest
 
-from actions.itemaction import ItemAction
-import toolkit
-from components import consumable
-from components.component import Component
-from src import factory
+from . import consumable
+from .component import Component
 from actions import actions
+from actions.itemaction import ItemAction
+from src import factory
+from tests import toolkit
+import pytest
 
 
 @pytest.fixture

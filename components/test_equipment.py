@@ -1,7 +1,7 @@
 """ Tests for equipment.py """
 
-from components.component import Component
-from components.equipment import Equipment
+from .component import Component
+from .equipment import Equipment
 from src import exceptions
 from src import factory as ef
 import pytest

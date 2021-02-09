@@ -1,6 +1,7 @@
 """ Tests for equippable.py """
-from components.equippable import Equippable
-from components.component import Component
+
+from .equippable import Equippable
+from .component import Component
 import pytest
 
 

@@ -1,7 +1,7 @@
 """ Tests for level.py """
 
-from components.level import Level
-from components.component import Component
+from .level import Level
+from .component import Component
 import pytest
 
 def test_Level_init__is_BaseComponent():

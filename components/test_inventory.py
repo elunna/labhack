@@ -1,8 +1,8 @@
 """ Tests for inventory.py """
 
-from components.component import Component
-from components.inventory import Inventory
-from components.inventory import LetterRoll
+from .component import Component
+from .inventory import Inventory
+from .inventory import LetterRoll
 from src import factory
 import pytest
 

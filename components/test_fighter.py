@@ -1,5 +1,6 @@
 """ Tests for fighter.py """
-from components.fighter import Fighter
+
+from .fighter import Fighter
 from pytest_mock import mocker
 from src import factory
 import copy
