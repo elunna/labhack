@@ -12,15 +12,21 @@ class MovementAction(ActionWithDirection):
             # Destination is out of bounds.
             raise exceptions.Impossible("That way is out of bounds!")
 
-        # if not self.entity.gamemap.tiles["walkable"][dest_x, dest_y]:
         if not self.entity.gamemap.walkable(dest_x, dest_y):
             # Destination is blocked by a tile.
-            raise exceptions.Impossible("That way is not walkable!")
+            if self.entity.name == "Player":
+                raise exceptions.Impossible("That way is not walkable!")
 
-        # Theoretically, this bit of code won’t ever trigger, but it's a
-        # safeguard.
+            # No msg for other monsters
+            return
+
+        # Theoretically, this won’t ever trigger, it's a safeguard.
         if self.entity.gamemap.blocking_entity_at(dest_x, dest_y):
             # Destination is blocked by an entity.
-            raise exceptions.Impossible("That way is blocked.")
+            if self.entity.name == "Player":
+                raise exceptions.Impossible("That way is blocked.")
+
+            # No msg for other monsters
+            return
 
         self.entity.move(self.dx, self.dy)

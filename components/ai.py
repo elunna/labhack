@@ -130,4 +130,4 @@ class ConfusedAI(BaseAI):
 
             # The actor will either try to move or attack in the chosen random direction.
             # Its possible the actor will just bump into the wall, wasting a turn.
-            return BumpAction(self.entity, direction_x, direction_y, )
+            return BumpAction(self.entity, direction_x, direction_y)
