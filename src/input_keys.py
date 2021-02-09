@@ -47,4 +47,5 @@ CURSOR_Y_KEYS = {
 CONFIRM_KEYS = {
     tcod.event.K_RETURN,
     tcod.event.K_KP_ENTER,
+    tcod.event.K_SEMICOLON,
 }
