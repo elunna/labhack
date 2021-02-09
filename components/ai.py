@@ -117,21 +117,22 @@ class ConfusedAI(BaseAI):
     def perform(self):
         # causes the entity to move in a randomly selected direction.
         # Revert the AI back to the original state if the effect has run its course.
+        # Pick a random direction
+        direction_x, direction_y = random.choice(settings.DIRECTIONS)
+
+        self.turns_remaining -= 1
+
+        # The actor will either try to move or attack in the chosen random direction.
+        # Its possible the actor will just bump into the wall, wasting a turn.
+        action = BumpAction(self.entity, direction_x, direction_y)
+
         if self.turns_remaining <= 0:
-            self.engine.msglog.add_message(
-                f"The {self.entity.name} is no longer confused."
-            )
+            # If it's the last turn, we'll notify the player and return the
+            # AI to the previous one.
+            action.msg = f"The {self.entity.name} is no longer confused."
             self.entity.ai = self.previous_ai
-        else:
-            # Pick a random direction
-            direction_x, direction_y = random.choice(settings.DIRECTIONS)
 
-            self.turns_remaining -= 1
-
-            # The actor will either try to move or attack in the chosen random direction.
-            # Its possible the actor will just bump into the wall, wasting a turn.
-            return BumpAction(self.entity, direction_x, direction_y)
-
+        return action
 
 class RunAI(BaseAI):
     def __init__(self, entity, direction):
