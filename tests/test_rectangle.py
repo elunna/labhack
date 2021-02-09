@@ -83,16 +83,3 @@ def test_Rectangle_intersects_both_rects_intersect_returns_True():
     assert r1.intersects(r2)
     assert r2.intersects(r1)
 
-
-# Not implemented yet.
-
-# def test_Rectangle_within__valid_returns_True():
-    # r1 = rectangle.Rectangle(0, 0, 3, 3)
-    # x, y = 0, 0
-    # assert r1.within(x, y)
-
-
-# def test_Rectangle_within__invalid_returns_False():
-    # r1 = rectangle.Rectangle(0, 0, 3, 3)
-    # x, y = 3, 3
-    # assert r1.within(x, y) is False
