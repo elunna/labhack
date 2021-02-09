@@ -1,7 +1,7 @@
 """ Tests for consumable.py """
 import pytest
 
-import actions.itemaction
+from actions.itemaction import ItemAction
 import toolkit
 from components import consumable
 from components.component import Component
@@ -31,7 +31,7 @@ def test_Consumable_get_action(player):
     c.parent = factory.health_potion
     result = c.get_action(consumer=player)
 
-    assert isinstance(result, actions.itemaction.ItemAction)
+    assert isinstance(result, ItemAction)
     assert result.entity == player
     assert result.item == factory.health_potion
 

@@ -1,5 +1,5 @@
-import actions.dieaction
-import actions.itemaction
+from actions.dieaction import DieAction
+from actions.itemaction import ItemAction
 from components.ai import ConfusedAI
 from components.component import Component
 from components.inventory import Inventory
@@ -12,7 +12,7 @@ from src import handlers
 class Consumable(Component):
     def get_action(self, consumer):
         """Try to return the action for this item."""
-        return actions.itemaction.ItemAction(consumer, self.parent)
+        return ItemAction(consumer, self.parent)
 
     def activate(self, action):
         """Invoke this items ability.
@@ -73,7 +73,7 @@ class LightningDamageConsumable(Consumable):
             raise exceptions.Impossible("No enemy is close enough to strike.")
 
         if target.fighter.is_dead():
-            return actions.dieaction.DieAction(entity=target, cause=consumer)
+            return DieAction(entity=target, cause=consumer)
 
 
 class ConfusionConsumable(Consumable):
@@ -89,7 +89,7 @@ class ConfusionConsumable(Consumable):
             # “xy” will be the coordinates of the target. The lambda function
             # executes ItemAction, which receives the consumer, the parent (the
             # item), and the “xy” coordinates.
-            callback=lambda xy: actions.itemaction.ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: ItemAction(consumer, self.parent, xy),
         )
 
     def activate(self, action):
@@ -125,7 +125,7 @@ class FireballDamageConsumable(Consumable):
         return handlers.AreaRangedAttackHandler(
             self.engine,
             radius=self.radius,
-            callback=lambda xy: actions.itemaction.ItemAction(consumer, self.parent, xy),
+            callback=lambda xy: ItemAction(consumer, self.parent, xy),
         )
 
     def activate(self, action):
@@ -153,7 +153,7 @@ class FireballDamageConsumable(Consumable):
                 actor.fighter.hp -= self.damage
 
                 if actor.fighter.is_dead():
-                    results.append(actions.dieaction.DieAction(entity=actor, cause=consumer))
+                    results.append(DieAction(entity=actor, cause=consumer))
 
                 targets_hit = True
 
