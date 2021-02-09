@@ -47,12 +47,13 @@ def place_monsters(room, dungeon, floor_number):
 
 
 def generate_map(
-        max_rooms,
-        room_min_size,
-        room_max_size,
-        map_width,
-        map_height,
-        engine):
+    max_rooms,
+    room_min_size,
+    room_max_size,
+    map_width,
+    map_height,
+    engine
+):
     """Generate a new dungeon map."""
 
     player = engine.player
