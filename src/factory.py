@@ -163,10 +163,14 @@ chain_mail = item.Item(
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
-    0: [(health_potion, 35)],
-    2: [(confusion_scroll, 10)],
-    4: [(lightning_scroll, 25), (sword, 5)],
-    6: [(fireball_scroll, 25), (chain_mail, 15)],
+    0: [
+        (health_potion, 35),
+        (confusion_scroll, 10),
+        (lightning_scroll, 25),
+        (fireball_scroll, 25),
+        (sword, 5),
+        (chain_mail, 6),
+    ],
 }
 
 enemy_chances = {
