@@ -1,5 +1,4 @@
 """Handle the loading and initialization of game sessions."""
-import src.item_data
 from . import color
 from . import factory
 from . import gameworld
@@ -32,12 +31,12 @@ def new_game():
         "Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text
     )
 
-    dagger = copy.deepcopy(src.item_data.dagger)
+    dagger = copy.deepcopy(factory.dagger)
     # dagger.parent = player.inventory
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 
-    leather_armor = copy.deepcopy(src.item_data.leather_armor)
+    leather_armor = copy.deepcopy(factory.leather_armor)
     # leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
@@ -46,22 +45,22 @@ def new_game():
     # TODO: Factory for making these
 
     # Health Potion
-    health_potion = copy.deepcopy(src.item_data.health_potion)
+    health_potion = copy.deepcopy(factory.health_potion)
     # health_potion.parent = player.inventory
     player.inventory.add_item(health_potion)
 
     # Lightning scroll
-    lightning_scroll = copy.deepcopy(src.item_data.lightning_scroll)
+    lightning_scroll = copy.deepcopy(factory.lightning_scroll)
     # lightning_scroll.parent = player.inventory
     player.inventory.add_item(lightning_scroll)
 
     # Confusion scroll
-    confusion_scroll = copy.deepcopy(src.item_data.confusion_scroll)
+    confusion_scroll = copy.deepcopy(factory.confusion_scroll)
     # confusion_scroll.parent = player.inventory
     player.inventory.add_item(confusion_scroll)
 
     # Fireball scroll
-    fireball_scroll = copy.deepcopy(src.item_data.fireball_scroll)
+    fireball_scroll = copy.deepcopy(factory.fireball_scroll)
     # fireball_scroll.parent = player.inventory
     player.inventory.add_item(fireball_scroll)
 

@@ -1,4 +1,3 @@
-import src.monster_data
 from . import actions
 from .melee import MeleeAction
 from src import factory
@@ -47,7 +46,7 @@ def test_MeleeAction_calc_target_number(test_map):
     player = test_map.get_player()
     a = MeleeAction(entity=player, dx=-1, dy=-1)
 
-    target = src.monster_data.orc
+    target = factory.orc
     assert target.level.current_level == 1
     assert target.fighter.ac == 7
 
@@ -72,7 +71,7 @@ def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
     assert player.equipment.toggle_equip(dagger)
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    target = src.monster_data.orc
+    target = factory.orc
     result = a.hit_with_weapon(target)
     attack_max = player.equipment.weapon.equippable.attack.die_sides
     assert result >= 1
@@ -85,7 +84,7 @@ def test_MeleeAction_hit_with_weapon__msg(test_map):
     assert player.equipment.toggle_equip(dagger)
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    target = src.monster_data.orc
+    target = factory.orc
     result = a.hit_with_weapon(target)
     assert a.msg == f"The Player hits the Orc with a Dagger for {result}! "
 
@@ -95,7 +94,7 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
     assert not player.equipment.weapon
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    target = src.monster_data.orc
+    target = factory.orc
     result = a.hit_with_barehands(target)
     attack_max = player.fighter.attacks.die_sides
     assert result >= 1
@@ -106,7 +105,7 @@ def test_MeleeAction_hit_with_barehands__msg(test_map):
     player = test_map.get_player()
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    target = src.monster_data.orc
+    target = factory.orc
     result = a.hit_with_barehands(target)
     assert a.msg == f"The Player hits the Orc for {result}! "
 
@@ -114,6 +113,6 @@ def test_MeleeAction_hit_with_barehands__msg(test_map):
 def test_MeleeAction_miss(test_map):
     player = test_map.get_player()
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    target = src.monster_data.orc
+    target = factory.orc
     result = a.miss(target)
     assert a.msg == f"The Player misses the Orc. "

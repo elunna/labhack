@@ -1,5 +1,5 @@
 """ Tests for equipment.py """
-import src.item_data
+
 from .component import Component
 from .equipment import Equipment
 from src import exceptions
@@ -9,12 +9,12 @@ import pytest
 
 @pytest.fixture
 def dagger():
-    return src.item_data.dagger
+    return ef.dagger
 
 
 @pytest.fixture
 def leather_armor():
-    return src.item_data.leather_armor
+    return ef.leather_armor
 
 
 def test_Equipment_is_BaseComponent():
@@ -130,7 +130,7 @@ def test_Equipment_equip_to_slot__armor2weaponslot__raises_Impossible(leather_ar
 
 
 def test_Equipment_equip_to_slot__non_equippable():
-    potion = src.item_data.health_potion
+    potion = ef.health_potion
     e = Equipment()
     with pytest.raises(exceptions.Impossible):
         e.equip_to_slot(slot="weapon", item=potion)
@@ -206,35 +206,35 @@ def test_Equipment_toggle_equip__armor2none__msg(leather_armor):
 
 def test_Equipment_toggle_equip__weapon2weapon(dagger):
     e = Equipment(weapon=dagger)
-    sword = src.item_data.sword
+    sword = ef.sword
     e.toggle_equip(item=sword)
     assert e.weapon == sword
 
 
 def test_Equipment_toggle_equip__weapon2weapon__msg(dagger):
     e = Equipment(weapon=dagger)
-    sword = src.item_data.sword
+    sword = ef.sword
     result = e.toggle_equip(item=sword)
     assert result == "You remove the Dagger. You equip the Sword. "
 
 
 def test_Equipment_toggle_equip__armor2armor(leather_armor):
     e = Equipment(armor=leather_armor)
-    chainmail = src.item_data.chain_mail
+    chainmail = ef.chain_mail
     e.toggle_equip(item=chainmail)
     assert e.armor == chainmail
 
 
 def test_Equipment_toggle_equip__armor2armor__msg(leather_armor):
     e = Equipment(armor=leather_armor)
-    chainmail = src.item_data.chain_mail
+    chainmail = ef.chain_mail
     result = e.toggle_equip(item=chainmail)
     assert result == "You remove the Leather Armor. You equip the Chain Mail. "
 
 
 def test_Equipment_toggle_equip__non_equippable__raisesImpossible():
     e = Equipment()
-    potion = src.item_data.health_potion
+    potion = ef.health_potion
     with pytest.raises(exceptions.Impossible):
         e.toggle_equip(item=potion)
 
