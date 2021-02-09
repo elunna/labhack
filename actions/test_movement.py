@@ -1,5 +1,5 @@
 from . import actions
-from .moveaction import MovementAction
+from .move import MovementAction
 from src import exceptions
 from tests import toolkit
 import pytest

@@ -1,4 +1,4 @@
-from .itemaction import ItemAction
+from .useitem import ItemAction
 from src import exceptions
 
 

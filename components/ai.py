@@ -1,10 +1,10 @@
 from actions.actions import (
     Action
 )
-from actions.waitaction import WaitAction
-from actions.moveaction import MovementAction
-from actions.meleeaction import MeleeAction
-from actions.bumpaction import BumpAction
+from actions.wait import WaitAction
+from actions.move import MovementAction
+from actions.melee import MeleeAction
+from actions.bump import BumpAction
 from src import settings
 import numpy as np  # type: ignore
 import random

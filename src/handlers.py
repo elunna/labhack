@@ -1,9 +1,9 @@
-import actions.bumpaction
-import actions.dropitem
-import actions.equipaction
-import actions.pickupaction
-import actions.stairactions
-import actions.waitaction
+import actions.bump
+import actions.drop
+import actions.equip
+import actions.pickup
+import actions.usestairs
+import actions.wait
 from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .setup_game import load_game, new_game
 from . import color
@@ -126,7 +126,7 @@ class MainGameHandler(EventHandler):
         if key == tcod.event.K_PERIOD and modifier & (
                 tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
-            return actions.stairactions.TakeStairsAction(player)
+            return actions.usestairs.TakeStairsAction(player)
 
         # Ctrl-X: Character Screen
         if key == tcod.event.K_x and modifier & (
@@ -136,10 +136,10 @@ class MainGameHandler(EventHandler):
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
-            action = actions.bumpaction.BumpAction(player, dx, dy)
+            action = actions.bump.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
-            action = actions.waitaction.WaitAction(player)
+            action = actions.wait.WaitAction(player)
 
         elif key == tcod.event.K_ESCAPE:
             raise SystemExit()
@@ -148,7 +148,7 @@ class MainGameHandler(EventHandler):
             return HistoryHandler(self.engine)
 
         elif key == tcod.event.K_COMMA:
-            action = actions.pickupaction.PickupAction(player)
+            action = actions.pickup.PickupAction(player)
 
         elif key == tcod.event.K_i:
             return InventoryActivateHandler(self.engine)
@@ -308,7 +308,7 @@ class InventoryActivateHandler(InventoryHandler):
             # Return the action for the selected item.
             return item.consumable.get_action(self.engine.player)
         elif item.equippable:
-            return actions.equipaction.EquipAction(self.engine.player, item)
+            return actions.equip.EquipAction(self.engine.player, item)
         else:
             return None
 
@@ -320,7 +320,7 @@ class InventoryDropHandler(InventoryHandler):
 
     def on_item_selected(self, item):
         """ Drop this item."""
-        return actions.dropitem.DropItem(self.engine.player, item)
+        return actions.drop.DropItem(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserHandler):

@@ -1,7 +1,7 @@
 import random
 
 from actions.actions import ActionWithDirection
-from actions.dieaction import DieAction
+from actions.death import DieAction
 from src import exceptions
 
 

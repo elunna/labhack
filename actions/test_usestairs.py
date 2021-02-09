@@ -1,5 +1,5 @@
 from . import actions
-from .stairactions import TakeStairsAction
+from .usestairs import TakeStairsAction
 from src import exceptions
 from tests import toolkit
 import pytest

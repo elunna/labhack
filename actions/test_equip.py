@@ -1,5 +1,5 @@
 from . import actions
-from .equipaction import EquipAction
+from .equip import EquipAction
 from src import factory
 from tests import toolkit
 import pytest

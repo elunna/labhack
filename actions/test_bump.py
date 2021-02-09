@@ -1,8 +1,8 @@
 from . import actions
 from tests import toolkit
-from .bumpaction import BumpAction
-from .moveaction import MovementAction
-from .meleeaction import MeleeAction
+from .bump import BumpAction
+from .move import MovementAction
+from .melee import MeleeAction
 import pytest
 
 
