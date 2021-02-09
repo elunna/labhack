@@ -26,6 +26,7 @@ class Engine:
         self.mouse_location = (0, 0)
         self.player = player
         self.renderer = None
+        self.turns = 0
 
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:

@@ -92,8 +92,7 @@ def render_stats(console, engine, player):
     pow_str = f"Str: {player.fighter.strength}"
     def_str = f"AC: {player.fighter.ac}"
     xl_str = f"XL: {player.level.current_level}"
-    # turn_str = f"Turns: {engine.turns}"
-    turn_str = f"Turns: n/a"
+    turn_str = f"Turns: {engine.turns}"
 
     console.print(
         x=22, y=settings.hp_bar_y,

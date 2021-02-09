@@ -87,6 +87,9 @@ class EventHandler(BaseEventHandler):
             Returns True if the action will advance a turn.
         """
         if self.engine.handle_action(action):  # Successful action completed.
+            # Increment turns
+            self.engine.turns += 1
+
             # Move on with turn.
             self.engine.handle_enemy_turns()
             self.engine.update_fov()
