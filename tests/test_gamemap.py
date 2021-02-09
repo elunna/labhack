@@ -28,7 +28,8 @@ def test_GameMap_init(test_map):
     assert not m.explored.all()  # By default none should be explored
 
     # This should default to 0,0
-    assert m.downstairs_location == (0, 0)
+    assert m.downstairs_location == (-1, -1)
+    assert m.upstairs_location == (-1, -1)
 
 
 def test_GameMap_gamemap(test_map):
