@@ -42,24 +42,6 @@ def render_dungeon_lvl_text(console, dungeon_level):
     console.print(x=x, y=y, string=f"Dlevel: {dungeon_level}")
 
 
-def get_names_at_location(x, y, game_map):
-    """ takes “x” and “y” variables, though these represent a spot on the map.
-        We first check that the x and y coordinates are within the map, and are
-        currently visible to the player. If they are, then we create a string of
-        the entity names at that spot, separated by a comma. We then return that
-        string, adding capitalize to make sure the first letter in the string is
-        capitalized.
-    """
-    if not game_map.in_bounds(x, y) or not game_map.visible[x, y]:
-        return ""
-
-    names = ", ".join(
-        entity.name for entity in game_map.entities if entity.x == x and entity.y == y
-    )
-
-    return names.capitalize()
-
-
 def render_stats(console, engine, player):
     # Power
     pow_str = f"Str: {player.fighter.strength}"
@@ -74,7 +56,6 @@ def render_stats(console, engine, player):
     )
 
 
-
 def render_names_at_mouse_location(console, x, y, engine):
     """ takes the console, x and y coordinates (the location to draw the names),
         and the engine. From the engine, it grabs the mouse’s current x and y
@@ -85,13 +66,13 @@ def render_names_at_mouse_location(console, x, y, engine):
     """
     mouse_x, mouse_y = engine.mouse_location
 
-    names_at_mouse_location = get_names_at_location(
+    names_at_mouse_location = engine.game_map.get_names_at_location(
         x=mouse_x,
         y=mouse_y - settings.msg_panel_height,      # Need to correct for message window offset.
-        game_map=engine.game_map
     )
 
     console.print(x=x, y=y, string=f"({mouse_x},{mouse_y}): {names_at_mouse_location}")
+
 
 def render_messages(console, x, y, width, height, messages):
     """Render the messages provided. Render this log over the given area.
