@@ -12,22 +12,24 @@ import tcod
 # mk_rooms: Create a set of rooms and dig them out of a map
 # tunnel_between
 # Place entity?
+from .item_data import health_potion, confusion_scroll, lightning_scroll, sword, fireball_scroll, chain_mail
+from .monster_data import orc, troll
 
 
 def place_entities(room, dungeon, floor_number):
     number_of_monsters = random.randint(
-        0, get_max_value_for_floor(src.monster_data.max_monsters_by_floor, floor_number)
+        0, get_max_value_for_floor(max_monsters_by_floor, floor_number)
     )
 
     number_of_items = random.randint(
-        0, get_max_value_for_floor(src.item_data.max_items_by_floor, floor_number)
+        0, get_max_value_for_floor(max_items_by_floor, floor_number)
     )
 
     monsters = get_entities_at_random(
-        src.monster_data.enemy_chances, number_of_monsters, floor_number
+        enemy_chances, number_of_monsters, floor_number
     )
     items = get_entities_at_random(
-        src.item_data.item_chances, number_of_items, floor_number
+        item_chances, number_of_items, floor_number
     )
 
     for entity in monsters + items:
@@ -177,3 +179,31 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     )
 
     return chosen_entities
+
+
+max_items_by_floor = [
+    (1, 1),
+    (4, 2),
+]
+
+max_monsters_by_floor = [
+    (1, 2), # Levels 1-3
+    (4, 3), # Levels 4-5 etc
+    (6, 5),
+]
+
+item_chances = {
+    # keys in the dictionary represent the floor number,
+    # and the value is a list of tuples.
+    0: [(health_potion, 35)],
+    2: [(confusion_scroll, 10)],
+    4: [(lightning_scroll, 25), (sword, 5)],
+    6: [(fireball_scroll, 25), (chain_mail, 15)],
+}
+
+enemy_chances = {
+    0: [(orc, 80)],
+    3: [(troll, 15)],
+    5: [(troll, 30)],
+    7: [(troll, 60)],
+}

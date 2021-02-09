@@ -53,23 +53,3 @@ chain_mail = item.Item(
     name="Chain Mail",
     equippable=equippable.Armor(ac_bonus=-3),
 )
-max_items_by_floor = [
-    (1, 1),
-    (4, 2),
-]
-ITEM_CATEGORIES = {
-    # Sets the order that the inventory is displayed in.
-    '/': "Weapons",
-    '[': "Armor",
-    '%': "Edibles",
-    '!': "Potions",
-    '~': "Scrolls"
-}
-item_chances = {
-    # keys in the dictionary represent the floor number,
-    # and the value is a list of tuples.
-    0: [(health_potion, 35)],
-    2: [(confusion_scroll, 10)],
-    4: [(lightning_scroll, 25), (sword, 5)],
-    6: [(fireball_scroll, 25), (chain_mail, 15)],
-}

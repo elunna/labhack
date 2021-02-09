@@ -63,3 +63,11 @@ DIRECTIONS = [
     (1, 1),  # Southeast
 ]
 
+ITEM_CATEGORIES = {
+    # Sets the order that the inventory is displayed in.
+    '/': "Weapons",
+    '[': "Armor",
+    '%': "Edibles",
+    '!': "Potions",
+    '~': "Scrolls"
+}

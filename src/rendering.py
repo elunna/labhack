@@ -1,4 +1,5 @@
 import src.item_data
+import src.settings
 from . import color
 from . import msglog
 from . import settings
@@ -189,10 +190,10 @@ def render_inv(console, engine, title):
 
     if qty_of_items > 0:
         i = 0  # Counter for vertical spacing
-        for char in src.item_data.ITEM_CATEGORIES:
+        for char in src.settings.ITEM_CATEGORIES:
             groups = item_groups.get(char)
             if groups:
-                group_name = src.item_data.ITEM_CATEGORIES[char]
+                group_name = src.settings.ITEM_CATEGORIES[char]
                 console.print(x + 1, y + i + 1, f" {char}  {group_name}:")
                 i += 1
             else:
