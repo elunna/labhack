@@ -57,14 +57,7 @@ def generate_map(
     center_of_last_room = (0, 0)
 
     for r in range(max_rooms):
-        room_width = random.randint(room_min_size, room_max_size)
-        room_height = random.randint(room_min_size, room_max_size)
-
-        x = random.randint(0, new_map.width - room_width - 1)
-        y = random.randint(0, new_map.height - room_height - 1)
-
-        # "RectangularRoom" class makes rectangles easier to work with
-        new_room = rect.Rect(x, y, room_width, room_height)
+        new_room = mk_room(new_map, room_min_size, room_max_size)
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in rooms):
@@ -102,6 +95,16 @@ def generate_map(
         rooms.append(new_room)
 
     return new_map
+
+
+def mk_room(gamemap, min_size, max_size):
+    room_width = random.randint(min_size, max_size)
+    room_height = random.randint(min_size, max_size)
+
+    x = random.randint(0, gamemap.width - room_width - 1)
+    y = random.randint(0, gamemap.height - room_height - 1)
+
+    return rect.Rect(x, y, room_width, room_height)
 
 
 def tunnel_between(start, end):
