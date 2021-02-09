@@ -1,9 +1,9 @@
-from actions.bumpaction import BumpAction
-from actions.moveaction import MovementAction
-from actions.meleeaction import MeleeAction
-from actions import actions
+from . import actions
+from . import toolkit
+from .bumpaction import BumpAction
+from .moveaction import MovementAction
+from .meleeaction import MeleeAction
 import pytest
-import toolkit
 
 
 @pytest.fixture

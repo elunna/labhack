@@ -1,7 +1,7 @@
-from actions import actions
-from actions.waitaction import WaitAction
+from . import actions
+from . import toolkit
+from .waitaction import WaitAction
 import pytest
-import toolkit
 
 @pytest.fixture
 def player():

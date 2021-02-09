@@ -1,7 +1,7 @@
 """ Tests for actions.py """
 
-from actions.actions import Action, ActionWithDirection
-import toolkit
+from . import toolkit
+from .actions import Action, ActionWithDirection
 import pytest
 
 

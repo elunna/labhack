@@ -1,8 +1,8 @@
-from actions import actions
-from actions.dieaction import DieAction
-from src.renderorder import RenderOrder
-import toolkit
+from . import actions
+from . import toolkit
 import pytest
+from .dieaction import DieAction
+from src.renderorder import RenderOrder
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
-from actions import actions
-from actions.itemaction import ItemAction
+from . import actions
+from . import toolkit
+from .itemaction import ItemAction
 from src import factory
-import toolkit
 import pytest
 
 @pytest.fixture

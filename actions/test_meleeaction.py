@@ -1,8 +1,8 @@
-from actions import actions
-from actions.meleeaction import MeleeAction
+from . import actions
+from . import toolkit
+from .meleeaction import MeleeAction
 from src import factory
 from src import exceptions
-import toolkit
 import pytest
 
 

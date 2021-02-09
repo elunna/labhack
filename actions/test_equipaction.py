@@ -1,8 +1,8 @@
-from actions.equipaction import EquipAction
-from actions import actions
+from . import actions
+from . import toolkit
+from .equipaction import EquipAction
 from src import factory
 import pytest
-import toolkit
 
 
 @pytest.fixture

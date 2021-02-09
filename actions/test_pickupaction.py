@@ -1,9 +1,9 @@
-from actions import actions
-from actions.pickupaction import PickupAction
+from . import actions
+from . import toolkit
+from .pickupaction import PickupAction
 from src import exceptions
 from src import factory
 import pytest
-import toolkit
 
 
 @pytest.fixture

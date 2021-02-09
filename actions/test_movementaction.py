@@ -1,9 +1,8 @@
-from actions import actions
-from actions.moveaction import MovementAction
+from . import actions
+from . import toolkit
+from .moveaction import MovementAction
 from src import exceptions
-
 import pytest
-import toolkit
 
 
 @pytest.fixture

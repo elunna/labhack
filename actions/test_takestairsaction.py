@@ -1,8 +1,8 @@
-from actions import actions
-from actions.stairactions import TakeStairsAction
+from . import actions
+from . import toolkit
+from .stairactions import TakeStairsAction
 from src import exceptions
 import pytest
-import toolkit
 
 
 @pytest.fixture
