@@ -1,9 +1,8 @@
 import traceback
 import tcod
-
 from src import color, exceptions, settings
 from handlers import handlers
-from handlers import mainmenu
+
 
 def main():
     # Specify font for tileset
@@ -15,7 +14,7 @@ def main():
     )
 
     # Our first event handler is the Main Menu handler.
-    handler = mainmenu.MainMenuHandler()
+    handler = handlers.MainMenuHandler()
 
     # Create the screen
     # Good info on how to use this:
