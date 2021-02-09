@@ -54,8 +54,12 @@ class MeleeAction(ActionWithDirection):
         # atk_text = self.entity.fighter.attacks.description
         self.msg = f"The {self.entity} hits the {target.name} with a {weapon.name} for {dmg}! "
 
-        # TODO Case where we hit something
-        # TODO Case where something hits us
+        if self.entity.name == "Player":
+            self.msg = f"You hit the {target.name} with your {weapon.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} hits you with it's {weapon.name} for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} hits the {target.name} with a {weapon.name} for {dmg}! "
 
         return dmg
 
@@ -64,10 +68,23 @@ class MeleeAction(ActionWithDirection):
         dmg = self.entity.fighter.attacks.roll_dmg()
         self.msg = f"The {self.entity} hits the {target.name} for {dmg}! "
 
-        # TODO Case where we hit something
-        # TODO Case where something hits us
+        if self.entity.name == "Player":
+            self.msg = f"You hit the {target.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} hits you for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} hits the {target.name} for {dmg}! "
+
         return dmg
 
     def miss(self, target):
-        self.msg = f"The {self.entity.name.capitalize()} misses the {target.name}. "
-        # TODO Add "Wildly misses"
+        # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
+
+        if self.entity.name == "Player":
+            self.msg = f"You miss the {target.name}. "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} misses you. "
+        else:
+            self.msg = f"The {self.entity} misses the {target.name}. "
+
+
