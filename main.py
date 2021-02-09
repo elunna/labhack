@@ -1,72 +1,50 @@
 import traceback
 import tcod
-
-import src.handlers
-from src import color, exceptions, handlers, settings
+from src import color
+from src import exceptions
+from src import handlers
+from src import rendering
+from src import settings
 
 
 def main():
-    # Specify font for tileset
-    tileset = tcod.tileset.load_tilesheet(
-        path=settings.tileset,
-        columns=32,
-        rows=8,
-        charmap=tcod.tileset.CHARMAP_TCOD
-    )
-
     # Our first event handler is the Main Menu handler.
-    handler = src.handlers.MainMenuHandler()
+    handler = handlers.MainMenuHandler()
+    renderer = rendering.Renderer()
 
-    # Create the screen
-    # Good info on how to use this:
-    # https://python-tcod.readthedocs.io/en/latest/tcod/context.html
-    with tcod.context.new_terminal(
-        settings.screen_width,
-        settings.screen_height,
-        tileset=tileset,
-        title=settings.title,
-        vsync=True,
-        renderer=tcod.RENDERER_SDL2,  # Fix green lines on Windows
-    ) as context:
-        # The “order” argument affects the order of our x and y variables in
-        # numpy (an underlying library that tcod uses). By default, numpy
-        # accesses 2D arrays in [y, x] order, which is fairly unintuitive. By
-        # setting order="F", we can change this to be [x, y] instead.
-        root_console = tcod.Console(settings.screen_width, settings.screen_height, order="F")
+    # Game loop
+    while True:
+        renderer.root.clear()
 
-        # Game loop
-        while True:
-            root_console.clear()
+        # on_render just tells the Engine class to call its render method, using the given console.
+        handler.on_render(renderer=renderer)
 
-            # on_render just tells the Engine class to call its render method, using the given console.
-            handler.on_render(console=root_console)
+        # Draw the screen
+        renderer.context.present(renderer.root)
 
-            # Draw the screen
-            context.present(root_console)
+        try:
+            for event in tcod.event.wait():
+                renderer.context.convert_event(event)
+                handler = handler.handle_events(event)
 
-            try:
-                for event in tcod.event.wait():
-                    context.convert_event(event)
-                    handler = handler.handle_events(event)
+        except Exception:  # Handle exceptions in game.
+            # TODO: Check that this doesn't go at the end of the block
+            traceback.print_exc()  # Print error to stderr.
 
-            except Exception:  # Handle exceptions in game.
-                # TODO: Check that this doesn't go at the end of the block
-                traceback.print_exc()  # Print error to stderr.
+            # Then print the error to the message log.
+            if isinstance(handler, handlers.EventHandler):
+                handler.engine.msglog.add_message(
+                    traceback.format_exc(), color.error
+                )
 
-                # Then print the error to the message log.
-                if isinstance(handler, handlers.EventHandler):
-                    handler.engine.msglog.add_message(
-                        traceback.format_exc(), color.error
-                    )
-
-            except exceptions.QuitWithoutSaving:
-                raise
-            except SystemExit:  # Save and Quit
-                save_game(handler, settings.save_file)
-                raise
-            except BaseException:  # Save on any other unexpected exception
-                save_game(handler, settings.save_file)
-                raise
+        except exceptions.QuitWithoutSaving:
+            raise
+        except SystemExit:  # Save and Quit
+            save_game(handler, settings.save_file)
+            raise
+        except BaseException:  # Save on any other unexpected exception
+            save_game(handler, settings.save_file)
+            raise
 
 
 def save_game(handler, filename):

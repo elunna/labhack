@@ -37,7 +37,7 @@ class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
         assert not isinstance(state, actions.actions.Action), f"{self!r} can not handle actions."
         return self
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         raise NotImplementedError()
 
     def ev_quit(self, event):
@@ -101,9 +101,9 @@ class EventHandler(BaseEventHandler):
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y - settings.msg_panel_height):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
-    def on_render(self, console):
-        # render_map(console, self.engine.game_map)
-        self.engine.render(console)
+    def on_render(self, renderer):
+        # render_map(renderer, self.engine.game_map)
+        self.engine.render(renderer)
 
 
 class MainGameHandler(EventHandler):
@@ -193,9 +193,9 @@ class HistoryHandler(EventHandler):
         self.log_length = len(engine.msglog.messages)
         self.cursor = self.log_length - 1
 
-    def on_render(self, console):
-        super().on_render(console)  # Draw the main state as the background.
-        rendering.render_history(console, self.engine, self.cursor)
+    def on_render(self, renderer):
+        super().on_render(renderer)  # Draw the main state as the background.
+        rendering.render_history(renderer.root, self.engine, self.cursor)
 
 
     def ev_keydown(self, event):
@@ -267,14 +267,14 @@ class InventoryHandler(AskUserHandler):
 
     TITLE = "<missing title>"
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         """ Render an inventory menu, which displays the items in the inventory, and the letter to select them.
             Will move to a different position based on where the player is located, so the player can always see where
             they are.
             If there’s nothing in the inventory, it just prints “Empty”.
         """
-        super().on_render(console)
-        rendering.render_inv(console, self.engine, self.TITLE)
+        super().on_render(renderer)
+        rendering.render_inv(renderer.root, self.engine, self.TITLE)
 
     def ev_keydown(self, event):
         # takes the user’s input, from letters a - z, and associates that with
@@ -338,7 +338,7 @@ class SelectIndexHandler(AskUserHandler):
         # Hack to fix the msg_panel offset.
         engine.mouse_location = player.x, player.y + settings.msg_panel_height
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         """ Highlight the tile under the cursor.
             render the console as normal, by calling super().on_render, but it
             also adds a cursor on top, that can be used to show where the current
@@ -346,9 +346,9 @@ class SelectIndexHandler(AskUserHandler):
             navigating around with the keyboard.
          """
 
-        super().on_render(console)
+        super().on_render(renderer)
         x, y = self.engine.mouse_location
-        rendering.highlight_cursor(console, x, y)
+        rendering.highlight_cursor(renderer.root, x, y)
 
     def ev_keydown(self, event):
         """ Check for key movement or confirmation keys.
@@ -439,12 +439,12 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         self.radius = radius
         self.callback = callback
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         """Highlight the tile under the cursor."""
-        super().on_render(console)
+        super().on_render(renderer)
 
         x, y = self.engine.mouse_location
-        rendering.draw_rect(console, x, y, self.radius)
+        rendering.draw_rect(renderer.root, x, y, self.radius)
 
     def on_index_selected(self, x, y):
         # same as the one we defined for SingleRangedAttackHandler.
@@ -461,10 +461,10 @@ class PopupMsgHandler(BaseEventHandler):
         self.parent = parent_handler
         self.text = text
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         """Render the parent and dim the result, then print the message on top."""
-        self.parent.on_render(console)
-        rendering.render_popup(console, self.text)
+        self.parent.on_render(renderer)
+        rendering.render_popup(renderer.root, self.text)
 
     def ev_keydown(self, event):
         """Any key returns to the parent handler."""
@@ -478,9 +478,9 @@ class LevelUpHandler(AskUserHandler):
     """
     TITLE = "Level Up"
 
-    def on_render(self, console):
-        super().on_render(console)
-        rendering.render_levelup_menu(console, self.engine, self.TITLE)
+    def on_render(self, renderer):
+        super().on_render(renderer)
+        rendering.render_levelup_menu(renderer.root, self.engine, self.TITLE)
 
     def ev_keydown(self, event):
         player = self.engine.player
@@ -509,17 +509,17 @@ class LevelUpHandler(AskUserHandler):
 class CharacterScreenHandler(AskUserHandler):
     TITLE = "Character Information"
 
-    def on_render(self, console):
-        super().on_render(console)
-        rendering.render_character_stats(console, self.engine, self.TITLE)
+    def on_render(self, renderer):
+        super().on_render(renderer)
+        rendering.render_character_stats(renderer.root, self.engine, self.TITLE)
 
 
 class MainMenuHandler(BaseEventHandler):
     """Handle the main menu rendering and input."""
 
-    def on_render(self, console):
+    def on_render(self, renderer):
         """Render the main menu on a background image."""
-        rendering.render_main_menu(console)
+        rendering.render_main_menu(renderer.root)
 
     def ev_keydown( self, event):
         # Event handler for main menu.

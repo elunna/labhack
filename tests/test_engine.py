@@ -9,10 +9,6 @@ def test_Engine_init():
     assert e.mouse_location == (0, 0)
     assert e.player == "Player"
 
-    assert e.msg_panel
-    assert e.map_panel
-    assert e.stat_panel
-
 
 @pytest.mark.skip(reason="Skeleton")
 def test_Engine_handle_enemy_turns():

@@ -24,21 +24,7 @@ class Engine:
         self.msglog = msglog.MsgLog()
         self.mouse_location = (0, 0)
         self.player = player
-
-        # Define separate panels for the map, messages, and stats.
-        self.msg_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.msg_panel_height
-        )
-        self.map_panel = tcod.Console(
-            width=settings.map_width,
-            height=settings.map_height,
-            order="F",
-        )
-        self.stat_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.stat_panel_height
-        )
+        self.renderer = None
 
     def handle_enemy_turns(self):
         for entity in set(self.game_map.actors) - {self.player}:
@@ -61,10 +47,10 @@ class Engine:
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible
 
-    def render(self, console):
+    def render(self, renderer):
         # Message Panel
         rendering.render_messages(
-            console=self.msg_panel,
+            console=renderer.msg_panel,
             x=settings.msg_panel_x, y=0,
             width=settings.screen_width,
             height=settings.msg_panel_height,
@@ -72,46 +58,40 @@ class Engine:
         )
 
         # Map Panel
-        rendering.render_map(self.map_panel, self.game_map)
+        rendering.render_map(renderer.map_panel, self.game_map)
 
         # Stat Panel
         rendering.render_names_at_mouse_location(
-            console=self.stat_panel,
+            console=renderer.stat_panel,
             x=settings.tooltip_x,
             y=settings.tooltip_y,
             engine=self
         )
 
         rendering.render_stats(
-            console=self.stat_panel,
+            console=renderer.stat_panel,
             engine=self,
             player=self.player
         )
+
         rendering.render_bar(
-            console=self.stat_panel,
+            console=renderer.stat_panel,
             current_value=self.player.fighter.hp,
             maximum_value=self.player.fighter.max_hp,
             total_width=settings.hp_bar_width,
         )
 
         rendering.render_dungeon_lvl_text(
-            console=self.stat_panel,
+            console=renderer.stat_panel,
             dungeon_level=self.game_world.current_floor,
         )
 
-        self.msg_panel.blit(console, 0, settings.msg_panel_y)
-        self.map_panel.blit(console, 0, settings.map_panel_y)
-        self.stat_panel.blit(console, 0, settings.stat_panel_y)
+        renderer.msg_panel.blit(renderer.root, 0, settings.msg_panel_y)
+        renderer.map_panel.blit(renderer.root, 0, settings.map_panel_y)
+        renderer.stat_panel.blit(renderer.root, 0, settings.stat_panel_y)
 
-        self.msg_panel.clear()
-        self.stat_panel.clear()
-
-        # blit(dest: tcod.console.Console,
-        #    dest_x: int = 0, dest_y: int = 0,
-        #    src_x: int = 0, src_y: int = 0,
-        #    width: int = 0, height: int = 0,
-        #    fg_alpha: float = 1.0, bg_alpha: float = 1.0,
-        #    key_color: Optional[Tuple[int, int, int]] = None) → None
+        renderer.msg_panel.clear()
+        renderer.stat_panel.clear()
 
     def save_as(self, filename):
         """Save this Engine instance as a compressed file."""
