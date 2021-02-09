@@ -12,26 +12,36 @@ import tcod
 # Place entity?
 
 
-def place_entities(room, dungeon, floor_number):
-    number_of_monsters = random.randint(
-        0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
-    )
-
+def place_items(room, dungeon, floor_number):
     number_of_items = random.randint(
         0, get_max_value_for_floor(settings.max_items_by_floor, floor_number)
+    )
+
+    items = get_entities_at_random(
+        factory.item_chances, number_of_items, floor_number
+    )
+
+    for entity in items:
+        x = random.randint(room.x1 + 1, room.x2 - 2)
+        y = random.randint(room.y1 + 1, room.y2 - 2)
+        # We don't care if they stack on the map
+        entity.spawn(dungeon, x, y)
+
+
+def place_monsters(room, dungeon, floor_number):
+    number_of_monsters = random.randint(
+        0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
     )
 
     monsters = get_entities_at_random(
         factory.enemy_chances, number_of_monsters, floor_number
     )
-    items = get_entities_at_random(
-        factory.item_chances, number_of_items, floor_number
-    )
 
-    for entity in monsters + items:
+    for entity in monsters:
         x = random.randint(room.x1 + 1, room.x2 - 2)
         y = random.randint(room.y1 + 1, room.y2 - 2)
 
+        # Don't spawn them on top of each other.
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
             entity.spawn(dungeon, x, y)
 
@@ -80,12 +90,9 @@ def generate_map(
 
             center_of_last_room = new_room.center
 
-        # Populate the room with monsters
-        place_entities(
-            new_room,
-            new_map,
-            engine.game_world.current_floor,
-        )
+        # Populate the room with monsters and items
+        place_monsters(new_room, new_map, engine.game_world.current_floor)
+        place_items(new_room, new_map, engine.game_world.current_floor)
 
         # Put the downstair in the last room generated
         new_map.tiles[center_of_last_room] = tiles.down_stairs
