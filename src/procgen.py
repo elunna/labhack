@@ -120,7 +120,7 @@ def mk_room(gamemap, min_size, max_size):
     return rect.Rect(x, y, room_width, room_height)
 
 
-def tunnel_between(start, end):
+def tunnel_between(start, end, twist=0):
     """ Return an L-shaped tunnel between these two points.
         start: Tuple[int, int],
         end: Tuple[int, int]
@@ -129,12 +129,13 @@ def tunnel_between(start, end):
     x1, y1 = start
     x2, y2 = end
 
-    if random.random() < 0.5:  # 50% chance.
-        # Move horizontally, then vertically.
-        corner_x, corner_y = x2, y1
+    if twist == 0:
+        twist = random.randint(1, 2)
+
+    if twist == 1:  # 50% chance.
+        corner_x, corner_y = x2, y1  # Move horizontally, then vertically.
     else:
-        # Move vertically, then horizontally.
-        corner_x, corner_y = x1, y2
+        corner_x, corner_y = x1, y2  # Move vertically, then horizontally.
 
     # Generate the coordinates for this tunnel.
     # tcod includes a function in its line-of-sight module to draw Bresenham
@@ -143,11 +144,13 @@ def tunnel_between(start, end):
     # we get one line, then another, to create an “L” shaped tunnel. .tolist()
     # converts the points in the line into, as you might have already guessed,
     # a list.
-    # We can return generators to make this even better.
+
+    coordinates = []
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
-        yield x, y
+        coordinates.append((x, y))
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
-        yield x, y
+        coordinates.append((x, y))
+    return coordinates
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
