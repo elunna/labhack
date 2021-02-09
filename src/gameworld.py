@@ -22,11 +22,11 @@ class GameWorld:
 
     def generate_floor(self):
         # Generate new map each time we go down a floor.
-        from .procgen import generate_dungeon
+        from .procgen import generate_map
 
         self.current_floor += 1
 
-        self.engine.game_map = generate_dungeon(
+        self.engine.game_map = generate_map(
             max_rooms=self.max_rooms,
             room_min_size=self.room_min_size,
             room_max_size=self.room_max_size,

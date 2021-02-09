@@ -36,7 +36,7 @@ def place_entities(room, dungeon, floor_number):
             entity.spawn(dungeon, x, y)
 
 
-def generate_dungeon(
+def generate_map(
         max_rooms,
         room_min_size,
         room_max_size,
@@ -46,7 +46,12 @@ def generate_dungeon(
     """Generate a new dungeon map."""
 
     player = engine.player
-    dungeon = gamemap.GameMap(engine, map_width, map_height, entities=[player])
+    new_map = gamemap.GameMap(
+        engine,
+        map_width,
+        map_height,
+        entities=[player]
+    )
     rooms = []
 
     center_of_last_room = (0, 0)
@@ -55,8 +60,8 @@ def generate_dungeon(
         room_width = random.randint(room_min_size, room_max_size)
         room_height = random.randint(room_min_size, room_max_size)
 
-        x = random.randint(0, dungeon.width - room_width - 1)
-        y = random.randint(0, dungeon.height - room_height - 1)
+        x = random.randint(0, new_map.width - room_width - 1)
+        y = random.randint(0, new_map.height - room_height - 1)
 
         # "RectangularRoom" class makes rectangles easier to work with
         new_room = rect.Rect(x, y, room_width, room_height)
@@ -68,35 +73,35 @@ def generate_dungeon(
         # If there are no intersections then the room is valid.
 
         # Dig out this rooms inner area.
-        dungeon.tiles[new_room.inner] = tiles.floor
+        new_map.tiles[new_room.inner] = tiles.floor
 
         if len(rooms) == 0:
             # The first room, where the player starts.
             # Unpack the coordinate tuple
-            player.place(*new_room.center, dungeon)
+            player.place(*new_room.center, new_map)
 
         else:  # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
             for x, y in tunnel_between(rooms[-1].center, new_room.center):
-                dungeon.tiles[x, y] = tiles.floor
+                new_map.tiles[x, y] = tiles.floor
 
             center_of_last_room = new_room.center
 
         # Populate the room with monsters
         place_entities(
             new_room,
-            dungeon,
+            new_map,
             engine.game_world.current_floor,
         )
 
         # Put the downstair in the last room generated
-        dungeon.tiles[center_of_last_room] = tiles.down_stairs
-        dungeon.downstairs_location = center_of_last_room
+        new_map.tiles[center_of_last_room] = tiles.down_stairs
+        new_map.downstairs_location = center_of_last_room
 
         # Finally, append the new room to the list.
         rooms.append(new_room)
 
-    return dungeon
+    return new_map
 
 
 def tunnel_between(start, end):
