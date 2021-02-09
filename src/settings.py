@@ -51,16 +51,6 @@ room_min_size = 6
 max_rooms = 30
 
 # Entity settings
-max_items_by_floor = [
-    (1, 1),
-    (4, 2),
-]
-
-max_monsters_by_floor = [
-    (1, 2), # Levels 1-3
-    (4, 3), # Levels 4-5 etc
-    (6, 5),
-]
 
 DIRECTIONS = [
     (-1, -1),  # Northwest
@@ -73,11 +63,3 @@ DIRECTIONS = [
     (1, 1),  # Southeast
 ]
 
-ITEM_CATEGORIES = {
-    # Sets the order that the inventory is displayed in.
-    '/': "Weapons",
-    '[': "Armor",
-    '%': "Edibles",
-    '!': "Potions",
-    '~': "Scrolls"
-}

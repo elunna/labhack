@@ -9,8 +9,6 @@ import copy
 from .item_data import (
     health_potion,
     lightning_scroll,
-    confusion_scroll,
-    fireball_scroll,
     dagger,
     sword,
     leather_armor,
@@ -42,6 +40,7 @@ def make(entity_name):
         return copy.deepcopy(lightning_scroll)
     return None
 
+
 player = actor.Actor(
     char="@",
     color=(255, 255, 255),
@@ -54,19 +53,3 @@ player = actor.Actor(
     inventory=Inventory(capacity=26),
     level=Level(level_up_base=20),
 )
-
-item_chances = {
-    # keys in the dictionary represent the floor number,
-    # and the value is a list of tuples.
-    0: [(health_potion, 35)],
-    2: [(confusion_scroll, 10)],
-    4: [(lightning_scroll, 25), (sword, 5)],
-    6: [(fireball_scroll, 25), (chain_mail, 15)],
-}
-
-enemy_chances = {
-    0: [(orc, 80)],
-    3: [(troll, 15)],
-    5: [(troll, 30)],
-    7: [(troll, 60)],
-}

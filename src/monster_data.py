@@ -51,3 +51,14 @@ troll = actor.Actor(
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
 )
+max_monsters_by_floor = [
+    (1, 2), # Levels 1-3
+    (4, 3), # Levels 4-5 etc
+    (6, 5),
+]
+enemy_chances = {
+    0: [(orc, 80)],
+    3: [(troll, 15)],
+    5: [(troll, 30)],
+    7: [(troll, 60)],
+}

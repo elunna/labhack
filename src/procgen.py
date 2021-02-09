@@ -1,3 +1,5 @@
+import src.item_data
+import src.monster_data
 from . import tiles
 from . import factory
 from . import gamemap
@@ -14,18 +16,18 @@ import tcod
 
 def place_entities(room, dungeon, floor_number):
     number_of_monsters = random.randint(
-        0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
+        0, get_max_value_for_floor(src.monster_data.max_monsters_by_floor, floor_number)
     )
 
     number_of_items = random.randint(
-        0, get_max_value_for_floor(settings.max_items_by_floor, floor_number)
+        0, get_max_value_for_floor(src.item_data.max_items_by_floor, floor_number)
     )
 
     monsters = get_entities_at_random(
-        factory.enemy_chances, number_of_monsters, floor_number
+        src.monster_data.enemy_chances, number_of_monsters, floor_number
     )
     items = get_entities_at_random(
-        factory.item_chances, number_of_items, floor_number
+        src.item_data.item_chances, number_of_items, floor_number
     )
 
     for entity in monsters + items:
