@@ -1,6 +1,6 @@
 """ Tests for actions.py """
 
-from . import toolkit
+from tests import toolkit
 from .actions import Action, ActionWithDirection
 import pytest
 

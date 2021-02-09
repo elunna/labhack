@@ -1,6 +1,6 @@
 from . import actions
-from . import toolkit
 from .waitaction import WaitAction
+from tests import toolkit
 import pytest
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 from . import actions
-from . import toolkit
 from .stairactions import TakeStairsAction
 from src import exceptions
+from tests import toolkit
 import pytest
 
 

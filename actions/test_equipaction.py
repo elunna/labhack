@@ -1,7 +1,7 @@
 from . import actions
-from . import toolkit
 from .equipaction import EquipAction
 from src import factory
+from tests import toolkit
 import pytest
 
 

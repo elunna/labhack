@@ -1,8 +1,8 @@
 from . import actions
-from . import toolkit
 from .pickupaction import PickupAction
 from src import exceptions
 from src import factory
+from tests import toolkit
 import pytest
 
 

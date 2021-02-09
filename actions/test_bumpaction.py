@@ -1,5 +1,5 @@
 from . import actions
-from . import toolkit
+from tests import toolkit
 from .bumpaction import BumpAction
 from .moveaction import MovementAction
 from .meleeaction import MeleeAction

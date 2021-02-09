@@ -1,7 +1,7 @@
 from . import actions
-from . import toolkit
 from .moveaction import MovementAction
 from src import exceptions
+from tests import toolkit
 import pytest
 
 
