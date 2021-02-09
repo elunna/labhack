@@ -3,10 +3,9 @@ from actions.useitem import ItemAction
 from components.ai import ConfusedAI
 from components.component import Component
 from components.inventory import Inventory
-from actions import actions
 from src import color
 from src import exceptions
-from src import handlers
+from handlers import handlers
 
 
 class Consumable(Component):

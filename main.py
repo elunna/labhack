@@ -1,8 +1,7 @@
 import traceback
 import tcod
-
-import src.handlers
-from src import color, exceptions, handlers, settings
+from src import color, exceptions, settings
+from handlers import handlers
 
 
 def main():
@@ -15,7 +14,7 @@ def main():
     )
 
     # Our first event handler is the Main Menu handler.
-    handler = src.handlers.MainMenuHandler()
+    handler = handlers.MainMenuHandler()
 
     # Create the screen
     # Good info on how to use this:
