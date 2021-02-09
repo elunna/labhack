@@ -320,7 +320,7 @@ class InventoryDropHandler(InventoryHandler):
 
     def on_item_selected(self, item):
         """ Drop this item."""
-        return actions.drop.DropItem(self.engine.player, item)
+        return actions.drop.DropAction(self.engine.player, item)
 
 
 class SelectIndexHandler(AskUserHandler):

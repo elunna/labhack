@@ -2,7 +2,7 @@ from .useitem import ItemAction
 from src import exceptions
 
 
-class DropItem(ItemAction):
+class DropAction(ItemAction):
     def perform(self):
         """ Removes an item from an entity's inventory and places it on the
             current game map, at the entity's coordinates.
