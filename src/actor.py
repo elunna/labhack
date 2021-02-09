@@ -14,6 +14,7 @@ class Actor(entity.Entity):
         fighter,
         inventory,
         level,
+        energymeter,
     ):
 
         super().__init__(
@@ -35,6 +36,8 @@ class Actor(entity.Entity):
         self.inventory.parent = self
         self.level = level
         self.level.parent = self
+        self.energymeter = energymeter
+        self.energymeter.parent = self
 
     @property
     def is_alive(self):

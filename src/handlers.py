@@ -87,13 +87,23 @@ class EventHandler(BaseEventHandler):
             Returns True if the action will advance a turn.
         """
         if self.engine.handle_action(action):  # Successful action completed.
-            # Increment turns
-            self.engine.turns += 1
+            # Here - we will evaluate the player's energy
+            # Use up a turn worth of energy
+            self.engine.player.energymeter.burn_turn()
 
-            # Move on with turn.
-            self.engine.handle_enemy_turns()
             self.engine.update_fov()
-            return True
+
+            # If the player doesn't have enough energy for another turn, we'll
+            # run the enemy turns.
+            if self.engine.player.energymeter.burned_out():
+                # Increment turns
+                self.engine.turns += 1
+
+                # All actors get an energy recharge every turn
+                self.engine.add_energy()
+
+                self.engine.handle_enemy_turns()
+                return True
         return False
 
     def ev_mousemotion(self, event):

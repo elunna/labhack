@@ -29,12 +29,22 @@ class Engine:
         self.turns = 0
 
     def handle_enemy_turns(self):
-        for entity in set(self.game_map.actors) - {self.player}:
-            if entity.ai:
-                try:
-                    self.handle_action(entity.ai.perform())
-                except exceptions.Impossible:
-                    pass  # Ignore impossible action exceptions from AI
+        for actor in set(self.game_map.actors) - {self.player}:
+            if actor.ai:
+                while not actor.energymeter.burned_out():
+                    # We'll use the energy regardless.
+                    actor.energymeter.burn_turn()
+
+                    try:
+                        # Get the next calculated action from the AI.
+                        self.handle_action(actor.ai.perform())
+                    except exceptions.Impossible:
+                        pass  # Ignore impossible action exceptions from AI
+
+    def add_energy(self):
+        # All actors gets an energy reboost!
+        for entity in set(self.game_map.actors):
+            entity.energymeter.add_energy(settings.energy_per_turn)
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""

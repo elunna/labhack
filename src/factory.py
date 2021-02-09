@@ -2,6 +2,7 @@ from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
 from components.attacks import AttackType
+from components.energy import EnergyMeter
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -44,6 +45,7 @@ player = actor.Actor(
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
     level=Level(level_up_base=20),
+    energymeter=EnergyMeter(threshold=10)
 )
 
 grid_bug = actor.Actor(
@@ -60,6 +62,7 @@ grid_bug = actor.Actor(
     ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
+    energymeter=EnergyMeter(threshold=10)
 )
 
 orc = actor.Actor(
@@ -76,6 +79,7 @@ orc = actor.Actor(
     ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=13)
 )
 
 troll = actor.Actor(
@@ -92,6 +96,7 @@ troll = actor.Actor(
     ),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=100),
+    energymeter=EnergyMeter(threshold=16)
 )
 
 health_potion = item.Item(

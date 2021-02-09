@@ -51,6 +51,8 @@ room_min_size = 6
 max_rooms = 30
 
 # Entity settings
+energy_per_turn = 10  # This is how much energy each actor regains per turn
+
 max_items_by_floor = [
     (1, 1),
     (4, 2),
