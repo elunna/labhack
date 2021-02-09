@@ -4,12 +4,12 @@ import actions.equip
 import actions.pickup
 import actions.usestairs
 import actions.wait
-from src.input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
-from src.setup_game import load_game, new_game
-from src import color
-from src import exceptions
-from src import rendering
-from src import settings
+from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from .setup_game import load_game, new_game
+from . import color
+from . import exceptions
+from . import rendering
+from . import settings
 from typing import Union
 import os
 import actions.actions
