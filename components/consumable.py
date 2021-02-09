@@ -32,7 +32,7 @@ class Consumable(Component):
             inventory.rm_item(entity)
 
 
-class HealingConsumable(Consumable):
+class HealConsumable(Consumable):
     def __init__(self, amount):
         self.amount = amount
 

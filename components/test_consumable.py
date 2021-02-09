@@ -54,17 +54,17 @@ def test_Consumable_consume(player):
 
 
 def test_HealingConsumable__is_Component():
-    c = consumable.HealingConsumable(amount=5)
+    c = consumable.HealConsumable(amount=5)
     assert isinstance(c, Component)
 
 
 def test_HealingConsumable__is_Consumable():
-    c = consumable.HealingConsumable(amount=5)
+    c = consumable.HealConsumable(amount=5)
     assert isinstance(c, consumable.Consumable)
 
 
 def test_HealingConsumable_init():
-    c = consumable.HealingConsumable(amount=5)
+    c = consumable.HealConsumable(amount=5)
     assert c.parent is None
     assert c.amount == 5
 
@@ -74,7 +74,7 @@ def test_HealingConsumable_activate__fullhealth_raises_Impossible(player):
     pass
 
 def test_HealingConsumable_activate__heals_and_consumes(player):
-    c = consumable.HealingConsumable(amount=5)
+    c = consumable.HealConsumable(amount=5)
 
 
 def test_LightningDamageConsumable__is_Component():
