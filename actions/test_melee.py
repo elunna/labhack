@@ -78,7 +78,7 @@ def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
     assert result <= attack_max
 
 
-def test_MeleeAction_hit_with_weapon__msg(test_map):
+def test_MeleeAction_hit_with_weapon__msg__you_hit(test_map):
     player = test_map.get_player()
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
@@ -86,7 +86,7 @@ def test_MeleeAction_hit_with_weapon__msg(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_weapon(target)
-    assert a.msg == f"The Player hits the Orc with a Dagger for {result}! "
+    assert a.msg == f"You hit the Orc with your Dagger for {result}! "
 
 
 def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
@@ -103,16 +103,31 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
 
 def test_MeleeAction_hit_with_barehands__msg(test_map):
     player = test_map.get_player()
-
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_barehands(target)
-    assert a.msg == f"The Player hits the Orc for {result}! "
+    assert a.msg == f"You hit the Orc for {result}! "
 
 
-def test_MeleeAction_miss(test_map):
+def test_MeleeAction_hit_with_barehands__msg__enemy_hits_you(test_map):
+    target = test_map.get_player()
+    orc = factory.orc
+    a = MeleeAction(entity=orc, dx=0, dy=1)
+    result = a.hit_with_barehands(target)
+    assert a.msg == f"The Orc hits you for {result}! "
+
+
+def test_MeleeAction_miss__player_misses(test_map):
     player = test_map.get_player()
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.miss(target)
-    assert a.msg == f"The Player misses the Orc. "
+    assert a.msg == f"You miss the Orc. "
+
+
+def test_MeleeAction_miss__enemy_misses_you(test_map):
+    target = test_map.get_player()
+    orc = factory.orc
+    a = MeleeAction(entity=orc, dx=0, dy=1)
+    result = a.miss(target)
+    assert a.msg == f"The Orc misses you. "
