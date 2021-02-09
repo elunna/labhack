@@ -12,7 +12,8 @@ class MovementAction(ActionWithDirection):
             # Destination is out of bounds.
             raise exceptions.Impossible("That way is out of bounds!")
 
-        if not self.entity.gamemap.tiles["walkable"][dest_x, dest_y]:
+        # if not self.entity.gamemap.tiles["walkable"][dest_x, dest_y]:
+        if not self.entity.gamemap.walkable(dest_x, dest_y):
             # Destination is blocked by a tile.
             raise exceptions.Impossible("That way is not walkable!")
 

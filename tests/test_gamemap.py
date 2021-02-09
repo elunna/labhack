@@ -120,3 +120,15 @@ def test_GameMap_get_names_at__multiple_visible(test_map):
 
     result = test_map.get_names_at(5, 5)
     assert result == "Health potion, Player"
+
+
+def test_GameMap_walkable__all_walls(test_map):
+    assert not test_map.walkable(0, 0)
+
+
+def test_GameMap_walkable__all_floor(test_map):
+    # Open floor at 5, 4
+    assert test_map.walkable(5, 4)
+    # Player is on the floor at 5, 5
+    assert test_map.walkable(5, 5)
+

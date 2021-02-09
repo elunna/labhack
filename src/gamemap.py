@@ -98,3 +98,7 @@ class GameMap:
         )
 
         return names.capitalize()
+
+    def walkable(self, x, y):
+        return self.tiles["walkable"][x, y]
+
