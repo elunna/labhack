@@ -1,3 +1,4 @@
+import src.item_data
 from . import actions
 from .drop import DropAction
 from .useitem import ItemAction
@@ -14,21 +15,21 @@ def test_map():
 
 def test_DropItem_is_Action(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
+    potion = src.item_data.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, actions.Action)
 
 
 def test_DropItem_is_ItemAction(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
+    potion = src.item_data.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, ItemAction)
 
 
 def test_DropItem_init(test_map):
     player = test_map.get_player()
-    potion = factory.health_potion
+    potion = src.item_data.health_potion
     a = DropAction(entity=player, item=potion)
     assert a.entity == player
     assert a.item == potion
@@ -66,7 +67,7 @@ def test_DropItem_perform__msg(test_map):
 
 def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
     player = test_map.get_player()
-    a = DropAction(entity=player, item=factory.sword)
+    a = DropAction(entity=player, item=src.item_data.sword)
 
     with pytest.raises(exceptions.Impossible):
         a.perform()

@@ -1,4 +1,6 @@
 """ Tools for testing """
+import src.item_data
+import src.monster_data
 from src import factory
 from src import gamemap
 from src import tiles
@@ -42,22 +44,22 @@ def test_map():
     player = new_map.get_player()
 
     # Give the player items for testing
-    dagger = copy.deepcopy(factory.dagger)
+    dagger = copy.deepcopy(src.item_data.dagger)
     dagger.parent = player.inventory
     player.inventory.add_item(dagger)
 
-    leather_armor = copy.deepcopy(factory.leather_armor)
+    leather_armor = copy.deepcopy(src.item_data.leather_armor)
     leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
 
-    health_potion = copy.deepcopy(factory.health_potion)
+    health_potion = copy.deepcopy(src.item_data.health_potion)
     health_potion.parent = player.inventory
     player.inventory.add_item(health_potion)
 
     # Create a grid bug at 2, 5
-    factory.grid_bug.spawn(new_map, 2, 5)
+    src.monster_data.grid_bug.spawn(new_map, 2, 5)
 
     # Create a grid bug at 5, 4
-    factory.orc.spawn(new_map, 5, 4)
+    src.monster_data.orc.spawn(new_map, 5, 4)
 
     return new_map

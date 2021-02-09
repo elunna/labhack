@@ -1,5 +1,5 @@
 """ Tests for inventory.py """
-
+import src.item_data
 from .component import Component
 from .inventory import Inventory
 from .inventory import LetterRoll
@@ -124,10 +124,10 @@ def test_Inventory_sorted_dict__one_item(dagger):
 
 def test_Inventory_sorted_dict__multiple_items():
     i = Inventory(10)
-    i.add_item(factory.dagger)
-    i.add_item(factory.leather_armor)
-    i.add_item(factory.chain_mail)
-    i.add_item(factory.health_potion)
+    i.add_item(src.item_data.dagger)
+    i.add_item(src.item_data.leather_armor)
+    i.add_item(src.item_data.chain_mail)
+    i.add_item(src.item_data.health_potion)
     result = i.sorted_dict()
     assert result == {
         '/': ['a'],

@@ -1,3 +1,4 @@
+import src.item_data
 from . import actions
 from .pickup import PickupAction
 from src import exceptions
@@ -33,7 +34,7 @@ def test_PickupAction_perform__no_items__raises_Impossible(test_map):
 def test_PickupAction_perform__single_item(test_map):
     player = test_map.get_player()
     # Put a scroll at player location
-    factory.lightning_scroll.spawn(test_map, player.x, player.y)
+    src.item_data.lightning_scroll.spawn(test_map, player.x, player.y)
     a = PickupAction(entity=player)
     a.perform()
     assert a.msg == "You picked up the Lightning Scroll. "
@@ -43,8 +44,8 @@ def test_PickupAction_perform__single_item(test_map):
 def test_PickupAction_perform__multiple_items(test_map):
     player = test_map.get_player()
     # Put 2 scrolls at player location
-    factory.lightning_scroll.spawn(test_map, player.x, player.y)
-    factory.fireball_scroll.spawn(test_map, player.x, player.y)
+    src.item_data.lightning_scroll.spawn(test_map, player.x, player.y)
+    src.item_data.fireball_scroll.spawn(test_map, player.x, player.y)
 
     a = PickupAction(entity=player)
     a.perform()
