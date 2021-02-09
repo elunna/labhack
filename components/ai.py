@@ -131,3 +131,37 @@ class ConfusedAI(BaseAI):
             # The actor will either try to move or attack in the chosen random direction.
             # Its possible the actor will just bump into the wall, wasting a turn.
             return BumpAction(self.entity, direction_x, direction_y)
+
+
+class RunAI(BaseAI):
+    def __init__(self, entity, direction):
+        super().__init__(entity)
+        self.dx, self.dy = direction
+        self.first_step = True
+        self.next_move = None
+
+    def can_perform():
+        target_tile = (self.entity.x + self.dx, self.entity.y + self.dy)
+
+        # Do not run into a wall (or unwalkable tile)
+        if not self.entity.gamemap.walkable(*target_tile):
+            return False
+
+        # Do not run into another actor
+        if self.entity.gamemap.get_actor_at(*target_tile):
+            return False
+
+        # Do no run along-side another actor
+
+        # Stop at something interesting: items on floor, dungeon feature, etc.
+
+        # Stop at cooridor ends, doors
+
+        return True
+
+    def perform(self):
+        return actions.MovementAction(
+            entity=self.entity,
+            dx=target_x,
+            dy=target_y
+        )
