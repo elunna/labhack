@@ -122,11 +122,17 @@ class MainGameHandler(EventHandler):
 
         player = self.engine.player
 
-        # Handle >
+        # > (Down stairs)
         if key == tcod.event.K_PERIOD and modifier & (
                 tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
             return actions.usestairs.TakeStairsAction(player)
+
+        # ? (Help screen)
+        if key == tcod.event.K_SLASH and modifier & (
+                tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
+        ):
+            return HelpHandler(self.engine)
 
         # Ctrl-X: Character Screen
         if key == tcod.event.K_x and modifier & (
@@ -195,7 +201,13 @@ class HistoryHandler(EventHandler):
 
     def on_render(self, renderer):
         super().on_render(renderer)  # Draw the main state as the background.
-        rendering.render_history(renderer.root, self.engine, self.cursor)
+        rendering.render_history(
+            console=renderer.root,
+            engine=self.engine,
+            cursor=self.cursor,
+            msglog=self.engine.msglog
+
+        )
 
 
     def ev_keydown(self, event):
@@ -548,3 +560,54 @@ class MainMenuHandler(BaseEventHandler):
             return MainGameHandler(new_game())
 
         return None
+
+
+class HelpHandler(HistoryHandler):
+    """Print the help info on a larger window which can be navigated."""
+
+    def __init__(self, engine):
+        super().__init__(engine)
+        self.log_length = len(engine.helplog.messages)
+        self.cursor = self.log_length - 1
+
+    def on_render(self, renderer):
+        super().on_render(renderer)  # Draw the main state as the background.
+        rendering.render_history(
+            console=renderer.root,
+            engine=self.engine,
+            cursor=self.cursor,
+            msglog=self.engine.helplog
+        )
+
+
+    def ev_keydown(self, event):
+        # Fancy conditional movement to make it feel right.
+        if event.sym in CURSOR_Y_KEYS:
+            adjust = CURSOR_Y_KEYS[event.sym]
+
+            if adjust < 0 and self.cursor == 0:
+                # Only move from the top to the bottom when you're on the edge.
+                self.cursor = self.log_length - 1
+            elif adjust > 0 and self.cursor == self.log_length - 1:
+                # Same with bottom to top movement.
+                self.cursor = 0
+            else:
+                # Otherwise move while staying clamped to the bounds of the history log.
+                self.cursor = max(0, min(self.cursor + adjust, self.log_length - 1))
+
+        elif event.sym == tcod.event.K_HOME:
+            self.cursor = 0  # Move directly to the top message.
+        elif event.sym == tcod.event.K_END:
+            self.cursor = self.log_length - 1  # Move directly to the last message.
+        else:
+            # Any other key moves back to the previous game state.
+
+            # First, Check if the player is dead...
+            if not self.engine.player.is_alive:
+                return GameOverHandler(self.engine)
+
+            return MainGameHandler(self.engine)
+        return None
+
+
+

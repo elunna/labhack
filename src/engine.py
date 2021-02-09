@@ -22,6 +22,7 @@ class Engine:
     def __init__(self, player):
         # TODO: Remove requirement for player
         self.msglog = msglog.MsgLog()
+        self.helplog = msglog.HelpInfo()
         self.mouse_location = (0, 0)
         self.player = player
         self.renderer = None

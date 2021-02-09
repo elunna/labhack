@@ -174,7 +174,7 @@ def render_map(console, game_map):
             )
 
 
-def render_history(console, engine, cursor):
+def render_history(console, engine, cursor, msglog):
     log_console = tcod.Console(console.width - 6, console.height - 6)
 
     # Draw a frame with a custom banner title.
@@ -191,7 +191,7 @@ def render_history(console, engine, cursor):
         x=1, y=1,
         width=log_console.width - 2,
         height=log_console.height - 2,
-        messages=engine.msglog.messages[: cursor + 1],
+        messages=msglog.messages[: cursor + 1],
     )
     log_console.blit(console, 3, 3)
 

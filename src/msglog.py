@@ -43,3 +43,10 @@ class MsgLog:
                 line, width, expand_tabs=True,
             )
 
+
+class HelpInfo(MsgLog):
+    def __init__(self):
+        super().__init__()
+        with open('help.txt') as f:
+            for line in f.readlines():
+                self.add_message(line)
