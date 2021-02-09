@@ -30,7 +30,8 @@ class GameMap:
             order="F"
         )  # Tiles the player has seen before
 
-        self.downstairs_location = (0, 0)
+        self.downstairs_location = (-1, -1)
+        self.upstairs_location = (-1, -1)
 
     @property
     def gamemap(self):
