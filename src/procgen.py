@@ -101,6 +101,11 @@ def generate_map(
         # Finally, append the new room to the list.
         rooms.append(new_room)
 
+    # Put the upstair in the first room generated
+    center_of_first_room = rooms[0].center
+    new_map.tiles[center_of_first_room] = tiles.up_stairs
+    new_map.upstairs_location = center_of_first_room
+
     return new_map
 
 
