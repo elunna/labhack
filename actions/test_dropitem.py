@@ -1,9 +1,9 @@
-from actions import actions
-from actions.dropitem import DropItem
-from actions.itemaction import ItemAction
+from . import actions
+from .dropitem import DropItem
+from .itemaction import ItemAction
 from src import factory
 from src import exceptions
-import toolkit
+from tests import toolkit
 import pytest
 
 
