@@ -18,7 +18,7 @@ def player():
 @pytest.fixture
 def testengine():
     m = toolkit.test_map()
-    p = m.get_player()
+    p = m.player
     e = engine.Engine(p)
     e.game_map = m
 
@@ -30,7 +30,7 @@ def test_Action_init(player):
 
 
 def test_Action_engine(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = Action(player)
     result = a.engine
     assert result is None
@@ -43,13 +43,13 @@ def test_Action_perform__not_implemented(player):
 
 
 def test_ActionWithDirection_is_Action(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = ActionWithDirection(entity=player, dx=1, dy=-1)
     assert isinstance(a, Action)
 
 
 def test_ActionWithDirection_init(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = ActionWithDirection(entity=player, dx=1, dy=-1)
     assert a.entity == player
     assert a.dx == 1
@@ -58,7 +58,7 @@ def test_ActionWithDirection_init(test_map):
 
 
 def test_ActionWithDirection_dest_xy(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     dx, dy = 1, -1
     a = ActionWithDirection(entity=player, dx=dx, dy=dy)
     assert a.dest_xy == (player.x + dx, player.y + dy)

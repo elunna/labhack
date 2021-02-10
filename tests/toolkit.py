@@ -23,7 +23,6 @@ def test_map():
     new_map = gamemap.GameMap(
         width=6,
         height=6,
-        entities=(),
         engine=None,
         fill_tile=tiles.floor
     )
@@ -38,8 +37,14 @@ def test_map():
         new_map.tiles[x, y] = tiles.wall
 
     # Create a player at 5, 5
-    factory.player.spawn(new_map, 5, 5)
-    player = new_map.get_player()
+    player = copy.deepcopy(factory.player)
+    player.x = 5
+    player.y = 5
+    new_map.entities.add(player)
+    new_map.player = player
+
+    # Set the player parent to the map
+    player.parent = new_map
 
     # Give the player items for testing
     dagger = copy.deepcopy(factory.dagger)

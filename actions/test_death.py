@@ -13,7 +13,7 @@ def test_map():
 
 def test_DieAction_is_Action(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
 
     a = DieAction(entity=player, cause=orc)
     assert isinstance(a, actions.Action)
@@ -21,7 +21,7 @@ def test_DieAction_is_Action(test_map):
 
 def test_DieAction_init(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
 
     a = DieAction(entity=player, cause=orc)
     assert a.entity == player
@@ -30,7 +30,7 @@ def test_DieAction_init(test_map):
 
 def test_DieAction_perform__player_kills_enemy(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
     a = DieAction(entity=orc, cause=player)
     a.perform()
 
@@ -44,7 +44,7 @@ def test_DieAction_perform__player_kills_enemy(test_map):
 
 def test_DieAction_perform__player_kills_enemy__xp(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
     a = DieAction(entity=orc, cause=player)
     a.perform()
 
@@ -53,7 +53,7 @@ def test_DieAction_perform__player_kills_enemy__xp(test_map):
 
 def test_DieAction_perform__player_kills_enemy__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
     a = DieAction(entity=orc, cause=player)
     a.perform()
 
@@ -62,7 +62,7 @@ def test_DieAction_perform__player_kills_enemy__msg(test_map):
 
 def test_DieAction_perform__enemy_kills_player(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
     a = DieAction(entity=player, cause=orc)
     a.perform()
 
@@ -76,7 +76,7 @@ def test_DieAction_perform__enemy_kills_player(test_map):
 
 def test_DieAction_perform__enemy_kills_player__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
-    player = test_map.get_player()
+    player = test_map.player
     a = DieAction(entity=player, cause=orc)
     a.perform()
 

@@ -12,19 +12,19 @@ def test_map():
 
 
 def test_MeleeAction_is_Action(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
 
 
 def test_MeleeAction_is_ActionWithDirection(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.ActionWithDirection)
 
 
 def test_MeleeAction_is_ActionWithDirection(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=1, dy=-1)
     assert a.dx == 1
     assert a.dy == -1
@@ -32,7 +32,7 @@ def test_MeleeAction_is_ActionWithDirection(test_map):
 
 
 def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     with pytest.raises(exceptions.Impossible):
         a.perform()
@@ -43,7 +43,7 @@ def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
 # perform-Case: hit w hands, calls hit_withhands_
 
 def test_MeleeAction_calc_target_number(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
 
     target = factory.orc
@@ -56,7 +56,7 @@ def test_MeleeAction_calc_target_number(test_map):
 
 
 def test_MeleeAction_roll_hit_die(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     result = a.roll_hit_die()
     # Just testing that the random number is between 1 and the sides (usually
@@ -66,7 +66,7 @@ def test_MeleeAction_roll_hit_die(test_map):
 
 
 def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
 
@@ -79,7 +79,7 @@ def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
 
 
 def test_MeleeAction_hit_with_weapon__msg__you_hit(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
 
@@ -90,7 +90,7 @@ def test_MeleeAction_hit_with_weapon__msg__you_hit(test_map):
 
 
 def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     assert not player.equipment.weapon
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
@@ -102,7 +102,7 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
 
 
 def test_MeleeAction_hit_with_barehands__msg(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_barehands(target)
@@ -110,7 +110,7 @@ def test_MeleeAction_hit_with_barehands__msg(test_map):
 
 
 def test_MeleeAction_hit_with_barehands__msg__enemy_hits_you(test_map):
-    target = test_map.get_player()
+    target = test_map.player
     orc = factory.orc
     a = MeleeAction(entity=orc, dx=0, dy=1)
     result = a.hit_with_barehands(target)
@@ -118,7 +118,7 @@ def test_MeleeAction_hit_with_barehands__msg__enemy_hits_you(test_map):
 
 
 def test_MeleeAction_miss__player_misses(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.miss(target)
@@ -126,7 +126,7 @@ def test_MeleeAction_miss__player_misses(test_map):
 
 
 def test_MeleeAction_miss__enemy_misses_you(test_map):
-    target = test_map.get_player()
+    target = test_map.player
     orc = factory.orc
     a = MeleeAction(entity=orc, dx=0, dy=1)
     result = a.miss(target)

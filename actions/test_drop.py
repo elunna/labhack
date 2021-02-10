@@ -13,21 +13,21 @@ def test_map():
 
 
 def test_DropItem_is_Action(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, actions.Action)
 
 
 def test_DropItem_is_ItemAction(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, ItemAction)
 
 
 def test_DropItem_init(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert a.entity == player
@@ -35,7 +35,7 @@ def test_DropItem_init(test_map):
 
 
 def test_DropItem_perform__item_leaves_inventory(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
@@ -45,7 +45,7 @@ def test_DropItem_perform__item_leaves_inventory(test_map):
 
 
 def test_DropItem_perform__item_appears_on_map(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
@@ -55,7 +55,7 @@ def test_DropItem_perform__item_appears_on_map(test_map):
 
 
 def test_DropItem_perform__msg(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
 
@@ -65,7 +65,7 @@ def test_DropItem_perform__msg(test_map):
 
 
 def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     a = DropAction(entity=player, item=factory.sword)
 
     with pytest.raises(exceptions.Impossible):
@@ -73,7 +73,7 @@ def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
 
 
 def test_DropItem_perform__equipped_item(test_map):
-    player = test_map.get_player()
+    player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
     player.equipment.toggle_equip(item)

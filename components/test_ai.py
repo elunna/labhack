@@ -11,7 +11,7 @@ import pytest
 @pytest.fixture
 def player():
     new_map = toolkit.test_map()
-    return new_map.get_player()
+    return new_map.player
 
 
 @pytest.fixture

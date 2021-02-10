@@ -61,8 +61,12 @@ def generate_map(
         engine,
         map_width,
         map_height,
-        entities=[player]
     )
+
+    # Add player
+    new_map.entities.add(player)
+    new_map.player = player
+
     rooms = []
 
     center_of_last_room = (0, 0)

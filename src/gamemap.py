@@ -6,10 +6,10 @@ import numpy as np
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, engine, width, height, entities=(), fill_tile=tiles.wall):
+    def __init__(self, engine, width, height, fill_tile=tiles.wall):
         self.engine = engine
         self.width, self.height = width, height
-        self.entities = set(entities)
+        self.entities = set()
 
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
@@ -74,14 +74,6 @@ class GameMap:
     def in_bounds(self, x, y):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
-
-    def get_player(self):
-        # Crude - make better with a Hero component or something
-        for e in self.actors:
-            if e.name == "Player":
-                return e
-
-        return None
 
     def get_names_at_location(self, x, y):
         """ takes “x” and “y” variables, though these represent a spot on the map.
