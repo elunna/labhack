@@ -25,6 +25,7 @@ class MeleeAction(ActionWithDirection):
         if self.roll_hit_die() < self.calc_target_number(target):
             # It's a hit!
             result = 0
+
             # Calculate the damage
             if self.entity.equipment.weapon:
                 dmg = self.hit_with_weapon(target)
@@ -41,7 +42,19 @@ class MeleeAction(ActionWithDirection):
             self.miss(target)
 
     def calc_target_number(self, target):
-        return self.target_base + target.fighter.ac + target.level.current_level
+        defender_ac = target.fighter.ac
+        attacker_level = self.entity.level.current_level
+
+        if target.fighter.ac < 0:
+            # If the defender has negative AC, choose a number from -1 to their AC
+            defender_ac = -random.randint(1, abs(target.fighter.ac))
+
+        num = self.target_base + defender_ac + attacker_level
+
+        if num < 1:
+            # If we get a negative, set it to 1.
+            return 1
+        return num
 
     def roll_hit_die(self):
         # Rolls a 1d20 die to determine if the attacker will land the hit.

@@ -14,7 +14,6 @@ class Fighter(Component):
         self.base_ac = base_ac
         self.base_power = base_power
 
-        # D&D attributes
         self.strength = strength
         self.dexterity = dexterity
 

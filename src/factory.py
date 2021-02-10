@@ -90,13 +90,30 @@ troll = actor.Actor(
     equipment=Equipment(),
     fighter=Fighter(
         hp=11,
-        base_ac=2,
+        base_ac=-2,
         base_power=10,
         attacks=AttackType(die_sides=6),
     ),
     inventory=Inventory(capacity=0),
-    level=Level(xp_given=100),
+    level=Level(current_level=4, xp_given=100),
     energymeter=EnergyMeter(threshold=16)
+)
+
+storm_drone = actor.Actor(
+    char="x",
+    color=(0, 127, 0),
+    name="Storm Drone",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(
+        hp=1,
+        base_ac=-20,
+        base_power=10,
+        attacks=AttackType(die_sides=5),
+    ),
+    inventory=Inventory(capacity=0),
+    level=Level(current_level=4, xp_given=55),
+    energymeter=EnergyMeter(threshold=8)
 )
 
 health_potion = item.Item(
