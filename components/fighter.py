@@ -14,9 +14,6 @@ class Fighter(Component):
         self.base_ac = base_ac
         self.base_power = base_power
 
-        self.strength = strength
-        self.dexterity = dexterity
-
         if attacks:
             self.attacks = attacks
         else:
@@ -42,16 +39,16 @@ class Fighter(Component):
         return self.base_power + self.power_bonus
 
     @property
-    def ac_bonus(self):
+    def power_bonus(self):
         if self.parent.equipment:
-            return self.parent.equipment.ac_bonus
+            return self.parent.equipment.power_bonus
         else:
             return 0
 
     @property
-    def power_bonus(self):
+    def ac_bonus(self):
         if self.parent.equipment:
-            return self.parent.equipment.power_bonus
+            return self.parent.equipment.ac_bonus
         else:
             return 0
 

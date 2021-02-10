@@ -89,7 +89,7 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 def render_stats(console, engine, player):
     # Power
-    pow_str = f"Str: {player.fighter.strength}"
+    pow_str = f"Str: {player.fighter.power}"
     def_str = f"AC: {player.fighter.ac}"
     xl_str = f"XL: {player.level.current_level}"
     turn_str = f"Turns: {engine.turns}"
