@@ -1,10 +1,18 @@
 from components.component import Component
+from src.settings import DEFAULT_THRESHOLD
+import random
 
 
 class EnergyMeter(Component):
-    def __init__(self, threshold=10):
+    def __init__(self, threshold=DEFAULT_THRESHOLD):
+        if threshold <= 0:
+            raise ValueError("EnergyMeter threshold must be a positive integer!")
+
         self.threshold = threshold
-        self.energy = 0
+
+        # Start each actor with a random amount of energy so movements
+        # are staggered for like enemies.
+        self.energy = random.randint(0, threshold)
 
     def add_energy(self, amt):
         self.energy += amt
