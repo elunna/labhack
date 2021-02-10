@@ -72,3 +72,11 @@ class Rect:
             and self.y1 <= other.y2
             and self.y2 >= other.y1
         )
+
+    def corners(self):
+        return [
+            (self.x1, self.y1),
+            (self.x2, self.y1),
+            (self.x1, self.y2),
+            (self.x2, self.y2),
+        ]
