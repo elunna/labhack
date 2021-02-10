@@ -44,7 +44,7 @@ def test_BaseAI_perform(player):
     # This is not implemented in the Component class.
     base_ai = ai.BaseAI(player)
     with pytest.raises(NotImplementedError):
-        base_ai.perform()
+        base_ai.yield_action()
 
 
 @pytest.mark.skip(reason='REQUIRES the entity to have a gamemap reference')
@@ -103,7 +103,7 @@ def test_ConfusedAI_perform(player):
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
-    result = confused_ai.perform()
+    result = confused_ai.yield_action()
     assert isinstance(result, BumpAction)
     assert confused_ai.turns_remaining == 3
 
@@ -115,9 +115,9 @@ def test_ConfusedAI_perform__no_turns_remaining(player):
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
-    confused_ai.perform()  # 3 remaining
-    confused_ai.perform()  # 2 remaining
-    confused_ai.perform()  # 1 remaining
-    confused_ai.perform()  # 0 remaining
+    confused_ai.yield_action()  # 3 remaining
+    confused_ai.yield_action()  # 2 remaining
+    confused_ai.yield_action()  # 1 remaining
+    confused_ai.yield_action()  # 0 remaining
 
     assert isinstance(player.ai, ai.HostileAI)

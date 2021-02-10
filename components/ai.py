@@ -16,7 +16,7 @@ class BaseAI(Component):
         super().__init__()
         self.parent = parent
 
-    def perform(self):
+    def yield_action(self):
         # No perform implemented, since the entities which will be using AI to
         # act will have to have an AI class that inherits from this one.
         raise NotImplementedError()
@@ -79,7 +79,7 @@ class HostileAI(BaseAI):
         super().__init__(parent)
         self.path = []
 
-    def perform(self):
+    def yield_action(self):
         target = self.engine.player
         dx = target.x - self.parent.x
         dy = target.y - self.parent.y
@@ -116,7 +116,7 @@ class ConfusedAI(BaseAI):
         self.previous_ai = previous_ai
         self.turns_remaining = turns_remaining
 
-    def perform(self):
+    def yield_action(self):
         # causes the entity to move in a randomly selected direction.
         # Revert the AI back to the original state if the effect has run its course.
         # Pick a random direction
@@ -163,7 +163,7 @@ class RunAI(BaseAI):
 
         return True
 
-    def perform(self):
+    def yield_action(self):
         return MovementAction(
             entity=self.parent,
             dx=self.parent.x + self.dx,

@@ -37,7 +37,7 @@ class Engine:
 
                     try:
                         # Get the next calculated action from the AI.
-                        self.handle_action(actor.ai.perform())
+                        self.handle_action(actor.ai.yield_action())
                     except exceptions.Impossible:
                         pass  # Ignore impossible action exceptions from AI
 
