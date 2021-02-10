@@ -9,13 +9,15 @@ class Equippable(Component):
     def __init__(
             self,
             equipment_type,
+            ac_bonus=0,
             strength_bonus=0,
-            ac_bonus=0
+            dexterity_bonus=0,
     ):
 
         self.equipment_type = equipment_type
-        self.strength_bonus = strength_bonus
         self.ac_bonus = ac_bonus
+        self.strength_bonus = strength_bonus
+        self.dexterity_bonus = dexterity_bonus
 
 
 class Weapon(Equippable):

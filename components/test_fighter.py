@@ -13,11 +13,12 @@ def player():
 
 
 def test_Fighter__init():
-    f = Fighter(hp=10, base_ac=15, base_strength=20)
+    f = Fighter(hp=10, base_ac=15, base_strength=20, base_dexterity=10)
     assert f.max_hp == 10
     assert f._hp == 10
     assert f.base_ac == 15
     assert f.base_strength == 20
+    assert f.base_dexterity == 10
 
 
 def test_Fighter_hp_property():
@@ -44,32 +45,43 @@ def test_Fighter_hp_setter__over_max():
     assert f.hp == 10
 
 
-def test_Fighter_defense_property(player):
+def test_Fighter_ac_property(player):
     f = Fighter(hp=10, base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's equipment
-    # No bonus
-    assert f.ac == 15
+    assert f.ac == 15  # No bonus
 
 
-def test_Fighter_power_property(player):
-    f = Fighter(hp=10, base_ac=15, base_strength=20)
-    f.parent = player  # Needs parent to check it's equipment
-    # No bonus
-    assert f.strength == 20
-
-
-def test_Fighter_defense_bonus_property(player):
+def test_Fighter_ac_bonus_property(player):
     f = Fighter(hp=10, base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's ai
     # No bonus when player has no equipment
     assert f.ac_bonus == 0
 
 
-def test_Fighter_power_bonus_property(player):
+def test_Fighter_strength_property(player):
+    f = Fighter(hp=10, base_ac=15, base_strength=20)
+    f.parent = player  # Needs parent to check it's equipment
+    assert f.strength == 20  # No bonus
+
+
+def test_Fighter_strength_bonus_property(player):
     f = Fighter(hp=10, base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's ai
     # No bonus when player has no equipment
     assert f.strength_bonus == 0
+
+
+def test_Fighter_dexterity_property(player):
+    f = Fighter(hp=10, base_ac=15, base_strength=20)
+    f.parent = player  # Needs parent to check it's equipment
+    assert f.dexterity == 10  # Default dex, No bonus
+
+
+def test_Fighter_dexterity_bonus_property(player):
+    f = Fighter(hp=10, base_ac=15, base_strength=20)
+    f.parent = player  # Needs parent to check it's ai
+    # No bonus when player has no equipment
+    assert f.dexterity_bonus == 0
 
 
 def test_Fighter_heal__under_max():

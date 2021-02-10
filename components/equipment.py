@@ -41,6 +41,19 @@ class Equipment(Component):
 
         return bonus
 
+    @property
+    def dexterity_bonus(self):
+        bonus = 0
+
+        if self.weapon is not None and self.weapon.equippable is not None:
+            bonus += self.weapon.equippable.dexterity_bonus
+
+        if self.armor is not None and self.armor.equippable is not None:
+            bonus += self.armor.equippable.dexterity_bonus
+
+        return bonus
+
+
     def item_is_equipped(self, item):
         """ Returns True if the item is equipped, otherwise returns False."""
         return self.weapon == item or self.armor == item
