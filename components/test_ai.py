@@ -24,7 +24,7 @@ def empty_map():
 
 def test_BaseAI_init(player):
     base_ai = ai.BaseAI(player)
-    assert base_ai.entity is player
+    assert base_ai.parent is player
 
 
 @pytest.mark.skip(reason='Convert to BaseComponent later')
