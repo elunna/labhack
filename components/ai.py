@@ -11,6 +11,7 @@ import tcod
 
 class BaseAI(Component):
     parent = None
+
     def __init__(self, parent):
         super().__init__()
         self.parent = parent
@@ -135,6 +136,7 @@ class ConfusedAI(BaseAI):
 
         return action
 
+
 class RunAI(BaseAI):
     def __init__(self, parent, direction):
         super().__init__(parent)
@@ -142,7 +144,7 @@ class RunAI(BaseAI):
         self.first_step = True
         self.next_move = None
 
-    def can_perform():
+    def can_perform(self):
         target_tile = (self.parent.x + self.dx, self.parent.y + self.dy)
 
         # Do not run into a wall (or unwalkable tile)
@@ -162,8 +164,8 @@ class RunAI(BaseAI):
         return True
 
     def perform(self):
-        return actions.MovementAction(
+        return MovementAction(
             entity=self.parent,
-            dx=target_x,
-            dy=target_y
+            dx=self.parent.x + self.dx,
+            dy=self.parent.y + self.dy
         )
