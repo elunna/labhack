@@ -40,7 +40,7 @@ player = actor.Actor(
     name="Player",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=30, base_ac=10, base_power=5),
+    fighter=Fighter(hp=30, base_ac=10, base_strength=5),
 
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
@@ -57,7 +57,7 @@ grid_bug = actor.Actor(
     fighter=Fighter(
         hp=1,
         base_ac=1,
-        base_power=1,
+        base_strength=1,
         attacks=AttackType(die_sides=1),
     ),
     inventory=Inventory(capacity=0),
@@ -74,7 +74,7 @@ orc = actor.Actor(
     fighter=Fighter(
         hp=4,
         base_ac=7,
-        base_power=3,
+        base_strength=3,
         attacks=AttackType(die_sides=3),
     ),
     inventory=Inventory(capacity=0),
@@ -91,7 +91,7 @@ troll = actor.Actor(
     fighter=Fighter(
         hp=11,
         base_ac=-2,
-        base_power=10,
+        base_strength=10,
         attacks=AttackType(die_sides=6),
     ),
     inventory=Inventory(capacity=0),
@@ -108,7 +108,7 @@ storm_drone = actor.Actor(
     fighter=Fighter(
         hp=1,
         base_ac=-20,
-        base_power=10,
+        base_strength=10,
         attacks=AttackType(die_sides=5),
     ),
     inventory=Inventory(capacity=0),

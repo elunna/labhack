@@ -8,11 +8,11 @@ class Fighter(Component):
     # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 
-    def __init__(self, hp, base_ac, base_power, ac=10, strength=10, dexterity=10, attacks=None):
+    def __init__(self, hp, base_ac, base_strength, ac=10, strength=10, dexterity=10, attacks=None):
         self.max_hp = hp
         self._hp = hp
         self.base_ac = base_ac
-        self.base_power = base_power
+        self.base_strength = base_strength
 
         if attacks:
             self.attacks = attacks
@@ -35,20 +35,20 @@ class Fighter(Component):
         return self.base_ac + self.ac_bonus
 
     @property
-    def power(self):
-        return self.base_power + self.power_bonus
-
-    @property
-    def power_bonus(self):
+    def ac_bonus(self):
         if self.parent.equipment:
-            return self.parent.equipment.power_bonus
+            return self.parent.equipment.ac_bonus
         else:
             return 0
 
     @property
-    def ac_bonus(self):
+    def strength(self):
+        return self.base_strength + self.strength_bonus
+
+    @property
+    def strength_bonus(self):
         if self.parent.equipment:
-            return self.parent.equipment.ac_bonus
+            return self.parent.equipment.strength_bonus
         else:
             return 0
 

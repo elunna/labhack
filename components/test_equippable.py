@@ -22,8 +22,8 @@ def test_Equippable_init__invalid_type():
 
 
 def test_Equippable_init__power_bonus():
-    e = Equippable("weapon", power_bonus=1)
-    assert e.power_bonus == 1
+    e = Equippable("weapon", strength_bonus=1)
+    assert e.strength_bonus == 1
 
 
 def test_Equippable_init__defense_bonus():
@@ -32,8 +32,8 @@ def test_Equippable_init__defense_bonus():
 
 
 def test_Equippable_init__power_bonus_negative():
-    e = Equippable("weapon", power_bonus=-1)
-    assert e.power_bonus == -1
+    e = Equippable("weapon", strength_bonus=-1)
+    assert e.strength_bonus == -1
 
 
 def test_Equippable_init__defense_bonus_negative():

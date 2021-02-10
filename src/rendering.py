@@ -89,7 +89,7 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 def render_stats(console, engine, player):
     # Power
-    pow_str = f"Str: {player.fighter.power}"
+    pow_str = f"Str: {player.fighter.strength}"
     def_str = f"AC: {player.fighter.ac}"
     xl_str = f"XL: {player.level.current_level}"
     turn_str = f"Turns: {engine.turns}"
@@ -316,7 +316,7 @@ def render_levelup_menu(console, engine, title):
     )
     console.print(
         x=x + 1, y=5,
-        string=f"b) Strength (+1 attack, from {engine.player.fighter.power})",
+        string=f"b) Strength (+1 attack, from {engine.player.fighter.strength})",
     )
     console.print(
         x=x + 1, y=6,
@@ -359,7 +359,7 @@ def render_character_stats(console, engine, title):
 
     console.print(
         x=x + 1, y=y + 4,
-        string=f"Attack: {engine.player.fighter.power}"
+        string=f"Attack: {engine.player.fighter.strength}"
     )
     console.print(
         x=x + 1, y=y + 5,

@@ -74,7 +74,7 @@ class Level(Component):
 
     def increase_power(self, amount = 1):
         # TODO: Move to FighterComponent?
-        self.parent.fighter.base_power += amount
+        self.parent.fighter.base_strength += amount
         self.engine.msglog.add_message("You feel stronger!")
         self.increase_level()
 
