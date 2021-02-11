@@ -47,10 +47,10 @@ def test_MeleeAction_calc_target_number__positive_ac(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
 
     target = factory.orc
-    assert target.fighter.ac == 7
+    assert target.attributes.ac == 7
 
     result = a.calc_target_number(target)
-    expected = 10 + target.fighter.ac + player.level.current_level
+    expected = 10 + target.attributes.ac + player.level.current_level
     assert result == expected
 
 
@@ -59,11 +59,11 @@ def test_MeleeAction_calc_target_number__negative_ac(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
 
     target = factory.troll
-    assert target.fighter.ac == -2
+    assert target.attributes.ac == -2
 
     result = a.calc_target_number(target)
     max_expected = 10 - 1 + player.level.current_level
-    min_expected = 10 + target.fighter.ac + player.level.current_level
+    min_expected = 10 + target.attributes.ac + player.level.current_level
 
     assert result >= min_expected
     assert result <= max_expected
@@ -74,7 +74,7 @@ def test_MeleeAction_calc_target_number__negative_target_number(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
 
     target = factory.storm_drone
-    assert target.fighter.ac == -20
+    assert target.attributes.ac == -20
 
     result = a.calc_target_number(target)
     assert result >= 1

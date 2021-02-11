@@ -7,9 +7,11 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
+from components.attributes import Attributes
 from . import actor
 from . import item
 import copy
+
 
 def make(entity_name):
     if entity_name == 'player':
@@ -34,14 +36,15 @@ def make(entity_name):
         return copy.deepcopy(lightning_scroll)
     return None
 
+
 player = actor.Actor(
     char="@",
     color=(255, 255, 255),
     name="Player",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=30, base_ac=10, base_strength=5),
-
+    fighter=Fighter(hp=30),
+    attributes=Attributes(base_ac=10, base_strength=5),
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
     level=Level(level_up_base=20),
@@ -54,12 +57,8 @@ grid_bug = actor.Actor(
     name="Grid Bug",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(
-        hp=1,
-        base_ac=1,
-        base_strength=1,
-        attacks=AttackType(die_sides=1),
-    ),
+    fighter=Fighter(hp=1, attacks=AttackType(die_sides=1)),
+    attributes=Attributes(base_ac=1, base_strength=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
     energymeter=EnergyMeter(threshold=10)
@@ -71,12 +70,8 @@ orc = actor.Actor(
     name="Orc",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(
-        hp=4,
-        base_ac=7,
-        base_strength=3,
-        attacks=AttackType(die_sides=3),
-    ),
+    fighter=Fighter(hp=4, attacks=AttackType(die_sides=3)),
+    attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
     energymeter=EnergyMeter(threshold=13)
@@ -88,12 +83,8 @@ troll = actor.Actor(
     name="Troll",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(
-        hp=11,
-        base_ac=-2,
-        base_strength=10,
-        attacks=AttackType(die_sides=6),
-    ),
+    fighter=Fighter(hp=11, attacks=AttackType(die_sides=6)),
+    attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
     energymeter=EnergyMeter(threshold=16)
@@ -105,16 +96,13 @@ storm_drone = actor.Actor(
     name="Storm Drone",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(
-        hp=1,
-        base_ac=-20,
-        base_strength=10,
-        attacks=AttackType(die_sides=5),
-    ),
+    fighter=Fighter(hp=1, attacks=AttackType(die_sides=5)),
+    attributes=Attributes(base_ac=-20, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=55),
     energymeter=EnergyMeter(threshold=8)
 )
+
 
 health_potion = item.Item(
     char="!",

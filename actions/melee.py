@@ -42,12 +42,12 @@ class MeleeAction(ActionWithDirection):
             self.miss(target)
 
     def calc_target_number(self, target):
-        defender_ac = target.fighter.ac
+        defender_ac = target.attributes.ac
         attacker_level = self.entity.level.current_level
 
-        if target.fighter.ac < 0:
+        if target.attributes.ac < 0:
             # If the defender has negative AC, choose a number from -1 to their AC
-            defender_ac = -random.randint(1, abs(target.fighter.ac))
+            defender_ac = -random.randint(1, abs(target.attributes.ac))
 
         num = self.target_base + defender_ac + attacker_level
 
@@ -99,5 +99,3 @@ class MeleeAction(ActionWithDirection):
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
-
-
