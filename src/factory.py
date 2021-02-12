@@ -1,3 +1,5 @@
+import tcod
+
 from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
@@ -53,7 +55,7 @@ player = actor.Actor(
 
 grid_bug = actor.Actor(
     char="x",
-    color=(0, 127, 0),
+    color=tcod.purple,
     name="Grid Bug",
     ai_cls=HostileAI,
     equipment=Equipment(),
@@ -63,6 +65,74 @@ grid_bug = actor.Actor(
     level=Level(xp_given=1),
     energymeter=EnergyMeter(threshold=10)
 )
+
+
+storm_drone = actor.Actor(
+    char="x",
+    color=(0, 127, 0),
+    name="Storm Drone",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=1, attacks=AttackType(die_sides=5)),
+    attributes=Attributes(base_ac=-20, base_strength=10),
+    inventory=Inventory(capacity=0),
+    level=Level(current_level=4, xp_given=55),
+    energymeter=EnergyMeter(threshold=8)
+)
+
+
+spider_drone = actor.Actor(
+    char="s",
+    color=tcod.dark_gray,
+    name="Spider Drone",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=4, attacks=AttackType(die_sides=3)),
+    attributes=Attributes(base_ac=7, base_strength=3),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=35),
+    energymeter=EnergyMeter(threshold=13)
+)
+
+med_school_dropout = actor.Actor(
+    char="@",
+    color=tcod.dark_gray,
+    name="Med-School Dropout",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=6, attacks=AttackType(die_sides=5)),
+    attributes=Attributes(base_ac=6, base_strength=8),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=55),
+    energymeter=EnergyMeter(threshold=12)
+)
+
+cyber_cat = actor.Actor(
+    char="f",
+    color=tcod.dark_blue,
+    name="Cyber Cat",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=6, attacks=AttackType(die_sides=6)),
+    attributes=Attributes(base_ac=3, base_strength=8),
+    inventory=Inventory(capacity=0),
+    level=Level(xp_given=55),
+    energymeter=EnergyMeter(threshold=7)
+)
+
+giant_leech = actor.Actor(
+    char="L",
+    color=tcod.light_green,
+    name="Giant Leech",
+    ai_cls=HostileAI,
+    equipment=Equipment(),
+    fighter=Fighter(hp=11, attacks=AttackType(die_sides=6)),
+    attributes=Attributes(base_ac=-2, base_strength=10),
+    inventory=Inventory(capacity=0),
+    level=Level(current_level=4, xp_given=100),
+    energymeter=EnergyMeter(threshold=16)
+)
+
 
 orc = actor.Actor(
     char="o",
@@ -89,20 +159,6 @@ troll = actor.Actor(
     level=Level(current_level=4, xp_given=100),
     energymeter=EnergyMeter(threshold=16)
 )
-
-storm_drone = actor.Actor(
-    char="x",
-    color=(0, 127, 0),
-    name="Storm Drone",
-    ai_cls=HostileAI,
-    equipment=Equipment(),
-    fighter=Fighter(hp=1, attacks=AttackType(die_sides=5)),
-    attributes=Attributes(base_ac=-20, base_strength=10),
-    inventory=Inventory(capacity=0),
-    level=Level(current_level=4, xp_given=55),
-    energymeter=EnergyMeter(threshold=8)
-)
-
 
 health_potion = item.Item(
     char="!",
@@ -179,8 +235,8 @@ item_chances = {
 }
 
 enemy_chances = {
-    0: [(orc, 80)],
-    3: [(troll, 15)],
-    5: [(troll, 30)],
-    7: [(troll, 60)],
+    0: [(grid_bug, 40), (spider_drone, 80)],
+    3: [(giant_leech, 15), (med_school_dropout, 25)],
+    5: [(giant_leech, 30), (cyber_cat, 35)],
+    7: [(giant_leech, 60), (cyber_cat, 40)],
 }
