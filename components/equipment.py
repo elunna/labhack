@@ -20,18 +20,17 @@ class Equipment(Component):
 
     @property
     def ac_bonus(self):
-        # TODO: Remove check for equippable? If it's in a slot, we know it's equippable!
-        equipped_items = [i for i in self.slots.values() if i and i.equippable]
+        equipped_items = [i for i in self.slots.values() if i]
         return sum(i.equippable.modifiers['AC'] for i in equipped_items)
 
     @property
     def strength_bonus(self):
-        equipped_items = [i for i in self.slots.values() if i and i.equippable]
+        equipped_items = [i for i in self.slots.values() if i]
         return sum(i.equippable.modifiers['STRENGTH'] for i in equipped_items)
 
     @property
     def dexterity_bonus(self):
-        equipped_items = [i for i in self.slots.values() if i and i.equippable]
+        equipped_items = [i for i in self.slots.values() if i]
         return sum(i.equippable.modifiers['DEXTERITY'] for i in equipped_items)
 
     def item_is_equipped(self, item):
@@ -50,8 +49,7 @@ class Equipment(Component):
             If not, returns an empty string.
         """
         # Check if the item is equippable
-        equippable = getattr(item, "equippable")
-        if not equippable:
+        if not getattr(item, "equippable"):
             raise exceptions.Impossible("f{item.name} is not an Equippable!")
 
         # Check if item's slot is valid
@@ -95,14 +93,11 @@ class Equipment(Component):
             Returns a string describing what happened.
         """
         # Can we equip it?
-        # TODO: Duplicated in equip.. remove?
-        if not item.equippable:
-            raise exceptions.Impossible(f"We cannot equip the {item.name}!")
+        if not getattr(item, "equippable"):
+            raise exceptions.Impossible("f{item.name} is not an Equippable!")
 
         # Does the item slot match what is available?
         slot = item.equippable.equipment_type.name
-        if slot not in self.slots:
-            raise exceptions.Impossible("Cannot equip item f{item.name} to slot f{slot}!")
 
         if self.slots[slot] == item:
             return self.unequip_from_slot(slot)

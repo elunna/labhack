@@ -104,15 +104,20 @@ def test_Equipment_equip_message(dagger):
 
 def test_Equipment_equip_to_slot__weapon_to_weaponslot(dagger):
     e = Equipment()
-    result = e.equip_to_slot(slot="WEAPON", item=dagger)
+    e.equip_to_slot(slot="WEAPON", item=dagger)
     assert e.slots['WEAPON'] == dagger
+
+
+def test_Equipment_equip_to_slot__msg(dagger):
+    e = Equipment()
+    result = e.equip_to_slot(slot="WEAPON", item=dagger)
+    assert result == 'You equip the Dagger. '
 
 
 def test_Equipment_equip_to_slot__armor_to_armorslot(leather_armor):
     e = Equipment()
-    result = e.equip_to_slot(slot="ARMOR", item=leather_armor)
+    e.equip_to_slot(slot="ARMOR", item=leather_armor)
     assert e.slots['ARMOR'] == leather_armor
-    # assert result
 
 
 def test_Equipment_equip_to_slot__weapon2armorslot__raises_Impossible(dagger):
@@ -138,16 +143,20 @@ def test_Equipment_equip_to_slot__non_equippable():
 
 def test_Equipment_unequip_from_slot__weapon(dagger):
     e = Equipment(dagger)
-    result = e.unequip_from_slot(slot="WEAPON")
-    # assert result
+    e.unequip_from_slot(slot="WEAPON")
     assert e.slots['WEAPON'] is None
 
 
 def test_Equipment_unequip_from_slot__armor(leather_armor):
     e = Equipment(leather_armor)
-    result = e.unequip_from_slot(slot="ARMOR")
-    # assert result
+    e.unequip_from_slot(slot="ARMOR")
     assert e.slots['ARMOR'] is None
+
+
+def test_Equipment_unequip_from_slot__msg(dagger):
+    e = Equipment(dagger)
+    result = e.unequip_from_slot(slot="WEAPON")
+    assert result == 'You remove the Dagger. '
 
 
 def test_Equipment_unequip_from_slot__fail_returns_False():
@@ -158,7 +167,7 @@ def test_Equipment_unequip_from_slot__fail_returns_False():
 
 def test_Equipment_toggle_equip__none2weapon(dagger):
     e = Equipment()
-    result = e.toggle_equip(item=dagger)
+    e.toggle_equip(item=dagger)
     assert e.slots['WEAPON'] == dagger
 
 
@@ -170,7 +179,7 @@ def test_Equipment_toggle_equip__none2weapon__msg(dagger):
 
 def test_Equipment_toggle_equip__none2armor(leather_armor):
     e = Equipment()
-    result = e.toggle_equip(item=leather_armor)
+    e.toggle_equip(item=leather_armor)
     assert e.slots['ARMOR'] == leather_armor
 
 
@@ -182,7 +191,7 @@ def test_Equipment_toggle_equip__none2armor__msg(leather_armor):
 
 def test_Equipment_toggle_equip__weapon2none(dagger):
     e = Equipment(dagger)
-    result = e.toggle_equip(item=dagger)
+    e.toggle_equip(item=dagger)
     assert e.slots['WEAPON'] is None
 
 
@@ -194,7 +203,7 @@ def test_Equipment_toggle_equip__weapon2none__msg(dagger):
 
 def test_Equipment_toggle_equip__armor2none(leather_armor):
     e = Equipment(leather_armor)
-    result = e.toggle_equip(item=leather_armor)
+    e.toggle_equip(item=leather_armor)
     assert e.slots['ARMOR'] is None
 
 

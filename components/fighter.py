@@ -3,7 +3,6 @@ from components.attacks import AttackType
 
 
 class Fighter(Component):
-    # TODO: Pass in Equipment variable?
     parent = None  # Should be Actor
 
     def __init__(self, hp, attacks=None):
