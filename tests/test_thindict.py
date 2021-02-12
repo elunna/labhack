@@ -7,10 +7,16 @@ def test_ThinDict__is_dict():
     assert isinstance(td, dict)
 
 
-def test_ThinDict__all_keys_initialized():
+def test_ThinDict__default_initialval_is_None():
     td = ThinDict(allowed_keys=['a', 'b', 'c'])
     assert td['a'] is None
     assert td['b'] is None
+
+
+def test_ThinDict___initialval():
+    td = ThinDict(allowed_keys=['a', 'b', 'c'], initial_val=1)
+    assert td['a'] == 1
+    assert td['b'] == 1
 
 
 def test_ThinDict__valid_key():

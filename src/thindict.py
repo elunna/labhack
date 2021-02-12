@@ -1,11 +1,11 @@
 class ThinDict(dict):
-    def __init__(self, allowed_keys):
+    def __init__(self, allowed_keys, initial_val=None):
         super(ThinDict, self).__init__()
         self._allowed_keys = tuple(allowed_keys)
 
-        # Initialize all keys.
+        # Initialize all keys to initial_val
         for key in allowed_keys:
-            self[key] = None
+            self[key] = initial_val
 
     def __setitem__(self, key, val):
         """Checks if the key is allowed before setting the value"""

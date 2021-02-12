@@ -15,6 +15,8 @@ class Equippable(Component):
     ):
 
         self.equipment_type = equipment_type
+        # self.modifiers = ThinDict(allowed_keys=[et.name for et in EquipmentType])
+
         self.ac_bonus = ac_bonus
         self.strength_bonus = strength_bonus
         self.dexterity_bonus = dexterity_bonus
