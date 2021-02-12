@@ -98,7 +98,7 @@ def test_MeleeAction_hit_with_weapon__returns_dmg(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     result = a.hit_with_weapon(target)
-    attack_max = player.equipment.weapon.equippable.attack.die_sides
+    attack_max = player.equipment.slots['WEAPON'].equippable.attack.die_sides
     assert result >= 1
     assert result <= attack_max
 
@@ -116,7 +116,7 @@ def test_MeleeAction_hit_with_weapon__msg__you_hit(test_map):
 
 def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
     player = test_map.player
-    assert not player.equipment.weapon
+    assert not player.equipment.slots['WEAPON']
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc

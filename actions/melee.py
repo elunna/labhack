@@ -27,7 +27,7 @@ class MeleeAction(ActionWithDirection):
             result = 0
 
             # Calculate the damage
-            if self.entity.equipment.weapon:
+            if self.entity.equipment.slots['WEAPON']:
                 dmg = self.hit_with_weapon(target)
             else:
                 dmg = self.hit_with_barehands(target)
@@ -62,7 +62,7 @@ class MeleeAction(ActionWithDirection):
 
     def hit_with_weapon(self, target):
         # Get the damage from the weapon
-        weapon = self.entity.equipment.weapon
+        weapon = self.entity.equipment.slots['WEAPON']
         dmg = weapon.equippable.attack.roll_dmg()
         # atk_text = self.entity.fighter.attacks.description
         self.msg = f"The {self.entity} hits the {target.name} with a {weapon.name} for {dmg}! "

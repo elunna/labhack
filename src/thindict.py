@@ -3,6 +3,10 @@ class ThinDict(dict):
         super(ThinDict, self).__init__()
         self._allowed_keys = tuple(allowed_keys)
 
+        # Initialize all keys.
+        for key in allowed_keys:
+            self[key] = None
+
     def __setitem__(self, key, val):
         """Checks if the key is allowed before setting the value"""
         if key not in self._allowed_keys:

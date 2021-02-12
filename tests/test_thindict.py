@@ -1,11 +1,16 @@
 import pytest
-
 from src.thindict import ThinDict
 
 
 def test_ThinDict__is_dict():
     td = ThinDict(allowed_keys=['a', 'b', 'c'])
     assert isinstance(td, dict)
+
+
+def test_ThinDict__all_keys_initialized():
+    td = ThinDict(allowed_keys=['a', 'b', 'c'])
+    assert td['a'] is None
+    assert td['b'] is None
 
 
 def test_ThinDict__valid_key():
