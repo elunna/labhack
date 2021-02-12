@@ -22,17 +22,17 @@ class Equipment(Component):
     def ac_bonus(self):
         # TODO: Remove check for equippable? If it's in a slot, we know it's equippable!
         equipped_items = [i for i in self.slots.values() if i and i.equippable]
-        return sum(i.equippable.ac_bonus for i in equipped_items)
+        return sum(i.equippable.modifiers['AC'] for i in equipped_items)
 
     @property
     def strength_bonus(self):
         equipped_items = [i for i in self.slots.values() if i and i.equippable]
-        return sum(i.equippable.strength_bonus for i in equipped_items)
+        return sum(i.equippable.modifiers['STRENGTH'] for i in equipped_items)
 
     @property
     def dexterity_bonus(self):
         equipped_items = [i for i in self.slots.values() if i and i.equippable]
-        return sum(i.equippable.dexterity_bonus for i in equipped_items)
+        return sum(i.equippable.modifiers['DEXTERITY'] for i in equipped_items)
 
     def item_is_equipped(self, item):
         """ Returns True if the item is equipped, otherwise returns False."""

@@ -1,5 +1,7 @@
 from components.component import Component
 from src.equipment_types import EquipmentType
+from src.attribute_types import AttributeType
+from src.thindict import ThinDict
 
 
 class Equippable(Component):
@@ -13,13 +15,15 @@ class Equippable(Component):
             strength_bonus=0,
             dexterity_bonus=0,
     ):
-
+        # Validate the equipment type, must be in the EquipmentType enum
         self.equipment_type = equipment_type
-        # self.modifiers = ThinDict(allowed_keys=[et.name for et in EquipmentType])
 
-        self.ac_bonus = ac_bonus
-        self.strength_bonus = strength_bonus
-        self.dexterity_bonus = dexterity_bonus
+        # The attribute modifiers are derived from the AttributeType enum.
+        # We can only use these pre-determined slots that are enforced by the ThinDict.
+        self.modifiers = ThinDict(allowed_keys=[a.name for a in AttributeType], initial_val=0)
+        self.modifiers['AC'] = ac_bonus
+        self.modifiers['STRENGTH'] = strength_bonus
+        self.modifiers['DEXTERITY'] = dexterity_bonus
 
 
 class Weapon(Equippable):

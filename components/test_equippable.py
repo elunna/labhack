@@ -23,22 +23,22 @@ def test_Equippable_init__invalid_type():
 
 def test_Equippable_init__power_bonus():
     e = Equippable("weapon", strength_bonus=1)
-    assert e.strength_bonus == 1
+    assert e.modifiers['STRENGTH'] == 1
 
 
 def test_Equippable_init__defense_bonus():
     e = Equippable("armor", ac_bonus=1)
-    assert e.ac_bonus == 1
+    assert e.modifiers['AC'] == 1
 
 
 def test_Equippable_init__power_bonus_negative():
     e = Equippable("weapon", strength_bonus=-1)
-    assert e.strength_bonus == -1
+    assert e.modifiers['STRENGTH'] == -1
 
 
 def test_Equippable_init__defense_bonus_negative():
     e = Equippable("armor", ac_bonus=-1)
-    assert e.ac_bonus == -1
+    assert e.modifiers['AC'] == -1
 
 
 # No tests for Dagger/Sword/Leather Armor/ChainMail
