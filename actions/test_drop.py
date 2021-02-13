@@ -77,9 +77,9 @@ def test_DropItem_perform__equipped_item(test_map):
     item = player.inventory.items.get('a')  # Need the actual item from inv
     assert item.name == "Dagger"
     player.equipment.toggle_equip(item)
-    assert player.equipment.item_is_equipped(item)
+    assert player.equipment.is_equipped(item)
 
     a = DropAction(entity=player, item=item)
     result = a.perform()
 
-    assert not player.equipment.item_is_equipped(item)
+    assert not player.equipment.is_equipped(item)

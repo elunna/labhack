@@ -37,7 +37,7 @@ class Equipment(Component):
         equipped_items = [i for i in self.slots.values() if i]
         return sum(i.equippable.modifiers[attribute] for i in equipped_items)
 
-    def item_is_equipped(self, item):
+    def is_equipped(self, item):
         """ Returns True if the item is equipped, otherwise returns False."""
         return item in self.slots.values()
 

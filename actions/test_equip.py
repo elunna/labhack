@@ -28,8 +28,8 @@ def test_EquipAction_init(test_map):
 def test_EquipAction_perform(test_map):
     player = test_map.player
     armor = factory.leather_armor
-    assert not player.equipment.item_is_equipped(armor)
+    assert not player.equipment.is_equipped(armor)
 
     a = EquipAction(entity=player, item=armor)
     a.perform()
-    assert player.equipment.item_is_equipped(armor)
+    assert player.equipment.is_equipped(armor)

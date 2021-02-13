@@ -246,7 +246,7 @@ def render_inv(console, engine, title):
                 for letter in group:
                     item_key = letter
                     item = engine.player.inventory.items[letter]
-                    is_equipped = engine.player.equipment.item_is_equipped(item)
+                    is_equipped = engine.player.equipment.is_equipped(item)
 
                     item_string = f"({item_key}) {item.name}"
 

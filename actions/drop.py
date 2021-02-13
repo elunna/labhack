@@ -8,7 +8,7 @@ class DropAction(ItemAction):
             current game map, at the entity's coordinates.
         """
         # If the item is an equipped item, first unequip it.
-        if self.entity.equipment.item_is_equipped(self.item):
+        if self.entity.equipment.is_equipped(self.item):
             self.entity.equipment.toggle_equip(self.item)
 
         # Remove it from inventory

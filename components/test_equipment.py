@@ -77,17 +77,17 @@ def test_Equipment_attribute_bonus__strength_with_weapon(dagger):
 
 def test_Equipment_item_is_equipped__none_equipped():
     e = Equipment()
-    assert e.item_is_equipped('giant jockstrap') is False
+    assert e.is_equipped('giant jockstrap') is False
 
 
 def test_Equipment_item_is_equipped__weapon_equipped(dagger):
     e = Equipment(dagger)
-    assert e.item_is_equipped(dagger)
+    assert e.is_equipped(dagger)
 
 
 def test_Equipment_item_is_equipped__armor_equipped(leather_armor):
     e = Equipment(leather_armor)
-    assert e.item_is_equipped(leather_armor)
+    assert e.is_equipped(leather_armor)
 
 
 def test_Equipment_unequip_message(leather_armor):
