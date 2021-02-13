@@ -1,7 +1,22 @@
+from enum import Enum, auto
 from components.component import Component
 from src import exceptions
 from src.thindict import ThinDict
-from src.equipment_types import EquipmentType
+
+
+class EquipmentType(Enum):
+    WEAPON = auto()
+    ARMOR = auto()
+    # HELMET
+    # SHIELD
+    # BOOTS
+    # GLOVES
+    # WRIST(R/L)
+    # BELT
+    # SUIT
+
+    # TODO: Slot over another slot
+    # Ex: Tshirt under armor, under cloak
 
 
 class Equipment(Component):

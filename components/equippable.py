@@ -1,6 +1,6 @@
 from components.component import Component
-from src.equipment_types import EquipmentType
-from src.attribute_types import AttributeType
+from components.equipment import EquipmentType
+from components.attributes import AttributeType
 from src.thindict import ThinDict
 
 

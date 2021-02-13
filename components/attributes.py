@@ -1,4 +1,12 @@
+from enum import Enum, auto
 from components.component import Component
+
+
+class AttributeType(Enum):
+    AC = auto()
+    STRENGTH = auto()
+    DEXTERITY = auto()
+    CONSTITUTION = auto()
 
 
 class Attributes(Component):
