@@ -1,20 +1,78 @@
 import random
+from components.component import Component
+
+""" Describes the attack that a player, monster, or item has.
+    Consists of:
+        * the attack "verbs" (ie: kicks, bites, punches, etc)
+        * The die(s) to roll for each attack
+        * Any special power associated with the attack (cold, fire, poison)
+        * Any bonus to-hit or damage for each attack.
+
+    Ex: A MEAN horsie has some bites and kick attacks.
+    { 'bite': 2d6, 'bite': 2d6', 'kick': 2d8 )
+
+    Instead of D-notation, we can use lists of ints
+    { 'bite': [6, 6], 'bite': [6, 6], 'kick': [6, 6])
+
+    What if the monster has a special attack, like poison?
+    { 'bite': [6, 6], 'poison': [6, 6])
+
+    This is a possibility, but it leaves out how they are poisoning you (bite, sting, stab). One way to
+    solve this could be to create more top dicts of attacks.
+
+    self.physical_attacks = { 'bite': [6, 6], 'bite': [6, 6], 'kick': [6, 6])
+    self.special_attacks = {
+        'poison': {'bite': [6, 6], 'bite': [6, 6]'),
+        'cold': {'freezing breath': [10]]
+    }
+
+    Attacks could also get bonuses - like to-hit or constant damage bonuses (ie: 1d6 + 1)
+
+    { 'bite': [6, 6], 'poison': [6, 6], 'to-hit': 1, 'bonus': 2)
+
+    But it might be easier to simply have:
+        self.physical_to_hit_bonus
+        self.physical_dmg_bonus
+        self.special_to_hit_bonus
+        self.special_dmg_bonus
+
+    We might be able to create lambdas for more advanced calculations.
+
+    And against specific breeds of monsters, we can also add (or subtract) certain bonuses:
+        Water vs metallic enemies
+        Poison vs non-poison resistant enemies
+        Cold vs Fire-resistant enemies
+        Fire vs cold-resistant enemies
+
+    Also good to note what kind of attack this falls into:
+        Melee: standard
+        Ranged (thrown object)
+        Ray (Wand/gun)
+        Firearms
+        Explosive (huge to-hit bonus
+
+    We would also just use a list of named tuples.
+    Attack = collections.namedtuple('Attack', 'name dies bonus_dmg tohit special ')
+    
+    Note: Named tuples did not work with *args, with got clogged up being uppacked.
+"""
 
 
-class AttackType:
-    """ Describes an attack type and corresponding damage dies and bonus.
-        bite: d6
-        hit: d2
-        punch: d2
+class Attack:
+    def __init__(self, name, dies):
+        self.name = name
+        self.dies = dies
 
-        We might be able to create lambdas for more advanced calculations.
-        claw: 2d6 + 1
-    """
-    def __init__(self, die_sides, damage_bonus=0):
-        self.die_sides = die_sides  # Any extra damage added after the die rolls
-        self.damage_bonus = damage_bonus
 
-    def roll_dmg(self):
-        # Generator to roll through all attacks
-        # Simulates a die roll for the attack die.
-        return random.randint(1, self.die_sides)
+class AttackComponent(Component):
+    def __init__(self, *args):
+        # args is a tuple of Attack named tuples
+        self.attacks = tuple(args)
+
+    def __len__(self):
+        return len(self.attacks)
+
+    @staticmethod
+    def roll_dies(dies):
+        # Takes in a list of dies, rolls all of them, and returns the sum of the results.
+        return sum(random.randint(1, d) for d in dies)
