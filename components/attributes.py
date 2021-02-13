@@ -16,33 +16,19 @@ class Attributes(Component):
 
     @property
     def ac(self):
-        return self.base_ac + self.ac_bonus
+        return self.base_ac + self.equipment_bonus('AC')
 
     @property
     def strength(self):
-        return self.base_strength + self.strength_bonus
+        return self.base_strength + self.equipment_bonus('STRENGTH')
 
     @property
     def dexterity(self):
-        return self.base_dexterity + self.dexterity_bonus
+        return self.base_dexterity + self.equipment_bonus('DEXTERITY')
 
-    @property
-    def ac_bonus(self):
+    def equipment_bonus(self, attribute):
+        # Is this more usable if it takes Equipment as an arg?
         if self.parent.equipment:
-            return self.parent.equipment.ac_bonus
-        else:
-            return 0
-
-    @property
-    def strength_bonus(self):
-        if self.parent.equipment:
-            return self.parent.equipment.strength_bonus
-        else:
-            return 0
-
-    @property
-    def dexterity_bonus(self):
-        if self.parent.equipment:
-            return self.parent.equipment.dexterity_bonus
+            return self.parent.equipment.attribute_bonus(attribute)
         else:
             return 0

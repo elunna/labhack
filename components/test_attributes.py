@@ -16,11 +16,11 @@ def test_Attributes_ac_property(player):
     assert f.ac == 15  # No bonus
 
 
-def test_Attributes_ac_bonus_property(player):
+def test_Attributes_equipment_bonus__ac(player):
     f = Attributes(base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's ai
     # No bonus when player has no equipment
-    assert f.ac_bonus == 0
+    assert f.equipment_bonus('AC') == 0
 
 
 def test_Attributes_strength_property(player):
@@ -29,11 +29,11 @@ def test_Attributes_strength_property(player):
     assert f.strength == 20  # No bonus
 
 
-def test_Attributes_strength_bonus_property(player):
+def test_Attributes_equipment_bonus__strength(player):
     f = Attributes(base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's ai
     # No bonus when player has no equipment
-    assert f.strength_bonus == 0
+    assert f.equipment_bonus('STRENGTH') == 0
 
 
 def test_Attributes_dexterity_property(player):
@@ -42,9 +42,9 @@ def test_Attributes_dexterity_property(player):
     assert f.dexterity == 10  # Default dex, No bonus
 
 
-def test_Attributes_dexterity_bonus_property(player):
+def test_Attributes_equipment_bonus__dexterity(player):
     f = Attributes(base_ac=15, base_strength=20)
     f.parent = player  # Needs parent to check it's ai
     # No bonus when player has no equipment
-    assert f.dexterity_bonus == 0
+    assert f.equipment_bonus('DEXTERITY') == 0
 

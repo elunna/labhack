@@ -18,20 +18,9 @@ class Equipment(Component):
         for item in args:
             self.toggle_equip(item)
 
-    @property
-    def ac_bonus(self):
+    def attribute_bonus(self, attribute):
         equipped_items = [i for i in self.slots.values() if i]
-        return sum(i.equippable.modifiers['AC'] for i in equipped_items)
-
-    @property
-    def strength_bonus(self):
-        equipped_items = [i for i in self.slots.values() if i]
-        return sum(i.equippable.modifiers['STRENGTH'] for i in equipped_items)
-
-    @property
-    def dexterity_bonus(self):
-        equipped_items = [i for i in self.slots.values() if i]
-        return sum(i.equippable.modifiers['DEXTERITY'] for i in equipped_items)
+        return sum(i.equippable.modifiers[attribute] for i in equipped_items)
 
     def item_is_equipped(self, item):
         """ Returns True if the item is equipped, otherwise returns False."""
