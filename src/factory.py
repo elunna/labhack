@@ -3,7 +3,7 @@ import tcod
 from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
-from components.attacks import AttackType
+from components.attacks import AttackComponent, Attack
 from components.energy import EnergyMeter
 from components.equipment import Equipment
 from components.fighter import Fighter
@@ -59,7 +59,7 @@ grid_bug = actor.Actor(
     name="Grid Bug",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=1, attacks=AttackType(die_sides=1)),
+    fighter=Fighter(hp=1, attacks=AttackComponent(Attack('zap', [1]))),
     attributes=Attributes(base_ac=1, base_strength=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
@@ -73,7 +73,7 @@ storm_drone = actor.Actor(
     name="Storm Drone",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=1, attacks=AttackType(die_sides=5)),
+    fighter=Fighter(hp=1, attacks=AttackComponent(Attack('zap', [5]))),
     attributes=Attributes(base_ac=-20, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=55),
@@ -87,7 +87,7 @@ spider_drone = actor.Actor(
     name="Spider Drone",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=4, attacks=AttackType(die_sides=3)),
+    fighter=Fighter(hp=4, attacks=AttackComponent(Attack('claw', [3]))),
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
@@ -100,7 +100,7 @@ med_school_dropout = actor.Actor(
     name="Med-School Dropout",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=6, attacks=AttackType(die_sides=5)),
+    fighter=Fighter(hp=6, attacks=AttackComponent(Attack('kick', [5]))),
     attributes=Attributes(base_ac=6, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
@@ -113,7 +113,7 @@ cyber_cat = actor.Actor(
     name="Cyber Cat",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=6, attacks=AttackType(die_sides=6)),
+    fighter=Fighter(hp=6, attacks=AttackComponent(Attack('claw', [6]))),
     attributes=Attributes(base_ac=3, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
@@ -126,7 +126,7 @@ giant_leech = actor.Actor(
     name="Giant Leech",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=11, attacks=AttackType(die_sides=6)),
+    fighter=Fighter(hp=11, attacks=AttackComponent(Attack('suck', [6]))),
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
@@ -140,7 +140,7 @@ orc = actor.Actor(
     name="Orc",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=4, attacks=AttackType(die_sides=3)),
+    fighter=Fighter(hp=4, attacks=AttackComponent(Attack('hit', [3]))),
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
@@ -153,7 +153,7 @@ troll = actor.Actor(
     name="Troll",
     ai_cls=HostileAI,
     equipment=Equipment(),
-    fighter=Fighter(hp=11, attacks=AttackType(die_sides=6)),
+    fighter=Fighter(hp=11, attacks=AttackComponent(Attack('bites', [6]))),
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
@@ -194,7 +194,7 @@ dagger = item.Item(
     color=(0, 191, 255),
     name="Dagger",
     equippable=equippable.Weapon(
-        attack=attacks.AttackType(die_sides=3),
+        attack=attacks.AttackComponent(Attack('dagger', [3])),
     ),
 )
 
@@ -203,7 +203,7 @@ sword = item.Item(
     color=(0, 191, 255),
     name="Sword",
     equippable=equippable.Weapon(
-        attack=attacks.AttackType(die_sides=8)
+        attack=attacks.AttackComponent(Attack('sword', [8])),
     ),
 )
 

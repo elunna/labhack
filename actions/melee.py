@@ -2,6 +2,7 @@ import random
 
 from actions.actions import ActionWithDirection
 from actions.death import DieAction
+from components.attacks import AttackComponent
 from src import exceptions
 
 
@@ -18,28 +19,29 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        # Setup for the attack descriptions
-        entity = self.entity.name.capitalize()
-        target_number = self.calc_target_number(target)
-
-        if self.roll_hit_die() < self.calc_target_number(target):
-            # It's a hit!
-            result = 0
-
-            # Calculate the damage
-            if self.entity.equipment.slots['WEAPON']:
-                dmg = self.hit_with_weapon(target)
-            else:
-                dmg = self.hit_with_barehands(target)
-
-            target.fighter.hp -= dmg
-
-            # Check if the target is dead...
-            if target.fighter.is_dead():
-                return DieAction(entity=target, cause=self.entity)
-
+        weapon = self.entity.equipment.slots['WEAPON']
+        if weapon:
+            attack_comp = weapon.equippable.attack
+            use_method = self.hit_with_weapon
         else:
-            self.miss(target)
+            attack_comp = self.entity.fighter.attacks
+            use_method = self.hit_with_barehands
+
+        # Iterate through all the attacks
+        for atk in attack_comp.attacks:
+            if self.roll_hit_die() < self.calc_target_number(target):
+                # It's a hit!
+                # Calculate the damage
+                dmg = use_method(target, atk)
+
+                target.fighter.hp -= dmg
+
+                # Check if the target is dead...
+                if target.fighter.is_dead():
+                    return DieAction(entity=target, cause=self.entity)
+
+            else:
+                self.miss(target)
 
     def calc_target_number(self, target):
         defender_ac = target.attributes.ac
@@ -60,33 +62,33 @@ class MeleeAction(ActionWithDirection):
         # Rolls a 1d20 die to determine if the attacker will land the hit.
         return random.randint(1, self.die)
 
-    def hit_with_weapon(self, target):
+    def hit_with_weapon(self, target, atk):
         # Get the damage from the weapon
-        weapon = self.entity.equipment.slots['WEAPON']
-        dmg = weapon.equippable.attack.roll_dmg()
+        dmg = AttackComponent.roll_dies(atk.dies)
+
         # atk_text = self.entity.fighter.attacks.description
-        self.msg = f"The {self.entity} hits the {target.name} with a {weapon.name} for {dmg}! "
+        self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
         if self.entity.name == "Player":
-            self.msg = f"You hit the {target.name} with your {weapon.name} for {dmg}! "
+            self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
         elif target.name == "Player":
-            self.msg = f"The {self.entity} hits you with it's {weapon.name} for {dmg}! "
+            self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
-            self.msg = f"The {self.entity} hits the {target.name} with a {weapon.name} for {dmg}! "
+            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
         return dmg
 
-    def hit_with_barehands(self, target):
+    def hit_with_barehands(self, target, atk):
         # We'll use the entities "natural" attack, or Bare-Handed for our Hero.
-        dmg = self.entity.fighter.attacks.roll_dmg()
-        self.msg = f"The {self.entity} hits the {target.name} for {dmg}! "
+        dmg = AttackComponent.roll_dies(atk.dies)
+        self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
 
         if self.entity.name == "Player":
-            self.msg = f"You hit the {target.name} for {dmg}! "
+            self.msg = f"You {atk.name} the {target.name} for {dmg}! "
         elif target.name == "Player":
-            self.msg = f"The {self.entity} hits you for {dmg}! "
+            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
         else:
-            self.msg = f"The {self.entity} hits the {target.name} for {dmg}! "
+            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
 
         return dmg
 

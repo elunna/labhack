@@ -1,5 +1,5 @@
 from components.component import Component
-from components.attacks import AttackType
+from components.attacks import AttackComponent, Attack
 
 
 class Fighter(Component):
@@ -13,7 +13,7 @@ class Fighter(Component):
             self.attacks = attacks
         else:
             # set a default puny barehanded attack
-            self.attacks = AttackType(die_sides=2)
+            self.attacks = AttackComponent(Attack('punch', [2]))
 
     @property
     def hp(self):
