@@ -43,7 +43,7 @@ player = actor.Actor(
     char="@",
     color=(255, 255, 255),
     name="Player",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=30),
     attacks=AttackComponent(Attack('punch', [2])),
@@ -58,7 +58,7 @@ grid_bug = actor.Actor(
     char="x",
     color=tcod.purple,
     name="Grid Bug",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=1),
     attacks=AttackComponent(Attack('zap', [1])),
@@ -68,12 +68,11 @@ grid_bug = actor.Actor(
     energymeter=EnergyMeter(threshold=10)
 )
 
-
 storm_drone = actor.Actor(
     char="x",
     color=(0, 127, 0),
     name="Storm Drone",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=1),
     attacks=AttackComponent(Attack('zap', [5])),
@@ -83,12 +82,11 @@ storm_drone = actor.Actor(
     energymeter=EnergyMeter(threshold=8)
 )
 
-
 spider_drone = actor.Actor(
     char="s",
     color=tcod.dark_gray,
     name="Spider Drone",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=4),
     attacks=AttackComponent(Attack('claw', [3])),
@@ -102,7 +100,7 @@ med_school_dropout = actor.Actor(
     char="@",
     color=tcod.dark_gray,
     name="Med-School Dropout",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=6),
     attacks=AttackComponent(Attack('kick', [5])),
@@ -116,7 +114,7 @@ cyber_cat = actor.Actor(
     char="f",
     color=tcod.dark_blue,
     name="Cyber Cat",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=6),
     attacks=AttackComponent(Attack('claw', [6])),
@@ -130,7 +128,7 @@ giant_leech = actor.Actor(
     char="L",
     color=tcod.light_green,
     name="Giant Leech",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=11),
     attacks=AttackComponent(Attack('suck', [6])),
@@ -140,12 +138,11 @@ giant_leech = actor.Actor(
     energymeter=EnergyMeter(threshold=16)
 )
 
-
 orc = actor.Actor(
     char="o",
     color=(63, 127, 63),
     name="Orc",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=4),
     attacks=AttackComponent(Attack('hit', [3])),
@@ -159,7 +156,7 @@ troll = actor.Actor(
     char="T",
     color=(0, 127, 0),
     name="Troll",
-    ai_cls=HostileAI,
+    ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=11),
     attacks=AttackComponent(Attack('bites', [6])),
@@ -168,7 +165,6 @@ troll = actor.Actor(
     level=Level(current_level=4, xp_given=100),
     energymeter=EnergyMeter(threshold=16)
 )
-
 
 health_potion = item.Item(
     char="!",

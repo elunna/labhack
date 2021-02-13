@@ -106,11 +106,11 @@ class ConfusionConsumable(Consumable):
 
         action.msg = f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
 
-        target.ai = ConfusedAI(
-            parent=target,
+        confused_ai = ConfusedAI(
             previous_ai=target.ai,
             turns_remaining=self.number_of_turns,
         )
+        target.add_comp(ai=confused_ai)
         self.consume()
 
 

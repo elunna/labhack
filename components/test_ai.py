@@ -1,5 +1,5 @@
 """ Tests for ai.py """
-
+from actions.bump import BumpAction
 from . import ai
 from .component import Component
 from src import gamemap
@@ -23,13 +23,8 @@ def empty_map():
     )
 
 
-def test_BaseAI_init(player):
-    base_ai = ai.BaseAI(player)
-    assert base_ai.parent is player
-
-
-def test_BaseAI_is_Component(player):
-    base_ai = ai.BaseAI(player)
+def test_BaseAI_is_Component():
+    base_ai = ai.BaseAI()
     assert isinstance(base_ai, Component)
 
 
@@ -40,33 +35,33 @@ def test_BaseAI_engine(player):
     assert isinstance(result, Engine)
 
 
-def test_BaseAI_perform(player):
+def test_BaseAI_perform():
     # This is not implemented in the Component class.
-    base_ai = ai.BaseAI(player)
+    base_ai = ai.BaseAI()
     with pytest.raises(NotImplementedError):
         base_ai.yield_action()
 
 
 @pytest.mark.skip(reason='REQUIRES the entity to have a gamemap reference')
-def test_BaseAI_get_path_to(player):
-    base_ai = ai.BaseAI(player)
+def test_BaseAI_get_path_to():
+    base_ai = ai.BaseAI()
     result = base_ai.engine
     assert isinstance(result, Engine)
 
 
-def test_HostileAI_is_Component(player):
-    approach_ai = ai.HostileAI(player)
+def test_HostileAI_is_Component():
+    approach_ai = ai.HostileAI()
     assert isinstance(approach_ai, Component)
 
 
-def test_HostileAI_init(player):
-    approach_ai = ai.HostileAI(player)
+def test_HostileAI_init():
+    approach_ai = ai.HostileAI()
     assert approach_ai.path == []
 
 
 @pytest.mark.skip(reason='REQUIRES the entity to have a gamemap and enginereference')
-def test_HostileAI_perform(player):
-    approach_ai = ai.HostileAI(player)
+def test_HostileAI_perform():
+    approach_ai = ai.HostileAI()
     assert approach_ai.path == []
 
     # TODO: Target can be anything in addition to the player
@@ -76,9 +71,8 @@ def test_HostileAI_perform(player):
     # TODO: Target is 1 square away - diagonal
 
 
-def test_ConfusedAI_is_Component(player):
+def test_ConfusedAI_is_Component():
     confused_ai = ai.ConfusedAI(
-        parent=player,
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
@@ -88,7 +82,6 @@ def test_ConfusedAI_is_Component(player):
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedAI_init(player):
     confused_ai = ai.ConfusedAI(
-        entity=player,
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
@@ -99,7 +92,6 @@ def test_ConfusedAI_init(player):
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedAI_perform(player):
     confused_ai = ai.ConfusedAI(
-        entity=player,
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )
@@ -111,7 +103,6 @@ def test_ConfusedAI_perform(player):
 @pytest.mark.skip(reason='Engine reference issues')
 def test_ConfusedAI_perform__no_turns_remaining(player):
     confused_ai = ai.ConfusedAI(
-        entity=player,
         previous_ai=ai.HostileAI,
         turns_remaining=4
     )

@@ -28,7 +28,7 @@ class Actor(entity.Entity):
             render_order=RenderOrder.ACTOR,
         )
 
-        self.ai = ai_cls(self)
+        self.add_comp(ai=ai_cls)
         self.add_comp(equipment=equipment)
         self.add_comp(fighter=fighter)
         self.add_comp(attacks=attacks)

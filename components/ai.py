@@ -10,12 +10,6 @@ import tcod
 
 
 class BaseAI(Component):
-    parent = None
-
-    def __init__(self, parent):
-        super().__init__()
-        self.parent = parent
-
     def yield_action(self):
         # No perform implemented, since the entities which will be using AI to
         # act will have to have an AI class that inherits from this one.
@@ -75,8 +69,7 @@ class BaseAI(Component):
 
 
 class HostileAI(BaseAI):
-    def __init__(self, parent):
-        super().__init__(parent)
+    def __init__(self):
         self.path = []
 
     def yield_action(self):
@@ -109,10 +102,7 @@ class ConfusedAI(BaseAI):
         revert back to its previous AI. If an actor occupies a tile it is randomly moving
         into, it will attack.
     """
-
-    def __init__(self, parent, previous_ai, turns_remaining):
-        super().__init__(parent)
-
+    def __init__(self, previous_ai, turns_remaining):
         self.previous_ai = previous_ai
         self.turns_remaining = turns_remaining
 
@@ -138,8 +128,7 @@ class ConfusedAI(BaseAI):
 
 
 class RunAI(BaseAI):
-    def __init__(self, parent, direction):
-        super().__init__(parent)
+    def __init__(self, direction):
         self.dx, self.dy = direction
         self.first_step = True
         self.next_move = None
