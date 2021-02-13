@@ -1,13 +1,17 @@
 import copy
 import math
-
+from components.component import Component
 
 class Entity(object):
-    """ A generic object to represent players, enemies, items, etc.
-        We use a dictionary to manage the entity's Components.
+    """ A generic object to represent players, enemies, items, etc. An Entity is composed of Components.
+        The Entity also makes sure that each Component's parent is correctly set to the Entity it is added
+        to and unset when it is removed. We use a dictionary to manage the entity's Components.
     """
     def __init__(self, **kwargs):
-        self.components = kwargs
+        self.components = {}
+
+        # Add any components that were passed in at creation
+        self.add_comp(**kwargs)
 
     def __str__(self):
         if self.has_comp('name'):
@@ -22,7 +26,6 @@ class Entity(object):
 
     def __setattr__(self, key, value):
         if key == 'components':
-            # self.components = value
             super().__setattr__('components', value)
         else:
             self.components[key] = value
@@ -48,6 +51,11 @@ class Entity(object):
         for k, v in kwargs.items():
             self.components[k] = v
 
+            # Set the components parent!
+            # TODO: Take this check out after we require only Components
+            if isinstance(v, Component):
+                v.parent = self
+
     def has_comp(self, component):
         if component in self.components:
             return True
@@ -56,6 +64,12 @@ class Entity(object):
     def rm_comp(self, component):
         if component in self.components:
             self.components.pop(component)
+
+            # Unset the components parent!
+            # TODO: Take this check out after we require only Components
+            if isinstance(component, Component):
+                component.parent = None
+
             return True
         return False
 
