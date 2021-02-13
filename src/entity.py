@@ -15,9 +15,12 @@ class Entity(object):
         self.add_comp(**kwargs)
 
     def __str__(self):
-        if self.has_comp('name'):
+        if 'name' in self:
             return self.name
         return 'Unnamed'
+
+    def __contains__(self, component):
+        return component in self.components
 
     def __getattr__(self, name):
         if name in self.components:
@@ -57,10 +60,6 @@ class Entity(object):
             if isinstance(v, Component):
                 v.parent = self
 
-    def has_comp(self, component):
-        if component in self.components:
-            return True
-        return False
 
     def rm_comp(self, component):
         if component in self.components:

@@ -57,10 +57,10 @@ def test_Entity_init__add_comp__already_exists_and_replaces():
     assert e.components['a'] == 2
 
 
-def test_Entity_init__has_comp():
+def test_Entity_contains__init_args():
     e = Entity(x=0, y=0)
-    assert e.has_comp('x')
-    assert e.has_comp('y')
+    assert 'x' in e
+    assert 'y' in e
 
 
 def test_Entity_init__rm_comp__success_removes_component():
