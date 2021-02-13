@@ -9,12 +9,6 @@ class Fighter(Component):
         self.max_hp = hp
         self._hp = hp
 
-        if attacks:
-            self.attacks = attacks
-        else:
-            # set a default puny barehanded attack
-            self.attacks = AttackComponent(Attack('punch', [2]))
-
     @property
     def hp(self):
         # Just returns the hp

@@ -24,7 +24,7 @@ class MeleeAction(ActionWithDirection):
             attack_comp = weapon.equippable.attack
             use_method = self.hit_with_weapon
         else:
-            attack_comp = self.entity.fighter.attacks
+            attack_comp = self.entity.attacks
             use_method = self.hit_with_barehands
 
         # Iterate through all the attacks

@@ -12,6 +12,7 @@ class Actor(entity.Entity):
         ai_cls,
         equipment,
         fighter,
+        attacks,
         attributes,
         inventory,
         level,
@@ -33,6 +34,8 @@ class Actor(entity.Entity):
         self.equipment.parent = self
         self.fighter = fighter
         self.fighter.parent = self
+        self.attacks = attacks
+        self.attacks.parent = self
         self.attributes = attributes
         self.attributes.parent = self
         self.inventory = inventory

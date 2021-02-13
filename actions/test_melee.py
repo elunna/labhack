@@ -123,7 +123,7 @@ def test_MeleeAction_hit_with_barehands__returns_dmg(test_map):
 
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    atk = player.fighter.attacks.attacks[0]
+    atk = player.attacks.attacks[0]
     result = a.hit_with_barehands(target, atk)
     attack_max = sum(atk.dies)
     assert result >= 1
@@ -134,7 +134,7 @@ def test_MeleeAction_hit_with_barehands__msg(test_map):
     player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    atk = player.fighter.attacks.attacks[0]
+    atk = player.attacks.attacks[0]
     result = a.hit_with_barehands(target, atk)
     assert a.msg == f"You punch the Orc for {result}! "
 
@@ -143,7 +143,7 @@ def test_MeleeAction_hit_with_barehands__msg__enemy_hits_you(test_map):
     target = test_map.player
     orc = factory.orc
     a = MeleeAction(entity=orc, dx=0, dy=1)
-    atk = orc.fighter.attacks.attacks[0]
+    atk = orc.attacks.attacks[0]
     result = a.hit_with_barehands(target, atk)
     assert a.msg == f"The Orc hits you for {result}! "
 
