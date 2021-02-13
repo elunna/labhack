@@ -21,6 +21,6 @@ logs/
 
 
 # Misc files
-extrastuff/*
+extrastuff
 todo.txt
 brainstorm.txt
