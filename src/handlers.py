@@ -66,18 +66,8 @@ class EventHandler(BaseEventHandler):
                 # The player was killed sometime during or after the action.
                 return GameOverHandler(self.engine)
 
-            # Player leveled up
-            elif self.engine.player.level.requires_level_up:
-                next_level = self.engine.player.level.current_level + 1
-                self.engine.msglog.add_message(
-                    f"You advance to level {next_level}!"
-                )
-
-                # This handler is currently on hold.
-                # return LevelUpEventHandler(self.engine)
-
-                # Instead, boost a random stat.
-                self.engine.player.level.get_random_stat_increase()
+            # If the player leveled up, handle it.
+            self.engine.check_level()
 
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
@@ -516,9 +506,9 @@ class LevelUpHandler(AskUserHandler):
             if index == 0:
                 player.level.increase_max_hp()
             elif index == 1:
-                player.level.increase_power()
+                player.level.increase_strength()
             else:
-                player.level.increase_defense()
+                player.level.increase_ac()
         else:
             self.engine.msglog.add_message("Invalid entry.", color.invalid)
 

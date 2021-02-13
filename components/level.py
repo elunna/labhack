@@ -55,33 +55,17 @@ class Level(Component):
 
         return True
 
-    def get_random_stat_increase(self):
-        # TODO: Move to FighterComponent?
-        choice = random.randint(1, 3)
-        if choice == 1:
-            self.increase_max_hp()
-        elif choice == 2:
-            self.increase_power()
-        else:
-            self.increase_defense()
-
-    def increase_max_hp(self, amount = 20):
-        # TODO: Move to FighterComponent?
+    def increase_max_hp(self, amount=20):
         self.parent.fighter.max_hp += amount
         self.parent.fighter.hp += amount
-        self.engine.msglog.add_message("Your health improves!")
         self.increase_level()
 
-    def increase_power(self, amount = 1):
-        # TODO: Move to AttributesComponent?
+    def increase_strength(self, amount=1):
         self.parent.attributes.base_strength += amount
-        self.engine.msglog.add_message("You feel stronger!")
         self.increase_level()
 
-    def increase_defense(self, amount=-1):
-        # TODO: Move to AttributesComponent?
+    def increase_ac(self, amount=-1):
         self.parent.attributes.base_ac += amount
-        self.engine.msglog.add_message("Your movements are getting swifter!")
         self.increase_level()
 
 

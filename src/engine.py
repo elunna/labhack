@@ -1,3 +1,7 @@
+import random
+
+import tcod
+
 from actions import actions
 from . import color
 from . import exceptions
@@ -9,7 +13,6 @@ from . import settings
 from tcod.map import compute_fov
 import lzma
 import pickle
-import tcod
 
 
 class Engine:
@@ -115,11 +118,23 @@ class Engine:
         with open(filename, "wb") as f:
             f.write(save_data)
 
-    # def bring_out_the_dead(self):
-        # for entity in set(self.game_map.actors):
-            # if entity.ai and entity.fighter.is_dead():
-                # pass
+    def check_level(self):
+        # Player leveled up
+        if self.player.level.requires_level_up:
+            next_level = self.player.level.current_level + 1
+            self.msglog.add_message(f"You advance to level {next_level}!", tcod.light_blue)
 
+            # Instead, boost a random stat.
+            choice = random.randint(1, 3)
+            if choice == 1:
+                self.player.level.increase_max_hp()
+                self.msglog.add_message("Your health improves!")
+            elif choice == 2:
+                self.player.level.increase_strength()
+                self.msglog.add_message("You feel stronger!")
+            else:
+                self.player.level.increase_ac()
+                self.msglog.add_message("Your movements are getting swifter!")
 
     def handle_action(self, action):
         if action is None:
