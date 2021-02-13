@@ -4,21 +4,20 @@ from src.renderorder import RenderOrder
 
 class Actor(entity.Entity):
     def __init__(
-        self, *,
-        x=0, y=0,
-        char="?",
-        color=(255, 255, 255),
-        name="<Unnamed>",
-        ai_cls,
-        equipment,
-        fighter,
-        attacks,
-        attributes,
-        inventory,
-        level,
-        energymeter,
+            self, *,
+            x=0, y=0,
+            char="?",
+            color=(255, 255, 255),
+            name="<Unnamed>",
+            ai_cls,
+            equipment,
+            fighter,
+            attacks,
+            attributes,
+            inventory,
+            level,
+            energymeter,
     ):
-
         super().__init__(
             x=x,
             y=y,
@@ -30,20 +29,13 @@ class Actor(entity.Entity):
         )
 
         self.ai = ai_cls(self)
-        self.equipment = equipment
-        self.equipment.parent = self
-        self.fighter = fighter
-        self.fighter.parent = self
-        self.attacks = attacks
-        self.attacks.parent = self
-        self.attributes = attributes
-        self.attributes.parent = self
-        self.inventory = inventory
-        self.inventory.parent = self
-        self.level = level
-        self.level.parent = self
-        self.energymeter = energymeter
-        self.energymeter.parent = self
+        self.add_comp(equipment=equipment)
+        self.add_comp(fighter=fighter)
+        self.add_comp(attacks=attacks)
+        self.add_comp(attributes=attributes)
+        self.add_comp(inventory=inventory)
+        self.add_comp(level=level)
+        self.add_comp(energymeter=energymeter)
 
     @property
     def is_alive(self):

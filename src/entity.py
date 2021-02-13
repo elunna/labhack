@@ -2,6 +2,7 @@ import copy
 import math
 from components.component import Component
 
+
 class Entity(object):
     """ A generic object to represent players, enemies, items, etc. An Entity is composed of Components.
         The Entity also makes sure that each Component's parent is correctly set to the Entity it is added
