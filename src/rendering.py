@@ -92,14 +92,16 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 def render_stats(console, engine, player):
     # Power
-    pow_str = f"Str: {player.attributes.strength}"
-    def_str = f"AC: {player.attributes.ac}"
-    xl_str = f"XL: {player.level.current_level}"
-    turn_str = f"Turns: {engine.turns}"
+    ac_stat = f"AC:{player.attributes.ac}"
+    str_stat = f"Str:{player.attributes.strength}"
+    dex_stat = f"Dex:{player.attributes.dexterity}"
+    con_stat = f"Con:{player.attributes.constitution}"
+    xp_lvl_stat = f"XL:{player.level.current_level}"
+    turns = f"Turns:{engine.turns}"
 
     console.print(
         x=22, y=settings.hp_bar_y,
-        string=f"{pow_str} | {def_str} | {xl_str} | {turn_str}"
+        string=f"{ac_stat} | {str_stat} | {dex_stat} | {con_stat} | {xp_lvl_stat} | {turns}"
     )
 
 
@@ -296,7 +298,6 @@ def draw_rect(console, x, y, radius):
         fg=color.red,
         clear=False,
     )
-
 
 
 def render_popup(console, text):
