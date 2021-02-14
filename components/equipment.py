@@ -11,8 +11,9 @@ class EquipmentType(Enum):
     BOOTS = auto()
     GLOVES = auto()
     SHIELD = auto()     # Offhand?
+    BELT = auto()
     # WRIST(R/L)
-    # BELT
+
     # SUIT
 
     # TODO: Slot over another slot

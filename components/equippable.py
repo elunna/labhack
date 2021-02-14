@@ -70,3 +70,11 @@ class Shield(Equippable):
             equipment_type=EquipmentType.SHIELD,
             ac_bonus=ac_bonus
         )
+
+
+class Belt(Equippable):
+    def __init__(self, ac_bonus=0):
+        super().__init__(
+            equipment_type=EquipmentType.BELT,
+            ac_bonus=ac_bonus
+        )

@@ -374,6 +374,27 @@ ballistic_shield = item.Item(
     equippable=equippable.Shield(ac_bonus=-3),
 )
 
+leather_belt = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Leather Belt",
+    equippable=equippable.Belt(ac_bonus=-1),
+)
+
+tactical_belt = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Tactical Belt",
+    equippable=equippable.Belt(ac_bonus=-2),
+)
+
+power_belt = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Power Belt",
+    equippable=equippable.Belt(ac_bonus=-3),
+)
+
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
@@ -406,6 +427,9 @@ item_chances = {
         (garbage_lid, 5),       # AC1
         (riot_shield, 6),       # AC2
         (ballistic_shield, 1),  # AC3
+        (leather_belt, 6),      # AC1
+        (tactical_belt, 3),     # AC2
+        (power_belt, 1),        # AC3
     ],
 }
 
