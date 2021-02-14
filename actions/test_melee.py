@@ -162,3 +162,24 @@ def test_MeleeAction_miss__enemy_misses_you(test_map):
     a = MeleeAction(entity=orc, dx=0, dy=1)
     result = a.miss(target)
     assert a.msg == f"The Orc misses you. "
+
+
+def test_MeleeAction_reduce_dmg__positive_ac_equals_no_reduction():
+    orc = factory.orc
+    assert orc.attributes.ac == 7
+    result = MeleeAction.reduce_dmg(orc, 5)
+    assert result == 5
+
+
+def test_MeleeAction_reduce_dmg__negative_ac():
+    troll = factory.troll
+    assert troll.attributes.ac == -2
+    result = MeleeAction.reduce_dmg(troll, 5)
+    assert result == 3 or result == 4
+
+
+def test_MeleeAction_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
+    stormdrone = factory.storm_drone
+    assert stormdrone.attributes.ac == -20
+    result = MeleeAction.reduce_dmg(stormdrone, 5)
+    assert result == 1

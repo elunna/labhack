@@ -34,6 +34,9 @@ class MeleeAction(ActionWithDirection):
                 # Calculate the damage
                 dmg = use_method(target, atk)
 
+                # Calculate damage reduction from targets AC
+                dmg = self.reduce_dmg(target, dmg)
+
                 target.fighter.hp -= dmg
 
                 # Check if the target is dead...
@@ -101,3 +104,20 @@ class MeleeAction(ActionWithDirection):
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
+
+    @staticmethod
+    def reduce_dmg(target, dmg):
+        """ Calculates how much damage the defender takes after  factoring in it's AC.
+            There is no damage reduction if the defender has 0+ AC.
+            If the target has negative AC, calculates how much damage reduction it recieves.
+            If the damage would be reduced below 1, it is always set to at least 1.
+        """
+        if target.attributes.ac >= 0:
+            return dmg
+
+        dmg_reduced = random.randint(1, abs(target.attributes.ac))
+        result = dmg - dmg_reduced
+        if result < 1:
+            return 1
+        else:
+            return result
