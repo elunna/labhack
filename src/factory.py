@@ -395,6 +395,35 @@ power_belt = item.Item(
     equippable=equippable.Belt(ac_bonus=-3),
 )
 
+leather_wrists = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Leather Wrists",
+    equippable=equippable.Arms(ac_bonus=-1),
+)
+
+elbow_pads = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Elbow Pads",
+    equippable=equippable.Arms(ac_bonus=-1),
+)
+
+forearm_guards = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Forearm Guards",
+    equippable=equippable.Arms(ac_bonus=-2),
+)
+
+power_wrists = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Power Wrists",
+    equippable=equippable.Arms(ac_bonus=-3),
+)
+
+
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
@@ -406,7 +435,7 @@ item_chances = {
         (sword, 5),
         (leather_vest, 5),      # AC1
         (chest_guard, 5),       # AC2
-        (tactical_vest, 5),         # AC2
+        (tactical_vest, 5),     # AC2
         (bulletproof_vest, 3),  # AC3
         (chain_vest, 2),        # AC3
         (riot_armor, 2),        # AC4
@@ -430,6 +459,10 @@ item_chances = {
         (leather_belt, 6),      # AC1
         (tactical_belt, 3),     # AC2
         (power_belt, 1),        # AC3
+        (elbow_pads, 6),        # AC1
+        (leather_wrists, 5),    # AC1
+        (forearm_guards, 6),    # AC2
+        (power_wrists, 1),      # AC3
     ],
 }
 

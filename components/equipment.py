@@ -12,7 +12,7 @@ class EquipmentType(Enum):
     GLOVES = auto()
     SHIELD = auto()     # Offhand?
     BELT = auto()
-    # WRIST(R/L)
+    ARMS = auto()       # (R/L)
 
     # SUIT
 

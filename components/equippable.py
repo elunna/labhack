@@ -72,6 +72,15 @@ class Shield(Equippable):
         )
 
 
+class Arms(Equippable):
+    def __init__(self, ac_bonus=0):
+        super().__init__(
+            equipment_type=EquipmentType.ARMS,
+            ac_bonus=ac_bonus
+        )
+
+
+
 class Belt(Equippable):
     def __init__(self, ac_bonus=0):
         super().__init__(
