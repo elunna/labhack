@@ -1,3 +1,5 @@
+import math
+
 from . import color
 from . import msglog
 from . import settings
@@ -266,6 +268,24 @@ def highlight_cursor(console, x, y):
     console.tiles_rgb["fg"][x, y] = color.black
 
 
+def hilite_radius(console, x, y, radius):
+    # Highlight the affected tiles.
+    max_x = x + radius
+    min_x = x - radius
+    max_y = y + radius
+    min_y = y - radius
+
+    for x2 in range(min_x, max_x + 1):
+        for y2 in range(min_y, max_y + 1):
+            if distance(x, y, x2, y2) <= radius:
+                console.tiles_rgb["bg"][x2, y2] = color.red
+                console.tiles_rgb["fg"][x2, y2] = color.black
+
+
+def distance(x1, y1, x2, y2):
+    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
+
+
 def draw_rect(console, x, y, radius):
     # Draw a rectangle around the targeted area, so the player can see the affected tiles.
     console.draw_frame(
@@ -276,6 +296,7 @@ def draw_rect(console, x, y, radius):
         fg=color.red,
         clear=False,
     )
+
 
 
 def render_popup(console, text):
@@ -403,4 +424,3 @@ def render_main_menu(console):
             alignment=tcod.CENTER,
             bg_blend=tcod.BKGND_ALPHA(64),
         )
-

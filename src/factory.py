@@ -194,7 +194,6 @@ fireball_scroll = item.Item(
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 
-
 dagger = item.Item(
     char="/",
     color=(0, 191, 255),

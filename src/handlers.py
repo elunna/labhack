@@ -459,7 +459,8 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         super().on_render(renderer)
 
         x, y = self.engine.mouse_location
-        rendering.draw_rect(renderer.root, x, y, self.radius)
+        # rendering.draw_rect(renderer.root, x, y, self.radius)
+        rendering.hilite_radius(renderer.root, x, y, self.radius)
 
     def on_index_selected(self, x, y):
         # same as the one we defined for SingleRangedAttackHandler.
