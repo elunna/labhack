@@ -27,7 +27,7 @@ def make(entity_name):
     elif entity_name == 'dagger':
         return copy.deepcopy(dagger)
     elif entity_name == 'sword':
-        return copy.deepcopy(sword)
+        return copy.deepcopy(riot_baton)
     elif entity_name == 'leather armor':
         return copy.deepcopy(leather_vest)
     elif entity_name == 'chain mail':
@@ -194,6 +194,8 @@ fireball_scroll = item.Item(
     consumable=consumable.FireballDamageConsumable(damage=12, radius=3),
 )
 
+# WEAPONS
+
 dagger = item.Item(
     char="/",
     color=(0, 191, 255),
@@ -203,14 +205,146 @@ dagger = item.Item(
     ),
 )
 
-sword = item.Item(
+riot_baton = item.Item(
     char="/",
     color=(0, 191, 255),
-    name="Sword",
+    name="Riot Baton",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('sword', [8])),
+        attack=attacks.AttackComponent(Attack('baton', [8])),
     ),
 )
+
+scalpal = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Scalpal",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('scalpal', [4])),
+    ),
+)
+
+police_baton = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Police Baton",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [4])),
+    ),
+)
+
+golf_club = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Golf Club",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [5])),
+    ),
+)
+
+
+tennis_racket = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Tennis Racket",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [5])),
+    ),
+)
+
+frying_pan = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Frying Pan",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [7])),
+    ),
+)
+
+
+hammer = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Hammer",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [4])),
+    ),
+)
+
+metal_pipe = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Metal Pipe",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [5])),
+    ),
+)
+
+big_crowbar = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Big Crowbar",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [6])),
+    ),
+)
+
+plunger = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Plunger",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [2])),
+    ),
+)
+
+rebar_pipe = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Rebar Pipe",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [6])),
+    ),
+)
+
+sledgehammer = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Sledgehammer",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [10])),
+    ),
+)
+
+wooden_stick = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Wooden Stick",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('club', [4])),
+    ),
+)
+
+
+gr_light_saber = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Green lightsaber",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('lightsaber', [3, 9])),
+    ),
+)
+
+bl_light_saber = item.Item(
+    char="/",
+    color=(0, 191, 255),
+    name="Blue lightsaber",
+    equippable=equippable.Weapon(
+        attack=attacks.AttackComponent(Attack('lightsaber', [5, 8])),
+    ),
+)
+
+# ARMOR
+
 
 leather_vest = item.Item(
    char="[",
@@ -431,7 +565,24 @@ item_chances = {
         (confusion_scroll, 25),
         (lightning_scroll, 25),
         (fireball_scroll, 25),
-        (sword, 5),
+
+        (dagger, 3),
+        (riot_baton, 3),
+        (scalpal, 3),
+        (police_baton, 1),
+        (golf_club, 2),
+        (hammer, 3),
+        (metal_pipe, 3),
+        (big_crowbar, 3),
+        (plunger, 3),
+        (rebar_pipe, 3),
+        (sledgehammer, 1),
+        (wooden_stick, 3),
+        (gr_light_saber, 1),
+        (bl_light_saber, 1),
+        (tennis_racket, 2),
+        (frying_pan, 2),
+
         (leather_vest, 5),      # AC1
         (chest_guard, 5),       # AC2
         (tactical_vest, 5),     # AC2

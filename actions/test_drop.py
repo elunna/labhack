@@ -66,7 +66,7 @@ def test_DropItem_perform__msg(test_map):
 
 def test_DropItem_perform__invalid_item_raises_Impossible(test_map):
     player = test_map.player
-    a = DropAction(entity=player, item=factory.sword)
+    a = DropAction(entity=player, item=factory.riot_baton)
 
     with pytest.raises(exceptions.Impossible):
         a.perform()

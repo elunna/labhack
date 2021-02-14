@@ -215,16 +215,16 @@ def test_Equipment_toggle_equip__armor2none__msg(leather_armor):
 
 def test_Equipment_toggle_equip__weapon2weapon(dagger):
     e = Equipment(dagger)
-    sword = ef.sword
-    e.toggle_equip(item=sword)
-    assert e.slots['WEAPON'] == sword
+    baton = ef.riot_baton
+    e.toggle_equip(item=baton)
+    assert e.slots['WEAPON'] == baton
 
 
 def test_Equipment_toggle_equip__weapon2weapon__msg(dagger):
     e = Equipment(dagger)
-    sword = ef.sword
-    result = e.toggle_equip(item=sword)
-    assert result == "You remove the Dagger. You equip the Sword. "
+    baton = ef.riot_baton
+    result = e.toggle_equip(item=baton)
+    assert result == "You remove the Dagger. You equip the Riot Baton. "
 
 
 def test_Equipment_toggle_equip__armor2armor(leather_armor):
