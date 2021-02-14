@@ -311,6 +311,26 @@ power_helmet = item.Item(
     equippable=equippable.Helmet(ac_bonus=-4),
 )
 
+rubber_gloves = item.Item(
+    char="[",
+    color=tcod.light_flame,
+    name="Rubber Gloves",
+    equippable=equippable.Helmet(ac_bonus=0),
+)
+
+leather_gloves = item.Item(
+    char="[",
+    color=tcod.light_flame,
+    name="Leather Gloves",
+    equippable=equippable.Helmet(ac_bonus=-1),
+)
+
+riot_gloves = item.Item(
+    char="[",
+    color=tcod.light_flame,
+    name="Riot Gloves",
+    equippable=equippable.Helmet(ac_bonus=-2),
+)
 
 item_chances = {
     # keys in the dictionary represent the floor number,
@@ -334,7 +354,10 @@ item_chances = {
         (visored_helmet, 3),    # AC1
         (riot_helmet, 5),       # AC2
         (ballistic_helmet, 2),  # AC3
-        (power_helmet,1),       # AC4
+        (power_helmet, 1),      # AC4
+        (rubber_gloves, 3),     # AC0
+        (leather_gloves, 10),    # AC1
+        (riot_gloves, 1),       # AC2
     ],
 }
 
