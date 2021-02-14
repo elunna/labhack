@@ -332,6 +332,29 @@ riot_gloves = item.Item(
     equippable=equippable.Helmet(ac_bonus=-2),
 )
 
+tactical_boots = item.Item(
+    char="[",
+    color=tcod.green,
+    name="Tactical Boots",
+    equippable=equippable.Gloves(ac_bonus=-1),
+)
+
+combat_boots = item.Item(
+    char="[",
+    color=tcod.dark_green,
+    name="Combat Boots",
+    equippable=equippable.Gloves(ac_bonus=-2),
+)
+
+power_boots = item.Item(
+    char="[",
+    color=tcod.dark_green,
+    name="Power Boots",
+    equippable=equippable.Gloves(ac_bonus=-3),
+)
+
+
+
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
@@ -356,8 +379,11 @@ item_chances = {
         (ballistic_helmet, 2),  # AC3
         (power_helmet, 1),      # AC4
         (rubber_gloves, 3),     # AC0
-        (leather_gloves, 10),    # AC1
+        (leather_gloves, 6),   # AC1
         (riot_gloves, 1),       # AC2
+        (tactical_boots, 5),    # AC1
+        (combat_boots, 3),      # AC2
+        (power_boots, 1),       # AC3
     ],
 }
 

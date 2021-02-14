@@ -54,3 +54,11 @@ class Gloves(Equippable):
             equipment_type=EquipmentType.GLOVES,
             ac_bonus=ac_bonus
         )
+
+
+class Boots(Equippable):
+    def __init__(self, ac_bonus=0):
+        super().__init__(
+            equipment_type=EquipmentType.BOOTS,
+            ac_bonus=ac_bonus
+        )
