@@ -1,3 +1,6 @@
+import random
+
+
 class Rect:
     def __init__(self, x, y, width, height):
         if width < 3 or height < 3:
@@ -80,3 +83,8 @@ class Rect:
             (self.x1, self.y2),
             (self.x2, self.y2),
         ]
+
+    def random_point_inside(self):
+        x = random.randint(self.x1 + 1, self.x2 - 2)
+        y = random.randint(self.y1 + 1, self.y2 - 2)
+        return x, y

@@ -22,8 +22,9 @@ def place_items(room, dungeon, floor_number):
     )
 
     for entity in items:
-        x = random.randint(room.x1 + 1, room.x2 - 2)
-        y = random.randint(room.y1 + 1, room.y2 - 2)
+        x, y = room.random_point_inside()
+        # x = random.randint(room.x1 + 1, room.x2 - 2)
+        # y = random.randint(room.y1 + 1, room.y2 - 2)
         # We don't care if they stack on the map
         entity.spawn(dungeon, x, y)
 

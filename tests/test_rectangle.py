@@ -84,7 +84,6 @@ def test_Rect_intersects_both_rects_intersect_returns_True():
     assert r2.intersects(r1)
 
 
-
 def test_Rect_corners__3x3_room():
     r = rect.Rect(0, 0, 3, 3)
     result = r.corners()
@@ -97,3 +96,8 @@ def test_Rect_corners__4x4_room():
     assert result == [(1, 1), (5, 1), (1, 5), (5, 5)]
 
 
+def test_random_point_inside__3x3_rect():
+    r = rect.Rect(0, 0, 3, 3)
+    result = r.random_point_inside()
+    # Only one spot available!
+    assert result == (1, 1)
