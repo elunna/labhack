@@ -84,7 +84,7 @@ storm_drone = actor.Actor(
 
 spider_drone = actor.Actor(
     char="s",
-    color=tcod.dark_gray,
+    color=tcod.silver,
     name="Spider Drone",
     ai_cls=HostileAI(),
     equipment=Equipment(),
