@@ -247,6 +247,13 @@ tactical_vest = item.Item(
     equippable=equippable.Armor(ac_bonus=-2),
 )
 
+riot_armor = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Riot Armor",
+    equippable=equippable.Armor(ac_bonus=-4),
+)
+
 power_armor = item.Item(
     char="[",
     color=tcod.light_flame,
@@ -254,11 +261,54 @@ power_armor = item.Item(
     equippable=equippable.Armor(ac_bonus=-5),
 )
 
-riot_armor = item.Item(
+
+fedora = item.Item(
     char="[",
     color=tcod.blue,
-    name="Riot Armor",
-    equippable=equippable.Armor(ac_bonus=-4),
+    name="Fedora",
+    equippable=equippable.Helmet(ac_bonus=0),
+)
+
+bandana = item.Item(
+    char="[",
+    color=tcod.green,
+    name="Bandana",
+    equippable=equippable.Helmet(ac_bonus=0),
+)
+
+helmet = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Helmet",
+    equippable=equippable.Helmet(ac_bonus=-1),
+)
+
+visored_helmet = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Visored Helmet",
+    equippable=equippable.Helmet(ac_bonus=-1),
+)
+
+riot_helmet = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Riot Helmet",
+    equippable=equippable.Helmet(ac_bonus=-2),
+)
+
+ballistic_helmet = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Ballistic Helmet",
+    equippable=equippable.Helmet(ac_bonus=-3),
+)
+
+power_helmet = item.Item(
+    char="[",
+    color=tcod.light_flame,
+    name="Power Helmet",
+    equippable=equippable.Helmet(ac_bonus=-4),
 )
 
 
@@ -273,11 +323,18 @@ item_chances = {
         (sword, 5),
         (leather_vest, 5),      # AC1
         (chest_guard, 5),       # AC2
-        (tactical_vest, 5),  # AC2
+        (tactical_vest, 5),         # AC2
         (bulletproof_vest, 3),  # AC3
         (chain_vest, 2),        # AC3
         (riot_armor, 2),        # AC4
         (power_armor, 1),       # AC5
+        (fedora, 2),            # AC0
+        (bandana, 2),           # AC0
+        (helmet, 5),            # AC1
+        (visored_helmet, 3),    # AC1
+        (riot_helmet, 5),       # AC2
+        (ballistic_helmet, 2),  # AC3
+        (power_helmet,1),       # AC4
     ],
 }
 
