@@ -5,12 +5,12 @@ from src.thindict import ThinDict
 
 
 class EquipmentType(Enum):
-    WEAPON = auto()
+    WEAPON = auto()     # Main Hand?
     ARMOR = auto()
     HELMET = auto()
-    SHIELD = auto()
     BOOTS = auto()
     GLOVES = auto()
+    SHIELD = auto()     # Offhand?
     # WRIST(R/L)
     # BELT
     # SUIT

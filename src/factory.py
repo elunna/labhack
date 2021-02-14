@@ -315,54 +315,73 @@ rubber_gloves = item.Item(
     char="[",
     color=tcod.light_flame,
     name="Rubber Gloves",
-    equippable=equippable.Helmet(ac_bonus=0),
+    equippable=equippable.Gloves(ac_bonus=0),
 )
 
 leather_gloves = item.Item(
     char="[",
     color=tcod.light_flame,
     name="Leather Gloves",
-    equippable=equippable.Helmet(ac_bonus=-1),
+    equippable=equippable.Gloves(ac_bonus=-1),
 )
 
 riot_gloves = item.Item(
     char="[",
     color=tcod.light_flame,
     name="Riot Gloves",
-    equippable=equippable.Helmet(ac_bonus=-2),
+    equippable=equippable.Gloves(ac_bonus=-2),
 )
 
 tactical_boots = item.Item(
     char="[",
     color=tcod.green,
     name="Tactical Boots",
-    equippable=equippable.Gloves(ac_bonus=-1),
+    equippable=equippable.Boots(ac_bonus=-1),
 )
 
 combat_boots = item.Item(
     char="[",
     color=tcod.dark_green,
     name="Combat Boots",
-    equippable=equippable.Gloves(ac_bonus=-2),
+    equippable=equippable.Boots(ac_bonus=-2),
 )
 
 power_boots = item.Item(
     char="[",
     color=tcod.dark_green,
     name="Power Boots",
-    equippable=equippable.Gloves(ac_bonus=-3),
+    equippable=equippable.Boots(ac_bonus=-3),
 )
 
+garbage_lid = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Garbage Can Lid",
+    equippable=equippable.Shield(ac_bonus=-1),
+)
 
+riot_shield = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Riot Shield",
+    equippable=equippable.Shield(ac_bonus=-2),
+)
+
+ballistic_shield = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Ballistic Shield",
+    equippable=equippable.Shield(ac_bonus=-3),
+)
 
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     0: [
-        (health_potion, 50),
-        (confusion_scroll, 20),
-        (lightning_scroll, 20),
-        (fireball_scroll, 20),
+        (health_potion, 100),
+        (confusion_scroll, 25),
+        (lightning_scroll, 25),
+        (fireball_scroll, 25),
         (sword, 5),
         (leather_vest, 5),      # AC1
         (chest_guard, 5),       # AC2
@@ -371,7 +390,7 @@ item_chances = {
         (chain_vest, 2),        # AC3
         (riot_armor, 2),        # AC4
         (power_armor, 1),       # AC5
-        (fedora, 2),            # AC0
+        (fedora, 1),            # AC0
         (bandana, 2),           # AC0
         (helmet, 5),            # AC1
         (visored_helmet, 3),    # AC1
@@ -379,11 +398,14 @@ item_chances = {
         (ballistic_helmet, 2),  # AC3
         (power_helmet, 1),      # AC4
         (rubber_gloves, 3),     # AC0
-        (leather_gloves, 6),   # AC1
+        (leather_gloves, 6),    # AC1
         (riot_gloves, 1),       # AC2
         (tactical_boots, 5),    # AC1
         (combat_boots, 3),      # AC2
         (power_boots, 1),       # AC3
+        (garbage_lid, 5),       # AC1
+        (riot_shield, 6),       # AC2
+        (ballistic_shield, 1),  # AC3
     ],
 }
 
