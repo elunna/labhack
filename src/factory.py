@@ -214,14 +214,14 @@ sword = item.Item(
 
 leather_vest = item.Item(
    char="[",
-   color=(139, 69, 19),
+   color=tcod.dark_amber,
    name="Leather Vest",
    equippable=equippable.Armor(ac_bonus=-1),
 )
 
 bulletproof_vest = item.Item(
     char="[",
-    color=tcod.black,
+    color=tcod.turquoise,
     name="Bulletproof Vest",
     equippable=equippable.Armor(ac_bonus=-3),
 )
@@ -235,99 +235,98 @@ chain_vest = item.Item(
 
 chest_guard = item.Item(
     char="[",
-    color=tcod.darker_red,
+    color=tcod.cyan,
     name="Chest Guard",
     equippable=equippable.Armor(ac_bonus=-2),
 )
 
 tactical_vest = item.Item(
     char="[",
-    color=tcod.dark_blue,
+    color=tcod.green,
     name="Tactical Vest",
     equippable=equippable.Armor(ac_bonus=-2),
 )
 
 riot_armor = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.dark_blue,
     name="Riot Armor",
     equippable=equippable.Armor(ac_bonus=-4),
 )
 
 power_armor = item.Item(
     char="[",
-    color=tcod.light_flame,
+    color=tcod.flame,
     name="Power Armor",
     equippable=equippable.Armor(ac_bonus=-5),
 )
 
-
 fedora = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.dark_crimson,
     name="Fedora",
     equippable=equippable.Helmet(ac_bonus=0),
 )
 
 bandana = item.Item(
     char="[",
-    color=tcod.green,
+    color=tcod.light_green,
     name="Bandana",
     equippable=equippable.Helmet(ac_bonus=0),
 )
 
 helmet = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.orange,
     name="Helmet",
     equippable=equippable.Helmet(ac_bonus=-1),
 )
 
 visored_helmet = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.orange,
     name="Visored Helmet",
     equippable=equippable.Helmet(ac_bonus=-1),
 )
 
 riot_helmet = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.dark_blue,
     name="Riot Helmet",
     equippable=equippable.Helmet(ac_bonus=-2),
 )
 
 ballistic_helmet = item.Item(
     char="[",
-    color=tcod.blue,
+    color=tcod.turquoise,
     name="Ballistic Helmet",
     equippable=equippable.Helmet(ac_bonus=-3),
 )
 
 power_helmet = item.Item(
     char="[",
-    color=tcod.light_flame,
+    color=tcod.flame,
     name="Power Helmet",
     equippable=equippable.Helmet(ac_bonus=-4),
 )
 
 rubber_gloves = item.Item(
     char="[",
-    color=tcod.light_flame,
+    color=tcod.orange,
     name="Rubber Gloves",
     equippable=equippable.Gloves(ac_bonus=0),
 )
 
 leather_gloves = item.Item(
     char="[",
-    color=tcod.light_flame,
+    color=tcod.dark_amber,
     name="Leather Gloves",
     equippable=equippable.Gloves(ac_bonus=-1),
 )
 
 riot_gloves = item.Item(
     char="[",
-    color=tcod.light_flame,
+    color=tcod.dark_blue,
     name="Riot Gloves",
     equippable=equippable.Gloves(ac_bonus=-2),
 )
@@ -348,63 +347,63 @@ combat_boots = item.Item(
 
 power_boots = item.Item(
     char="[",
-    color=tcod.dark_green,
+    color=tcod.flame,
     name="Power Boots",
     equippable=equippable.Boots(ac_bonus=-3),
 )
 
 garbage_lid = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.light_gray,
     name="Garbage Can Lid",
     equippable=equippable.Shield(ac_bonus=-1),
 )
 
 riot_shield = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.dark_blue,
     name="Riot Shield",
     equippable=equippable.Shield(ac_bonus=-2),
 )
 
 ballistic_shield = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.turquoise,
     name="Ballistic Shield",
     equippable=equippable.Shield(ac_bonus=-3),
 )
 
 leather_belt = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.dark_amber,
     name="Leather Belt",
     equippable=equippable.Belt(ac_bonus=-1),
 )
 
 tactical_belt = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.green,
     name="Tactical Belt",
     equippable=equippable.Belt(ac_bonus=-2),
 )
 
 power_belt = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.flame,
     name="Power Belt",
     equippable=equippable.Belt(ac_bonus=-3),
 )
 
 leather_wrists = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.dark_amber,
     name="Leather Wrists",
     equippable=equippable.Arms(ac_bonus=-1),
 )
 
 elbow_pads = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.orange,
     name="Elbow Pads",
     equippable=equippable.Arms(ac_bonus=-1),
 )
@@ -418,7 +417,7 @@ forearm_guards = item.Item(
 
 power_wrists = item.Item(
     char="[",
-    color=tcod.dark_gray,
+    color=tcod.flame,
     name="Power Wrists",
     equippable=equippable.Arms(ac_bonus=-3),
 )
