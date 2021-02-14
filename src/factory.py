@@ -561,10 +561,10 @@ item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     0: [
-        (health_potion, 100),
-        (confusion_scroll, 25),
-        (lightning_scroll, 25),
-        (fireball_scroll, 25),
+        (health_potion, 200),
+        (confusion_scroll, 45),
+        (lightning_scroll, 35),
+        (fireball_scroll, 35),
 
         (dagger, 3),
         (riot_baton, 3),
