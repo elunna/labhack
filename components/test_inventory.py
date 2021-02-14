@@ -125,8 +125,8 @@ def test_Inventory_sorted_dict__one_item(dagger):
 def test_Inventory_sorted_dict__multiple_items():
     i = Inventory(10)
     i.add_item(factory.dagger)
-    i.add_item(factory.leather_armor)
-    i.add_item(factory.chain_mail)
+    i.add_item(factory.leather_vest)
+    i.add_item(factory.bulletproof_vest)
     i.add_item(factory.health_potion)
     result = i.sorted_dict()
     assert result == {

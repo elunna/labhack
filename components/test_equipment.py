@@ -14,7 +14,7 @@ def dagger():
 
 @pytest.fixture
 def leather_armor():
-    return ef.leather_armor
+    return ef.leather_vest
 
 
 def test_Equipment_is_BaseComponent():
@@ -93,7 +93,7 @@ def test_Equipment_item_is_equipped__armor_equipped(leather_armor):
 def test_Equipment_unequip_message(leather_armor):
     e = Equipment(leather_armor)
     result = e.unequip_message(leather_armor.name)
-    assert result == "You remove the Leather Armor. "
+    assert result == "You remove the Leather Vest. "
 
 
 def test_Equipment_equip_message(dagger):
@@ -186,7 +186,7 @@ def test_Equipment_toggle_equip__none2armor(leather_armor):
 def test_Equipment_toggle_equip__none2armor__msg(leather_armor):
     e = Equipment()
     result = e.toggle_equip(item=leather_armor)
-    assert result == "You equip the Leather Armor. "
+    assert result == "You equip the Leather Vest. "
 
 
 def test_Equipment_toggle_equip__weapon2none(dagger):
@@ -210,7 +210,7 @@ def test_Equipment_toggle_equip__armor2none(leather_armor):
 def test_Equipment_toggle_equip__armor2none__msg(leather_armor):
     e = Equipment(leather_armor)
     result = e.toggle_equip(item=leather_armor)
-    assert result == "You remove the Leather Armor. "
+    assert result == "You remove the Leather Vest. "
 
 
 def test_Equipment_toggle_equip__weapon2weapon(dagger):
@@ -229,16 +229,16 @@ def test_Equipment_toggle_equip__weapon2weapon__msg(dagger):
 
 def test_Equipment_toggle_equip__armor2armor(leather_armor):
     e = Equipment(leather_armor)
-    chainmail = ef.chain_mail
-    e.toggle_equip(item=chainmail)
-    assert e.slots['ARMOR'] == chainmail
+    bp_vest = ef.bulletproof_vest
+    e.toggle_equip(item=bp_vest)
+    assert e.slots['ARMOR'] == bp_vest
 
 
 def test_Equipment_toggle_equip__armor2armor__msg(leather_armor):
     e = Equipment(leather_armor)
-    chainmail = ef.chain_mail
-    result = e.toggle_equip(item=chainmail)
-    assert result == "You remove the Leather Armor. You equip the Chain Mail. "
+    bp_vest = ef.bulletproof_vest
+    result = e.toggle_equip(item=bp_vest)
+    assert result == "You remove the Leather Vest. You equip the Bulletproof Vest. "
 
 
 def test_Equipment_toggle_equip__non_equippable__raisesImpossible():

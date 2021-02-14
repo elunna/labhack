@@ -29,9 +29,9 @@ def make(entity_name):
     elif entity_name == 'sword':
         return copy.deepcopy(sword)
     elif entity_name == 'leather armor':
-        return copy.deepcopy(leather_armor)
+        return copy.deepcopy(leather_vest)
     elif entity_name == 'chain mail':
-        return copy.deepcopy(chain_mail)
+        return copy.deepcopy(bulletproof_vest)
     elif entity_name == 'health potion':
         return copy.deepcopy(health_potion)
     elif entity_name == 'lightning scroll':
@@ -212,30 +212,72 @@ sword = item.Item(
     ),
 )
 
-leather_armor = item.Item(
+leather_vest = item.Item(
    char="[",
    color=(139, 69, 19),
-   name="Leather Armor",
+   name="Leather Vest",
    equippable=equippable.Armor(ac_bonus=-1),
 )
 
-chain_mail = item.Item(
+bulletproof_vest = item.Item(
     char="[",
-    color=(139, 69, 19),
-    name="Chain Mail",
+    color=tcod.black,
+    name="Bulletproof Vest",
     equippable=equippable.Armor(ac_bonus=-3),
 )
+
+chain_vest = item.Item(
+    char="[",
+    color=tcod.dark_gray,
+    name="Chain Vest",
+    equippable=equippable.Armor(ac_bonus=-3),
+)
+
+chest_guard = item.Item(
+    char="[",
+    color=tcod.darker_red,
+    name="Chest Guard",
+    equippable=equippable.Armor(ac_bonus=-2),
+)
+
+tactical_vest = item.Item(
+    char="[",
+    color=tcod.dark_blue,
+    name="Tactical Vest",
+    equippable=equippable.Armor(ac_bonus=-2),
+)
+
+power_armor = item.Item(
+    char="[",
+    color=tcod.light_flame,
+    name="Power Armor",
+    equippable=equippable.Armor(ac_bonus=-5),
+)
+
+riot_armor = item.Item(
+    char="[",
+    color=tcod.blue,
+    name="Riot Armor",
+    equippable=equippable.Armor(ac_bonus=-4),
+)
+
 
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     0: [
-        (health_potion, 35),
-        (confusion_scroll, 10),
-        (lightning_scroll, 25),
-        (fireball_scroll, 25),
+        (health_potion, 50),
+        (confusion_scroll, 20),
+        (lightning_scroll, 20),
+        (fireball_scroll, 20),
         (sword, 5),
-        (chain_mail, 6),
+        (leather_vest, 5),      # AC1
+        (chest_guard, 5),       # AC2
+        (tactical_vest, 5),  # AC2
+        (bulletproof_vest, 3),  # AC3
+        (chain_vest, 2),        # AC3
+        (riot_armor, 2),        # AC4
+        (power_armor, 1),       # AC5
     ],
 }
 

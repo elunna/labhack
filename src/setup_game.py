@@ -29,7 +29,7 @@ def new_game():
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 
-    leather_armor = copy.deepcopy(factory.leather_armor)
+    leather_armor = copy.deepcopy(factory.leather_vest)
     # leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)

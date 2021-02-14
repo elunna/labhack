@@ -7,10 +7,10 @@ from src.thindict import ThinDict
 class EquipmentType(Enum):
     WEAPON = auto()
     ARMOR = auto()
-    # HELMET
-    # SHIELD
-    # BOOTS
-    # GLOVES
+    HELMET = auto()
+    SHIELD = auto()
+    BOOTS = auto()
+    GLOVES = auto()
     # WRIST(R/L)
     # BELT
     # SUIT

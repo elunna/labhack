@@ -51,7 +51,7 @@ def test_map():
     dagger.parent = player.inventory
     player.inventory.add_item(dagger)
 
-    leather_armor = copy.deepcopy(factory.leather_armor)
+    leather_armor = copy.deepcopy(factory.leather_vest)
     leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
 
