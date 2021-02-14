@@ -32,7 +32,12 @@ class Attributes(Component):
 
     @property
     def dexterity(self):
+        return self.base_constitution + self.equipment_bonus('CONSTITUTION')
+
+    @property
+    def constitution(self):
         return self.base_dexterity + self.equipment_bonus('DEXTERITY')
+
 
     def equipment_bonus(self, attribute):
         # Is this more usable if it takes Equipment as an arg?

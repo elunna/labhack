@@ -6,7 +6,7 @@ from . import settings
 from . import tiles
 import numpy as np
 import tcod
-
+from components import equipment
 
 class Renderer():
     def __init__(self):
@@ -347,11 +347,27 @@ def render_levelup_menu(console, engine, title):
 
 
 def render_character_stats(console, engine, title):
+    msgs = [
+        f"Level: {engine.player.level.current_level}",
+        f"XP: {engine.player.level.current_xp}",
+        f"XP for next Level: {engine.player.level.experience_to_next_level}",
+        "",
+        f"AC: {engine.player.attributes.ac}",
+        f"Strength: {engine.player.attributes.strength}",
+        f"Dexterity: {engine.player.attributes.dexterity}",
+        f"Constitution: {engine.player.attributes.constitution}",
+        "",
+        "Equipment Slots:",
+    ]
+    for slot in equipment.EquipmentType:
+        equipped = engine.player.equipment.slots[slot.name]
+        equipped = equipped if equipped else ''
+        msgs.append(f"{slot.name}: {equipped}")
+
     if engine.player.x <= 30:
         x = 40
     else:
         x = 0
-
     y = 0
 
     width = len(title) + 4
@@ -359,34 +375,18 @@ def render_character_stats(console, engine, title):
     console.draw_frame(
         x=x, y=y,
         width=width,
-        height=7,
+        height=len(msgs) + 2,
         title=title,
         clear=True,
         fg=(255, 255, 255),
         bg=(0, 0, 0),
     )
 
-    console.print(
-        x=x + 1, y=y + 1,
-        string=f"Level: {engine.player.level.current_level}"
-    )
-    console.print(
-        x=x + 1, y=y + 2,
-        string=f"XP: {engine.player.level.current_xp}"
-    )
-    console.print(
-        x=x + 1, y=y + 3,
-        string=f"XP for next Level: {engine.player.level.experience_to_next_level}",
-    )
-
-    console.print(
-        x=x + 1, y=y + 4,
-        string=f"Attack: {engine.player.attributes.strength}"
-    )
-    console.print(
-        x=x + 1, y=y + 5,
-        string=f"AC: {engine.player.attributes.ac}"
-    )
+    for i, m in enumerate(msgs):
+        console.print(
+            x=x + 1, y=y + 1 + i,
+            string=m
+        )
 
 
 def render_main_menu(console):
