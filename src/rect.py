@@ -8,7 +8,9 @@ class Rect:
 
         self.x1 = x
         self.y1 = y
+        # Should this be width - 1?
         self.x2 = x + width
+        # Should this be height - 1?
         self.y2 = y + height
 
     @property
@@ -19,6 +21,23 @@ class Rect:
 
         # Returns a Tuple[int, int]
         return center_x, center_y
+
+    # TODO: Fix x2 and y2 so we don't have to -1
+    @property
+    def nw_corner(self):
+        return self.x1, self.y1
+
+    @property
+    def ne_corner(self):
+        return self.x2 - 1, self.y1
+
+    @property
+    def sw_corner(self):
+        return self.x1, self.y2 - 1
+
+    @property
+    def se_corner(self):
+        return self.x2 - 1, self.y2 - 1
 
     @property
     def inner(self):
@@ -76,13 +95,19 @@ class Rect:
             and self.y2 >= other.y1
         )
 
-    def corners(self):
-        return [
-            (self.x1, self.y1),
-            (self.x2, self.y1),
-            (self.x1, self.y2),
-            (self.x2, self.y2),
-        ]
+    def perimeter(self):
+        perimeter = []
+        for x in range(self.x1, self.x2):
+            perimeter.extend([(x, self.y1), (x, self.y2 - 1)])
+        for y in range(self.y1 + 1, self.y2 - 1):
+            perimeter.extend([(self.x1, y), (self.x2 - 1, y)])
+        return perimeter
+
+    def horz_walls(self):
+        return [(x, y) for y in [self.y1, self.y2 - 1] for x in range(self.x1 + 1, self.x2 - 1)]
+
+    def vert_walls(self):
+        return [(x, y) for x in [self.x1, self.x2 - 1] for y in range(self.y1 + 1, self.y2 - 1)]
 
     def random_point_inside(self):
         x = random.randint(self.x1 + 1, self.x2 - 2)
