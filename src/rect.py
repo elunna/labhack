@@ -8,10 +8,10 @@ class Rect:
 
         self.x1 = x
         self.y1 = y
-        # Should this be width - 1?
-        self.x2 = x + width
-        # Should this be height - 1?
-        self.y2 = y + height
+        # (width - 1) because grid starts from 0
+        self.x2 = x + width - 1
+        # (height - 1) because grid starts from 0
+        self.y2 = y + height - 1
 
     @property
     def center(self):
@@ -29,21 +29,24 @@ class Rect:
 
     @property
     def ne_corner(self):
-        return self.x2 - 1, self.y1
+        return self.x2, self.y1
 
     @property
     def sw_corner(self):
-        return self.x1, self.y2 - 1
+        return self.x1, self.y2
 
     @property
     def se_corner(self):
-        return self.x2 - 1, self.y2 - 1
+        return self.x2, self.y2
 
     @property
     def inner(self):
         """Return the inner area of this room as a 2D array index."""
+        # TODO: Change this to return a set of coordinates
         # Returns a Tuple[slice, slice]
-        return slice(self.x1 + 1, self.x2 - 1), slice(self.y1 + 1, self.y2 - 1)
+        # We add 1 to x1 and y1 to return the inner
+        # We don't have to -1 from x2 or y2 because the slice end range takes care of that automatically.
+        return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
 
         # Explanation for + 1 on self.x1 and self.y1
 
@@ -97,19 +100,20 @@ class Rect:
 
     def perimeter(self):
         perimeter = []
-        for x in range(self.x1, self.x2):
-            perimeter.extend([(x, self.y1), (x, self.y2 - 1)])
-        for y in range(self.y1 + 1, self.y2 - 1):
-            perimeter.extend([(self.x1, y), (self.x2 - 1, y)])
-        return perimeter
+        for x in range(self.x1, self.x2 + 1):
+            perimeter.extend([(x, self.y1), (x, self.y2)])
+
+        for y in range(self.y1 + 1, self.y2 + 1):
+            perimeter.extend([(self.x1, y), (self.x2, y)])
+        return set(perimeter)
 
     def horz_walls(self):
-        return [(x, y) for y in [self.y1, self.y2 - 1] for x in range(self.x1 + 1, self.x2 - 1)]
+        return [(x, y) for y in [self.y1, self.y2] for x in range(self.x1 + 1, self.x2)]
 
     def vert_walls(self):
-        return [(x, y) for x in [self.x1, self.x2 - 1] for y in range(self.y1 + 1, self.y2 - 1)]
+        return [(x, y) for x in [self.x1, self.x2] for y in range(self.y1 + 1, self.y2)]
 
     def random_point_inside(self):
-        x = random.randint(self.x1 + 1, self.x2 - 2)
-        y = random.randint(self.y1 + 1, self.y2 - 2)
+        x = random.randint(self.x1 + 1, self.x2 - 1)
+        y = random.randint(self.y1 + 1, self.y2 - 1)
         return x, y
