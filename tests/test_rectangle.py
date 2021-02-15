@@ -65,6 +65,11 @@ def test_Rect_se_corner():
     assert r.se_corner == (2, 2)
 
 
+def test_Rect_corners():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.corners() == {(0, 0), (0, 2), (2, 0), (2, 2)}
+
+
 def test_Rect_inner_3x3_square_room():
     r = rect.Rect(0, 0, 3, 3)
     inner = r.inner
@@ -126,25 +131,37 @@ def test_Rect_perimeter_4x4_room():
 def test_horz_walls_3x3_room():
     r = rect.Rect(0, 0, 3, 3)
     result = r.horz_walls()
-    assert result == [(1, 0), (1, 2)]
+    assert result == {
+        (0, 0), (1, 0), (2, 0),
+        (0, 2), (1, 2), (2, 2),
+    }
 
 
 def test_horz_walls_4x4_room():
     r = rect.Rect(0, 0, 4, 4)
     result = r.horz_walls()
-    assert result == [(1, 0), (2, 0), (1, 3), (2, 3)]
+    assert result == {
+        (0, 0), (1, 0), (2, 0), (3, 0),
+        (0, 3), (1, 3), (2, 3), (3, 3),
+    }
 
 
 def test_vert_walls_3x3_room():
     r = rect.Rect(0, 0, 3, 3)
     result = r.vert_walls()
-    assert result == [(0, 1), (2, 1)]
+    assert result == {
+        (0, 0), (0, 1), (0, 2),
+        (2, 0), (2, 1), (2, 2),
+    }
 
 
 def test_vert_walls_4x4_room():
     r = rect.Rect(0, 0, 4, 4)
     result = r.vert_walls()
-    assert result == [(0, 1), (0, 2), (3, 1), (3, 2)]
+    assert result == {
+        (0, 0), (0, 1), (0, 2), (0, 3),
+        (3, 0), (3, 1), (3, 2), (3, 3),
+    }
 
 
 def test_Rect_random_point_inside__3x3_rect():

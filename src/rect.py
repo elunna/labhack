@@ -39,6 +39,12 @@ class Rect:
     def se_corner(self):
         return self.x2, self.y2
 
+    def corners(self):
+        return {
+            self.nw_corner, self.ne_corner,
+            self.sw_corner, self.se_corner
+        }
+
     @property
     def inner(self):
         """Return the inner area of this room as a 2D array index."""
@@ -99,19 +105,18 @@ class Rect:
         )
 
     def perimeter(self):
-        perimeter = []
-        for x in range(self.x1, self.x2 + 1):
-            perimeter.extend([(x, self.y1), (x, self.y2)])
-
-        for y in range(self.y1 + 1, self.y2 + 1):
-            perimeter.extend([(self.x1, y), (self.x2, y)])
-        return set(perimeter)
+        # Returns a set of coordinates that represent the perimeter of the rectangle.
+        return self.horz_walls().union(self.vert_walls())  # Union of both sets
 
     def horz_walls(self):
-        return [(x, y) for y in [self.y1, self.y2] for x in range(self.x1 + 1, self.x2)]
+        # Returns a set of all coordinates that represent the horizontal lines of the rectangle.
+        # Includes corners
+        return {(x, y) for y in [self.y1, self.y2] for x in range(self.x1, self.x2 + 1)}
 
     def vert_walls(self):
-        return [(x, y) for x in [self.x1, self.x2] for y in range(self.y1 + 1, self.y2)]
+        # Returns a set of all coordinates that represent the vertical lines of the rectangle.
+        # Includes corners
+        return {(x, y) for x in [self.x1, self.x2] for y in range(self.y1, self.y2 + 1)}
 
     def random_point_inside(self):
         x = random.randint(self.x1 + 1, self.x2 - 1)
