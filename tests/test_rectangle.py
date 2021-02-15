@@ -169,3 +169,9 @@ def test_Rect_random_point_inside__3x3_rect():
     result = r.random_point_inside()
     # Only one spot available!
     assert result == (1, 1)
+
+
+def test_Rect_random_door_loc__3x3_rect():
+    r = rect.Rect(0, 0, 3, 3)
+    result = r.random_door_loc()
+    assert result in {(1, 0), (0, 1), (2, 1), (1, 2)}

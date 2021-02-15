@@ -122,3 +122,6 @@ class Rect:
         x = random.randint(self.x1 + 1, self.x2 - 1)
         y = random.randint(self.y1 + 1, self.y2 - 1)
         return x, y
+
+    def random_door_loc(self):
+        return random.choice(list(self.perimeter().difference(self.corners())))
