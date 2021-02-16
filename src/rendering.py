@@ -8,6 +8,7 @@ import numpy as np
 import tcod
 from components import equipment
 
+
 class Renderer():
     def __init__(self):
         # Specify font for tileset
@@ -413,8 +414,12 @@ def render_main_menu(console):
 
     menu_width = settings.menu_width
 
-    for i, text in enumerate(
-        ["[N] Play a new game", "[C] Continue last game", "[Q] Quit"]
+    for i, text in enumerate([
+        "[N] Play a new game",
+        "[C] Continue last game",
+        "[G] Generate test map",
+        "[Q] Quit"
+    ]
     ):
         console.print(
             console.width // 2,

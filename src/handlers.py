@@ -1,3 +1,5 @@
+from src import procgen
+
 import actions.bump
 import actions.drop
 import actions.equip
@@ -487,6 +489,41 @@ class PopupMsgHandler(BaseEventHandler):
         return self.parent
 
 
+class MapDebugHandler(BaseEventHandler):
+    """Display a random from the generator."""
+
+    def __init__(self, parent_handler):
+        self.parent = parent_handler
+        self.map = self.generate_map()
+
+    def generate_map(self):
+        # Generate a new map
+        return procgen.generate_map(
+            max_rooms=settings.max_rooms,
+            room_min_size=settings.room_min_size,
+            room_max_size=settings.room_max_size,
+            map_width=settings.map_width,
+            map_height=settings.map_height,
+            engine=None,
+        )
+
+    def on_render(self, renderer):
+        """Render the parent and dim the result, then print the message on top."""
+        self.parent.on_render(renderer)
+
+        # Set all tiles to visible
+        self.map.visible[:] = True
+        self.map.explored[:] = True
+
+        rendering.render_map(renderer.root, self.map)
+
+    def ev_keydown(self, event):
+        """Any key returns to the parent handler."""
+        if event.sym in (tcod.event.K_q, tcod.event.K_x, tcod.event.K_ESCAPE):
+            return self.parent
+        self.map = self.generate_map()
+
+
 class LevelUpHandler(AskUserHandler):
     """ PAUSED: For now this function is on hold until a more advanced skill tree
         is developed. When a level up is triggered, we will instead give a boost
@@ -543,7 +580,6 @@ class MainMenuHandler(BaseEventHandler):
         if event.sym in (tcod.event.K_q, tcod.event.K_ESCAPE):
             raise SystemExit()
         elif event.sym == tcod.event.K_c:
-
             try:
                 return MainGameHandler(
                     load_game(settings.save_file)
@@ -562,6 +598,9 @@ class MainMenuHandler(BaseEventHandler):
 
         elif event.sym == tcod.event.K_n:
             return MainGameHandler(new_game())
+        elif event.sym == tcod.event.K_g:
+            # Generate random maps
+            return MapDebugHandler(self)
 
         return None
 

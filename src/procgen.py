@@ -48,7 +48,7 @@ def place_monsters(room, dungeon, floor_number):
 
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, engine):
-    """Generate a new dungeon map."""
+    """Generate a new dungeon map with rooms, corridors, and stairs.."""
     new_map = gamemap.GameMap(engine, map_width, map_height,)
 
     # Create all the rects for the rooms
@@ -70,22 +70,15 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     center_of_last_room = new_map.rooms[-1].center
     new_map.tiles[center_of_last_room] = tiles.down_stairs
     new_map.downstairs_location = center_of_last_room
+    return new_map
 
-    # Add player
-    player = engine.player
-    new_map.entities.add(player)
-    new_map.player = player
 
-    # Place player on upstair.
-    player.place(*center_of_first_room, new_map)
-
+def populate_map(new_map, engine):
     # Place entities
     for room in new_map.rooms:
         # Populate the room with monsters and items
         place_monsters(room, new_map, engine.game_world.current_floor)
         place_items(room, new_map, engine.game_world.current_floor)
-
-    return new_map
 
 
 def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):

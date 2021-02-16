@@ -1,5 +1,6 @@
 from src import settings
-from .procgen import generate_map
+from . import procgen
+
 
 class GameWorld:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
@@ -13,7 +14,7 @@ class GameWorld:
 
         self.current_floor += 1
 
-        self.engine.game_map = generate_map(
+        new_map = procgen.generate_map(
             max_rooms=settings.max_rooms,
             room_min_size=settings.room_min_size,
             room_max_size=settings.room_max_size,
@@ -21,3 +22,16 @@ class GameWorld:
             map_height=settings.map_height,
             engine=self.engine,
         )
+
+        # Place entities, items, etc.
+        procgen.populate_map(new_map, self.engine)
+
+        self.engine.game_map = new_map
+
+        # Add player
+        player = self.engine.player
+        new_map.entities.add(player)
+        new_map.player = player
+
+        # Place player on upstair.
+        player.place(*new_map.upstairs_location, new_map)
