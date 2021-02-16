@@ -10,6 +10,9 @@ class GameMap:
         self.engine = engine
         self.width, self.height = width, height
         self.entities = set()
+        self.rooms = []  # Start with an empty list of rooms.
+        self.downstairs_location = (-1, -1)
+        self.upstairs_location = (-1, -1)
 
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
@@ -30,8 +33,7 @@ class GameMap:
             order="F"
         )  # Tiles the player has seen before
 
-        self.downstairs_location = (-1, -1)
-        self.upstairs_location = (-1, -1)
+
 
     @property
     def gamemap(self):
