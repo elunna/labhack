@@ -181,5 +181,8 @@ def test_MeleeAction_reduce_dmg__negative_ac():
 def test_MeleeAction_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
     stormdrone = factory.storm_drone
     assert stormdrone.attributes.ac == -20
-    result = MeleeAction.reduce_dmg(stormdrone, 5)
+
+    # Note: We'll only pass in 1 damage to test that damage can never be reduced below 1.
+    # With any -AC, the defender will always try to reduce it to 0.
+    result = MeleeAction.reduce_dmg(stormdrone, 1)
     assert result == 1
