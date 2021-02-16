@@ -49,16 +49,46 @@ def place_monsters(room, dungeon, floor_number):
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, engine):
     """Generate a new dungeon map."""
-
-    player = engine.player
     new_map = gamemap.GameMap(engine, map_width, map_height,)
 
+    # Create all the rects for the rooms
+    generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
+
+    # Connect all the rooms with corridors
+    for i, room in enumerate(new_map.rooms):
+        if i > 0:  # All rooms after the first.
+            # Dig out a tunnel between this room and the previous one.
+            for x, y in tunnel_between(new_map.rooms[i - 1].center, room.center):
+                new_map.tiles[x, y] = tiles.floor
+
+    # Put the upstair in the first room generated
+    center_of_first_room = new_map.rooms[0].center
+    new_map.tiles[center_of_first_room] = tiles.up_stairs
+    new_map.upstairs_location = center_of_first_room
+
+    # Put the downstair in the last room generated
+    center_of_last_room = new_map.rooms[-1].center
+    new_map.tiles[center_of_last_room] = tiles.down_stairs
+    new_map.downstairs_location = center_of_last_room
+
     # Add player
+    player = engine.player
     new_map.entities.add(player)
     new_map.player = player
 
-    center_of_last_room = (0, 0)
+    # Place player on upstair.
+    player.place(*center_of_first_room, new_map)
 
+    # Place entities
+    for room in new_map.rooms:
+        # Populate the room with monsters and items
+        place_monsters(room, new_map, engine.game_world.current_floor)
+        place_items(room, new_map, engine.game_world.current_floor)
+
+    return new_map
+
+
+def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
     for r in range(max_rooms):
         new_room = mk_room(new_map, room_min_size, room_max_size)
 
@@ -71,35 +101,8 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
         # Dig out this rooms inner area.
         new_map.tiles[new_room.inner] = tiles.floor
 
-        if len(new_map.rooms) == 0:
-            # The first room, where the player starts.
-            # Unpack the coordinate tuple
-            player.place(*new_room.center, new_map)
-
-        else:  # All rooms after the first.
-            # Dig out a tunnel between this room and the previous one.
-            for x, y in tunnel_between(new_map.rooms[-1].center, new_room.center):
-                new_map.tiles[x, y] = tiles.floor
-
-            center_of_last_room = new_room.center
-
-        # Populate the room with monsters and items
-        place_monsters(new_room, new_map, engine.game_world.current_floor)
-        place_items(new_room, new_map, engine.game_world.current_floor)
-
-        # Put the downstair in the last room generated
-        new_map.tiles[center_of_last_room] = tiles.down_stairs
-        new_map.downstairs_location = center_of_last_room
-
-        # Finally, append the new room to the list.
+        # Add this room to the map's list.
         new_map.rooms.append(new_room)
-
-    # Put the upstair in the first room generated
-    center_of_first_room = new_map.rooms[0].center
-    new_map.tiles[center_of_first_room] = tiles.up_stairs
-    new_map.upstairs_location = center_of_first_room
-
-    return new_map
 
 
 def mk_room(new_map, min_size, max_size):
