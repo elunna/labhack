@@ -101,6 +101,18 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
         # Dig out this rooms inner area.
         new_map.tiles[new_room.inner] = tiles.floor
 
+        # Draw walls
+        for point in new_room.horz_walls():
+            new_map.tiles[point] = tiles.room_horz_wall
+        for point in new_room.vert_walls():
+            new_map.tiles[point] = tiles.room_vert_wall
+
+        # Draw corners (must be ordered after walls)
+        new_map.tiles[new_room.ne_corner] = tiles.room_ne_corner
+        new_map.tiles[new_room.nw_corner] = tiles.room_nw_corner
+        new_map.tiles[new_room.se_corner] = tiles.room_se_corner
+        new_map.tiles[new_room.sw_corner] = tiles.room_sw_corner
+
         # Add this room to the map's list.
         new_map.rooms.append(new_room)
 
