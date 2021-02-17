@@ -162,11 +162,13 @@ class Maze:
                         # Draw East Passage
                         console[y * (self.path_width + 1) + p][x * (self.path_width + 1) + self.path_width] = '.'
 
-        for y in console:
-            print(''.join(y))
+        return console
 
 
 if __name__ == "__main__":
     m = Maze(width=30, height=10)
     m.create_maze()
-    m.draw()
+    console = m.draw()
+
+    for y in console:
+        print(''.join(y))
