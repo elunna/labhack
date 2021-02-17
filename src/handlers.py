@@ -7,6 +7,7 @@ import actions.pickup
 import actions.usestairs
 import actions.wait
 from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from .maze import Maze
 from .setup_game import load_game, new_game
 from . import color
 from . import exceptions
@@ -507,6 +508,11 @@ class MapDebugHandler(BaseEventHandler):
             engine=None,
         )
 
+    def generate_maze(self):
+        m = Maze(max_width=settings.map_width, max_height=settings.map_height)
+        m.create_maze()
+        return m.export_gamemap()
+
     def on_render(self, renderer):
         """Render the parent and dim the result, then print the message on top."""
         self.parent.on_render(renderer)
@@ -521,7 +527,10 @@ class MapDebugHandler(BaseEventHandler):
         """Any key returns to the parent handler."""
         if event.sym in (tcod.event.K_q, tcod.event.K_x, tcod.event.K_ESCAPE):
             return self.parent
-        self.map = self.generate_map()
+        if event.sym == tcod.event.K_m:
+            self.map = self.generate_maze()
+        else:
+            self.map = self.generate_map()
 
 
 class LevelUpHandler(AskUserHandler):

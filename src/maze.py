@@ -1,4 +1,7 @@
+import math
 import random
+
+from . import gamemap, tiles
 
 DIRECTIONS = {
     'N': (0, -1),  # North
@@ -19,15 +22,20 @@ class Cell:
 
 class Maze:
     """ This is the constructor for a 2D maze. """
-    def __init__(self, width, height, start=(0, 0)):
-        self.width = width
-        self.height = height
+    def __init__(self, max_width, max_height, path_width=1, start=(0, 0)):
+        """ How do we fit the maze to an outside console?
+            max_width and max_height could be the max room we have to work with.
+            The path will bloat the maze so we need to be careful.
 
-        """ Options for maze construction
-            1. Simple 1D list of ints 
-            2. 2D array
-            3. Dict: points and lists (of neighbors?)
         """
+        # max_width = self.width * (self.path_width + 1)
+        # max_height = self.height * (self.path_width + 1)
+        self.max_width = max_width
+        self.max_height = max_height
+
+        # path_width - 1
+        self.width = math.floor(max_width / (path_width + 1))
+        self.height = math.floor(max_height / (path_width + 1)) + 1
 
         # Initialize with Cell objects
         self.maze = [Cell() for _ in range(self.width * self.height)]
@@ -38,7 +46,7 @@ class Maze:
         self.stack.append(start)
         self.get_cell(*start).visited = True
         self.visited = 1
-
+        self.path_width = path_width
         """ For us to represent the maze cells onto a console grid, we need to account for path "walls"
             By using a path width of 3, we can bake that in without creating any more work.
             if C represents the cell, and | is the wall, each "Cell" is effectively translated like this: 
@@ -50,7 +58,6 @@ class Maze:
             The relationship to the console is: 
                 (Cell Coordinate * 2) + 1
         """
-        self.path_width = 2
 
     def get_cell(self, x, y):
         return self.maze[self.width * y + x]
@@ -69,8 +76,6 @@ class Maze:
                 # Pick one at random.
                 next_dir = random.choice(list(neighbors.keys()))
                 new_coords = neighbors[next_dir]
-
-                print(f"\tNeighbors: {neighbors} -- picked {next_dir} {new_coords}")
 
                 # Create a path between the neighbor and the current cell.
                 if next_dir == 'N':
@@ -107,8 +112,6 @@ class Maze:
 
             # Mark the current cell as visited
             self.get_cell(x, y).visited = True  # ???
-
-            print('')
             turns += 1
 
     def get_neighbors(self, x, y):
@@ -134,13 +137,12 @@ class Maze:
         return neighbors
 
     def draw(self):
-        max_width = self.width * (self.path_width + 1)
-        max_height = self.height * (self.path_width + 1)
-        console = [['#' for x in range(max_width)] for y in range(max_height)]
+        # max_width = self.width * (self.path_width + 1)
+        # max_height = self.height * (self.path_width + 1)
+        console = [['#' for _x in range(self.max_width)] for _y in range(self.max_height)]
 
         for x in range(self.width):
             for y in range(self.height):
-
                 # Each cell is inflated by m_nPathWidth, so fill it in
                 for py in range(self.path_width):
                     for px in range(self.path_width):
@@ -164,9 +166,47 @@ class Maze:
 
         return console
 
+    def export_gamemap(self):
+        # max_width = self.width * (self.path_width + 1)
+        # max_height = self.height * (self.path_width + 1)
+
+        new_map = gamemap.GameMap(engine=None, width=self.max_width, height=self.max_height)
+
+        for x in range(self.width):
+            for y in range(self.height):
+                # Each cell is inflated by m_nPathWidth, so fill it in
+                for py in range(self.path_width):
+                    for px in range(self.path_width):
+                        if self.maze[y * self.width + x].visited:
+                            # Draw Cell
+                            xx = x * (self.path_width + 1) + px
+                            yy = y * (self.path_width + 1) + py
+                            new_map.tiles[xx, yy] = tiles.floor
+                        else:
+                            # Draw Cell (What is the purpose of this? Draw unvisited cells?
+                            xx = x * (self.path_width + 1) + px
+                            yy = y * (self.path_width + 1) + py
+                            new_map.tiles[xx, yy] = tiles.floor
+
+                # Draw passageways between cells
+                for p in range(self.path_width):
+                    if self.maze[y * self.width + x].path_s:
+                        # Draw South Passage
+                        xx = x * (self.path_width + 1) + p
+                        yy = y * (self.path_width + 1) + self.path_width
+                        new_map.tiles[xx, yy] = tiles.floor
+
+                    if self.maze[y * self.width + x].path_e:
+                        # Draw East Passage
+                        xx = x * (self.path_width + 1) + self.path_width
+                        yy = y * (self.path_width + 1) + p
+                        new_map.tiles[xx, yy] = tiles.floor
+
+        return new_map
+
 
 if __name__ == "__main__":
-    m = Maze(width=30, height=10)
+    m = Maze(max_width=30, max_height=10)
     m.create_maze()
     console = m.draw()
 

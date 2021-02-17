@@ -49,7 +49,7 @@ def place_monsters(room, dungeon, floor_number):
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, engine):
     """Generate a new dungeon map with rooms, corridors, and stairs.."""
-    new_map = gamemap.GameMap(engine, map_width, map_height,)
+    new_map = gamemap.GameMap(engine, map_width, map_height)
 
     # Create all the rects for the rooms
     generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
