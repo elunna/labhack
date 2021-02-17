@@ -1,4 +1,5 @@
 import random
+import time
 
 DIRECTIONS = {
     'N': (0, -1),  # North
@@ -37,6 +38,7 @@ class Maze:
         # Set first start cell
         self.stack.append(start)
         self.get_cell(*start).visited = True
+        self.visited = 1
 
         """ For us to represent the maze cells onto a console grid, we need to account for path "walls"
             By using a path width of 3, we can bake that in without creating any more work.
@@ -51,60 +53,67 @@ class Maze:
         """
         self.path_width = 3
 
-    @property
-    def visited(self):
-        # This is probably inefficient...
-        return sum(1 for c in self.maze if c.visited)
-
     def get_cell(self, x, y):
         return self.maze[self.width * y + x]
 
     def create_maze(self):
+        turns = 0
         while self.visited < len(self.maze):
-
             """ Step 1: Create a set of the unvisited neighbors"""
             x = self.stack[-1][0]
             y = self.stack[-1][1]
-
             neighbors = self.get_neighbors(x, y)
 
-            """ Step 2. Are there any neighbors available?"""
+            print(f'\tStack: {self.stack}')
+            print(f"Turn:{turns} Visited:{self.visited} Cell:{x, y}")
+
+            """ Step 2. Are there any unvisited neighbors available?"""
             if neighbors:
                 # Pick one at random.
-                next_cell_dir = random.choice(list(neighbors.keys()))
+                next_dir = random.choice(list(neighbors.keys()))
+                new_coords = neighbors[next_dir]
+
+                print(f"\tNeighbors: {neighbors} -- picked {next_dir} {new_coords}")
 
                 # Create a path between the neighbor and the current cell.
-                if next_cell_dir == 'N':
+                if next_dir == 'N':
                     # Set the path north on the current cell
-                    self.get_cell(x, y).path_n = neighbors[next_cell_dir]
+                    self.get_cell(x, y).path_n = neighbors[next_dir]
                     # Set the path south on the destination
-                    self.get_cell(*next_cell_dir).path_s = x, y
+                    self.get_cell(*new_coords).path_s = x, y
 
-                elif next_cell_dir == 'S':
+                elif next_dir == 'S':
                     # Set the path south on the current cell
-                    self.get_cell(x, y).path_s = neighbors[next_cell_dir]
+                    self.get_cell(x, y).path_s = neighbors[next_dir]
                     # Set the path north on the destination
-                    self.get_cell(*next_cell_dir).path_n = x, y
+                    self.get_cell(*new_coords).path_n = x, y
 
-                elif next_cell_dir == 'E':
+                elif next_dir == 'E':
                     # Set the path east on the current cell
-                    self.get_cell(x, y).path_e = neighbors[next_cell_dir]
+                    self.get_cell(x, y).path_e = neighbors[next_dir]
                     # Set the path west on the destination
-                    self.get_cell(*next_cell_dir).path_w = x, y
+                    self.get_cell(*new_coords).path_w = x, y
 
-                elif next_cell_dir == 'W':
+                elif next_dir == 'W':
                     # Set the path west on the current cell
-                    self.get_cell(x, y).path_w = neighbors[next_cell_dir]
+                    self.get_cell(x, y).path_w = neighbors[next_dir]
                     # Set the path east on the destination
-                    self.get_cell(*next_cell_dir).path_e = x, y
+                    self.get_cell(*new_coords).path_e = x, y
 
                 # Push the next cell to the stack
-                self.stack.append(next_cell_dir)
+                self.stack.append(new_coords)
 
                 # Mark the current cell as visited
+                self.get_cell(x, y).visited = True
+                self.visited += 1
             else:
-                # No neighbors.
-                pass
+                # No neighbors = backtrack!
+                self.stack.pop()
+                self.get_cell(x, y).visited = True  # ???
+
+            print('')
+            turns += 1
+            # time.sleep(.05)
 
     def get_neighbors(self, x, y):
         # We'll build up a dict of directions and resulting coordinates.
@@ -127,23 +136,71 @@ class Maze:
                 neighbors[d] = (dest_x, dest_y)
 
         return neighbors
-
+    """
     def draw(self):
         # Initialize console to all walls
         console = [
             ['#' for y in range(self.height * self.path_width)]
-            for x in range(self.width * self.path_width)
+                 for x in range(self.width * self.path_width)
         ]
+        console =
 
         for x in range(self.width):
             for y in range(self.height):
+
                 if self.get_cell(x, y).visited:
                     console[x * (self.path_width + 1)][y] = '.'
+
+        for y in console:
+            print(''.join(y))
+    """
+
+    def draw(self):
+        max_width = self.width * (self.path_width + 1)
+        max_height = self.height * (self.path_width + 1)
+        console = [['#' for x in range(max_width)] for y in range(max_height)]
+
+        for x in range(self.width):
+            for y in range(self.height):
+
+                # Each cell is inflated by m_nPathWidth, so fill it in
+                # for (int py = 0; py < m_nPathWidth; py++):
+                for py in range(self.path_width):
+
+                    # for (int px = 0; px < m_nPathWidth; px++)
+                    for px in range(self.path_width):
+
+                        # if (m_maze[y * m_nMazeWidth + x] & CELL_VISITED)
+                        if self.maze[y * self.width + x].visited:
+                            # Draw Cell
+                            # Draw(x * (m_nPathWidth + 1) + px, y * (m_nPathWidth + 1) + py, PIXEL_SOLID, FG_WHITE);
+                            console[y * (self.path_width + 1) + py][x * (self.path_width + 1) + px] = '.'
+                        else:
+                            # Draw Cell
+                            # Draw(x * (m_nPathWidth + 1) + px, y * (m_nPathWidth + 1) + py, PIXEL_SOLID, FG_BLUE);
+                            console[y * (self.path_width + 1) + py][x * (self.path_width + 1) + px] = ','
+
+                # Draw passageways between cells
+                # for (int p = 0; p < m_nPathWidth; p++)
+                for p in range(self.path_width):
+
+                    # if (m_maze[y * m_nMazeWidth + x] & CELL_PATH_S)
+                    if self.maze[y * self.width + x].path_s:
+                        # Draw South Passage
+                        # Draw(x * (m_nPathWidth + 1) + p, y * (m_nPathWidth + 1) + m_nPathWidth);
+                        console[y * (self.path_width + 1) + self.path_width][x * (self.path_width + 1) + p] = '.'
+
+                    # if (m_maze[y * m_nMazeWidth + x] & CELL_PATH_E)
+                    if self.maze[y * self.width + x].path_e:
+                        # Draw East Passage
+                        # Draw(x * (m_nPathWidth + 1) + m_nPathWidth, y * (m_nPathWidth + 1) + p);
+                        console[y * (self.path_width + 1) + p][x * (self.path_width + 1) + self.path_width] = '.'
 
         for y in console:
             print(''.join(y))
 
 
 if __name__ == "__main__":
-    m = Maze(width=10, height=10)
+    m = Maze(width=20, height=5)
+    m.create_maze()
     m.draw()

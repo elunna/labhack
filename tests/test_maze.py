@@ -54,17 +54,6 @@ def test_Maze_init__path_width():
     assert m.path_width == 3
 
 
-def test_Maze_visited_property__1_on_init():
-    m = maze.Maze(width=10, height=10)
-    assert m.visited == 1
-
-
-def test_Maze_visited_property():
-    m = maze.Maze(width=10, height=10)
-    m.maze[1].visited = True
-    assert m.visited == 2
-
-
 def test_Maze_get_cell__default_start():
     m = maze.Maze(width=10, height=10)
     # Start cell will be visited, so we can test that
@@ -104,3 +93,48 @@ def test_Maze_get_neighbors__west_edge():
     result = m.get_neighbors(0, 5)
     assert result == {'N': (0, 4), 'S': (0, 6), 'E': (1, 5)}
 
+
+def test_Maze_get_neighbors__nw_corner():
+    m = maze.Maze(width=10, height=10, start=(5, 4))
+    result = m.get_neighbors(0, 0)
+    assert result == {'S': (0, 1), 'E': (1, 0)}
+
+
+def test_Maze_get_neighbors__no_visited():
+    m = maze.Maze(width=10, height=10, start=(5, 5))
+    result = m.get_neighbors(5, 5)
+    assert result == {'N': (5, 4), 'S': (5, 6), 'E': (6, 5), 'W': (4, 5)}
+
+
+def test_Maze_get_neighbors__1_visited():
+    m = maze.Maze(width=10, height=10, start=(5, 5))
+    m.get_cell(5, 4).visited = True
+    result = m.get_neighbors(5, 5)
+    assert result == {'S': (5, 6), 'E': (6, 5), 'W': (4, 5)}
+
+
+def test_Maze_get_neighbors__2_visited():
+    m = maze.Maze(width=10, height=10, start=(5, 5))
+    m.get_cell(5, 4).visited = True  # North neighbor
+    m.get_cell(5, 6).visited = True  # South neighbor
+    result = m.get_neighbors(5, 5)
+    assert result == {'E': (6, 5), 'W': (4, 5)}
+
+
+def test_Maze_get_neighbors__3_visited():
+    m = maze.Maze(width=10, height=10, start=(5, 5))
+    m.get_cell(5, 4).visited = True  # North neighbor
+    m.get_cell(5, 6).visited = True  # South neighbor
+    m.get_cell(6, 5).visited = True  # East neighbor
+    result = m.get_neighbors(5, 5)
+    assert result == {'W': (4, 5)}
+
+
+def test_Maze_get_neighbors__all_visited():
+    m = maze.Maze(width=10, height=10, start=(5, 5))
+    m.get_cell(5, 4).visited = True  # North neighbor
+    m.get_cell(5, 6).visited = True  # South neighbor
+    m.get_cell(6, 5).visited = True  # East neighbor
+    m.get_cell(4, 5).visited = True  # West neighbor
+    result = m.get_neighbors(5, 5)
+    assert result == {}
