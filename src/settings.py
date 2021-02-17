@@ -85,6 +85,7 @@ ITEM_CATEGORIES = {
     '~': "Scrolls"
 }
 
+# Slashem implements AC bonus for dexterity
 dex_ac_bonus_table = {
     0: 3,
     1: 3,
@@ -112,4 +113,27 @@ dex_ac_bonus_table = {
     23: -7,
     24: -8,
     25: -8
+}
+
+# Is this bonus for to-hit or damage?
+strength_bonus_table = {
+    3: -2,
+    4: -2,
+    5: -2,
+    6: -1,
+    7: -1,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+    16: 0,
+    17: 1,
+    18: 1,
+    # 17-18 / 50 + 1
+    # 18 / 51 to 18 / 99 + 2
+    # 18 / ** to
 }
