@@ -75,3 +75,32 @@ def test_Maze_get_cell__different_start():
     m = maze.Maze(width=10, height=10, start=(5, 4))
     # Start cell will be visited, so we can test that
     assert m.get_cell(5, 4).visited
+
+# Test create_maze
+
+# get_neighbors(self, x, y, direction):
+
+
+def test_Maze_get_neighbors__north_edge():
+    m = maze.Maze(width=10, height=10, start=(5, 4))
+    result = m.get_neighbors(1, 0)
+    assert result == {'S': (1, 1), 'E': (2, 0), 'W': (0, 0)}
+
+
+def test_Maze_get_neighbors__south_edge():
+    m = maze.Maze(width=10, height=10, start=(5, 4))
+    result = m.get_neighbors(1, 9)
+    assert result == {'N': (1, 8), 'E': (2, 9), 'W': (0, 9)}
+
+
+def test_Maze_get_neighbors__east_edge():
+    m = maze.Maze(width=10, height=10, start=(5, 4))
+    result = m.get_neighbors(9, 5)
+    assert result == {'N': (9, 4), 'S': (9, 6), 'W': (8, 5)}
+
+
+def test_Maze_get_neighbors__west_edge():
+    m = maze.Maze(width=10, height=10, start=(5, 4))
+    result = m.get_neighbors(0, 5)
+    assert result == {'N': (0, 4), 'S': (0, 6), 'E': (1, 5)}
+
