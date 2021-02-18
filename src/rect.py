@@ -128,3 +128,6 @@ class Rect:
 
     def all_coords(self):
         return [(self.x1 + x, self.y1 + y) for x in range(self.width) for y in range(self.height)]
+
+    def valid_door_loc(self, x, y):
+        return (x, y) in self.perimeter() and (x, y) not in self.corners()

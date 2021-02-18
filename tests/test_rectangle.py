@@ -190,3 +190,13 @@ def test_Rect_all_coords__3x3_rect():
         (1, 0), (1, 1), (1, 2),
         (2, 0), (2, 1), (2, 2),
     ]
+
+
+def test_Rect_valid_door_loc__corner_is_not_valid():
+    r = rect.Rect(0, 0, 3, 3)
+    assert not r.valid_door_loc(0, 0)
+
+
+def test_Rect_valid_door_loc__inner_perimeter_is_valid():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.valid_door_loc(1, 0)
