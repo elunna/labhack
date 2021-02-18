@@ -97,3 +97,10 @@ class GameMap:
     def walkable(self, x, y):
         return self.tiles["walkable"][x, y]
 
+    def list_all_room_coordinates(self):
+        coords = []
+
+        for r in self.rooms:
+            coords.extend(r.all_coords())
+
+        return coords

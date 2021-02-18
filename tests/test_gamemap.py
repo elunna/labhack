@@ -1,7 +1,6 @@
 """ Tests for gamemap.py """
 
-from src import factory
-from src import gamemap
+from src import factory, gamemap, rect
 import pytest
 import toolkit
 
@@ -132,4 +131,23 @@ def test_GameMap_walkable__all_floor(test_map):
     assert test_map.walkable(5, 4)
     # Player is on the floor at 5, 5
     assert test_map.walkable(5, 5)
+
+
+def test_GameMap_list_all_room_coordinates():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    m.rooms.append(rect.Rect(0, 0, 3, 3))
+    m.rooms.append(rect.Rect(10, 0, 3, 3))
+
+    result = m.list_all_room_coordinates()
+    assert result == [
+        (0, 0), (0, 1), (0, 2),
+        (1, 0), (1, 1), (1, 2),
+        (2, 0), (2, 1), (2, 2),
+
+        (10, 0), (10, 1), (10, 2),
+        (11, 0), (11, 1), (11, 2),
+        (12, 0), (12, 1), (12, 2),
+    ]
+
+
 
