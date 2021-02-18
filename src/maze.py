@@ -22,20 +22,17 @@ class Cell:
 
 class Maze:
     """ This is the constructor for a 2D maze. """
-    def __init__(self, max_width, max_height, path_width=1, start=(0, 0)):
+    def __init__(self, width, height, path_width=1, start=(0, 0)):
         """ How do we fit the maze to an outside console?
             max_width and max_height could be the max room we have to work with.
             The path will bloat the maze so we need to be careful.
 
         """
-        # max_width = self.width * (self.path_width + 1)
-        # max_height = self.height * (self.path_width + 1)
-        self.max_width = max_width
-        self.max_height = max_height
+        self.max_width = width * (path_width + 1)
+        self.max_height = height * (path_width + 1)
 
-        # path_width - 1
-        self.width = math.floor(max_width / (path_width + 1))
-        self.height = math.floor(max_height / (path_width + 1)) + 1
+        self.width = width
+        self.height = height
 
         # Initialize with Cell objects
         self.maze = [Cell() for _ in range(self.width * self.height)]
@@ -204,9 +201,15 @@ class Maze:
 
         return new_map
 
+    @staticmethod
+    def dimensions_to_fit(max_width, max_height, path_width):
+        width = math.floor(max_width / (path_width + 1))
+        height = math.floor(max_height / (path_width + 1)) + 1
+        return width, height
+
 
 if __name__ == "__main__":
-    m = Maze(max_width=30, max_height=10)
+    m = Maze(width=30, height=10)
     m.create_maze()
     console = m.draw()
 

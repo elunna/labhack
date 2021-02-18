@@ -509,7 +509,12 @@ class MapDebugHandler(BaseEventHandler):
         )
 
     def generate_maze(self):
-        m = Maze(max_width=settings.map_width, max_height=settings.map_height)
+        fitted_width, fitted_height = Maze.dimensions_to_fit(
+            settings.map_width,
+            settings.map_height,
+            path_width=2
+        )
+        m = Maze(width=fitted_width, height=fitted_height, path_width=2)
         m.create_maze()
         return m.export_gamemap()
 
