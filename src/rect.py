@@ -6,14 +6,12 @@ class Rect:
         if width < 3 or height < 3:
             raise ValueError("Width and height must be at least 3 or greater.")
 
-        self.x1 = x
-        self.y1 = y
-        # (width - 1) because grid starts from 0
-        self.x2 = x + width - 1
-        # (height - 1) because grid starts from 0
-        self.y2 = y + height - 1
+        self.x1, self.y1 = x, y
+        self.x2 = x + width - 1  # (width - 1) because grid starts from 0
+        self.y2 = y + height - 1  # (height - 1) because grid starts from 0
         self.width = width
         self.height = height
+        self.connected = False  # Used for tracking if a tunnel connects this to another room
 
     @property
     def center(self):

@@ -9,6 +9,11 @@ def test_Rect_init():
     assert r
 
 
+def test_Rect_init__not_connected():
+    r = rect.Rect(0, 0, 3, 3)
+    assert not r.connected
+
+
 def test_Rect_init_x2():
     r = rect.Rect(0, 0, 5, 10)
     assert r.x2 == 4
