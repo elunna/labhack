@@ -23,9 +23,6 @@ class GameWorld:
             engine=self.engine,
         )
 
-        # Place entities, items, etc.
-        procgen.populate_map(new_map, self.engine)
-
         self.engine.game_map = new_map
 
         # Add player
@@ -35,3 +32,6 @@ class GameWorld:
 
         # Place player on upstair.
         player.place(*new_map.upstairs_location, new_map)
+
+        # Place entities, items, etc.
+        procgen.populate_map(new_map, self.engine)
