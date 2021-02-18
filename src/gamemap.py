@@ -3,6 +3,8 @@ from . import item
 from . import tiles
 import numpy as np
 
+from .rect import Rect
+
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
@@ -104,3 +106,10 @@ class GameMap:
             coords.extend(r.all_coords())
 
         return coords
+
+    @staticmethod
+    def tiles_around(x, y, radius):
+        length = (radius * 2) + 1
+        # Create a helper Rect so we can use it's perimeter.
+        temp_rect = Rect(x - radius, y - radius, length, length)
+        return temp_rect.perimeter()

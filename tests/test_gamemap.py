@@ -150,4 +150,15 @@ def test_GameMap_list_all_room_coordinates():
     ]
 
 
+def test_GameMap_tiles_around__radius_of_0__raises_ValueError():
+    with pytest.raises(ValueError):
+        result = gamemap.GameMap.tiles_around(x=3, y=3, radius=0)
 
+
+def test_GameMap_tiles_around__radius_of_1():
+    result = gamemap.GameMap.tiles_around(x=3, y=3, radius=1)
+    assert result == {
+        (2, 2), (3, 2), (4, 2),
+        (2, 3), (4, 3),
+        (2, 4), (3, 4), (4, 4),
+    }
