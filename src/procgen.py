@@ -1,3 +1,5 @@
+import numpy as np
+
 from . import tiles
 from . import factory
 from . import gamemap
@@ -54,12 +56,9 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Create all the rects for the rooms
     generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
 
-    # Connect all the rooms with corridors
-    for i, room in enumerate(new_map.rooms):
-        if i > 0:  # All rooms after the first.
-            # Dig out a tunnel between this room and the previous one.
-            for x, y in tunnel_between(new_map.rooms[i - 1].center, room.center):
-                new_map.tiles[x, y] = tiles.floor
+    # Use some algorithm to connect the rooms.
+    # Requirement: All rooms must be connected somehow and reachable by some means.
+    connecting_algorithm_1(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -71,6 +70,17 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     new_map.tiles[center_of_last_room] = tiles.down_stairs
     new_map.downstairs_location = center_of_last_room
     return new_map
+
+
+def connecting_algorithm_1(new_map):
+    # Connect all the rooms with corridors
+    for i, room in enumerate(new_map.rooms):
+        if i > 0:  # All rooms after the first.
+            # Dig out a tunnel between this room and the previous one.
+            for x, y in tunnel_between(new_map.rooms[i - 1].center, room.center):
+                # Don't draw over room floor tiles
+                if new_map.tiles[x, y] != tiles.room_floor:
+                    new_map.tiles[x, y] = tiles.floor
 
 
 def populate_map(new_map, engine):
