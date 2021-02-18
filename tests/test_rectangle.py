@@ -200,3 +200,34 @@ def test_Rect_valid_door_loc__corner_is_not_valid():
 def test_Rect_valid_door_loc__inner_perimeter_is_valid():
     r = rect.Rect(0, 0, 3, 3)
     assert r.valid_door_loc(1, 0)
+
+
+def test_Rect_direction_facing__N():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(1, 0) == 'N'
+
+
+def test_Rect_direction_facing__S():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(1, 2) == 'S'
+
+
+def test_Rect_direction_facing__E():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(2, 1) == 'E'
+
+
+def test_Rect_direction_facing__W():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(0, 1) == 'W'
+
+
+def test_Rect_direction_facing__inner_point_returns_None():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(1, 1) is None
+
+
+def test_Rect_direction_facing__corner_returns_None():
+    r = rect.Rect(0, 0, 3, 3)
+    assert r.direction_facing(0, 0) is None
+

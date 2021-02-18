@@ -131,3 +131,17 @@ class Rect:
 
     def valid_door_loc(self, x, y):
         return (x, y) in self.perimeter() and (x, y) not in self.corners()
+
+    def direction_facing(self, x, y):
+        # Corners face diagonally, so we won't count them yet.
+        if (x, y) in self.corners():
+            return None
+
+        if x == self.x1:
+            return 'W'
+        elif x == self.x2:
+            return 'E'
+        elif y == self.y1:
+            return 'N'
+        elif y == self.y2:
+            return 'S'
