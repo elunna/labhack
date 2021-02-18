@@ -12,6 +12,8 @@ class Rect:
         self.x2 = x + width - 1
         # (height - 1) because grid starts from 0
         self.y2 = y + height - 1
+        self.width = width
+        self.height = height
 
     @property
     def center(self):
@@ -125,3 +127,6 @@ class Rect:
 
     def random_door_loc(self):
         return random.choice(list(self.perimeter().difference(self.corners())))
+
+    def all_coords(self):
+        return [(self.x1 + x, self.y1 + y) for x in range(self.width) for y in range(self.height)]

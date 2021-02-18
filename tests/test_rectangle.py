@@ -175,3 +175,13 @@ def test_Rect_random_door_loc__3x3_rect():
     r = rect.Rect(0, 0, 3, 3)
     result = r.random_door_loc()
     assert result in {(1, 0), (0, 1), (2, 1), (1, 2)}
+
+
+def test_Rect_all_coords__3x3_rect():
+    r = rect.Rect(0, 0, 3, 3)
+    result = r.all_coords()
+    assert result == [
+        (0, 0), (0, 1), (0, 2),
+        (1, 0), (1, 1), (1, 2),
+        (2, 0), (2, 1), (2, 2),
+    ]
