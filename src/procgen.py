@@ -92,7 +92,7 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
         # If there are no intersections then the room is valid.
 
         # Dig out this rooms inner area.
-        new_map.tiles[new_room.inner] = tiles.floor
+        new_map.tiles[new_room.inner] = tiles.room_floor
 
         # Draw walls
         for point in new_room.horz_walls():
