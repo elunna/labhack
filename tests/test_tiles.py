@@ -60,7 +60,7 @@ def test_new_tile__floor():
     floor = tiles.floor
     assert isinstance(floor, numpy.ndarray)
     assert floor.size == 1
-    assert floor.itemsize == 22
+    assert floor.itemsize == 23
     assert floor.shape == ()
 
 
@@ -78,7 +78,7 @@ def test_new_tile__wall():
     wall = tiles.wall
     assert isinstance(wall, numpy.ndarray)
     assert wall.size == 1
-    assert wall.itemsize == 22
+    assert wall.itemsize == 23
     assert wall.shape == ()
 
 
@@ -96,7 +96,7 @@ def test_new_tile__stairs():
     stairs = tiles.down_stairs
     assert isinstance(stairs, numpy.ndarray)
     assert stairs.size == 1
-    assert stairs.itemsize == 22
+    assert stairs.itemsize == 23
     assert stairs.shape == ()
 
 

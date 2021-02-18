@@ -23,19 +23,20 @@ tile_dt = np.dtype(
     [
         ("walkable", np.bool),  # True if this tile can be walked over.
         ("transparent", np.bool),  # True if this tile doesn't block FOV.
+        ("diggable", np.bool),  # True if it can be dug out by map generators.
         ("dark", graphic_dt),  # Graphics for when this tile is not in FOV.
         ("light", graphic_dt),  # Graphics for when the tile is in FOV.
     ]
 )
 
 
-def new_tile(*, walkable, transparent, dark, light):
+def new_tile(*, walkable, transparent, diggable, dark, light):
     """Helper function for defining individual tile types """
     # *: Enforce the use of keywords, so that parameter order doesn't matter.
     # dark: Tuple[int, Tuple[int, int, int], Tuple[int, int, int]
 
     # First arg = shape?
-    return np.array((walkable, transparent, dark, light), dtype=tile_dt)
+    return np.array((walkable, transparent, diggable, dark, light), dtype=tile_dt)
 
 
 # SHROUD represents unexplored, unseen tiles (as black tiles)
@@ -45,6 +46,7 @@ SHROUD = np.array((ord(" "), (255, 255, 255), (0, 0, 0)), dtype=graphic_dt)
 floor = new_tile(
     walkable=True,
     transparent=True,
+    diggable=False,
     # dark=(ord(" "), (255, 255, 255), (50, 50, 150)),  # Original
     # light=(ord(" "), (255, 255, 255), (200, 180, 50)),  # Original
     dark=(ord("░"), (100, 100, 100), (0, 0, 0)),  # Traditional
@@ -54,12 +56,15 @@ floor = new_tile(
 room_floor = new_tile(
     walkable=True,
     transparent=True,
+    diggable=False,
     dark=(ord(" "), (100, 100, 100), (0, 0, 0)),  # Traditional
     light=(ord("."), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
+
 wall = new_tile(
     walkable=False,
     transparent=False,
+    diggable=True,
     dark=(ord(" "), (100, 100, 100), (0, 0, 0)),  # Traditional
     light=(ord(" "), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
@@ -67,6 +72,7 @@ wall = new_tile(
 room_vert_wall = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("│"), (100, 100, 100), (0, 0, 0)),
     light=(ord("│"), (200, 200, 200), (0, 0, 0)),
 )
@@ -74,6 +80,7 @@ room_vert_wall = new_tile(
 room_horz_wall = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("─"), (100, 100, 100), (0, 0, 0)),
     light=(ord("─"), (200, 200, 200), (0, 0, 0)),
 )
@@ -81,6 +88,7 @@ room_horz_wall = new_tile(
 room_ne_corner = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("┐"), (100, 100, 100), (0, 0, 0)),
     light=(ord("┐"), (200, 200, 200), (0, 0, 0)),
 )
@@ -88,6 +96,7 @@ room_ne_corner = new_tile(
 room_sw_corner = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("└"), (100, 100, 100), (0, 0, 0)),
     light=(ord("└"), (200, 200, 200), (0, 0, 0)),
 )
@@ -95,6 +104,7 @@ room_sw_corner = new_tile(
 room_nw_corner = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("┌"), (100, 100, 100), (0, 0, 0)),
     light=(ord("┌"), (200, 200, 200), (0, 0, 0)),
 )
@@ -102,6 +112,7 @@ room_nw_corner = new_tile(
 room_se_corner = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     dark=(ord("┘"), (100, 100, 100), (0, 0, 0)),
     light=(ord("┘"), (200, 200, 200), (0, 0, 0)),
 )
@@ -109,6 +120,7 @@ room_se_corner = new_tile(
 room_wall = new_tile(
     walkable=False,
     transparent=False,
+    diggable=False,
     # dark=(ord(" "), (255, 255, 255), (0, 0, 100)),  # Original
     # light=(ord(" "), (255, 255, 255), (130, 110, 50)),  # Original
     dark=(ord("*"), (100, 100, 100), (0, 0, 0)),  # Traditional
@@ -118,6 +130,7 @@ room_wall = new_tile(
 down_stairs = new_tile(
     walkable=True,
     transparent=True,
+    diggable=False,
     # dark=(ord(">"), (0, 0, 100), (50, 50, 150)),  # Original
     # light=(ord(">"), (255, 255, 255), (200, 180, 50)),  # Original
     dark=(ord(">"), (100, 100, 100), (0, 0, 0)),  # Traditional
@@ -128,6 +141,7 @@ down_stairs = new_tile(
 up_stairs = new_tile(
     walkable=True,
     transparent=True,
+    diggable=False,
     # dark=(ord("<"), (0, 0, 100), (50, 50, 150)),  # Original
     # light=(ord("<"), (255, 255, 255), (200, 180, 50)),  # Original
     dark=(ord("<"), (100, 100, 100), (0, 0, 0)),  # Traditional
