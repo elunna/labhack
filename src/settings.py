@@ -48,7 +48,7 @@ tooltip_y = 4
 # Room Generation
 room_max_size = 10
 room_min_size = 6
-max_rooms = 30
+max_rooms = 3
 
 # Entity settings
 energy_per_turn = 10  # This is how much energy each actor regains per turn
@@ -75,6 +75,13 @@ DIRECTIONS = [
     (0, 1),  # South
     (1, 1),  # Southeast
 ]
+
+CARDINAL_DIR = {
+    'N': (0, -1),  # North
+    'W': (-1, 0),  # West
+    'E': (1, 0),  # East
+    'S': (0, 1),  # South
+}
 
 ITEM_CATEGORIES = {
     # Sets the order that the inventory is displayed in.

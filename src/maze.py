@@ -1,14 +1,8 @@
 import math
 import random
 
+from src.settings import CARDINAL_DIR
 from . import gamemap, tiles
-
-DIRECTIONS = {
-    'N': (0, -1),  # North
-    'W': (-1, 0),  # West
-    'E': (1, 0),  # East
-    'S': (0, 1),  # South
-}
 
 
 class Cell:
@@ -116,10 +110,10 @@ class Maze:
         # If there isn't a valid coordinate we don't add it.
         neighbors = {}
 
-        for d in DIRECTIONS:
+        for d in CARDINAL_DIR:
             # Use the directions dict to lookup the dx and dy change.
-            dest_x = x + DIRECTIONS[d][0]
-            dest_y = y + DIRECTIONS[d][1]
+            dest_x = x + CARDINAL_DIR[d][0]
+            dest_y = y + CARDINAL_DIR[d][1]
 
             # Make sure the destination is not out of bounds. If it is, we'll just return None
             if dest_x < 0 or dest_y < 0:
