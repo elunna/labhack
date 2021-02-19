@@ -118,6 +118,14 @@ room_se_corner = new_tile(
     light=(ord("┘"), (200, 200, 200), (0, 0, 0)),
 )
 
+door = new_tile(
+    walkable=False,
+    transparent=True,
+    diggable=False,
+    dark=(ord("+"), (100, 100, 100), (0, 0, 0)),
+    light=(ord("+"), (200, 200, 200), (0, 0, 0)),
+)
+
 down_stairs = new_tile(
     walkable=True,
     transparent=True,
