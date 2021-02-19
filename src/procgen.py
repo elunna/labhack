@@ -111,16 +111,34 @@ def connecting_algorithm_2(new_map):
         closet2 = new_map.valid_door_location(room2, *door2)
 
         # If the closet values are None, the doors did not have valid spots.
-        if closet1 and closet2:
-            # A* path
-            path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
+        if not (closet1 and closet2):
+            continue
 
-            for point in path:
-                new_map.tiles[point[0], point[1]] = tiles.floor
+        if not tunnel_astar(new_map, closet1, closet2):
+            continue
 
-            # If everything went ok, we can connect the 2 rooms
-            room1.connected = True
-            room2.connected = True
+        # Create the doors
+        new_map.tiles[door1] = tiles.door
+        new_map.tiles[door2] = tiles.door
+
+        # If everything went ok, we can connect the 2 rooms
+        room1.connected = True
+        room2.connected = True
+
+
+def tunnel_astar(new_map, closet1, closet2):
+    # A* path
+    path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
+
+    print(path)
+
+    # If we get a single point - the path is not able to complete
+    # if len(path) == 1:
+    #     return False
+
+    for point in path:
+        new_map.tiles[point[0], point[1]] = tiles.floor
+    return True
 
 
 
@@ -256,20 +274,8 @@ def get_path_to(_map, start_x, start_y, dest_x, dest_y):
     """ Compute and return a path to the target position.
         If there is no valid path then returns an empty list.
         See components.ai.BaseAI.get_path_to for full comments.
-
     """
-    # Copy the walkable array.
     cost = np.array(_map.tiles["diggable"], dtype=np.int8)
-    """
-    for entity in self.parent.gamemap.entities:
-        # Check that an enitiy blocks movement and the cost isn't zero (blocking.)
-        if entity.blocks_movement and cost[entity.x, entity.y]:
-            # Add to the cost of a blocked position.
-            # A lower number means more enemies will crowd behind each other in
-            # hallways.  A higher number means enemies will take longer paths in
-            # order to surround the player.
-            cost[entity.x, entity.y] += 10
-    """
 
     # Create a graph from the cost array and pass that graph to a new pathfinder.
     graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=0)
@@ -277,7 +283,8 @@ def get_path_to(_map, start_x, start_y, dest_x, dest_y):
 
     pathfinder.add_root((start_x, start_y))  # Start position.
 
-    # Compute the path to the destination (retain the starting point.)
+    # Compute the path to the destination (remove starting point.)
+    # path = pathfinder.path_to((dest_x, dest_y))[1:-1].tolist()
     path = pathfinder.path_to((dest_x, dest_y)).tolist()
 
     # Convert from List[List[int]] to List[Tuple[int, int]].
