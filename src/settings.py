@@ -48,7 +48,7 @@ tooltip_y = 4
 # Room Generation
 room_max_size = 10
 room_min_size = 6
-max_rooms = 3
+max_rooms = 15
 
 # Entity settings
 energy_per_turn = 10  # This is how much energy each actor regains per turn

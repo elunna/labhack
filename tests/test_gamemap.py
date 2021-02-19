@@ -1,6 +1,6 @@
 """ Tests for gamemap.py """
 
-from src import factory, gamemap, rect
+from src import factory, gamemap, rect, tiles
 import pytest
 import toolkit
 
@@ -162,3 +162,90 @@ def test_GameMap_tiles_around__radius_of_1():
         (2, 3), (4, 3),
         (2, 4), (3, 4), (4, 4),
     }
+
+
+def test_valid_door_location__facing_north():
+    m = gamemap.GameMap(engine=None, width=10, height=10)
+    r = rect.Rect(1, 1, 3, 3)
+    m.rooms.append(r)
+    # Need to set the tiles for the flanking check!
+    m.tiles[1][1] = tiles.room_nw_corner
+    m.tiles[3][1] = tiles.room_ne_corner
+    assert m.valid_door_location(r, 2, 1)
+
+
+def test_valid_door_location__facing_south():
+    m = gamemap.GameMap(engine=None, width=10, height=10)
+    r = rect.Rect(1, 1, 3, 3)
+    m.rooms.append(r)
+    # Need to set the tiles for the flanking check!
+    m.tiles[1][3] = tiles.room_sw_corner
+    m.tiles[3][3] = tiles.room_se_corner
+    assert m.valid_door_location(r, 2, 3)
+
+
+def test_valid_door_location__facing_east():
+    m = gamemap.GameMap(engine=None, width=10, height=10)
+    r = rect.Rect(1, 1, 3, 3)
+    m.rooms.append(r)
+    # Need to set the tiles for the flanking check!
+    m.tiles[3][1] = tiles.room_ne_corner
+    m.tiles[3][3] = tiles.room_se_corner
+    assert m.valid_door_location(r, 3, 2)
+
+
+def test_valid_door_location__facing_west():
+    m = gamemap.GameMap(engine=None, width=10, height=10)
+    r = rect.Rect(1, 1, 3, 3)
+    m.rooms.append(r)
+    m.rooms.append(r)
+    # Need to set the tiles for the flanking check!
+    m.tiles[1][1] = tiles.room_nw_corner
+    m.tiles[1][3] = tiles.room_sw_corner
+    assert m.valid_door_location(r, 1, 2)
+
+
+def test_valid_door_location__corner_returns_false():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 3, 3)
+    m.rooms.append(r)
+    assert not m.valid_door_location(r, 0, 0)
+
+
+def test_valid_door_location__no_closet_space_west():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 3, 3)
+    m.rooms.append(r)
+    assert not m.valid_door_location(r, 0, 1)
+
+
+def test_valid_door_location__no_closet_space_north():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 10, 3)
+    m.rooms.append(r)
+    assert not m.valid_door_location(r, 1, 0)
+
+
+def test_valid_door_location_walls__next_to_floor__facing_south():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 10, 3)
+    m.rooms.append(r)
+    m.tiles[0][2] = tiles.floor
+    assert not m.valid_door_location(r, 1, 2)
+
+
+def test_valid_door_location__next_to_floors__facing_south():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 10, 3)
+    m.rooms.append(r)
+    m.tiles[3][2] = tiles.floor
+    m.tiles[5][2] = tiles.floor
+    assert not m.valid_door_location(r, 4, 2)
+
+
+def test_valid_door_location__next_to_floor__facing_east():
+    m = gamemap.GameMap(engine=None, width=20, height=20)
+    r = rect.Rect(0, 0, 10, 3)
+    m.rooms.append(r)
+    m.tiles[9][0] = tiles.floor
+    assert not m.valid_door_location(r, 9, 1)

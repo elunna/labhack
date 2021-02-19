@@ -1,4 +1,4 @@
-from . import actor
+from . import actor, settings
 from . import item
 from . import tiles
 import numpy as np
@@ -113,3 +113,47 @@ class GameMap:
         # Create a helper Rect so we can use it's perimeter.
         temp_rect = Rect(x - radius, y - radius, length, length)
         return temp_rect.perimeter()
+
+    def valid_door_location(self, room, x, y):
+        if not room.valid_door_loc(x, y):
+            return False
+
+        facing = room.direction_facing(x, y)
+
+        # Is it flanked by room walls to east and west (if facing north or south)?
+        if facing in ['N', 'S']:
+            # east
+            dx, dy = settings.CARDINAL_DIR['E']
+            if self.tiles[x + dx][y + dy] not in tiles.room_walls:
+                return False
+            # west
+            dx, dy = settings.CARDINAL_DIR['W']
+            if self.tiles[x + dx][y + dy] not in tiles.room_walls:
+                return False
+
+        # Is it flanked by room walls to north and south (if facing east or west)?
+        elif facing in ['E', 'W']:
+            # north
+            dx, dy = settings.CARDINAL_DIR['N']
+            if self.tiles[x + dx][y + dy] not in tiles.room_walls:
+                return False
+            # south
+            dx, dy = settings.CARDINAL_DIR['S']
+            if self.tiles[x + dx][y + dy] not in tiles.room_walls:
+                return False
+
+        # Does it have a "closet" space outside directly outside of the door that is not part of another room?
+        dx, dy = settings.CARDINAL_DIR[facing]
+        closet_x, closet_y = x + dx, y + dy
+
+        # Is this a valid tile?
+        if not self.in_bounds(closet_x, closet_y):
+            return False
+
+        # Is it wall?
+        return self.tiles[closet_x][closet_y] == tiles.wall
+
+    def flanked_by_room_walls(self, room, x, y):
+        """Helper function for checking for valid door locations."""
+        facing = room.direction_facing(x, y)
+
