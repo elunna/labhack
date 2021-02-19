@@ -99,13 +99,11 @@ class GameMap:
     def walkable(self, x, y):
         return self.tiles["walkable"][x, y]
 
-    def list_all_room_coordinates(self):
-        coords = []
-
-        for r in self.rooms:
-            coords.extend(r.all_coords())
-
-        return coords
+    def room_coordinates(self):
+        """ Creates a dict of coordinate keys and room values so we have an easy reference
+            to see what coordinates belong to a room - and a quick check to see if they don't.
+        """
+        return {p: r for r in self.rooms for p in r.all_coords()}
 
     @staticmethod
     def tiles_around(x, y, radius):
