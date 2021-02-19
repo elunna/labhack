@@ -59,6 +59,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
     connecting_algorithm_1(new_map)
+    # connecting_algorithm_2(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -81,6 +82,46 @@ def connecting_algorithm_1(new_map):
                 # Don't draw over room floor tiles
                 if new_map.tiles[x, y] != tiles.room_floor:
                     new_map.tiles[x, y] = tiles.floor
+
+
+def connecting_algorithm_2(new_map):
+    # Loop until all rooms are connected
+    turns = 0
+    print("connecting_algorithm_2")
+    while not all(room.connected for room in new_map.rooms):
+        turns += 1
+        print(f'Turn {turns}')
+        # pick 2 random rooms
+        room1 = random.choice(new_map.rooms)
+        room2 = random.choice(new_map.rooms)
+
+        # They can't be they same room
+        if room1 == room2:
+            continue
+
+        # If they are both connected, try again
+        if room1.connected and room2.connected:
+            continue
+
+        # Try to find 2 good door locations
+        door1 = room1.random_door_loc()
+        closet1 = new_map.valid_door_location(room1, *door1)
+
+        door2 = room2.random_door_loc()
+        closet2 = new_map.valid_door_location(room2, *door2)
+
+        # If the closet values are None, the doors did not have valid spots.
+        if closet1 and closet2:
+            # A* path
+            path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
+
+            for point in path:
+                new_map.tiles[point[0], point[1]] = tiles.floor
+
+            # If everything went ok, we can connect the 2 rooms
+            room1.connected = True
+            room2.connected = True
+
 
 
 def populate_map(new_map, engine):
@@ -209,3 +250,35 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     )
 
     return chosen_entities
+
+
+def get_path_to(_map, start_x, start_y, dest_x, dest_y):
+    """ Compute and return a path to the target position.
+        If there is no valid path then returns an empty list.
+        See components.ai.BaseAI.get_path_to for full comments.
+
+    """
+    # Copy the walkable array.
+    cost = np.array(_map.tiles["diggable"], dtype=np.int8)
+    """
+    for entity in self.parent.gamemap.entities:
+        # Check that an enitiy blocks movement and the cost isn't zero (blocking.)
+        if entity.blocks_movement and cost[entity.x, entity.y]:
+            # Add to the cost of a blocked position.
+            # A lower number means more enemies will crowd behind each other in
+            # hallways.  A higher number means enemies will take longer paths in
+            # order to surround the player.
+            cost[entity.x, entity.y] += 10
+    """
+
+    # Create a graph from the cost array and pass that graph to a new pathfinder.
+    graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=3)
+    pathfinder = tcod.path.Pathfinder(graph)
+
+    pathfinder.add_root((start_x, start_y))  # Start position.
+
+    # Compute the path to the destination (retain the starting point.)
+    path = pathfinder.path_to((dest_x, dest_y)).tolist()
+
+    # Convert from List[List[int]] to List[Tuple[int, int]].
+    return [(index[0], index[1]) for index in path]
