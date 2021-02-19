@@ -113,6 +113,9 @@ class GameMap:
         return temp_rect.perimeter()
 
     def valid_door_location(self, room, x, y):
+        """ Checks if the tiles around the point allow for placing a door.
+            If valid, returns the coordinates for the closet space outside the door.
+        """
         if not room.valid_door_loc(x, y):
             return False
 
@@ -149,7 +152,11 @@ class GameMap:
             return False
 
         # Is it wall?
-        return self.tiles[closet_x][closet_y] == tiles.wall
+        if not self.tiles[closet_x][closet_y] == tiles.wall:
+            return False
+
+        # Return the coordinates of the closet outside the door
+        return closet_x, closet_y
 
     def flanked_by_room_walls(self, room, x, y):
         """Helper function for checking for valid door locations."""
