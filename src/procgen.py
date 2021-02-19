@@ -74,6 +74,10 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
 
 def connecting_algorithm_1(new_map):
+    """ This is the simple algorithm from the TCOD tutorial.
+        We start at the first room, carve a L tunnel to the second room, and
+        repeat until we reach the last room.
+    """
     # Connect all the rooms with corridors
     for i, room in enumerate(new_map.rooms):
         if i > 0:  # All rooms after the first.
@@ -92,7 +96,7 @@ def connecting_algorithm_2(new_map):
         turns += 1
         if turns > 1000:
             return
-        
+
         print(f'Turn {turns}')
         # pick 2 random rooms
         room1 = random.choice(new_map.rooms)
