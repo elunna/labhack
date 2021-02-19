@@ -58,8 +58,8 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
-    connecting_algorithm_1(new_map)
-    # connecting_algorithm_2(new_map)
+    # connecting_algorithm_1(new_map)
+    connecting_algorithm_2(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -272,7 +272,7 @@ def get_path_to(_map, start_x, start_y, dest_x, dest_y):
     """
 
     # Create a graph from the cost array and pass that graph to a new pathfinder.
-    graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=3)
+    graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=0)
     pathfinder = tcod.path.Pathfinder(graph)
 
     pathfinder.add_root((start_x, start_y))  # Start position.
