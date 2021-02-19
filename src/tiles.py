@@ -101,6 +101,7 @@ room_sw_corner = new_tile(
     light=(ord("└"), (200, 200, 200), (0, 0, 0)),
 )
 
+
 room_nw_corner = new_tile(
     walkable=False,
     transparent=False,
@@ -115,16 +116,6 @@ room_se_corner = new_tile(
     diggable=False,
     dark=(ord("┘"), (100, 100, 100), (0, 0, 0)),
     light=(ord("┘"), (200, 200, 200), (0, 0, 0)),
-)
-
-room_wall = new_tile(
-    walkable=False,
-    transparent=False,
-    diggable=False,
-    # dark=(ord(" "), (255, 255, 255), (0, 0, 100)),  # Original
-    # light=(ord(" "), (255, 255, 255), (130, 110, 50)),  # Original
-    dark=(ord("*"), (100, 100, 100), (0, 0, 0)),  # Traditional
-    light=(ord("*"), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
 
 down_stairs = new_tile(
@@ -146,4 +137,13 @@ up_stairs = new_tile(
     # light=(ord("<"), (255, 255, 255), (200, 180, 50)),  # Original
     dark=(ord("<"), (100, 100, 100), (0, 0, 0)),  # Traditional
     light=(ord("<"), (200, 200, 200), (0, 0, 0)),  # Traditional
+)
+
+room_walls = (
+    room_vert_wall,
+    room_horz_wall,
+    room_ne_corner,
+    room_nw_corner,
+    room_sw_corner,
+    room_se_corner,
 )
