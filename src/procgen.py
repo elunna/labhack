@@ -90,6 +90,9 @@ def connecting_algorithm_2(new_map):
     print("connecting_algorithm_2")
     while not all(room.connected for room in new_map.rooms):
         turns += 1
+        if turns > 1000:
+            return
+        
         print(f'Turn {turns}')
         # pick 2 random rooms
         room1 = random.choice(new_map.rooms)
@@ -126,13 +129,15 @@ def connecting_algorithm_2(new_map):
         room2.connected = True
 
 
+
+
 def tunnel_astar(new_map, closet1, closet2):
     # A* path
     path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
-
     print(path)
 
     # If we get a single point - the path is not able to complete
+    # This can cause infinite loops - some maps are not able to be totally connected.
     # if len(path) == 1:
     #     return False
 
