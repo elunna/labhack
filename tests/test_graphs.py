@@ -29,3 +29,20 @@ def test_Graph_init__edges__add_vertices():
         3: {2}
     }
 
+
+def test_add_vertex():
+    g = Graph()
+    g.add_vertex(1)
+    assert 1 in g.neighbors
+
+
+def test_add_vertex__success_returns_True():
+    g = Graph()
+    assert g.add_vertex(1)
+
+
+def test_add_vertex__already_exists_returns_False():
+    g = Graph(vertices=[1])
+    assert g.add_vertex(1) is False
+
+

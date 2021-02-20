@@ -16,6 +16,8 @@ class Graph:
     def add_vertex(self, v):
         if v not in self.neighbors:
             self.neighbors[v] = set()
+            return True
+        return False
 
     def add_edge(self, u, v):
         self.edges.add(frozenset([u, v]))
