@@ -1,18 +1,30 @@
+from src.vertex import Vertex
+
+
 class DirectedGraph:
+    # TODO: Implement contains for vertices
+    # TODO: Add add_vertices
+    # TODO: Add add_edges
+    # TODO: Let us init with vertices
+    # TODO: Let us init with edges
+
     def __init__(self):
-        vertices = {}
-        edgeCount = 0
+        self.vertices = {}
+        self.edge_count = 0
 
     def add_vertex(self, vertex_label):
         """ Adds a given vertex to the graph.
 
-        :param vertex_label:  vertexLabel an object that labels the new vertex and is
+        :param vertex_label: an object that labels the new vertex and is
         distinct from the labels of current vertices
         :return: True if the vertex is added, or False if not
         """
-        pass
+        if vertex_label in self.vertices:
+            return False
+        self.vertices[vertex_label] = Vertex(vertex_label)
+        return True
 
-    def add_edge(self, begin, end, weight):
+    def add_edge(self, begin, end, weight=0):
         """ Adds a weighted edge between two given distinct vertices that
         are currently in the graph. The desired edge must not already
         be in the graph. In a directed graph, the edge points toward
@@ -24,7 +36,16 @@ class DirectedGraph:
         :param weight: the real value of the edge's weight
         :return: True if the edge is added, or False if not
         """
-        pass
+        begin_vertex = self.vertices.get(begin)
+        end_vertex = self.vertices.get(end)
+
+        result = False
+        if begin_vertex and end_vertex:
+            result = begin_vertex.connect(end_vertex, weight)
+        if result:
+            self.edge_count += 1
+
+        return result
 
     def has_edge(self, begin, end):
         """ Sees whether an edge exists between two given vertices.
