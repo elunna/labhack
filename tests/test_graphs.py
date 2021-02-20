@@ -36,6 +36,16 @@ def test_Graph_add_vertex__already_exists_returns_False():
     assert g.add_vertex(1) is False
 
 
+def test_Graph_has_edge__edge_DNE():
+    g = Graph(vertices=[1, 2])
+    assert g.has_edge(2, 3) is False
+
+
+def test_Graph_has_edge__edge_exists():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.has_edge(1, 2)
+
+
 def test_Graph_add_edge__vertices_exist__adds_edge():
     g = Graph(vertices=[1, 2])
     g.add_edge(1, 2)

@@ -24,26 +24,26 @@ class Graph:
             return True
         return False
 
-    # TODO: Add has_edge(u, v)
+    def has_edge(self, u, v):
+        e = frozenset([u, v])
+        return e in self.edges
 
     def add_edge(self, u, v):
         # The vertices must exist for the edge to be formed
         if u not in self.neighbors or v not in self.neighbors:
             return False
 
-        e = frozenset([u, v])
         # The edge must not already exist in the graph.
-        if e not in self.edges:
-            self.edges.add(e)
+        if not self.has_edge(u, v):
+            self.edges.add(frozenset([u, v]))
             self.neighbors[u].add(v)
             self.neighbors[v].add(u)
             return True
         return False
 
     def rm_edge(self, u, v):
-        e = frozenset([u, v])
-        if e in self.edges:
-            self.edges.remove(e)
+        if self.has_edge(u, v):
+            self.edges.remove(frozenset([u, v]))
             self.neighbors[u].remove(v)
             self.neighbors[v].remove(u)
             return True
