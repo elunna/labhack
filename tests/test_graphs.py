@@ -147,3 +147,82 @@ def test_Edge_init__default_weight_0():
 def test_Edge_init__same_vertices__raise_ValueError():
     with pytest.raises(ValueError):
         e = graphs.Edge('v', 'v')
+
+
+def test_dfs__no_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c'])
+    result = graphs.dfs(G, 'a')
+    assert result == {'a': None}
+
+
+def test_dfs__1_edge():
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=['ab'])
+    result = graphs.dfs(G, 'a')
+    assert result == {'a': None, 'b': 'a'}
+
+
+def test_dfs__2_edges():
+    edges = 'ab bc'.split()
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=edges)
+    result = graphs.dfs(G, 'a')
+    assert result == {'a': None, 'b': 'a', 'c': 'b'}
+
+
+@pytest.mark.skip(reason='Set randomness makes this difficult to test.')
+def test_dfs__4_edges():
+    edges = 'ab bc bd cd'.split()
+    G = graphs.Graph(vertices=['a', 'b', 'c', 'd'], edges=edges)
+    result = graphs.dfs(G, 'a')
+    assert result == {'a': None, 'b': 'a', 'c': 'b', 'd': 'c'}
+
+
+def test_connected__valid_connection_2_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=['ab', 'bc'])
+    assert graphs.connected(G, 'a', 'c')
+
+
+def test_connected__valid_connection_3_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c', 'd'], edges=['ab', 'bc', 'cd'])
+    assert graphs.connected(G, 'a', 'd')
+
+
+def test_connected__invalid_connection():
+    G = graphs.Graph(vertices=['a', 'b', 'c', 'd'], edges=['ab', 'bc'])
+    assert graphs.connected(G, 'a', 'd') is False
+
+
+def test_path__2_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=['ab', 'bc'])
+    assert graphs.path(G, 'a', 'c') == ['a', 'b', 'c']
+
+
+def test_path__3_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c', 'd'], edges=['ab', 'bc', 'cd'])
+    assert graphs.path(G, 'a', 'd') == ['a', 'b', 'c', 'd']
+
+
+
+def test_bfs__no_edges():
+    G = graphs.Graph(vertices=['a', 'b', 'c'])
+    result = graphs.bfs(G, 'a')
+    assert result == {'a': None}
+
+
+def test_bfs__1_edge():
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=['ab'])
+    result = graphs.bfs(G, 'a')
+    assert result == {'a': None, 'b': 'a'}
+
+
+def test_bfs__2_edges():
+    edges = 'ab bc'.split()
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=edges)
+    result = graphs.bfs(G, 'a')
+    assert result == {'a': None, 'b': 'a', 'c': 'b'}
+
+
+def test_bfs__3_edges():
+    edges = 'ab ac bc'.split()
+    G = graphs.Graph(vertices=['a', 'b', 'c'], edges=edges)
+    result = graphs.bfs(G, 'a')
+    assert result == {'a': None, 'b': 'a', 'c': 'a'}
