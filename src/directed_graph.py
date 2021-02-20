@@ -1,4 +1,5 @@
 from src.vertex import Vertex
+from collections import deque
 
 
 class DirectedGraph:
@@ -98,19 +99,41 @@ class DirectedGraph:
         self.edge_count = 0
 
     def reset_vertices(self):
-        for v in self.vertices:
-            v.unvisit()
+        for v in self.vertices.values():
+            v.visited = False
             v.set_cost(0)
             v.set_predecessor(None)
 
-    def get_breadth_first_traversal(self, origin):
+    def bft(self, origin):
         """ Performs a breadth-first traversal of a graph.
 
         :param origin: origin an object that labels the origin vertex of the traversal
-        :return: a queue of labels of the vertices in the traversal, with
+        :return: a list of labels of the vertices in the traversal, with
         the label of the origin vertex at the queue's front
-        """
-        pass
+         """
+        # Make sure all vertices are reset first
+        self.reset_vertices()
+
+        traversalOrder = deque()  # Queue
+        vertexQueue = deque()  # Queue
+
+        originVertex = self.vertices.get(origin)
+        originVertex.visited = True
+        traversalOrder.append(origin)  # enqueue vertex label
+        vertexQueue.append(originVertex)  # enqueue vertex
+
+        while vertexQueue:
+            frontVertex = vertexQueue.popleft()
+
+            for e in frontVertex.edgelist:
+                nextNeighbor = e.vertex
+
+                if not nextNeighbor.visited:
+                    nextNeighbor.visited = True
+                    traversalOrder.append(nextNeighbor.label)
+                    vertexQueue.append(nextNeighbor)
+
+        return list(traversalOrder)
 
     def get_depth_first_traversal(self, origin):
         """ Performs a depth-first traversal of a graph.
