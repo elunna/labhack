@@ -1,4 +1,13 @@
+import pytest
 from src import vertex
+
+
+@pytest.fixture
+def connected_vertex():
+    start_v = vertex.Vertex('1')
+    end_v = vertex.Vertex('2')
+    start_v.connect(end_vertex=end_v, edge_weight=5)  # Add edge
+    return start_v
 
 
 def test_Vertex_init__label():
@@ -82,3 +91,21 @@ def test_Vertex_has_neighbor():
     # Add a neighbor
     start_v.connect(end_vertex=vertex.Vertex('2'))
     assert start_v.has_neighbor()
+
+
+def test_Vertex_get_unvisited_neighbor__valid_result():
+    start_v = vertex.Vertex('1')
+    end_v = vertex.Vertex('2')
+    start_v.connect(end_vertex=end_v)
+
+    result = start_v.get_unvisited_neighbor()
+    assert result == end_v
+
+
+def test_Vertex_get_unvisited_neighbor__none_available():
+    start_v = vertex.Vertex('1')
+    end_v = vertex.Vertex('2')
+    start_v.connect(end_vertex=end_v)
+
+    end_v.visited = True
+    assert start_v.get_unvisited_neighbor() is None

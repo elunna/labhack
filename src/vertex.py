@@ -1,5 +1,7 @@
 from src.edge import Edge
 
+# TODO: Implement equals?
+# TODO: get_weight_iter?
 
 class Vertex:
     def __init__(self, label):
@@ -58,7 +60,11 @@ class Vertex:
         :return: either a vertex that is an unvisited neighbor or None
         if no such neighbor exists
         """
-        pass
+        for edge in self.edgelist:
+            next_neighbor = edge.vertex
+            if next_neighbor.visited is False:
+                return next_neighbor
+        return None
 
     def set_predecessor(self, predecessor):
         """ Records the previous vertex on a path to this vertex.
