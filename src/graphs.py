@@ -74,6 +74,61 @@ class Graph:
         # Return the number of vertices
         return len(self.neighbors)
 
+    def connected(self, u, v):
+        # Are these two vertices connected?
+        return v in self.dfs(u)
+
+    def path(self, u, v):
+        tree = self.dfs(v)
+        if u in tree:
+            _path = []
+            while u is not None:
+                _path.append(u)
+                u = tree[u]
+            return _path
+
+    def dfs(self, v):
+        # Could put this in the graph, but this only requires the public interface of the graph.
+
+        # Dict for the rooted tree.
+        # Every other vertex (other than the root) I visit in a search, it came from somewhere.
+        # Has a unique parent.
+        # Have a dict that matches vertices to their parents.
+        # Arrows all point up the tree to the root, rather than down.
+        # To find a path to v, we can follow it's parents all the way up.
+        tree = {}
+
+        # Stack for visiting
+        # We'll put edges on this.
+        # We will start with a fake Edge to start at v (first edge to visit)
+        tovisit = [(None, v)]
+
+        while tovisit:
+            a, b = tovisit.pop()
+
+            if b not in tree:
+                tree[b] = a
+
+                for c in self.neighbors[b]:
+                    tovisit.append((b, c))
+
+        return tree
+
+    def bfs(self, v):
+        tree = {}
+        # We will use a queue (the deque serves as a queue here) so we always search the closest neighbors first.
+        tovisit = deque()
+        tovisit.append((None, v))
+
+        while tovisit:
+            a, b = tovisit.popleft()
+            if b not in tree:
+                tree[b] = a
+
+                for c in self.neighbors[b]:
+                    tovisit.append((b, c))
+        return tree
+
 
 class Edge:
     def __init__(self, u, v, weight=0):
@@ -82,62 +137,3 @@ class Edge:
         self.u = u
         self.v = v
         self.weight = weight
-
-
-def dfs(G, v):
-    # Could put this in the graph, but this only requires the public interface of the graph.
-
-    # Dict for the rooted tree.
-    # Every other vertex (other than the root) I visit in a search, it came from somewhere.
-    # Has a unique parent.
-    # Have a dict that matches vertices to their parents.
-    # Arrows all point up the tree to the root, rather than down.
-    # To find a path to v, we can follow it's parents all the way up.
-    tree = {}
-
-    # Stack for visiting
-    # We'll put edges on this.
-    # We will start with a fake Edge to start at v (first edge to visit)
-    tovisit = [(None, v)]
-
-    while tovisit:
-        a, b = tovisit.pop()
-
-        if b not in tree:
-            tree[b] = a
-
-            for c in G.neighbors[b]:
-                tovisit.append((b, c))
-
-    return tree
-
-
-def connected(G, u, v):
-    # Are these two vertices connected?
-    return v in dfs(G, u)
-
-
-def path(G, u, v):
-    tree = dfs(G, v)
-    if u in tree:
-        _path = []
-        while u is not None:
-            _path.append(u)
-            u = tree[u]
-        return _path
-
-
-def bfs(G, v):
-    tree = {}
-    # We will use a queue (the deque serves as a queue here) so we always search the closest neighbors first.
-    tovisit = deque()
-    tovisit.append((None, v))
-
-    while tovisit:
-        a, b = tovisit.popleft()
-        if b not in tree:
-            tree[b] = a
-
-            for c in G.neighbors[b]:
-                tovisit.append((b, c))
-    return tree
