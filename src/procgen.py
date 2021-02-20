@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 
 from . import tiles
@@ -298,3 +300,48 @@ def get_path_to(_map, start_x, start_y, dest_x, dest_y):
 
     # Convert from List[List[int]] to List[Tuple[int, int]].
     return [(index[0], index[1]) for index in path]
+
+
+def minimum_spanning_tree(rooms):
+    """ Connects all the rooms by using Prim's Algorithm
+
+    :return: A list of all the edges (room to room connections)
+    """
+    edges = []
+    visited = []
+    unvisited = rooms[:]   # Copy all vertices to this list.
+
+    # Random start point.
+    start = unvisited[0]
+    visited.append(start)
+    unvisited.pop(0)  # Remove the start point from the unvisited list.
+
+    while len(unvisited) > 0:
+        record = 100000   # A very high number, maybe even max
+        r_match = None
+        u_match = None
+
+        for r in visited:
+            for u in unvisited:
+                dist = distance(
+                    r.center.x,
+                    r.center.y,
+                    u.center.x,
+                    u.center.y
+                )
+                if dist < record:
+                    record = dist
+                    r_match = r
+                    u_match = u
+
+        edges.append((r_match, u_match))
+
+        # Take the u_match out of unvisited and put it into visited.
+        visited.append(u_match)
+        unvisited.remove(u_match)
+
+    return edges
+
+
+def distance(x1, y1, x2, y2):
+    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)

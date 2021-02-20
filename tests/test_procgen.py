@@ -66,3 +66,8 @@ weighted_chances = {
 @pytest.mark.skip(reason='Create sample tables for testing')
 def test_get_entities_at_random():
     pass
+
+
+@pytest.mark.skip(reason='Create sample rooms for testing')
+def test_minimum_spanning_tree():
+    pass
