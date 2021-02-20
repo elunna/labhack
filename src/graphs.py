@@ -128,12 +128,3 @@ class Graph:
                 for c in self.neighbors[b]:
                     tovisit.append((b, c))
         return tree
-
-
-class Edge:
-    def __init__(self, u, v, weight=0):
-        if u == v:
-            raise ValueError('Vertices for Edge must be distinct!')
-        self.u = u
-        self.v = v
-        self.weight = weight
