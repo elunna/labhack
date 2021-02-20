@@ -1,0 +1,11 @@
+from src.edge import Edge
+
+
+def test_Edge__init__vertex():
+    e = Edge(end_vertex='V', weight=10)
+    assert e.vertex == 'V'
+
+
+def test_Edge__init__weight():
+    e = Edge(end_vertex='V', weight=10)
+    assert e.weight == 10
