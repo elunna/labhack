@@ -1,18 +1,42 @@
-class Vertex:
-    def __init__(self):
-        pass
+from src.edge import Edge
 
-    def connect(self, end_vertex, edge_weight):
-        """ Connects this vertex and a given vertex with a weighted edge.
-        The two vertices cannot be the same, and must not already
-        have this edge between them. In a directed graph, the edge
+
+class Vertex:
+    def __init__(self, label):
+        self.label = label
+        self.edgelist = []  # edges to neighbors
+        self.visited = False  # True if visited
+        self.prev_vertex = None  # on path to this vertex
+        self.cost = 0  # of path to this vertex
+
+    def connect(self, end_vertex, edge_weight=0):
+        """ Connects this vertex and a given vertex with a weighted edge. The two vertices cannot be
+        the same, and must not already have this edge between them. In a directed graph, the edge
         points toward the given vertex.
 
         :param end_vertex: a vertex in the graph that ends the edge
         :param edge_weight: a real-valued edge weight, if any
         :return: True if the edge is added, or False if not
         """
-        pass
+        result = False
+        if end_vertex != self:
+            # vertices are distinct
+            duplicateEdge = False
+
+            for e in self.edgelist:
+                next_neighbor = e.vertex
+                if end_vertex == next_neighbor:
+                    duplicateEdge = True
+                    break
+
+            if not duplicateEdge:
+                # Create a new Edge between the 2 verticies.
+                self.edgelist.append(
+                    Edge(end_vertex, edge_weight)
+                )
+                result = True
+
+        return result
 
     def get_neighbor_iter(self):
         """ Creates an iterator of this vertex's neighbors by following
