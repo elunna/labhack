@@ -163,3 +163,18 @@ def test_DirectedGraph_bft__3_edges__shallow(test_graph):
 
     result = test_graph.bft('a')
     assert result == ['a', 'b', 'c', 'd']
+
+
+def test_DirectedGraph_shortest_path__1_edge(test_graph):
+    test_graph.add_edge(begin='a', end='b')
+    result = test_graph.shortest_path('a', 'b')
+    assert result == 1
+
+
+def test_DirectedGraph_shortest_path__2_edges(test_graph):
+    test_graph.add_vertex('c')
+    test_graph.add_edge(begin='a', end='b')
+    test_graph.add_edge(begin='b', end='c')
+
+    result = test_graph.shortest_path('a', 'c')
+    assert result == 2

@@ -152,7 +152,7 @@ class DirectedGraph:
         """
         pass
 
-    def get_shortest_path(self, begin, end, path):
+    def shortest_path(self, begin, end):
         """ Finds the path between two given vertices that has the shortest length.
 
         :param begin: begin an object that labels the path's origin vertex
@@ -164,7 +164,44 @@ class DirectedGraph:
             the label of the destination vertex is at the bottom
         :return: the length of the shortest path
         """
-        pass
+        self.reset_vertices()
+        done = False
+        vertexQueue = deque()  # Queue for vertices
+        originVertex = self.vertices.get(begin)
+        endVertex = self.vertices.get(end)
+        originVertex.visited = True
+        path = []
+        # Assertion: resetVertices() has executed setCost(0)
+        # and setPredecessor(null) for originVertex
+
+        vertexQueue.append(originVertex)
+
+        while not done and vertexQueue:
+            frontVertex = vertexQueue.popleft()
+
+            for e in frontVertex.edgelist:
+                nextNeighbor = e.vertex
+                if nextNeighbor.visited is False:
+
+                    nextNeighbor.visited = True
+                    nextNeighbor.set_cost(1 + frontVertex.get_cost())
+                    nextNeighbor.set_predecessor(frontVertex)
+                    vertexQueue.append(nextNeighbor)
+
+                if nextNeighbor == endVertex:
+                    done = True
+
+        # traversal ends; construct shortest path
+        pathLength = int(endVertex.get_cost())
+        path.append(endVertex.label)
+        vertex = endVertex
+
+        while vertex.has_predecessor():
+            vertex = vertex.get_predecessor()
+            path.append(vertex.label)
+
+        return pathLength
+
 
     def get_cheapest_path(self, begin, end, path):
         """ Finds the least-cost path between two given vertices.
