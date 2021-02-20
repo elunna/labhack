@@ -132,23 +132,6 @@ def test_Graph_n_property():
     assert g.n == len(g.neighbors)
 
 
-def test_Edge_init():
-    e = graphs.Edge('u', 'v', weight=10)
-    assert e.u == 'u'
-    assert e.v == 'v'
-    assert e.weight == 10
-
-
-def test_Edge_init__default_weight_0():
-    e = graphs.Edge('u', 'v')
-    assert e.weight == 0
-
-
-def test_Edge_init__same_vertices__raise_ValueError():
-    with pytest.raises(ValueError):
-        e = graphs.Edge('v', 'v')
-
-
 def test_dfs__no_edges():
     g = graphs.Graph(vertices=['a', 'b', 'c'])
     result = g.dfs('a')
