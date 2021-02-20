@@ -76,3 +76,26 @@ def test_rm_edge__success_returns_True():
 def test_rm_edge__edge_DNE__returns_False():
     g = Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_edge(3, 4) is False
+
+
+def test_rm_vertex__vertex_is_removed():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    g.rm_vertex(1)
+    assert 1 not in g.neighbors
+
+
+def test_rm_vertex__neighbors_are_removed():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    g.rm_vertex(1)
+    e = frozenset([1, 2])
+    assert e not in g.edges
+
+
+def test_rm_vertex__success_returns_True():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.rm_vertex(1)
+
+
+def test_rm_vertex__vertex_DNE_returns_False():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.rm_vertex(666) is False

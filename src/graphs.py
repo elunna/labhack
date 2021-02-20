@@ -47,10 +47,13 @@ class Graph:
         return False
 
     def rm_vertex(self, u):
-        to_delete = list(self.neighbors[u])
-        for v in to_delete:
-            self.rm_edge(u, v)
-        del self.neighbors[u]
+        if u in self.neighbors:
+            to_delete = list(self.neighbors[u])
+            for v in to_delete:
+                self.rm_edge(u, v)
+            del self.neighbors[u]
+            return True
+        return False
 
     def degree(self, v):
         return len(self.neighbors[v])
