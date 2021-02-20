@@ -50,7 +50,7 @@ class Vertex:
 
         :return: True if the vertex has a neighbor, False otherwise.
         """
-        pass
+        return len(self.edgelist) > 0
 
     def get_unvisited_neighbor(self):
         """ Gets an unvisited neighbor, if any, of this vertex.

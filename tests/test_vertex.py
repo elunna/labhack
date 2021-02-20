@@ -72,3 +72,13 @@ def test_Vertex_connect__dupe_edge_returns_False():
     result = start_v.connect(end_vertex=end_v, edge_weight=5)  # Add again
     assert result is False
 
+
+# get_weight_iter
+
+def test_Vertex_has_neighbor():
+    start_v = vertex.Vertex('1')
+    assert start_v.has_neighbor() is False
+
+    # Add a neighbor
+    start_v.connect(end_vertex=vertex.Vertex('2'))
+    assert start_v.has_neighbor()
