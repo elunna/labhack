@@ -1,4 +1,6 @@
-from src.graphs import Graph
+import pytest
+
+from src.graphs import Graph, Edge
 
 
 def test_Graph_init():
@@ -118,3 +120,20 @@ def test_Graph_n_property():
     # n is the # of vertices
     g = Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.n == len(g.neighbors)
+
+
+def test_Edge_init():
+    e = Edge('u', 'v', weight=10)
+    assert e.u == 'u'
+    assert e.v == 'v'
+    assert e.weight == 10
+
+
+def test_Edge_init__default_weight_0():
+    e = Edge('u', 'v')
+    assert e.weight == 0
+
+
+def test_Edge_init__same_vertices__raise_ValueError():
+    with pytest.raises(ValueError):
+        e = Edge('v', 'v')
