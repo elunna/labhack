@@ -14,20 +14,8 @@ def test_Graph_init__vertices_arg():
 
 
 def test_Graph_init__edges_arg():
-    edges = {(1, 2), (2, 3)}
-    g = Graph(edges=edges)
+    g = Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.edges == {frozenset({1, 2}), frozenset({2, 3})}
-
-
-def test_Graph_init__edges__add_vertices():
-    edges = {(1, 2), (2, 3)}
-    g = Graph(edges=edges)
-
-    assert g.neighbors == {
-        1: {2},
-        2: {1, 3},
-        3: {2}
-    }
 
 
 def test_add_vertex():
@@ -46,3 +34,22 @@ def test_add_vertex__already_exists_returns_False():
     assert g.add_vertex(1) is False
 
 
+def test_add_edge__vertices_exist__adds_edge():
+    g = Graph(vertices=[1, 2])
+    g.add_edge(1, 2)
+    assert g.edges == {frozenset({1, 2})}
+
+
+def test_add_edge__vertices_exist__returns_True():
+    g = Graph(vertices=[1, 2])
+    assert g.add_edge(1, 2)
+
+
+def test_add_edge__vertices_DNE__returns_False():
+    g = Graph()
+    assert not g.add_edge(1, 2)
+
+
+def test_add_edge__edge_already_exists__returns_False():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert not g.add_edge(1, 2)

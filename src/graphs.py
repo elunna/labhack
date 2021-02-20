@@ -3,14 +3,16 @@ class Graph:
         edges: A set of frozen sets of 2 connected vertices.
         neighbors: A dict of Vertices as keys and sets of neighbors as values.
     """
-    def __init__(self, vertices={}, edges={}):
-        self.edges = set(frozenset((u, v)) for u, v in edges)
+    # TODO: defaultdict for neighbors? defaults to sets?
+    # TODO: Fix init args
+    def __init__(self, vertices=[], edges=set()):
         self.neighbors = {}  # Change to defaultdict for sets
-
         for v in vertices:
             self.add_vertex(v)
 
-        for u, v in self.edges:
+        # self.edges = set(frozenset((u, v)) for u, v in edges)
+        self.edges = set()
+        for u, v in edges:
             self.add_edge(u, v)
 
     def add_vertex(self, v):
@@ -20,11 +22,18 @@ class Graph:
         return False
 
     def add_edge(self, u, v):
-        self.edges.add(frozenset([u, v]))
-        self.add_vertex(u)
-        self.add_vertex(v)
-        self.neighbors[u].add(v)
-        self.neighbors[v].add(u)
+        # The vertices must exist for the edge to be formed
+        if u not in self.neighbors or v not in self.neighbors:
+            return False
+
+        e = frozenset([u, v])
+        # The edge must not already exist in the graph.
+        if e not in self.edges:
+            self.edges.add(e)
+            self.neighbors[u].add(v)
+            self.neighbors[v].add(u)
+            return True
+        return False
 
     def rm_edge(self, u, v):
         e = frozenset([u, v])
