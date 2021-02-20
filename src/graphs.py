@@ -3,14 +3,17 @@ class Graph:
         edges: A set of frozen sets of 2 connected vertices.
         neighbors: A dict of Vertices as keys and sets of neighbors as values.
     """
-    # TODO: defaultdict for neighbors? defaults to sets?
-    # TODO: Fix init args
-    def __init__(self, vertices=[], edges=set()):
-        self.neighbors = {}  # Change to defaultdict for sets
+    def __init__(self, vertices=None, edges=None):
+        # Safeguard against mutable args
+        if edges is None:
+            edges = set()
+        if vertices is None:
+            vertices = []
+
+        self.neighbors = {}
         for v in vertices:
             self.add_vertex(v)
 
-        # self.edges = set(frozenset((u, v)) for u, v in edges)
         self.edges = set()
         for u, v in edges:
             self.add_edge(u, v)
