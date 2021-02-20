@@ -35,6 +35,11 @@ def test_Vertex_init__cost_is_0():
     assert v.cost == 0
 
 
+def test_Vertex_init__predecessor_is_None():
+    v = vertex.Vertex('vertex')
+    assert v.predecessor is None
+
+
 def test_Vertex_connect__success_returns_True():
     start_v = vertex.Vertex('1')
     end_v = vertex.Vertex('2')
@@ -109,3 +114,27 @@ def test_Vertex_get_unvisited_neighbor__none_available():
 
     end_v.visited = True
     assert start_v.get_unvisited_neighbor() is None
+
+
+def test_get_predecessor():
+    end_v = vertex.Vertex('2')
+    start_v = vertex.Vertex('1')  # The predecessor
+    end_v.set_predecessor(start_v)
+    assert end_v.get_predecessor() == start_v
+
+
+def test_has_predecessor__DNE_returns_False():
+    end_v = vertex.Vertex('2')
+    assert end_v.has_predecessor() is False
+
+
+def test_has_and_set_predecessor():
+    end_v = vertex.Vertex('2')
+    assert end_v.has_predecessor() is False
+
+    start_v = vertex.Vertex('1')  # The predecessor
+    end_v.set_predecessor(start_v)
+    assert end_v.has_predecessor()
+
+
+

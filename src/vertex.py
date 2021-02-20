@@ -2,6 +2,8 @@ from src.edge import Edge
 
 # TODO: Implement equals?
 # TODO: get_weight_iter?
+# TODO: neighbors iterator
+
 
 class Vertex:
     def __init__(self, label):
@@ -10,6 +12,7 @@ class Vertex:
         self.visited = False  # True if visited
         self.prev_vertex = None  # on path to this vertex
         self.cost = 0  # of path to this vertex
+        self.predecessor = None
 
     def connect(self, end_vertex, edge_weight=0):
         """ Connects this vertex and a given vertex with a weighted edge. The two vertices cannot be
@@ -72,21 +75,21 @@ class Vertex:
         :param predecessor: the vertex previous to this one along a path
         :return:
         """
-        pass
+        self.predecessor = predecessor
 
     def get_predecessor(self):
         """ Gets the recorded predecessor of this vertex.
 
         :return: either this vertex's predecessor or None if no predecessor was recorded
         """
-        pass
+        return self.predecessor
 
     def has_predecessor(self):
         """ Sees whether a predecessor was recorded.
 
         :return: True if a predecessor was recorded for this vertex
         """
-        pass
+        return self.predecessor is not None
 
     def set_cost(self, new_cost):
         """ Records the cost of a path to this vertex.
