@@ -63,6 +63,7 @@ class Graph:
         # Return the number of edges
         return len(self.edges)
 
+    @property
     def n(self):
         # Return the number of vertices
         return len(self.neighbors)

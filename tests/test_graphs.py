@@ -99,3 +99,22 @@ def test_rm_vertex__success_returns_True():
 def test_rm_vertex__vertex_DNE_returns_False():
     g = Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_vertex(666) is False
+
+
+def test_degree():
+    g = Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
+    assert g.degree(1) == 1
+    assert g.degree(2) == 2
+    assert g.degree(3) == 1
+
+
+def test_m_property():
+    # m is the # of edges
+    g = Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
+    assert g.m == len(g.edges)
+
+
+def test_n_property():
+    # n is the # of vertices
+    g = Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
+    assert g.n == len(g.neighbors)
