@@ -97,6 +97,12 @@ class DirectedGraph:
         self.vertices.clear()
         self.edge_count = 0
 
+    def reset_vertices(self):
+        for v in self.vertices:
+            v.unvisit()
+            v.set_cost(0)
+            v.set_predecessor(None)
+
     def get_breadth_first_traversal(self, origin):
         """ Performs a breadth-first traversal of a graph.
 
