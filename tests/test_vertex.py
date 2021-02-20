@@ -137,4 +137,13 @@ def test_has_and_set_predecessor():
     assert end_v.has_predecessor()
 
 
+def test_Vertex_get_cost():
+    end_v = vertex.Vertex('2')
+    assert end_v.cost == 0
+
+
+def test_Vertex_set_cost():
+    end_v = vertex.Vertex('2')
+    end_v.set_cost(20)
+    assert end_v.cost == 20
 

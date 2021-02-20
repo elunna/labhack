@@ -97,10 +97,10 @@ class Vertex:
         :param new_cost: the cost of the path
         :return: None
         """
-        pass
+        self.cost += new_cost
 
     def get_cost(self):
         """ Gets the recorded cost of the path to this vertex.
         :return: the cost of the path
         """
-        pass
+        return self.cost
