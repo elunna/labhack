@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Graph:
     """ Undirected graph: Implemented using an adjacency list
         edges: A set of frozen sets of 2 connected vertices.
@@ -125,16 +128,16 @@ def path(G, u, v):
 
 
 def bfs(G, v):
-    # TODO: Implement an efficient queue instead of using the list.
     tree = {}
-    # This will be treated as a queue instead so we always search the closest neighbors first.
-    tovisit = [(None, v)]
+    # We will use a queue (the deque serves as a queue here) so we always search the closest neighbors first.
+    tovisit = deque()
+    tovisit.append((None, v))
 
     while tovisit:
-        a, b = tovisit.pop()
+        a, b = tovisit.popleft()
         if b not in tree:
             tree[b] = a
 
             for c in G.neighbors[b]:
-                tovisit.insert(0, (b, c))
+                tovisit.append((b, c))
     return tree
