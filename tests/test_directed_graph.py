@@ -86,3 +86,44 @@ def test_DirectedGraph_has_edge__DNE_returns_False(test_graph):
     assert test_graph.has_edge('a', 'b') is False
 
 
+def test_DirectedGraph_is_empty__empty_returns_True():
+    g = DirectedGraph()
+    assert g.is_empty()
+
+
+def test_DirectedGraph_is_empty__not_empty_returns_False(test_graph):
+    assert test_graph.n > 0
+    assert test_graph.is_empty() is False
+
+
+def test_DirectedGraph_m_property__empty_graph_returns_0():
+    g = DirectedGraph()
+    assert g.m == 0
+
+
+def test_DirectedGraph_m_property__1_edge(test_graph):
+    test_graph.add_edge(begin='a', end='b', weight=10)
+    assert test_graph.edge_count == 1
+    assert test_graph.m == 1
+
+
+def test_DirectedGraph_n_property__empty_graph_returns_0():
+    g = DirectedGraph()
+    assert g.n == 0
+
+
+def test_DirectedGraph_n_property__2_verticies(test_graph):
+    assert len(test_graph.vertices) == 2
+    assert test_graph.n == 2
+
+
+def test_DirectedGraph_clear__empty_graph():
+    g = DirectedGraph()
+    g.clear()
+    assert g.is_empty()
+
+
+def test_DirectedGraph_clear__non_empty_graph(test_graph):
+    test_graph.clear()
+    assert test_graph.is_empty()
+

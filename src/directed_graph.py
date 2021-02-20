@@ -71,28 +71,31 @@ class DirectedGraph:
 
         :return: True if the graph is empty
         """
-        pass
+        return len(self.vertices) == 0
 
-    def get_number_of_vertices(self):
-        """ Gets the number of vertices in the graph.
-
-        :return: the number of vertices in the graph
-        """
-        pass
-
-    def get_number_of_edges(self):
+    @property
+    def m(self):
         """ Gets the number of edges in the graph.
 
         :return:  the number of edges in the graph
         """
-        pass
+        return self.edge_count
+
+    @property
+    def n(self):
+        """ Gets the number of vertices in the graph.
+
+        :return: the number of vertices in the graph
+        """
+        return len(self.vertices)
 
     def clear(self):
         """ Removes all vertices and edges from the graph.
 
         :return: None
         """
-        pass
+        self.vertices.clear()
+        self.edge_count = 0
 
     def get_breadth_first_traversal(self, origin):
         """ Performs a breadth-first traversal of a graph.
