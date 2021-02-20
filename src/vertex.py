@@ -38,14 +38,6 @@ class Vertex:
 
         return result
 
-    def get_neighbor_iter(self):
-        """ Creates an iterator of this vertex's neighbors by following
-        all edges that begin at this vertex.
-
-        :return: an iterator of the neighboring vertices of this vertex
-        """
-        pass
-
     def get_weight_iter(self):
         """ Creates an iterator of the weights of the edges to this vertex's neighbors.
 
