@@ -53,3 +53,26 @@ def test_add_edge__vertices_DNE__returns_False():
 def test_add_edge__edge_already_exists__returns_False():
     g = Graph(vertices=[1, 2], edges={(1, 2)})
     assert not g.add_edge(1, 2)
+
+
+def test_rm_edge__edge_is_removed():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    g.rm_edge(1, 2)
+    assert frozenset([1, 2]) not in g.edges
+
+
+def test_rm_edge__neighbors_are_removed():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.neighbors == {1: {2}, 2: {1}}
+    g.rm_edge(1, 2)
+    assert g.neighbors == {1: set(), 2: set()}
+
+
+def test_rm_edge__success_returns_True():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.rm_edge(1, 2)
+
+
+def test_rm_edge__edge_DNE__returns_False():
+    g = Graph(vertices=[1, 2], edges={(1, 2)})
+    assert g.rm_edge(3, 4) is False

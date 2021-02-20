@@ -21,6 +21,8 @@ class Graph:
             return True
         return False
 
+    # TODO: Add has_edge(u, v)
+
     def add_edge(self, u, v):
         # The vertices must exist for the edge to be formed
         if u not in self.neighbors or v not in self.neighbors:
@@ -38,9 +40,11 @@ class Graph:
     def rm_edge(self, u, v):
         e = frozenset([u, v])
         if e in self.edges:
-            self.edges.remove()
+            self.edges.remove(e)
             self.neighbors[u].remove(v)
             self.neighbors[v].remove(u)
+            return True
+        return False
 
     def rm_vertex(self, u):
         to_delete = list(self.neighbors[u])
