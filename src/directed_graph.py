@@ -54,7 +54,17 @@ class DirectedGraph:
         :param end: an object that labels the end vertex of the edge
         :return: True if an edge exists
         """
-        pass
+        beginVertex = self.vertices.get(begin)
+        endVertex = self.vertices.get(end)
+
+        if beginVertex and endVertex:
+            for e in beginVertex.edgelist:
+                next_neighbor = e.vertex
+
+                if endVertex == next_neighbor:
+                    return True
+
+        return False
 
     def is_empty(self):
         """ Sees whether the graph is empty.

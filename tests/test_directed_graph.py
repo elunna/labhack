@@ -75,3 +75,14 @@ def test_DirectedGraph_add_edge__set_weight(test_graph):
     test_graph.add_edge(begin='a', end='b', weight=10)
     edge = test_graph.vertices['a'].edgelist[0]
     assert edge.weight == 10
+
+
+def test_DirectedGraph_has_edge__edge_exists_returns_True(test_graph):
+    test_graph.add_edge(begin='a', end='b', weight=10)
+    assert test_graph.has_edge('a', 'b')
+
+
+def test_DirectedGraph_has_edge__DNE_returns_False(test_graph):
+    assert test_graph.has_edge('a', 'b') is False
+
+
