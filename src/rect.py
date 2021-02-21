@@ -171,7 +171,7 @@ class Door:
         :return: True if the doors face eachother, False otherwise.
         """
         faces = {self.facing, other.facing}
-        MIN_FACING_SPACE = 2
+        MIN_FACING_SPACE = 1
 
         # See if the doors are facing vertically
         if faces == {'N', 'S'}:
