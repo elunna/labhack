@@ -14,6 +14,7 @@ import tcod
 # mk_rooms: Create a set of rooms and dig them out of a map
 # tunnel_between
 # Place entity?
+from .rect import Door
 
 
 def place_items(room, dungeon, floor_number):
@@ -60,8 +61,8 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
-    # connecting_algorithm_1(new_map)
-    connecting_algorithm_3(new_map)
+
+    connecting_algorithm_4(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -86,15 +87,12 @@ def connecting_algorithm_1(new_map):
         if i > 0:  # All rooms after the first.
             # Dig out a tunnel between this room and the previous one.
             for x, y in tunnel_between(new_map.rooms[i - 1].center, room.center):
-                # Don't draw over room floor tiles
-                if new_map.tiles[x, y] != tiles.room_floor:
-                    new_map.tiles[x, y] = tiles.floor
+                new_map.tiles[x, y] = tiles.floor
 
 
 def connecting_algorithm_2(new_map):
     # Loop and pick rooms randomly until all rooms are connected
     turns = 0
-    print("connecting_algorithm_2")
     while not all(room.connected for room in new_map.rooms):
         turns += 1
         if turns > 1000:
@@ -108,12 +106,43 @@ def connecting_algorithm_2(new_map):
 
 
 def connecting_algorithm_3(new_map):
-    print("connecting_algorithm_3")
     # Connect rooms with a minimum spanning tree.
     edges = minimum_spanning_tree(new_map.rooms)
 
     for room1, room2 in edges:
         result = connect_2_rooms(new_map, room1, room2)
+
+
+def connecting_algorithm_4(new_map):
+    for i, room in enumerate(new_map.rooms):
+        if i == 0:
+            continue  # Can't connect first room to a previous room.
+
+        # Can we dig a straight path?
+        # Is there a box area we can dig a L/diagonal/random path?
+        # Otherwise we will draw A*
+
+        path = tunnel_between(new_map.rooms[i - 1].center, room.center)
+
+        for x, y in path:
+            next_tile = new_map.tiles[x, y]
+            room_coords = new_map.room_coordinates()
+
+            # If the tile is part of a room wall?
+            if next_tile in tiles.room_walls:
+                next_tile_room = room_coords[(x, y)]
+
+                # It's part of a room wall, but is it a valid door location?
+                if new_map.valid_door_location(next_tile_room, x, y):
+                    # 50% of the time make a door, the other 50% just dig floor.
+                    # if random.randint(0, 1):
+                    new_map.tiles[x, y] = tiles.door
+                    # else:
+                    #     new_map.tiles[x, y] = tiles.floor
+
+            # Don't draw over room floor tiles
+            elif next_tile != tiles.room_floor:
+                new_map.tiles[x, y] = tiles.floor
 
 
 def connect_2_rooms(new_map, room1, room2):
@@ -151,6 +180,22 @@ def connect_2_rooms(new_map, room1, room2):
     room1.connected = True
     room2.connected = True
     return True
+
+
+def match_facing_doors(room1, room2):
+    room1_walls = room1.perimeter.difference(room1.corners)
+    room2_walls = room2.perimeter.difference(room2.corners)
+
+    room1_doors = [Door(room1, x, y) for x, y in room1_walls]
+    room2_doors = [Door(room2, x, y) for x, y in room2_walls]
+
+    matches = []
+
+    for a in room1_doors:
+        for b in room2_doors:
+            if a.facing_other(b):
+                matches.append({a, b})
+    return matches
 
 
 def tunnel_astar(new_map, closet1, closet2):
@@ -215,6 +260,7 @@ def mk_room(new_map, min_size, max_size):
 
 def tunnel_between(start, end, twist=0):
     """ Return an L-shaped tunnel between these two points.
+        If the lines are on the same x-axis or y-axis it will simply draw a straight line.
         start: Tuple[int, int],
         end: Tuple[int, int]
         returns Iterator[Tuple[int, int]]:
@@ -231,13 +277,7 @@ def tunnel_between(start, end, twist=0):
         corner_x, corner_y = x1, y2  # Move vertically, then horizontally.
 
     # Generate the coordinates for this tunnel.
-    # tcod includes a function in its line-of-sight module to draw Bresenham
-    # lines. While we’re not working with line-of-sight in this case, it
-    # still proves useful to get a line from one point to another. In this case,
-    # we get one line, then another, to create an “L” shaped tunnel. .tolist()
-    # converts the points in the line into, as you might have already guessed,
-    # a list.
-
+    # line-of-sight module: draws Bresenham lines.
     coordinates = []
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
         coordinates.append((x, y))
