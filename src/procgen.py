@@ -80,6 +80,8 @@ def connecting_algorithm(new_map):
     # Connect rooms with a minimum spanning tree.
     edges = minimum_spanning_tree(new_map.rooms)
     for room1, room2 in edges:
+        connected = False
+
         # Find all the possible door locations in the 2 rooms
         # Find all the pairs of doors that face eachother.
         matches = match_facing_doors(room1, room2)
@@ -87,11 +89,28 @@ def connecting_algorithm(new_map):
         if matches:
             closest_pair = get_closest_pair_of_doors(matches)
             door1, door2 = closest_pair
-            connect_2_doors(new_map, door1, door2)
+            connected = connect_2_doors(new_map, door1, door2)
+
+        if not connected:
+            # Either: we don't have facing doors, or the first connector didn't work.
+            print('A* tunnel!')
+            # Get a random set of doors
+            door1 = room1.random_door_loc()
+            door2 = room2.random_door_loc()
+            connected = tunnel_astar(new_map, door1, door2)
+
+        if connected:
+            # Draw the doors
+            if distance(door1.x, door1.y, door2.x, door2.y) > 1:
+                # If the doors are next to eachother, just leave it as floor.
+                new_map.tiles[door1.x, door1.y] = tiles.door
+                new_map.tiles[door2.x, door2.y] = tiles.door
+
+            # Add the rooms to each-other's list of connections
+            room1.connections.append(room2.label)
+            room2.connections.append(room1.label)
         else:
-            # We don't have facing doors, so no direct path. draw A*
-            # tunnel_astar(new_map, closet1, closet2)
-            pass
+            print(f'Could not connect rooms {room1.label} and {room2.label}')
 
 
 def connect_2_doors(new_map, door1, door2):
@@ -99,20 +118,43 @@ def connect_2_doors(new_map, door1, door2):
     x1, y1 = door1.closet()
     x2, y2 = door2.closet()
 
+    # Choose a method of creating the tunnel:
     # Draw an L tunnel
     path = tunnel_between((x1, y1), (x2, y2))
 
+    # Draw a diagonal
+    # path = diagonal_tunnel(start, end):
+
     # Dig out a tunnel between this room and the previous one.
     for x, y in path:
+        # We won't allow drawing over room walls or doors.
+        if new_map.tiles[x, y] in tiles.room_corners:
+            return False
         new_map.tiles[x, y] = tiles.floor
 
-    # Draw a diagonal
+    return True
 
-    # Draw the doors
-    if distance(door1.x, door1.y, door2.x, door2.y) > 1:
-        # If the doors are next to eachother, just leave it as floor.
-        new_map.tiles[door1.x, door1.y] = tiles.door
-        new_map.tiles[door2.x, door2.y] = tiles.door
+
+def tunnel_astar(new_map, door1, door2):
+    # Get the closets outside the doors
+    x1, y1 = door1.closet()
+    x2, y2 = door2.closet()
+
+    # A* path
+    path = get_path_to(new_map, x1, y1, x2, y2)
+    # If we get a single point - the path is not able to complete
+    # This can cause infinite loops - some maps are not able to be totally connected.
+    # if len(path) == 1:
+    #     return False
+
+    for point in path:
+        x, y = point
+        # We won't allow drawing over room walls or doors.
+        if new_map.tiles[x, y] in tiles.room_corners:
+            return False
+        new_map.tiles[x, y] = tiles.floor
+    return True
+
 
 def match_facing_doors(room1, room2):
     room1_walls = room1.perimeter().difference(room1.corners())
@@ -141,19 +183,6 @@ def get_closest_pair_of_doors(matches):
             record = dist_between
             closest_pair = pair
     return closest_pair
-
-
-def tunnel_astar(new_map, closet1, closet2):
-    # A* path
-    path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
-    # If we get a single point - the path is not able to complete
-    # This can cause infinite loops - some maps are not able to be totally connected.
-    # if len(path) == 1:
-    #     return False
-
-    for point in path:
-        new_map.tiles[point[0], point[1]] = tiles.floor
-    return True
 
 
 def populate_map(new_map, engine):
@@ -188,6 +217,10 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
         new_map.tiles[new_room.nw_corner] = tiles.room_nw_corner
         new_map.tiles[new_room.se_corner] = tiles.room_se_corner
         new_map.tiles[new_room.sw_corner] = tiles.room_sw_corner
+
+        # Label the room to match it's index in new_map.rooms
+        label = len(new_map.rooms)
+        new_room.label = label
 
         # Add this room to the map's list.
         new_map.rooms.append(new_room)
