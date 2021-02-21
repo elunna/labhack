@@ -12,6 +12,7 @@ class Rect:
         self.width = width
         self.height = height
         self.connected = False  # Used for tracking if a tunnel connects this to another room
+        self.doors = []
 
     @property
     def center(self):
@@ -145,3 +146,50 @@ class Rect:
             return 'N'
         elif y == self.y2:
             return 'S'
+
+
+class Door:
+    def __init__(self, room, x, y):
+        if not room.valid_door_loc(x, y):
+            raise ValueError('Invalid coordinates supplied for Door!')
+
+        self.room = room
+        self.x = x
+        self.y = y
+        self.facing = room.direction_facing(self.x, self.y)
+
+    def facing_other(self, other):
+        """ Tells us if this door indirectly faces another door.
+        The two cases are:
+            Vertically facing: The lower door faces North and the higher door faces South
+            Horizontally facing: The western door faces east and the eastern door faces west.
+
+        If one door faces North and one faces East, they do not face eachother.
+        :param other: A different door to compare against.
+        :return: True if the doors face eachother, False otherwise.
+        """
+        faces = {self.facing, other.facing}
+
+        # See if the doors are facing vertically
+        if faces == {'N', 'S'}:
+            # Check which door is lower.
+            if self.y > other.y:
+                # This door is to the south of the other
+                return self.facing == 'N' and other.facing == 'S'
+            else:
+                # TODO: This might be redundant with the above checks
+                # This door is to the north of the other
+                return self.facing == 'S' and other.facing == 'N'
+
+        # See if the doors are facing horizontally
+        if faces == {'E', 'W'}:
+            # Check which door is east/west
+            if self.x > other.x:
+                # This door is to east of the other
+                return self.facing == 'W' and other.facing == 'E'
+            else:
+                # TODO: This might be redundant with the above checks
+                # This door is to west of the other
+                return self.facing == 'E' and other.facing == 'W'
+
+        return False

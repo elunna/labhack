@@ -231,3 +231,56 @@ def test_Rect_direction_facing__corner_returns_None():
     r = rect.Rect(0, 0, 3, 3)
     assert r.direction_facing(0, 0) is None
 
+
+def test_Door_init__room():
+    r = rect.Rect(0, 0, 3, 3)
+    d = rect.Door(r, 1, 0)
+    assert d.room == r
+
+
+def test_Door_init__coords():
+    r = rect.Rect(0, 0, 3, 3)
+    d = rect.Door(r, 1, 0)
+    assert d.x == 1
+    assert d.y == 0
+
+
+def test_Door_init__invalid_location__raises_exception():
+    r = rect.Rect(0, 0, 3, 3)
+    with pytest.raises(ValueError):
+        d = rect.Door(r, 0, 0)
+
+
+def test_Door_init__not_in_its_room__raises_exception():
+    r = rect.Rect(0, 0, 3, 3)
+    with pytest.raises(ValueError):
+        d = rect.Door(r, 100, 1000)
+
+
+def test_Door_init__facing_other__same_room():
+    r = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r, 1, 0)
+    d2 = rect.Door(r, 2, 1)
+    assert d1.facing_other(d2) is False
+
+
+def test_Door_init__facing_other__vertical():
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 1, 2)
+
+    r2 = rect.Rect(0, 5, 4, 3)
+    d2 = rect.Door(r2, 1, 5)
+    d3 = rect.Door(r2, 2, 5)
+    assert d1.facing_other(d2)  # Lined up vertically
+    assert d1.facing_other(d3)  # Off by one
+
+
+def test_Door_init__facing_other__horizontal():
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 2, 1)
+
+    r2 = rect.Rect(5, 0, 3, 4)
+    d2 = rect.Door(r2, 5, 1)
+    d3 = rect.Door(r2, 5, 2)
+    assert d1.facing_other(d2)  # Lined up horizontally
+    assert d1.facing_other(d3)  # Off by one
