@@ -1,5 +1,7 @@
 import random
 
+from src import settings
+
 
 class Rect:
     def __init__(self, x, y, width, height):
@@ -192,3 +194,12 @@ class Door:
                 return self.facing == 'E'
 
         return False
+
+    def closet(self):
+        """ Returns the coordinates of the "closet" space outside of the door where the door
+        immediately faces.
+
+        :return: x, y coordinates
+        """
+        dx, dy = settings.CARDINAL_DIR[self.facing]
+        return self.x + dx, self.y + dy
