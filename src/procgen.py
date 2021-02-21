@@ -95,8 +95,9 @@ def connecting_algorithm(new_map):
             # Either: we don't have facing doors, or the first connector didn't work.
             print('A* tunnel!')
             # Get a random set of doors
-            door1 = room1.random_door_loc()
-            door2 = room2.random_door_loc()
+            door1 = rect.Door(room1, *room1.random_door_loc())
+            door2 = rect.Door(room2, *room2.random_door_loc())
+
             connected = tunnel_astar(new_map, door1, door2)
 
         if connected:
