@@ -62,7 +62,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
 
-    connecting_algorithm_4(new_map)
+    connecting_algorithm(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -76,44 +76,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     return new_map
 
 
-def connecting_algorithm_1(new_map):
-    """ This is the simple algorithm from the TCOD tutorial.
-        We start at the first room, carve a L tunnel to the second room, and
-        repeat until we reach the last room.
-    """
-    print("connecting_algorithm_1")
-    # Connect all the rooms with corridors
-    for i, room in enumerate(new_map.rooms):
-        if i > 0:  # All rooms after the first.
-            # Dig out a tunnel between this room and the previous one.
-            for x, y in tunnel_between(new_map.rooms[i - 1].center, room.center):
-                new_map.tiles[x, y] = tiles.floor
-
-
-def connecting_algorithm_2(new_map):
-    # Loop and pick rooms randomly until all rooms are connected
-    turns = 0
-    while not all(room.connected for room in new_map.rooms):
-        turns += 1
-        if turns > 1000:
-            return
-
-        # pick 2 random rooms
-        room1 = random.choice(new_map.rooms)
-        room2 = random.choice(new_map.rooms)
-
-        result = connect_2_rooms(new_map, room1, room2)
-
-
-def connecting_algorithm_3(new_map):
-    # Connect rooms with a minimum spanning tree.
-    edges = minimum_spanning_tree(new_map.rooms)
-
-    for room1, room2 in edges:
-        result = connect_2_rooms(new_map, room1, room2)
-
-
-def connecting_algorithm_4(new_map):
+def connecting_algorithm(new_map):
     # Connect rooms with a minimum spanning tree.
     edges = minimum_spanning_tree(new_map.rooms)
     for room1, room2 in edges:
