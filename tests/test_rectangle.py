@@ -272,7 +272,9 @@ def test_Door_init__facing_other__vertical():
     d2 = rect.Door(r2, 1, 5)
     d3 = rect.Door(r2, 2, 5)
     assert d1.facing_other(d2)  # Lined up vertically
+    assert d2.facing_other(d1)  # Lined up vertically
     assert d1.facing_other(d3)  # Off by one
+    assert d3.facing_other(d1)  # Off by one
 
 
 def test_Door_init__facing_other__horizontal():
@@ -283,4 +285,50 @@ def test_Door_init__facing_other__horizontal():
     d2 = rect.Door(r2, 5, 1)
     d3 = rect.Door(r2, 5, 2)
     assert d1.facing_other(d2)  # Lined up horizontally
+    assert d2.facing_other(d1)  # Lined up horizontally
     assert d1.facing_other(d3)  # Off by one
+    assert d3.facing_other(d1)  # Off by one
+
+
+def test_Door_init__facing_other__facing_away_vertically():
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 1, 0)  # Facing N
+
+    r2 = rect.Rect(0, 5, 4, 3)
+    d2 = rect.Door(r2, 1, 7)  # Facing S
+    assert d1.facing_other(d2) is False  # Lined up vertically
+    assert d2.facing_other(d1) is False  # Lined up vertically
+
+
+def test_Door_init__facing_other__facing_away_horizontally():
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 0, 1)  # Facing west
+
+    r2 = rect.Rect(5, 0, 3, 4)
+    d2 = rect.Door(r2, 7, 1)  # Facing east
+    assert d1.facing_other(d2) is False  # Lined up horizontally
+    assert d2.facing_other(d1) is False  # Lined up horizontally
+
+
+def test_Door_init__facing_other__doors_lined_up_horizontally():
+    # These doors do not share the same x-axis, there is 1 space between them,
+    # but we need at least 2 spaces for them to be facing eachother.
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 2, 1)  # Facing east
+
+    r2 = rect.Rect(3, 4, 3, 3)
+    d2 = rect.Door(r2, 3, 5)  # Facing west
+    assert d1.facing_other(d2) is False  # Lined up horizontally
+    assert d2.facing_other(d1) is False  # Lined up horizontally
+
+
+def test_Door_init__facing_other__doors_lined_up_vertically():
+    # These doors do not share the same y-axis, there is 1 space between them,
+    # but we need at least 2 spaces for them to be facing eachother.
+    r1 = rect.Rect(0, 0, 3, 3)
+    d1 = rect.Door(r1, 1, 2)  # Facing south
+
+    r2 = rect.Rect(4, 3, 3, 3)
+    d2 = rect.Door(r2, 5, 3)  # Facing north
+    assert d1.facing_other(d2) is False  # Lined up vertically
+    assert d2.facing_other(d1) is False  # Lined up vertically

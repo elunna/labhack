@@ -169,27 +169,26 @@ class Door:
         :return: True if the doors face eachother, False otherwise.
         """
         faces = {self.facing, other.facing}
+        MIN_FACING_SPACE = 2
 
         # See if the doors are facing vertically
         if faces == {'N', 'S'}:
             # Check which door is lower.
-            if self.y > other.y:
+            if self.y - other.y >= MIN_FACING_SPACE:
                 # This door is to the south of the other
-                return self.facing == 'N' and other.facing == 'S'
-            else:
-                # TODO: This might be redundant with the above checks
+                return self.facing == 'N'
+            elif other.y - self.y >= MIN_FACING_SPACE:
                 # This door is to the north of the other
-                return self.facing == 'S' and other.facing == 'N'
+                return self.facing == 'S'
 
         # See if the doors are facing horizontally
         if faces == {'E', 'W'}:
             # Check which door is east/west
-            if self.x > other.x:
+            if self.x - other.x >= MIN_FACING_SPACE:
                 # This door is to east of the other
-                return self.facing == 'W' and other.facing == 'E'
-            else:
-                # TODO: This might be redundant with the above checks
+                return self.facing == 'W'
+            elif other.x - self.x >= MIN_FACING_SPACE:
                 # This door is to west of the other
-                return self.facing == 'E' and other.facing == 'W'
+                return self.facing == 'E'
 
         return False
