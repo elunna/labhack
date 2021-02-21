@@ -61,7 +61,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
     # connecting_algorithm_1(new_map)
-    connecting_algorithm_2(new_map)
+    connecting_algorithm_3(new_map)
 
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
@@ -80,6 +80,7 @@ def connecting_algorithm_1(new_map):
         We start at the first room, carve a L tunnel to the second room, and
         repeat until we reach the last room.
     """
+    print("connecting_algorithm_1")
     # Connect all the rooms with corridors
     for i, room in enumerate(new_map.rooms):
         if i > 0:  # All rooms after the first.
@@ -91,7 +92,7 @@ def connecting_algorithm_1(new_map):
 
 
 def connecting_algorithm_2(new_map):
-    # Loop until all rooms are connected
+    # Loop and pick rooms randomly until all rooms are connected
     turns = 0
     print("connecting_algorithm_2")
     while not all(room.connected for room in new_map.rooms):
@@ -99,19 +100,32 @@ def connecting_algorithm_2(new_map):
         if turns > 1000:
             return
 
-        print(f'Turn {turns}')
         # pick 2 random rooms
         room1 = random.choice(new_map.rooms)
         room2 = random.choice(new_map.rooms)
 
-        # They can't be they same room
-        if room1 == room2:
-            continue
+        result = connect_2_rooms(new_map, room1, room2)
 
-        # If they are both connected, try again
-        if room1.connected and room2.connected:
-            continue
 
+def connecting_algorithm_3(new_map):
+    print("connecting_algorithm_3")
+    # Connect rooms with a minimum spanning tree.
+    edges = minimum_spanning_tree(new_map.rooms)
+
+    for room1, room2 in edges:
+        result = connect_2_rooms(new_map, room1, room2)
+
+
+def connect_2_rooms(new_map, room1, room2):
+    # They can't be they same room
+    if room1 == room2:
+        return False
+
+    # If they are both connected, try again
+    # if room1.connected and room2.connected:
+    #     return False
+    for t in range(100):
+        # try up to 100x to find good door locations
         # Try to find 2 good door locations
         door1 = room1.random_door_loc()
         closet1 = new_map.valid_door_location(room1, *door1)
@@ -120,28 +134,28 @@ def connecting_algorithm_2(new_map):
         closet2 = new_map.valid_door_location(room2, *door2)
 
         # If the closet values are None, the doors did not have valid spots.
-        if not (closet1 and closet2):
-            continue
+        if closet1 and closet2:
+            break
+    else:
+        return False
 
-        if not tunnel_astar(new_map, closet1, closet2):
-            continue
+    tunnel_astar(new_map, closet1, closet2)
+    # if not tunnel_astar(new_map, closet1, closet2):
+    #     return False
 
-        # Create the doors
-        new_map.tiles[door1] = tiles.door
-        new_map.tiles[door2] = tiles.door
+    # Create the doors
+    new_map.tiles[door1] = tiles.door
+    new_map.tiles[door2] = tiles.door
 
-        # If everything went ok, we can connect the 2 rooms
-        room1.connected = True
-        room2.connected = True
-
-
+    # If everything went ok, we can connect the 2 rooms
+    room1.connected = True
+    room2.connected = True
+    return True
 
 
 def tunnel_astar(new_map, closet1, closet2):
     # A* path
     path = get_path_to(new_map, closet1[0], closet1[1], closet2[0], closet2[1])
-    print(path)
-
     # If we get a single point - the path is not able to complete
     # This can cause infinite loops - some maps are not able to be totally connected.
     # if len(path) == 1:
@@ -150,7 +164,6 @@ def tunnel_astar(new_map, closet1, closet2):
     for point in path:
         new_map.tiles[point[0], point[1]] = tiles.floor
     return True
-
 
 
 def populate_map(new_map, engine):
@@ -323,12 +336,10 @@ def minimum_spanning_tree(rooms):
 
         for r in visited:
             for u in unvisited:
-                dist = distance(
-                    r.center.x,
-                    r.center.y,
-                    u.center.x,
-                    u.center.y
-                )
+                x1, y1 = r.center
+                x2, y2 = u.center
+                dist = distance(x1, y1, x2, y2)
+
                 if dist < record:
                     record = dist
                     r_match = r
