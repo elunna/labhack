@@ -157,8 +157,3 @@ class GameMap:
 
         # Return the coordinates of the closet outside the door
         return closet_x, closet_y
-
-    def flanked_by_room_walls(self, room, x, y):
-        """Helper function for checking for valid door locations."""
-        facing = room.direction_facing(x, y)
-
