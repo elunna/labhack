@@ -1,5 +1,4 @@
 import random
-
 from src import settings
 
 
@@ -13,8 +12,9 @@ class Rect:
         self.y2 = y + height - 1  # (height - 1) because grid starts from 0
         self.width = width
         self.height = height
-        self.connected = False  # Used for tracking if a tunnel connects this to another room
+        self.connections = []  # List of which rooms this room is connected to
         self.doors = []
+        self.label = None  # This will be set externally on map generation
 
     @property
     def center(self):
