@@ -95,8 +95,12 @@ def connecting_algorithm(new_map):
 
 
 def connect_2_doors(new_map, door1, door2):
+    # Get the closets outside the doors
+    x1, y1 = door1.closet()
+    x2, y2 = door2.closet()
+
     # Draw an L tunnel
-    path = tunnel_between((door1.x, door1.y), (door2.x, door2.y))
+    path = tunnel_between((x1, y1), (x2, y2))
 
     # Dig out a tunnel between this room and the previous one.
     for x, y in path:
@@ -104,6 +108,11 @@ def connect_2_doors(new_map, door1, door2):
 
     # Draw a diagonal
 
+    # Draw the doors
+    if distance(door1.x, door1.y, door2.x, door2.y) > 1:
+        # If the doors are next to eachother, just leave it as floor.
+        new_map.tiles[door1.x, door1.y] = tiles.door
+        new_map.tiles[door2.x, door2.y] = tiles.door
 
 def match_facing_doors(room1, room2):
     room1_walls = room1.perimeter().difference(room1.corners())
