@@ -94,43 +94,6 @@ def connecting_algorithm(new_map):
             pass
 
 
-def connect_2_rooms(new_map, room1, room2):
-    # They can't be they same room
-    if room1 == room2:
-        return False
-
-    # If they are both connected, try again
-    # if room1.connected and room2.connected:
-    #     return False
-    for t in range(100):
-        # try up to 100x to find good door locations
-        # Try to find 2 good door locations
-        door1 = room1.random_door_loc()
-        closet1 = new_map.valid_door_location(room1, *door1)
-
-        door2 = room2.random_door_loc()
-        closet2 = new_map.valid_door_location(room2, *door2)
-
-        # If the closet values are None, the doors did not have valid spots.
-        if closet1 and closet2:
-            break
-    else:
-        return False
-
-    tunnel_astar(new_map, closet1, closet2)
-    # if not tunnel_astar(new_map, closet1, closet2):
-    #     return False
-
-    # Create the doors
-    new_map.tiles[door1] = tiles.door
-    new_map.tiles[door2] = tiles.door
-
-    # If everything went ok, we can connect the 2 rooms
-    room1.connected = True
-    room2.connected = True
-    return True
-
-
 def connect_2_doors(new_map, door1, door2):
     # Draw an L tunnel
     path = tunnel_between((door1.x, door1.y), (door2.x, door2.y))
