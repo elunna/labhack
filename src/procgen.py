@@ -114,35 +114,21 @@ def connecting_algorithm_3(new_map):
 
 
 def connecting_algorithm_4(new_map):
-    for i, room in enumerate(new_map.rooms):
-        if i == 0:
-            continue  # Can't connect first room to a previous room.
+    # Connect rooms with a minimum spanning tree.
+    edges = minimum_spanning_tree(new_map.rooms)
+    for room1, room2 in edges:
+        # Find all the possible door locations in the 2 rooms
+        # Find all the pairs of doors that face eachother.
+        matches = match_facing_doors(room1, room2)
 
-        # Can we dig a straight path?
-        # Is there a box area we can dig a L/diagonal/random path?
-        # Otherwise we will draw A*
-
-        path = tunnel_between(new_map.rooms[i - 1].center, room.center)
-
-        for x, y in path:
-            next_tile = new_map.tiles[x, y]
-            room_coords = new_map.room_coordinates()
-
-            # If the tile is part of a room wall?
-            if next_tile in tiles.room_walls:
-                next_tile_room = room_coords[(x, y)]
-
-                # It's part of a room wall, but is it a valid door location?
-                if new_map.valid_door_location(next_tile_room, x, y):
-                    # 50% of the time make a door, the other 50% just dig floor.
-                    # if random.randint(0, 1):
-                    new_map.tiles[x, y] = tiles.door
-                    # else:
-                    #     new_map.tiles[x, y] = tiles.floor
-
-            # Don't draw over room floor tiles
-            elif next_tile != tiles.room_floor:
-                new_map.tiles[x, y] = tiles.floor
+        if matches:
+            closest_pair = get_closest_pair_of_doors(matches)
+            door1, door2 = closest_pair
+            connect_2_doors(new_map, door1, door2)
+        else:
+            # We don't have facing doors, so no direct path. draw A*
+            # tunnel_astar(new_map, closet1, closet2)
+            pass
 
 
 def connect_2_rooms(new_map, room1, room2):
@@ -182,9 +168,20 @@ def connect_2_rooms(new_map, room1, room2):
     return True
 
 
+def connect_2_doors(new_map, door1, door2):
+    # Draw an L tunnel
+    path = tunnel_between((door1.x, door1.y), (door2.x, door2.y))
+
+    # Dig out a tunnel between this room and the previous one.
+    for x, y in path:
+        new_map.tiles[x, y] = tiles.floor
+
+    # Draw a diagonal
+
+
 def match_facing_doors(room1, room2):
-    room1_walls = room1.perimeter.difference(room1.corners)
-    room2_walls = room2.perimeter.difference(room2.corners)
+    room1_walls = room1.perimeter().difference(room1.corners())
+    room2_walls = room2.perimeter().difference(room2.corners())
 
     room1_doors = [Door(room1, x, y) for x, y in room1_walls]
     room2_doors = [Door(room2, x, y) for x, y in room2_walls]
@@ -196,6 +193,19 @@ def match_facing_doors(room1, room2):
             if a.facing_other(b):
                 matches.append({a, b})
     return matches
+
+
+def get_closest_pair_of_doors(matches):
+    # Find the pair of doors that are the closest in distance.
+    closest_pair = None
+    record = 10000000000
+    for pair in matches:
+        door1, door2 = pair
+        dist_between = distance(door1.x, door1.y, door2.x, door2.y)
+        if dist_between < record:
+            record = dist_between
+            closest_pair = pair
+    return closest_pair
 
 
 def tunnel_astar(new_map, closet1, closet2):
@@ -282,6 +292,17 @@ def tunnel_between(start, end, twist=0):
     for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
         coordinates.append((x, y))
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist():
+        coordinates.append((x, y))
+    return coordinates
+
+
+def diagonal_tunnel(start, end):
+    # Generate the coordinates for this tunnel.
+    # line-of-sight module: draws Bresenham lines.
+    x1, y1 = start
+    x2, y2 = end
+    coordinates = []
+    for x, y in tcod.los.bresenham((x1, y1), (x2, y2)).tolist():
         coordinates.append((x, y))
     return coordinates
 
