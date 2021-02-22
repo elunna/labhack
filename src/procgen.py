@@ -116,14 +116,19 @@ def connecting_algorithm(new_map):
             # Draw the doors
             if distance(door1.x, door1.y, door2.x, door2.y) > 1:
                 # If the doors are next to eachother, just leave it as floor.
-                new_map.tiles[door1.x, door1.y] = tiles.door
-                new_map.tiles[door2.x, door2.y] = tiles.door
+                create_door(new_map, door1.x, door1.y)
+                create_door(new_map, door2.x, door2.y)
+
+                # new_map.tiles[door1.x, door1.y] = tiles.door
+                # new_map.tiles[door2.x, door2.y] = tiles.door
 
             # Add the rooms to each-other's list of connections
             room1.connections.append(room2.label)
             room2.connections.append(room1.label)
         else:
             print(f'Could not connect rooms {room1.label} and {room2.label}')
+
+    # Extras
 
 
 def get_valid_pair_of_doors(matches):
@@ -230,6 +235,22 @@ def get_closest_pair_of_doors(matches):
             record = dist_between
             closest_pair = pair
     return closest_pair
+
+
+def create_door(new_map, x, y):
+    """ Checks the map to make sure this is a valid loc for the door. If it is, we draw it.
+    """
+    # Check around for other doors.
+    for direction in settings.CARDINAL_DIR.values():
+        dx, dy = direction
+
+        if new_map.tiles[x + dx][y + dy] == tiles.door:
+            print('Abort door creation!!!!!')
+            # Oh no, a door is adjacent! Abort mission!
+            return
+
+    # Phew, all good.
+    new_map.tiles[x, y] = tiles.door
 
 
 def populate_map(new_map, engine):
