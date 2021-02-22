@@ -154,7 +154,6 @@ room_walls = (
     room_nw_corner,
     room_sw_corner,
     room_se_corner,
-    door,
 )
 
 room_corners = (
