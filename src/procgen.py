@@ -274,12 +274,18 @@ def tunnel_astar(new_map, door1, door2):
     return True
 
 
-def match_facing_doors(room1, room2):
-    room1_walls = room1.perimeter().difference(room1.corners())
-    room2_walls = room2.perimeter().difference(room2.corners())
+def get_all_possible_doors_in_room(room):
+    walls = room.perimeter().difference(room.corners())
+    return [Door(room, x, y) for x, y in walls]
 
-    room1_doors = [Door(room1, x, y) for x, y in room1_walls]
-    room2_doors = [Door(room2, x, y) for x, y in room2_walls]
+
+def match_facing_doors(room1, room2):
+    # room1_walls = room1.perimeter().difference(room1.corners())
+    # room2_walls = room2.perimeter().difference(room2.corners())
+    # room1_doors = [Door(room1, x, y) for x, y in room1_walls]
+    # room2_doors = [Door(room2, x, y) for x, y in room2_walls]
+    room1_doors = get_all_possible_doors_in_room(room1)
+    room2_doors = get_all_possible_doors_in_room(room2)
 
     matches = []
 
