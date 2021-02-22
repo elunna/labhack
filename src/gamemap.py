@@ -13,6 +13,7 @@ class GameMap:
         self.width, self.height = width, height
         self.entities = set()
         self.rooms = []  # Start with an empty list of rooms.
+        self.doors = []  # Empty list of doors, helps in map generation.
         self.downstairs_location = (-1, -1)
         self.upstairs_location = (-1, -1)
 
