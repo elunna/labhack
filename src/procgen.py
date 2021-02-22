@@ -91,7 +91,7 @@ def connecting_algorithm(new_map):
     # We'll try to add 1/2 of the room count as extra connections.
     extra_connections = len(new_map.rooms) // 2
 
-    # print('Connecting extra rooms')
+    print('Connecting extra rooms')
     for i in range(extra_connections):
         room1 = random.choice(new_map.rooms)
         room2 = get_nearest_unconnected_room(new_map, room1)
@@ -261,13 +261,16 @@ def tunnel_astar(new_map, door1, door2):
     # if len(path) == 1:
     #     return False
 
+    # Check all points first (A* already will not draw over floor.
     for point in path:
         x, y = point
+
         # We won't allow drawing over room walls or doors.
-        if new_map.tiles[x, y] in tiles.room_corners:
-            continue
+        if new_map.tiles[x, y] in tiles.room_walls:
+            return False
 
         new_map.tiles[x, y] = tiles.floor
+
     return True
 
 
