@@ -59,9 +59,11 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Create all the rects for the rooms
     generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
 
+    # Create the room coordinates for easy reference.
+    new_map.room_coords = new_map.room_coordinates()
+
     # Use some algorithm to connect the rooms.
     # Requirement: All rooms must be connected somehow and reachable by some means.
-
     connecting_algorithm(new_map)
 
     # Put the upstair in the first room generated
@@ -89,7 +91,7 @@ def connecting_algorithm(new_map):
     # We'll try to add 1/2 of the room count as extra connections.
     extra_connections = len(new_map.rooms) // 2
 
-    print('Connecting extra rooms')
+    # print('Connecting extra rooms')
     for i in range(extra_connections):
         room1 = random.choice(new_map.rooms)
         room2 = get_nearest_unconnected_room(new_map, room1)
@@ -98,19 +100,37 @@ def connecting_algorithm(new_map):
     # Draw doors last
     draw_doors(new_map)
 
+    # Print list of rooms and connections
+    print('Room connections')
+    for c in new_map.rooms:
+        print(f"Room {c.label}: {c.connections}")
+
 
 def draw_doors(new_map):
     """ Drawing doors needs to be a separate activity done last after corridors, because if it's combined with
     corridor drawing, there are conflicts in where doors and floor appear.
     """
     for d in new_map.doors:
-        create_door(new_map, d.x, d.y)
+        print(f"Door: {d.x, d.y}")
+        valid_door = True
+        for direction in settings.CARDINAL_DIR.values():
+            dx, dy = direction
 
-        # Is the closet wall yet?
-        closet_x, closet_y = d.closet()
-        if new_map.tiles[closet_x, closet_y] == tiles.wall:
-            # Dig out
-            new_map.tiles[closet_x, closet_y] = tiles.floor
+            # Check around for other doors.
+            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
+                print('Abort door creation!!!!!')
+                # Oh no, a door is adjacent! Abort mission!
+                valid_door = False
+                continue
+
+        if valid_door:
+            new_map.tiles[d.x, d.y] = tiles.door
+
+            # Is the closet wall yet?
+            closet_x, closet_y = d.closet()
+            if new_map.tiles[closet_x, closet_y] == tiles.wall:
+                # Dig out the closet
+                new_map.tiles[closet_x, closet_y] = tiles.floor
 
 
 def connect_room_to_room(new_map, room1, room2):
@@ -121,10 +141,7 @@ def connect_room_to_room(new_map, room1, room2):
     facing_doors = match_facing_doors(room1, room2)
 
     if facing_doors:
-        # 50% of the time, use the closest pair.
-        # if random.random() > .5:
         closest_pair = get_closest_pair_of_doors(facing_doors)
-        # else:
 
         pair = get_valid_pair_of_doors(facing_doors)
         if pair:
@@ -154,8 +171,6 @@ def connect_room_to_room(new_map, room1, room2):
         else:
             new_map.doors.append(door1)
             new_map.doors.append(door2)
-            # create_door(new_map, door1.x, door1.y)
-            # create_door(new_map, door2.x, door2.y)
 
         # Add the rooms to each-other's list of connections
         room1.connections.append(room2.label)
@@ -212,22 +227,25 @@ def connect_2_doors(new_map, door1, door2):
     # Draw a diagonal
     # path = diagonal_tunnel(start, end):
 
-    # Dig out a tunnel between this room and the previous one.
+    # First: Check the path to make sure it doesn't have major conflicts (walls, corners)
     for x, y in path:
         # Stop drawing if we run into room corners.
-        if new_map.tiles[x, y] in tiles.room_walls:
-            continue
+        if new_map.tiles[x, y] in tiles.room_corners:
+            return False
 
         # Do not draw over inner room floors
         if new_map.tiles[x, y] == tiles.room_floor:
-            continue
+            return False
 
+    # Dig out a tunnel between this room and the previous one.
+    for x, y in path:
         # Also stop drawing if we run into a corridor floor.
-        if new_map.tiles[x, y] == tiles.floor:
+        # if new_map.tiles[x, y] == tiles.floor:
             # However, we'll count this as a connection since we made it to the corridor.
-            return True
+            # return True
 
         new_map.tiles[x, y] = tiles.floor
+
     return True
 
 
@@ -247,7 +265,8 @@ def tunnel_astar(new_map, door1, door2):
         x, y = point
         # We won't allow drawing over room walls or doors.
         if new_map.tiles[x, y] in tiles.room_corners:
-            return False
+            continue
+
         new_map.tiles[x, y] = tiles.floor
     return True
 
@@ -281,22 +300,6 @@ def get_closest_pair_of_doors(matches):
     return closest_pair
 
 
-def create_door(new_map, x, y):
-    """ Checks the map to make sure this is a valid loc for the door. If it is, we draw it.
-    """
-    # Check around for other doors.
-    for direction in settings.CARDINAL_DIR.values():
-        dx, dy = direction
-
-        if new_map.tiles[x + dx][y + dy] == tiles.door:
-            print('Abort door creation!!!!!')
-            # Oh no, a door is adjacent! Abort mission!
-            return
-
-    # Phew, all good.
-    new_map.tiles[x, y] = tiles.door
-
-
 def get_nearest_unconnected_room(new_map, room):
     # Use tiles_around to look for a tiles that belong to rooms.
     # Keep pushing outward until we find a room that is not connected to this room.
@@ -306,7 +309,6 @@ def get_nearest_unconnected_room(new_map, room):
     # The maximum radius so we don't look out of bounds
     min_radius = 3
     # max_radius = min(new_map.height - y, new_map.width - x, x, y)
-    room_coords = new_map.room_coordinates()
 
     for r in range(min_radius, new_map.height):
         # Get all the tiles in the new radius
@@ -314,7 +316,7 @@ def get_nearest_unconnected_room(new_map, room):
 
         for st in surrounding_tiles:
             # Check each tile and see if it belongs to a room.
-            result = room_coords.get(st)
+            result = new_map.room_coords.get(st)
             if not result:
                 continue
             # Make sure it's not the same room we are looking out from.
