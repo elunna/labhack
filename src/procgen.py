@@ -95,6 +95,23 @@ def connecting_algorithm(new_map):
         room2 = get_nearest_unconnected_room(new_map, room1)
         connect_room_to_room(new_map, room1, room2)
 
+    # Draw doors last
+    draw_doors(new_map)
+
+
+def draw_doors(new_map):
+    """ Drawing doors needs to be a separate activity done last after corridors, because if it's combined with
+    corridor drawing, there are conflicts in where doors and floor appear.
+    """
+    for d in new_map.doors:
+        create_door(new_map, d.x, d.y)
+
+        # Is the closet wall yet?
+        closet_x, closet_y = d.closet()
+        if new_map.tiles[closet_x, closet_y] == tiles.wall:
+            # Dig out
+            new_map.tiles[closet_x, closet_y] = tiles.floor
+
 
 def connect_room_to_room(new_map, room1, room2):
     connected = False
@@ -129,11 +146,16 @@ def connect_room_to_room(new_map, room1, room2):
         connected = tunnel_astar(new_map, door1, door2)
 
     if connected:
-        # Draw the doors
-        if distance(door1.x, door1.y, door2.x, door2.y) > 1:
+        # Dig out adjacent doors
+        if distance(door1.x, door1.y, door2.x, door2.y) == 1:
             # If the doors are next to eachother, just leave it as floor.
-            create_door(new_map, door1.x, door1.y)
-            create_door(new_map, door2.x, door2.y)
+            new_map.tiles[door1.x, door1.y] = tiles.floor
+            new_map.tiles[door2.x, door2.y] = tiles.floor
+        else:
+            new_map.doors.append(door1)
+            new_map.doors.append(door2)
+            # create_door(new_map, door1.x, door1.y)
+            # create_door(new_map, door2.x, door2.y)
 
         # Add the rooms to each-other's list of connections
         room1.connections.append(room2.label)
@@ -193,7 +215,7 @@ def connect_2_doors(new_map, door1, door2):
     # Dig out a tunnel between this room and the previous one.
     for x, y in path:
         # Stop drawing if we run into room corners.
-        if new_map.tiles[x, y] in tiles.room_corners:
+        if new_map.tiles[x, y] in tiles.room_walls:
             continue
 
         # Do not draw over inner room floors
