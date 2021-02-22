@@ -119,6 +119,11 @@ class GameMap:
         """
         if not room.valid_door_loc(x, y):
             return False
+        # It can't be at the edge of the map
+        if x == 0 or y == 0:
+            return False
+        elif x == (self.width - 1) or y == (self.height - 1):
+            return False
 
         facing = room.direction_facing(x, y)
 
