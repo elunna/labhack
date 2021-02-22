@@ -77,6 +77,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
 
 def connecting_algorithm(new_map):
+    print('-----------------------------------')
     # Connect rooms with a minimum spanning tree.
     edges = minimum_spanning_tree(new_map.rooms)
     for room1, room2 in edges:
@@ -84,16 +85,27 @@ def connecting_algorithm(new_map):
 
         # Find all the possible door locations in the 2 rooms
         # Find all the pairs of doors that face eachother.
-        matches = match_facing_doors(room1, room2)
+        facing_doors = match_facing_doors(room1, room2)
 
-        if matches:
-            closest_pair = get_closest_pair_of_doors(matches)
-            door1, door2 = closest_pair
+        if facing_doors:
+            # 50% of the time, use the closest pair.
+            # if random.random() > .5:
+            closest_pair = get_closest_pair_of_doors(facing_doors)
+            # else:
+
+            pair = get_valid_pair_of_doors(facing_doors)
+            if pair:
+                print(f'Facing Pair! {room1.label}->{room2.label}')
+            else:
+                print(f'Closest pair! {room1.label}->{room2.label}')
+                pair = closest_pair
+
+            door1, door2 = pair
             connected = connect_2_doors(new_map, door1, door2)
 
         if not connected:
             # Either: we don't have facing doors, or the first connector didn't work.
-            print('A* tunnel!')
+            print(f'A* tunnel! {room1.label}->{room2.label}')
             # Get a random set of doors
             door1 = rect.Door(room1, *room1.random_door_loc())
             door2 = rect.Door(room2, *room2.random_door_loc())
@@ -112,6 +124,40 @@ def connecting_algorithm(new_map):
             room2.connections.append(room1.label)
         else:
             print(f'Could not connect rooms {room1.label} and {room2.label}')
+
+
+def get_valid_pair_of_doors(matches):
+    """ Iterates through a list of facing doors and picks until we find a valid choice.
+    """
+    while matches:
+        # Choose a pair at random.
+        pair = random.choice(matches)
+
+        # Remove it from the list
+        matches.remove(pair)
+
+        door1, door2 = pair
+
+        # We have to check that these are not lined up so that the closets are over-extended
+        x_diff = abs(door1.x - door2.x)
+        y_diff = abs(door1.y - door2.y)
+
+        # Hopefully we only have to test one door to see if they are facing vertically or horizontally.
+
+        if door1.facing in ['S', 'N'] and y_diff == 1:
+            # Vertical facing: If the y-difference is 1, the x-difference has to be 0 (aligned)
+            if x_diff == 0:
+                return pair
+            continue
+
+        if door1.facing in ['E', 'W'] and x_diff == 1:
+            # Horizontal facing: If the x-difference is 1, the y-difference has to be 0 (aligned)
+            if x_diff == 0:
+                return pair
+            continue
+
+        # If the pair passes the above tests, it should be okay.
+        return pair
 
 
 def connect_2_doors(new_map, door1, door2):
