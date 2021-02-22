@@ -101,9 +101,9 @@ def connecting_algorithm(new_map):
     draw_doors(new_map)
 
     # Print list of rooms and connections
-    print('Room connections')
-    for c in new_map.rooms:
-        print(f"Room {c.label}: {c.connections}")
+    # print('Room connections')
+    # for c in new_map.rooms:
+    #     print(f"Room {c.label}: {c.connections}")
 
 
 def draw_doors(new_map):
@@ -156,11 +156,19 @@ def connect_room_to_room(new_map, room1, room2):
     if not connected:
         # Either: we don't have facing doors, or the first connector didn't work.
         print(f'A* tunnel! {room1.label}->{room2.label}')
-        # Get a random set of doors
-        door1 = rect.Door(room1, *room1.random_door_loc())
-        door2 = rect.Door(room2, *room2.random_door_loc())
+        tries = 0
+        while not connected and tries < 100:
 
-        connected = tunnel_astar(new_map, door1, door2)
+            # We'll allow a lot of tries before we give up
+            print(f'Try {tries}')
+            # Get a random set of doors
+            door1 = rect.Door(room1, *room1.random_door_loc())
+            door2 = rect.Door(room2, *room2.random_door_loc())
+
+            # TODO: Check that the new doors are valid.
+
+            connected = tunnel_astar(new_map, door1, door2)
+            tries += 1
 
     if connected:
         # Dig out adjacent doors
@@ -256,10 +264,11 @@ def tunnel_astar(new_map, door1, door2):
 
     # A* path
     path = get_path_to(new_map, x1, y1, x2, y2)
+    print(path)
     # If we get a single point - the path is not able to complete
     # This can cause infinite loops - some maps are not able to be totally connected.
-    # if len(path) == 1:
-    #     return False
+    if len(path) == 1:
+        return False
 
     # Check all points first (A* already will not draw over floor.
     for point in path:
@@ -269,7 +278,8 @@ def tunnel_astar(new_map, door1, door2):
         if new_map.tiles[x, y] in tiles.room_walls:
             return False
 
-        new_map.tiles[x, y] = tiles.floor
+    for point in path:
+        new_map.tiles[point] = tiles.floor
 
     return True
 

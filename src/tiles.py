@@ -56,7 +56,7 @@ floor = new_tile(
 room_floor = new_tile(
     walkable=True,
     transparent=True,
-    diggable=False,
+    diggable=True,
     dark=(ord(" "), (100, 100, 100), (0, 0, 0)),  # Traditional
     light=(ord("."), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
