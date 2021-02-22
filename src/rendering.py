@@ -178,6 +178,16 @@ def render_map(console, game_map):
                 fg=entity.color
             )
 
+    # For testing: Render the room numbers
+    for room in game_map.rooms:
+        room_x, room_y = room.center
+        console.print(
+            x=room_x,
+            y=room_y,
+            string=str(room.label),
+            # fg=entity.color
+        )
+
 
 def render_history(console, engine, cursor, msglog):
     log_console = tcod.Console(console.width - 6, console.height - 6)
