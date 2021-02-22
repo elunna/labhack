@@ -111,7 +111,7 @@ def draw_doors(new_map):
     corridor drawing, there are conflicts in where doors and floor appear.
     """
     for d in new_map.doors:
-        print(f"Door: {d.x, d.y}")
+        # print(f"Door: {d.x, d.y}")
         valid_door = True
         for direction in settings.CARDINAL_DIR.values():
             dx, dy = direction
@@ -138,7 +138,7 @@ def connect_room_to_room(new_map, room1, room2):
 
     # Find all the possible door locations in the 2 rooms
     # Find all the pairs of doors that face eachother.
-    facing_doors = match_facing_doors(room1, room2)
+    facing_doors = match_facing_doors(new_map, room1, room2)
 
     if facing_doors:
         closest_pair = get_closest_pair_of_doors(facing_doors)
@@ -271,12 +271,18 @@ def tunnel_astar(new_map, door1, door2):
     return True
 
 
-def match_facing_doors(room1, room2):
+def match_facing_doors(new_map, room1, room2):
     room1_walls = room1.perimeter().difference(room1.corners())
     room2_walls = room2.perimeter().difference(room2.corners())
 
-    room1_doors = [Door(room1, x, y) for x, y in room1_walls]
-    room2_doors = [Door(room2, x, y) for x, y in room2_walls]
+    room1_doors = [
+        Door(room1, x, y) for x, y in room1_walls
+        if new_map.valid_door_location(room1, x, y)
+    ]
+    room2_doors = [
+        Door(room2, x, y) for x, y in room2_walls
+        if new_map.valid_door_location(room2, x, y)
+    ]
 
     matches = []
 
