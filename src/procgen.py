@@ -158,7 +158,7 @@ def connect_room_to_room(new_map, room1, room2):
         print(f'A* tunnel! {room1.label}->{room2.label}')
         tries = 0
         while not connected and tries < 100:
-
+            tries += 1
             # We'll allow a lot of tries before we give up
             print(f'Try {tries}')
             # Get a random set of doors
@@ -166,9 +166,15 @@ def connect_room_to_room(new_map, room1, room2):
             door2 = rect.Door(room2, *room2.random_door_loc())
 
             # TODO: Check that the new doors are valid.
+            if not new_map.valid_door_location(room1, door1.x, door1.y):
+                print('invalid door')
+                continue
+            if not new_map.valid_door_location(room2, door2.x, door2.y):
+                print('invalid door')
+                continue
 
             connected = tunnel_astar(new_map, door1, door2)
-            tries += 1
+
 
     if connected:
         # Dig out adjacent doors
