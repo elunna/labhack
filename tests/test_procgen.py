@@ -13,7 +13,7 @@ def test_tunnel_between__horz_first():
 
     # corner is repeated
     assert result == [
-        (0, 0), (1, 0), (2, 0), (2, 0), (2, 1), (2, 2)
+        (0, 0), (1, 0), (2, 0), (2, 1), (2, 2)
     ]
 
 
@@ -24,7 +24,7 @@ def test_tunnel_between__vert_first():
 
     # corner is repeated
     assert result == [
-        (0, 0), (0, 1), (0, 2), (0, 2), (1, 2), (2, 2)
+        (0, 0), (0, 1), (0, 2), (1, 2), (2, 2)
     ]
 
 
@@ -35,7 +35,7 @@ def test_tunnel_between__straight_line_vert():
     result = procgen.tunnel_between(start, end, twist=2)
 
     # corner is repeated
-    assert result == [(0, 0), (0, 1), (0, 2), (0, 2)]
+    assert result == [(0, 0), (0, 1), (0, 2)]
 
 
 
