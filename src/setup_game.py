@@ -2,7 +2,6 @@
 from . import color
 from . import factory
 from . import gameworld
-from . import settings
 from .engine import Engine
 import copy
 import lzma
@@ -25,12 +24,10 @@ def new_game():
     )
 
     dagger = copy.deepcopy(factory.dagger)
-    # dagger.parent = player.inventory
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 
     leather_armor = copy.deepcopy(factory.leather_vest)
-    # leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
 
@@ -39,22 +36,18 @@ def new_game():
 
     # Health Potion
     health_potion = copy.deepcopy(factory.health_potion)
-    # health_potion.parent = player.inventory
     player.inventory.add_item(health_potion)
 
     # Lightning scroll
     lightning_scroll = copy.deepcopy(factory.lightning_scroll)
-    # lightning_scroll.parent = player.inventory
     player.inventory.add_item(lightning_scroll)
 
     # Confusion scroll
     confusion_scroll = copy.deepcopy(factory.confusion_scroll)
-    # confusion_scroll.parent = player.inventory
     player.inventory.add_item(confusion_scroll)
 
     # Fireball scroll
     fireball_scroll = copy.deepcopy(factory.fireball_scroll)
-    # fireball_scroll.parent = player.inventory
     player.inventory.add_item(fireball_scroll)
 
     return engine

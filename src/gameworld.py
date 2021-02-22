@@ -11,7 +11,6 @@ class GameWorld:
 
     def generate_floor(self):
         # Generate new map each time we go down a floor.
-
         self.current_floor += 1
 
         new_map = procgen.generate_map(

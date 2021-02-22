@@ -27,9 +27,6 @@ def test_Equipment_init():
     assert e.slots['WEAPON'] is None
     assert e.slots['ARMOR'] is None
 
-# TODO: Make sure init uses the equip function - we can't equip armor to weapon
-# slot, etc...
-
 
 def test_Equipment_init__weapon(dagger):
     e = Equipment(dagger)

@@ -1,17 +1,15 @@
-import math
-
 from . import color
 from . import msglog
 from . import settings
 from . import tiles
+from components import equipment
+import math
 import numpy as np
 import tcod
-from components import equipment
 
 
 class Renderer():
     def __init__(self):
-        # Specify font for tileset
         tileset = tcod.tileset.load_tilesheet(
             path=settings.tileset,
             columns=32,
@@ -19,9 +17,9 @@ class Renderer():
             charmap=tcod.tileset.CHARMAP_TCOD
         )
 
-        # Create the screen
-        # Good info on how to use this:
+        # Create the screen:
         # https://python-tcod.readthedocs.io/en/latest/tcod/context.html
+
         self.context = tcod.context.new_terminal(
             settings.screen_width,
             settings.screen_height,
@@ -87,12 +85,10 @@ def render_bar(console, current_value, maximum_value, total_width):
 def render_dungeon_lvl_text(console, dungeon_level):
     """ Render the level the player is currently on, at the given location.  """
     x, y = settings.dlevel_text_location
-
     console.print(x=x, y=y, string=f"Dlevel: {dungeon_level}")
 
 
 def render_stats(console, engine, player):
-    # Power
     ac_stat = f"AC:{player.attributes.ac}"
     str_stat = f"Str:{player.attributes.strength}"
     dex_stat = f"Dex:{player.attributes.dexterity}"
@@ -178,15 +174,16 @@ def render_map(console, game_map):
                 fg=entity.color
             )
 
+    # TODO: Move to separate function
     # For testing: Render the room numbers
-    for room in game_map.rooms:
-        room_x, room_y = room.center
-        console.print(
-            x=room_x,
-            y=room_y,
-            string=str(room.label),
-            # fg=entity.color
-        )
+    # for room in game_map.rooms:
+    #     room_x, room_y = room.center
+    #     console.print(
+    #         x=room_x,
+    #         y=room_y,
+    #         string=str(room.label),
+    #         # fg=entity.color
+    #     )
 
 
 def render_history(console, engine, cursor, msglog):
@@ -200,7 +197,6 @@ def render_history(console, engine, cursor, msglog):
     )
 
     # Render the message log using the cursor parameter.
-    # self.engine.message_log.render_messages(
     render_messages(
         console=log_console,
         x=1, y=1,
@@ -270,7 +266,7 @@ def render_inv(console, engine, title):
 
                     console.print(x + 1, y + i + 1, item_string)
                     i += 1
-            i += 1 # Adds a space between categories
+            i += 1  # Adds a space between categories
 
     else:
         console.print(x + 1, y + 1, "(Empty)")
@@ -404,7 +400,6 @@ def render_character_stats(console, engine, title):
 def render_main_menu(console):
     # Load the background image and remove the alpha channel.
     background_image = tcod.image.load(settings.bg_img)[:, :, :3]
-
     console.draw_semigraphics(background_image, 0, 0)
 
     console.print(

@@ -1,10 +1,10 @@
 """ This is a collection of all the constants used in the project."""
 
 author = "Erik Lunna"
-title = "Lab Hack Version 1.0"
+version = 1.1
+title = f"Lab Hack Version {version}"
 title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
 
-version = 1.0
 
 """Filename info """
 tileset = "images/dejavu10x10_gs_tc.png"

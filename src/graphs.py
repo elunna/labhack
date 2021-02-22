@@ -88,21 +88,14 @@ class Graph:
             return _path
 
     def dfs(self, v):
-        # Could put this in the graph, but this only requires the public interface of the graph.
-
-        # Dict for the rooted tree.
-        # Every other vertex (other than the root) I visit in a search, it came from somewhere.
-        # Has a unique parent.
-        # Have a dict that matches vertices to their parents.
-        # Arrows all point up the tree to the root, rather than down.
-        # To find a path to v, we can follow it's parents all the way up.
+        # dict for rooted tree that matches vertices to their parents.
         tree = {}
 
-        # Stack for visiting
-        # We'll put edges on this.
+        # Stack for visiting edges.
         # We will start with a fake Edge to start at v (first edge to visit)
         tovisit = [(None, v)]
 
+        # To find a path to v, we can follow it's parents all the way up.
         while tovisit:
             a, b = tovisit.pop()
 

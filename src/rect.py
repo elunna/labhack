@@ -22,10 +22,8 @@ class Rect:
         center_x = int((self.x1 + self.x2) / 2)
         center_y = int((self.y1 + self.y2) / 2)
 
-        # Returns a Tuple[int, int]
         return center_x, center_y
 
-    # TODO: Fix x2 and y2 so we don't have to -1
     @property
     def nw_corner(self):
         return self.x1, self.y1
@@ -58,7 +56,6 @@ class Rect:
         return slice(self.x1 + 1, self.x2), slice(self.y1 + 1, self.y2)
 
         # Explanation for + 1 on self.x1 and self.y1
-
         # Ex: room at coordinates (1, 1) that goes to (6, 6).
 
         #   0 1 2 3 4 5 6 7
@@ -156,8 +153,7 @@ class Door:
             raise ValueError('Invalid coordinates supplied for Door!')
 
         self.room = room
-        self.x = x
-        self.y = y
+        self.x, self.y = x, y
         self.facing = room.direction_facing(self.x, self.y)
 
     def facing_other(self, other):

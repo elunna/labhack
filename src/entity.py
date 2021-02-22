@@ -10,9 +10,7 @@ class Entity(object):
     """
     def __init__(self, **kwargs):
         self.components = {}
-
-        # Add any components that were passed in at creation
-        self.add_comp(**kwargs)
+        self.add_comp(**kwargs)  # Add any components that were passed in at creation
 
     def __str__(self):
         if 'name' in self:
@@ -59,7 +57,6 @@ class Entity(object):
             # TODO: Take this check out after we require only Components
             if isinstance(v, Component):
                 v.parent = self
-
 
     def rm_comp(self, component):
         if component in self.components:

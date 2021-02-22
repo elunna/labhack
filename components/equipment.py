@@ -16,8 +16,7 @@ class EquipmentType(Enum):
 
     # SUIT
 
-    # TODO: Slot over another slot
-    # Ex: Tshirt under armor, under cloak
+    # TODO: Slot over another slot (Ex: Tshirt under armor, under cloak)
 
 
 class Equipment(Component):

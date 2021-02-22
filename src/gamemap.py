@@ -1,9 +1,8 @@
 from . import actor, settings
 from . import item
 from . import tiles
-import numpy as np
-
 from .rect import Rect
+import numpy as np
 
 
 class GameMap:
@@ -16,6 +15,7 @@ class GameMap:
         self.doors = []  # Empty list of doors, helps in map generation.
         self.downstairs_location = (-1, -1)
         self.upstairs_location = (-1, -1)
+        self.room_coords = None
 
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full(
@@ -35,8 +35,6 @@ class GameMap:
             fill_value=False,
             order="F"
         )  # Tiles the player has seen before
-
-
 
     @property
     def gamemap(self):

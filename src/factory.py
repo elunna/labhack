@@ -1,18 +1,17 @@
-import tcod
-
+from . import actor
+from . import item
 from components import consumable, attacks
 from components import equippable
 from components.ai import HostileAI
 from components.attacks import AttackComponent, Attack
+from components.attributes import Attributes
 from components.energy import EnergyMeter
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from components.attributes import Attributes
-from . import actor
-from . import item
 import copy
+import tcod
 
 
 def make(entity_name):
@@ -241,7 +240,6 @@ golf_club = item.Item(
     ),
 )
 
-
 tennis_racket = item.Item(
     char="/",
     color=(0, 191, 255),
@@ -259,7 +257,6 @@ frying_pan = item.Item(
         attack=attacks.AttackComponent(Attack('club', [7])),
     ),
 )
-
 
 hammer = item.Item(
     char="/",
@@ -324,7 +321,6 @@ wooden_stick = item.Item(
     ),
 )
 
-
 gr_light_saber = item.Item(
     char="/",
     color=(0, 191, 255),
@@ -344,7 +340,6 @@ bl_light_saber = item.Item(
 )
 
 # ARMOR
-
 
 leather_vest = item.Item(
    char="[",
@@ -555,7 +550,6 @@ power_wrists = item.Item(
     name="Power Wrists",
     equippable=equippable.Arms(ac_bonus=-3),
 )
-
 
 item_chances = {
     # keys in the dictionary represent the floor number,
