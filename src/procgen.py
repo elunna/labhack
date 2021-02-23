@@ -15,7 +15,7 @@ def connect_2_doors(new_map, door1, door2):
     x2, y2 = door2.closet()
 
     # Choose a method of creating the tunnel:
-    path = get_L_path((x1, y1), (x2, y2))
+    path = create_L_path((x1, y1), (x2, y2))
 
     # Draw a diagonal
     # path = diagonal_tunnel(start, end):
@@ -102,13 +102,77 @@ def connecting_algorithm(new_map):
         connect_room_to_room(new_map, room1, room2)
 
 
+def create_Astar_path_to(_map, start_x, start_y, dest_x, dest_y):
+    """ Compute and return a path to the target position.
+        If there is no valid path then returns an empty list.
+        See components.ai.BaseAI.get_path_to for full comments.
+    """
+    cost = np.array(_map.tiles["diggable"], dtype=np.int8)
+
+    # Create a graph from the cost array and pass that graph to a new pathfinder.
+    graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=0)
+    pathfinder = tcod.path.Pathfinder(graph)
+
+    pathfinder.add_root((start_x, start_y))  # Start position.
+
+    # Compute the path to the destination (remove starting point.)
+    # path = pathfinder.path_to((dest_x, dest_y))[1:-1].tolist()
+    path = pathfinder.path_to((dest_x, dest_y)).tolist()
+
+    # Convert from List[List[int]] to List[Tuple[int, int]].
+    # noinspection PyTypeChecker
+    return [(index[0], index[1]) for index in path]
+
+
+def create_diagonal_path(start, end):
+    # Generate the coordinates for this tunnel.
+    # line-of-sight module: draws Bresenham lines.
+    x1, y1 = start
+    x2, y2 = end
+    coordinates = []
+    for x, y in tcod.los.bresenham((x1, y1), (x2, y2)).tolist():
+        coordinates.append((x, y))
+    return coordinates
+
+
+# noinspection PyTypeChecker
+def create_L_path(start, end, twist=0):
+    """ Return an L-shaped tunnel between these two points.
+        If the lines are on the same x-axis or y-axis it will simply draw a straight line.
+        start: Tuple[int, int],
+        end: Tuple[int, int]
+        returns Iterator[Tuple[int, int]]:
+    """
+    x1, y1 = start
+    x2, y2 = end
+
+    if twist == 0:
+        twist = random.randint(1, 2)
+
+    if twist == 1:  # 50% chance.
+        corner_x, corner_y = x2, y1  # Move horizontally, then vertically.
+    else:
+        corner_x, corner_y = x1, y2  # Move vertically, then horizontally.
+
+    # Generate the coordinates for this tunnel.
+    # line-of-sight module: draws Bresenham lines.
+    coordinates = []
+    for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
+        coordinates.append((x, y))
+
+    # There will be a duplicate value from the corner point, we want to remove this!
+    for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist()[1:]:
+        coordinates.append((x, y))
+    return coordinates
+
+
 def dig_Astar_path(new_map, door1, door2):
     # Get the closets outside the doors
     x1, y1 = door1.closet()
     x2, y2 = door2.closet()
 
     # A* path
-    path = get_path_to(new_map, x1, y1, x2, y2)
+    path = create_Astar_path_to(new_map, x1, y1, x2, y2)
     # If there is only a single point - the path is not able to complete
     if len(path) == 1:
         return False
@@ -284,48 +348,6 @@ def get_closest_pair_of_doors(matches):
     return closest_pair
 
 
-# noinspection PyTypeChecker
-def get_L_path(start, end, twist=0):
-    """ Return an L-shaped tunnel between these two points.
-        If the lines are on the same x-axis or y-axis it will simply draw a straight line.
-        start: Tuple[int, int],
-        end: Tuple[int, int]
-        returns Iterator[Tuple[int, int]]:
-    """
-    x1, y1 = start
-    x2, y2 = end
-
-    if twist == 0:
-        twist = random.randint(1, 2)
-
-    if twist == 1:  # 50% chance.
-        corner_x, corner_y = x2, y1  # Move horizontally, then vertically.
-    else:
-        corner_x, corner_y = x1, y2  # Move vertically, then horizontally.
-
-    # Generate the coordinates for this tunnel.
-    # line-of-sight module: draws Bresenham lines.
-    coordinates = []
-    for x, y in tcod.los.bresenham((x1, y1), (corner_x, corner_y)).tolist():
-        coordinates.append((x, y))
-
-    # There will be a duplicate value from the corner point, we want to remove this!
-    for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist()[1:]:
-        coordinates.append((x, y))
-    return coordinates
-
-
-def get_diagonal_path(start, end):
-    # Generate the coordinates for this tunnel.
-    # line-of-sight module: draws Bresenham lines.
-    x1, y1 = start
-    x2, y2 = end
-    coordinates = []
-    for x, y in tcod.los.bresenham((x1, y1), (x2, y2)).tolist():
-        coordinates.append((x, y))
-    return coordinates
-
-
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
     current_value = 0
 
@@ -374,28 +396,6 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     return chosen_entities
 
 
-def get_path_to(_map, start_x, start_y, dest_x, dest_y):
-    """ Compute and return a path to the target position.
-        If there is no valid path then returns an empty list.
-        See components.ai.BaseAI.get_path_to for full comments.
-    """
-    cost = np.array(_map.tiles["diggable"], dtype=np.int8)
-
-    # Create a graph from the cost array and pass that graph to a new pathfinder.
-    graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=0)
-    pathfinder = tcod.path.Pathfinder(graph)
-
-    pathfinder.add_root((start_x, start_y))  # Start position.
-
-    # Compute the path to the destination (remove starting point.)
-    # path = pathfinder.path_to((dest_x, dest_y))[1:-1].tolist()
-    path = pathfinder.path_to((dest_x, dest_y)).tolist()
-
-    # Convert from List[List[int]] to List[Tuple[int, int]].
-    # noinspection PyTypeChecker
-    return [(index[0], index[1]) for index in path]
-
-
 def min_spanning_tree_for_rooms(rooms):
     """ Connects all the rooms by using Prim's Algorithm
     :return: A list of all the edges (room to room connections)
@@ -432,7 +432,6 @@ def min_spanning_tree_for_rooms(rooms):
         unvisited.remove(u_match)
 
     return edges
-
 
 
 def place_items(room, dungeon, floor_number):
