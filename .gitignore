@@ -5,7 +5,10 @@ venv
 *.pyc
 .ropeproject
 .env
+.coverage
 __pycache__
+htmlcov
+
 # components/__pycache__
 pytest.ini
 build/
@@ -15,6 +18,7 @@ logs/
 
 # Pycharm project files
 .idea
+
 
 # Saved games
 *.sav
