@@ -1,3 +1,4 @@
+import src.factory
 from src import settings
 from . import procgen
 
@@ -34,4 +35,4 @@ class GameWorld:
         player.place(*new_map.upstairs_location, new_map)
 
         # Place entities, items, etc.
-        procgen.populate_map(new_map, self.engine)
+        src.factory.populate_map(new_map, self.engine)
