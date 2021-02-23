@@ -40,6 +40,23 @@ def draw_doors(new_map):
                 new_map.tiles[closet_x, closet_y] = tiles.floor
 
 
+def draw_room(new_map, new_room):
+    # Dig out this rooms inner area.
+    new_map.tiles[new_room.inner] = tiles.room_floor
+
+    # Draw walls
+    for point in new_room.horz_walls():
+        new_map.tiles[point] = tiles.room_horz_wall
+    for point in new_room.vert_walls():
+        new_map.tiles[point] = tiles.room_vert_wall
+
+    # Draw corners (must be ordered after walls)
+    new_map.tiles[new_room.ne_corner] = tiles.room_ne_corner
+    new_map.tiles[new_room.nw_corner] = tiles.room_nw_corner
+    new_map.tiles[new_room.se_corner] = tiles.room_se_corner
+    new_map.tiles[new_room.sw_corner] = tiles.room_sw_corner
+
+
 def connect_room_to_room(new_map, room1, room2):
     """ Connects two rooms by choosing a pair of doors and connecting their closets with a path.
         Returns True if the room was connected successfully, False otherwise.
@@ -223,6 +240,10 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Create all the rooms
     generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
 
+    # Draw the rooms
+    for r in new_map.rooms:
+        draw_room(new_map, r)
+
     # Create the room coordinates for easy reference.
     new_map.room_coords = new_map.room_coordinates()
 
@@ -267,27 +288,14 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
         if any(new_room.intersects(other_room) for other_room in new_map.rooms):
             continue  # This room intersects, so go to the next attempt.
 
-        # Dig out this rooms inner area.
-        new_map.tiles[new_room.inner] = tiles.room_floor
-
-        # Draw walls
-        for point in new_room.horz_walls():
-            new_map.tiles[point] = tiles.room_horz_wall
-        for point in new_room.vert_walls():
-            new_map.tiles[point] = tiles.room_vert_wall
-
-        # Draw corners (must be ordered after walls)
-        new_map.tiles[new_room.ne_corner] = tiles.room_ne_corner
-        new_map.tiles[new_room.nw_corner] = tiles.room_nw_corner
-        new_map.tiles[new_room.se_corner] = tiles.room_se_corner
-        new_map.tiles[new_room.sw_corner] = tiles.room_sw_corner
-
         # Label the room to match it's index in new_map.rooms
         label = len(new_map.rooms)
         new_room.label = label
 
         # Add this room to the map's list.
         new_map.rooms.append(new_room)
+
+
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
