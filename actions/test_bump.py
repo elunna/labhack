@@ -39,7 +39,7 @@ def test_BumpAction_perform__Move(test_map):
     assert isinstance(result, MovementAction)
 
 
-def test_BumpAction_perform__Move(test_map):
+def test_BumpAction_perform__Melee(test_map):
     # We'll attack the Grid Bug at (2, 5)
     player = test_map.player
     player.place(2, 4, test_map)
