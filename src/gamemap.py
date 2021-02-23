@@ -189,6 +189,8 @@ class GameMap:
         returns True if it is, False otherwise.
         """
         if x == 0 or y == 0:
-            return False
+            return True
         elif x == (self.width - 1) or y == (self.height - 1):
-            return False
+            return True
+
+        return False
