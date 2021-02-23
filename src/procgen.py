@@ -56,6 +56,9 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     # Connect the rooms with corridors
     connecting_algorithm(new_map)
 
+    # Place doors
+    draw_doors(new_map)
+
     # Put the upstair in the first room generated
     center_of_first_room = new_map.rooms[0].center
     new_map.tiles[center_of_first_room] = tiles.up_stairs
@@ -82,8 +85,6 @@ def connecting_algorithm(new_map):
         room1 = random.choice(new_map.rooms)
         room2 = get_nearest_unconnected_room(new_map, room1)
         connect_room_to_room(new_map, room1, room2)
-
-    draw_doors(new_map)
 
 
 def draw_doors(new_map):
