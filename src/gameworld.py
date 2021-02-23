@@ -19,7 +19,8 @@ class GameWorld:
             room_max_size=settings.room_max_size,
             map_width=settings.map_width,
             map_height=settings.map_height,
-            engine=self.engine,
+            max_distance=50,
+            engine=self.engine
         )
 
         self.engine.game_map = new_map

@@ -437,23 +437,21 @@ def render_main_menu(console):
         )
 
 
-def render_map_debugger(console, mode, max_rooms, min_size, max_size, maze_path):
+def render_map_debugger(console, mode, max_rooms, min_size, max_size, max_dist, maze_path):
+    maxrooms_str = f"Max Rooms:{max_rooms} +/-"
+    minsize_str = f"Min Size:{min_size} LEFT/RIGHT"
+    maxsize_str = f"Max Size:{max_size} UP/DOWN"
+
+    console.print(x=0, y=0, string=f"MODE: {mode}")
+
     console.print(
-        x=0, y=0,
-        string=f"MODE: {mode}"
+        x=0, y=settings.map_height + 1,
+        string=f"{maxrooms_str} | {minsize_str} | {maxsize_str}"
     )
 
     console.print(
-        x=0, y=settings.map_height,
-        string=f"Max Rooms:{max_rooms} +/-"
-    )
-    console.print(
-        x=0, y=settings.map_height + 1,
-        string=f"Min Size:{min_size} LEFT/RIGHT"
-    )
-    console.print(
         x=0, y=settings.map_height + 2,
-        string=f"Max Size:{max_size} UP/DOWN"
+        string=f"Max Dist:{max_dist} [/]"
     )
 
     console.print(

@@ -215,7 +215,6 @@ class HistoryHandler(EventHandler):
 
         )
 
-
     def ev_keydown(self, event):
         # Fancy conditional movement to make it feel right.
         if event.sym in CURSOR_Y_KEYS:
@@ -498,6 +497,7 @@ class MapDebugHandler(BaseEventHandler):
         self.max_rooms = settings.max_rooms
         self.room_min_size = settings.room_min_size
         self.room_max_size = settings.room_max_size
+        self.room_max_distance = 30
         self.maze_path_width = 1
         self.map_func = self.generate_map
         self.mode = ''
@@ -512,7 +512,8 @@ class MapDebugHandler(BaseEventHandler):
             room_max_size=self.room_max_size,
             map_width=settings.map_width,
             map_height=settings.map_height,
-            engine=None,
+            max_distance=self.room_max_distance,
+            engine=None
         )
 
     def generate_maze(self):
@@ -537,39 +538,54 @@ class MapDebugHandler(BaseEventHandler):
         rendering.render_map(renderer.root, self.map)
         # Render debug info
         rendering.render_map_debugger(
-            renderer.root,
-            self.mode,
-            self.max_rooms,
-            self.room_min_size,
-            self.room_max_size,
-            self.maze_path_width,
+            console=renderer.root,
+            mode=self.mode,
+            max_rooms=self.max_rooms,
+            min_size=self.room_min_size,
+            max_size=self.room_max_size,
+            max_dist=self.room_max_distance,
+            maze_path=self.maze_path_width,
         )
 
     def ev_keydown(self, event):
         """Any key returns to the parent handler."""
-        if event.sym == tcod.event.K_ESCAPE:
+        key = event.sym
+        modifier = event.mod
+
+        if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+            # >
+            if key == tcod.event.K_PERIOD:
+                self.room_max_distance += 1
+            # <
+            elif key == tcod.event.K_COMMA:
+                if self.room_max_distance > 10:
+                    self.room_max_distance -= 1
+            else:
+                return
+
+        elif key == tcod.event.K_ESCAPE:
             return self.parent
-        elif event.sym == tcod.event.K_1:
+        elif key == tcod.event.K_1:
             self.map_func = self.generate_map
-        elif event.sym == tcod.event.K_2:
+        elif key == tcod.event.K_2:
             self.map_func = self.generate_maze
 
-        elif event.sym == tcod.event.K_UP:
+        elif key == tcod.event.K_UP:
             self.room_max_size += 1
-        elif event.sym == tcod.event.K_DOWN:
+        elif key == tcod.event.K_DOWN:
             if self.room_max_size > self.room_min_size:
                 self.room_max_size -= 1
-        elif event.sym == tcod.event.K_RIGHT:
+        elif key == tcod.event.K_RIGHT:
             if self.room_min_size < self.room_max_size:
                 self.room_min_size += 1
-        elif event.sym == tcod.event.K_LEFT:
+        elif key == tcod.event.K_LEFT:
             if self.room_min_size > 3:
                 self.room_min_size -= 1
 
-        elif event.sym == tcod.event.K_LEFTBRACKET:
+        elif key == tcod.event.K_LEFTBRACKET:
             if self.maze_path_width > 1:
                 self.maze_path_width -= 1
-        elif event.sym == tcod.event.K_RIGHTBRACKET:
+        elif key == tcod.event.K_RIGHTBRACKET:
             self.maze_path_width += 1
 
         self.map = self.map_func()

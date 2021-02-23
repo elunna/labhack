@@ -61,7 +61,6 @@ def connect_room_to_room(new_map, room1, room2):
     """ Connects two rooms by choosing a pair of doors and connecting their closets with a path.
         Returns True if the room was connected successfully, False otherwise.
     """
-    print("---------------------------------------------------------------")
     # First, find a pair of doors that is suitable for connecting.
     # Start with a list of all the possible door pairs between room1 and room2
     # Create a dict with distances as values
@@ -99,7 +98,6 @@ def connect_room_to_room(new_map, room1, room2):
 
         else:
             # A* is our backup in case the facing doors don't exist.
-            print('No facing pairs...')
             # Choose a random pair.
             next_pair = random.choice(list(door_pairs.keys()))
 
@@ -118,12 +116,9 @@ def connect_room_to_room(new_map, room1, room2):
         connected = valid_path(new_map, path)
 
         if not connected:
-            print(f'A* tunnel! {room1.label} to {room2.label}')
             # first connector didn't work.
             path = create_Astar_path_to(new_map, closet1_x, closet1_y, closet2_x, closet2_y)
             connected = valid_path(new_map, path)
-        else:
-            print(f'L tunnel! {room1.label} to {room2.label}')
 
     if connected:
         # Dig out the path
@@ -142,10 +137,8 @@ def connect_room_to_room(new_map, room1, room2):
         # Add the rooms to each-other's list of connections
         room1.connections.append(room2.label)
         room2.connections.append(room1.label)
-        print(f'{tries} tries')
         return True
 
-    print("Could not connect rooms!")
     return False
 
 
@@ -233,12 +226,19 @@ def distance(x1, y1, x2, y2):
     return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
 
-def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, engine):
-    """Generate a new dungeon map with rooms, corridors, and stairs.."""
+def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance, engine):
+    """Generate a new dungeon map with rooms, corridors, and stairs..
+    """
     new_map = gamemap.GameMap(engine, map_width, map_height)
 
     # Create all the rooms
-    generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
+    generate_rooms(
+        new_map=new_map,
+        max_rooms=max_rooms,
+        room_min_size=room_min_size,
+        room_max_size=room_max_size,
+        max_distance=max_distance,
+    )
 
     # Draw the rooms
     for r in new_map.rooms:
@@ -275,8 +275,12 @@ def generate_random_room(map_width, map_height, min_size, max_size):
     return room.Room(x, y, room_width, room_height)
 
 
-def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
-    for r in range(max_rooms):
+def generate_rooms(new_map, max_rooms, room_min_size, room_max_size, max_distance=50):
+    max_tries = 100
+    tries = 0
+
+    while tries < max_tries and len(new_map.rooms) < max_rooms:
+        tries += 1
         new_room = generate_random_room(
             map_width=new_map.width,
             map_height=new_map.height,
@@ -284,9 +288,16 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
             max_size=room_max_size
         )
 
-        # Run through the other rooms and see if they intersect with this one.
+        # Run through the other rooms and perform a few checks
+
+        # Does this room intersect with another?
         if any(new_room.intersects(other_room) for other_room in new_map.rooms):
             continue  # This room intersects, so go to the next attempt.
+
+        # Is the room further than the max distance allowed between rooms?
+        if any(True for other in new_map.rooms
+               if distance(*new_room.center, *other.center) > max_distance):  # Double unpacking FTW!
+            continue
 
         # Label the room to match it's index in new_map.rooms
         label = len(new_map.rooms)
@@ -294,8 +305,6 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
 
         # Add this room to the map's list.
         new_map.rooms.append(new_room)
-
-
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
