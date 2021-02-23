@@ -1,7 +1,7 @@
 from . import actor, settings
 from . import item
 from . import tiles
-from .rect import Rect
+from .room import Room
 import numpy as np
 
 
@@ -108,7 +108,7 @@ class GameMap:
     def tiles_around(x, y, radius):
         length = (radius * 2) + 1
         # Create a helper Rect so we can use it's perimeter.
-        temp_rect = Rect(x - radius, y - radius, length, length)
+        temp_rect = Room(x - radius, y - radius, length, length)
         return temp_rect.perimeter()
 
     def valid_door_location(self, room, x, y):

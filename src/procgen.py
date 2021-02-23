@@ -1,6 +1,6 @@
 from . import factory
 from . import gamemap
-from . import rect
+from . import room
 from . import settings
 from . import tiles
 import math
@@ -61,8 +61,8 @@ def connect_room_to_room(new_map, room1, room2):
             tries += 1
 
             # Get a random set of doors
-            door1 = rect.Door(room1, *room1.random_door_loc())
-            door2 = rect.Door(room2, *room2.random_door_loc())
+            door1 = room.Door(room1, *room1.random_door_loc())
+            door2 = room.Door(room2, *room2.random_door_loc())
 
             if not new_map.valid_door_location(room1, door1.x, door1.y):
                 continue
@@ -224,7 +224,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     """Generate a new dungeon map with rooms, corridors, and stairs.."""
     new_map = gamemap.GameMap(engine, map_width, map_height)
 
-    # Create all the rects for the rooms
+    # Create all the rooms
     generate_rooms(new_map, max_rooms, room_min_size, room_max_size)
 
     # Create the room coordinates for easy reference.
@@ -255,7 +255,7 @@ def generate_random_room(map_width, map_height, min_size, max_size):
     x = random.randint(0, map_width - room_width - 1)
     y = random.randint(0, map_height - room_height - 1)
 
-    return rect.Rect(x, y, room_width, room_height)
+    return room.Room(x, y, room_width, room_height)
 
 
 def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):

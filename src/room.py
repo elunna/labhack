@@ -2,7 +2,7 @@ import random
 from src import settings
 
 
-class Rect:
+class Room:
     def __init__(self, x, y, width, height):
         if width < 3 or height < 3:
             raise ValueError("Width and height must be at least 3 or greater.")
@@ -83,7 +83,7 @@ class Rect:
         # 7 # # # # # # # # # # #
 
         # As a result, we need to take the walls into account
-        # Ex: Rectangle with coordinates (1, 1) to (6, 6)
+        # Ex: Room with coordinates (1, 1) to (6, 6)
 
         #   0 1 2 3 4 5 6 7
         # 0 # # # # # # # #
@@ -96,7 +96,7 @@ class Rect:
         # 7 # # # # # # # #
 
     def intersects(self, other):
-        """Return True if this room overlaps with another RectangularRoom."""
+        """Return True if this room overlaps with another Room."""
         return (
             self.x1 <= other.x2
             and self.x2 >= other.x1
@@ -105,16 +105,16 @@ class Rect:
         )
 
     def perimeter(self):
-        # Returns a set of coordinates that represent the perimeter of the rectangle.
+        # Returns a set of coordinates that represent the perimeter of the room.
         return self.horz_walls().union(self.vert_walls())  # Union of both sets
 
     def horz_walls(self):
-        # Returns a set of all coordinates that represent the horizontal lines of the rectangle.
+        # Returns a set of all coordinates that represent the horizontal lines of the room.
         # Includes corners
         return {(x, y) for y in [self.y1, self.y2] for x in range(self.x1, self.x2 + 1)}
 
     def vert_walls(self):
-        # Returns a set of all coordinates that represent the vertical lines of the rectangle.
+        # Returns a set of all coordinates that represent the vertical lines of the room.
         # Includes corners
         return {(x, y) for x in [self.x1, self.x2] for y in range(self.y1, self.y2 + 1)}
 

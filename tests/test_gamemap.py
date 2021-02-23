@@ -1,6 +1,6 @@
 """ Tests for gamemap.py """
 
-from src import factory, gamemap, rect, tiles
+from src import factory, gamemap, room, tiles
 import pytest
 import toolkit
 
@@ -135,7 +135,7 @@ def test_GameMap_walkable__all_floor(test_map):
 
 def test_GameMap_room_coordinates():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 3, 3)
+    r = room.Room(0, 0, 3, 3)
     m.rooms.append(r)
 
     result = m.room_coordinates()
@@ -168,7 +168,7 @@ def test_GameMap_tiles_around__radius_of_1():
 
 def test_valid_door_location__facing_north():
     m = gamemap.GameMap(engine=None, width=10, height=10)
-    r = rect.Rect(1, 1, 3, 3)
+    r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[1][1] = tiles.room_nw_corner
@@ -178,7 +178,7 @@ def test_valid_door_location__facing_north():
 
 def test_valid_door_location__facing_south():
     m = gamemap.GameMap(engine=None, width=10, height=10)
-    r = rect.Rect(1, 1, 3, 3)
+    r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[1][3] = tiles.room_sw_corner
@@ -188,7 +188,7 @@ def test_valid_door_location__facing_south():
 
 def test_valid_door_location__facing_east():
     m = gamemap.GameMap(engine=None, width=10, height=10)
-    r = rect.Rect(1, 1, 3, 3)
+    r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[3][1] = tiles.room_ne_corner
@@ -198,7 +198,7 @@ def test_valid_door_location__facing_east():
 
 def test_valid_door_location__facing_west():
     m = gamemap.GameMap(engine=None, width=10, height=10)
-    r = rect.Rect(1, 1, 3, 3)
+    r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
@@ -209,28 +209,28 @@ def test_valid_door_location__facing_west():
 
 def test_valid_door_location__corner_returns_false():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 3, 3)
+    r = room.Room(0, 0, 3, 3)
     m.rooms.append(r)
     assert not m.valid_door_location(r, 0, 0)
 
 
 def test_valid_door_location__no_closet_space_west():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 3, 3)
+    r = room.Room(0, 0, 3, 3)
     m.rooms.append(r)
     assert not m.valid_door_location(r, 0, 1)
 
 
 def test_valid_door_location__no_closet_space_north():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 10, 3)
+    r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     assert not m.valid_door_location(r, 1, 0)
 
 
 def test_valid_door_location_walls__next_to_floor__facing_south():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 10, 3)
+    r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[0][2] = tiles.floor
     assert not m.valid_door_location(r, 1, 2)
@@ -238,7 +238,7 @@ def test_valid_door_location_walls__next_to_floor__facing_south():
 
 def test_valid_door_location__next_to_floors__facing_south():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 10, 3)
+    r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[3][2] = tiles.floor
     m.tiles[5][2] = tiles.floor
@@ -247,7 +247,7 @@ def test_valid_door_location__next_to_floors__facing_south():
 
 def test_valid_door_location__next_to_floor__facing_east():
     m = gamemap.GameMap(engine=None, width=20, height=20)
-    r = rect.Rect(0, 0, 10, 3)
+    r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[9][0] = tiles.floor
     assert not m.valid_door_location(r, 9, 1)
