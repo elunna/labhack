@@ -142,7 +142,16 @@ class GameMap:
             dx, dy = settings.CARDINAL_DIR['S']
             if self.tiles[x + dx][y + dy] not in tiles.room_walls:
                 return False
+        """
+        for direction in settings.CARDINAL_DIR.values():
+            dx, dy = direction
 
+            # Check around for other doors.
+            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
+                # Oh no, a door is adjacent! Abort mission!
+                valid_door = False
+                continue
+        """
         # Does it have a "closet" space outside directly outside of the door that is not part of another room?
         dx, dy = settings.CARDINAL_DIR[facing]
         closet_x, closet_y = x + dx, y + dy
@@ -151,12 +160,11 @@ class GameMap:
         if not self.in_bounds(closet_x, closet_y):
             return False
 
-        # Is it wall?
-        if not self.tiles[closet_x][closet_y] == tiles.wall:
+        # Is it wall or floor (both are valid)
+        if not self.tiles[closet_x][closet_y] in [tiles.wall, tiles.floor]:
             return False
 
-        # Return the coordinates of the closet outside the door
-        return closet_x, closet_y
+        return True
 
     def get_nearest_unconnected_room(self, room):
         # Use tiles_around to look for a tiles that belong to rooms.

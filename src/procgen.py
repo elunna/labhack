@@ -30,20 +30,10 @@ def draw_doors(new_map):
     corridor drawing, there are conflicts in where doors and floor appear.
     """
     for d in new_map.doors:
-        valid_door = True
-        for direction in settings.CARDINAL_DIR.values():
-            dx, dy = direction
-
-            # Check around for other doors.
-            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
-                # Oh no, a door is adjacent! Abort mission!
-                valid_door = False
-                continue
-
-        if valid_door:
+        if new_map.valid_door_neighbors(d.room, d.x, d.y):
             new_map.tiles[d.x, d.y] = tiles.door
 
-            # Is the closet wall yet?
+            # Has the closet been drawn yet?
             closet_x, closet_y = d.closet()
             if new_map.tiles[closet_x, closet_y] == tiles.wall:
                 # Dig out the closet

@@ -173,7 +173,7 @@ def test_valid_door_neighbors__facing_north():
     # Need to set the tiles for the flanking check!
     m.tiles[1][1] = tiles.room_nw_corner
     m.tiles[3][1] = tiles.room_ne_corner
-    assert m.valid_door_neighbors(r, 2, 1) == (2, 0)
+    assert m.valid_door_neighbors(r, 2, 1)
 
 
 def test_valid_door_neighbors__facing_south():
@@ -183,7 +183,7 @@ def test_valid_door_neighbors__facing_south():
     # Need to set the tiles for the flanking check!
     m.tiles[1][3] = tiles.room_sw_corner
     m.tiles[3][3] = tiles.room_se_corner
-    assert m.valid_door_neighbors(r, 2, 3) == (2, 4)
+    assert m.valid_door_neighbors(r, 2, 3)
 
 
 def test_valid_door_neighbors__facing_east():
@@ -193,7 +193,7 @@ def test_valid_door_neighbors__facing_east():
     # Need to set the tiles for the flanking check!
     m.tiles[3][1] = tiles.room_ne_corner
     m.tiles[3][3] = tiles.room_se_corner
-    assert m.valid_door_neighbors(r, 3, 2) == (4, 2)
+    assert m.valid_door_neighbors(r, 3, 2)
 
 
 def test_valid_door_neighbors__facing_west():
@@ -204,7 +204,7 @@ def test_valid_door_neighbors__facing_west():
     # Need to set the tiles for the flanking check!
     m.tiles[1][1] = tiles.room_nw_corner
     m.tiles[1][3] = tiles.room_sw_corner
-    assert m.valid_door_neighbors(r, 1, 2) == (0, 2)
+    assert m.valid_door_neighbors(r, 1, 2)
 
 
 def test_valid_door_neighbors__corner_returns_false():
