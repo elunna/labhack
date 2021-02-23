@@ -495,20 +495,27 @@ class MapDebugHandler(BaseEventHandler):
 
     def __init__(self, parent_handler):
         self.parent = parent_handler
-        self.map = self.generate_map()
+        self.max_rooms = settings.max_rooms
+        self.room_min_size = settings.room_min_size
+        self.room_max_size = settings.room_max_size
+        self.map_func = self.generate_map
+        self.mode = ''
+        self.map = self.map_func()  # Do this last!
 
     def generate_map(self):
+        self.mode = "ROOMS & CORRIDORS"
         # Generate a new map
         return procgen.generate_map(
-            max_rooms=settings.max_rooms,
-            room_min_size=settings.room_min_size,
-            room_max_size=settings.room_max_size,
+            max_rooms=self.max_rooms,
+            room_min_size=self.room_min_size,
+            room_max_size=self.room_max_size,
             map_width=settings.map_width,
             map_height=settings.map_height,
             engine=None,
         )
 
     def generate_maze(self):
+        self.mode = "MAZE"
         fitted_width, fitted_height = Maze.dimensions_to_fit(
             settings.map_width,
             settings.map_height,
@@ -527,15 +534,36 @@ class MapDebugHandler(BaseEventHandler):
         self.map.explored[:] = True
 
         rendering.render_map(renderer.root, self.map)
+        # Render debug info
+        rendering.render_map_debugger(
+            renderer.root,
+            self.mode,
+            self.max_rooms,
+            self.room_min_size,
+            self.room_max_size
+        )
 
     def ev_keydown(self, event):
         """Any key returns to the parent handler."""
-        if event.sym in (tcod.event.K_q, tcod.event.K_x, tcod.event.K_ESCAPE):
+        if event.sym == tcod.event.K_ESCAPE:
             return self.parent
-        if event.sym == tcod.event.K_m:
-            self.map = self.generate_maze()
-        else:
-            self.map = self.generate_map()
+        elif event.sym == tcod.event.K_1:
+            self.map_func = self.generate_map
+        elif event.sym == tcod.event.K_2:
+            self.map_func = self.generate_maze
+
+        elif event.sym == tcod.event.K_UP:
+            self.room_max_size += 1
+        elif event.sym == tcod.event.K_DOWN:
+            if self.room_max_size > self.room_min_size:
+                self.room_max_size -= 1
+        elif event.sym == tcod.event.K_RIGHT:
+            if self.room_min_size < self.room_max_size:
+                self.room_min_size += 1
+        elif event.sym == tcod.event.K_LEFT:
+            if self.room_min_size > 3:
+                self.room_min_size -= 1
+        self.map = self.map_func()
 
 
 class LevelUpHandler(AskUserHandler):
@@ -635,7 +663,6 @@ class HelpHandler(HistoryHandler):
             cursor=self.cursor,
             msglog=self.engine.helplog
         )
-
 
     def ev_keydown(self, event):
         # Fancy conditional movement to make it feel right.

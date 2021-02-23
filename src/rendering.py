@@ -435,3 +435,31 @@ def render_main_menu(console):
             alignment=tcod.CENTER,
             bg_blend=tcod.BKGND_ALPHA(64),
         )
+
+
+def render_map_debugger(console, mode, max_rooms, min_size, max_size):
+    maxrooms = f"Max Rooms:{max_rooms}"
+    minsize = f"Min Size:{min_size}"
+    maxsize = f"Max Size:{max_size}"
+
+    console.print(
+        x=0, y=0,
+        string=f"MODE: {mode}"
+    )
+
+    console.print(
+        x=0, y=settings.map_height,
+        string=f"{maxrooms} +/-"
+    )
+    console.print(
+        x=0, y=settings.map_height + 1,
+        string=f"{minsize} LEFT/RIGHT"
+    )
+    console.print(
+        x=0, y=settings.map_height + 2,
+        string=f"{maxsize} UP/DOWN"
+    )
+    console.print(
+        x=0, y=settings.map_height + 5,
+        string=f"ESC: Return to main menu"
+    )
