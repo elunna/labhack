@@ -56,12 +56,6 @@ def connect_room_to_room(new_map, room1, room2):
     """
     print("---------------------------------------------------------------")
     # First, find a pair of doors that is suitable for connecting.
-    # Directness
-    # 0: Use the closest pair (most direct) (20%)
-    # 1: Use a facing pair (conducive to straight, L, and diagonal tunnels) (60%)
-    # 2: Use a random pair of doors (15%)
-    # 3: Use the farthest pair (least direct) (5%)
-
     # Start with a list of all the possible door pairs between room1 and room2
     # Create a dict with distances as values
     door_pairs = door_distance_dict(room1, room2)
@@ -83,17 +77,21 @@ def connect_room_to_room(new_map, room1, room2):
     while not connected and door_pairs:
         tries += 1
         if facing_pairs:
-            # min(d, key=d.get)
-            # Use the most direct pair by default.
-            next_pair = min(facing_pairs, key=facing_pairs.get)
+            # 20% of the time, use the closest facing pair.
+            if random.random() < .2:
+                # Use the most direct pair by default.
+                next_pair = min(facing_pairs, key=facing_pairs.get)
 
-            # random_pair = random.choice(list(facing_pairs.keys()))
+            # The other 80%, get a random facing pair.
+            else:
+                next_pair = random.choice(list(facing_pairs.keys()))
 
             # Remove the pair from both dicts
             facing_pairs.pop(next_pair)
             door_pairs.pop(next_pair)
 
         else:
+            # A* is our backup in case the facing doors don't exist.
             print('No facing pairs...')
             # Choose a random pair.
             next_pair = random.choice(list(door_pairs.keys()))
