@@ -1,7 +1,6 @@
 from enum import Enum, auto
 from components.component import Component
 from src import exceptions
-from src.thindict import ThinDict
 
 
 class EquipmentType(Enum):
@@ -26,8 +25,7 @@ class Equipment(Component):
     """
     def __init__(self, *args):
         # The equipment slots are derived from the EquipmentType enum.
-        # We can only use these pre-determined slots that are enforced by the ThinDict.
-        self.slots = ThinDict(allowed_keys=[et.name for et in EquipmentType])
+        self.slots = {et.name: None for et in EquipmentType}
 
         # We will accept a list of items (*args) to try and equip at init.
         for item in args:

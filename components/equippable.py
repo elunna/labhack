@@ -1,11 +1,9 @@
 from components.component import Component
 from components.equipment import EquipmentType
 from components.attributes import AttributeType
-from src.thindict import ThinDict
 
 
 class Equippable(Component):
-    # parent: Item
     parent = None
 
     def __init__(
@@ -20,7 +18,7 @@ class Equippable(Component):
 
         # The attribute modifiers are derived from the AttributeType enum.
         # We can only use these pre-determined slots that are enforced by the ThinDict.
-        self.modifiers = ThinDict(allowed_keys=[a.name for a in AttributeType], initial_val=0)
+        self.modifiers = {a.name: 0 for a in AttributeType}
         self.modifiers['AC'] = ac_bonus
         self.modifiers['STRENGTH'] = strength_bonus
         self.modifiers['DEXTERITY'] = dexterity_bonus
@@ -78,7 +76,6 @@ class Arms(Equippable):
             equipment_type=EquipmentType.ARMS,
             ac_bonus=ac_bonus
         )
-
 
 
 class Belt(Equippable):
