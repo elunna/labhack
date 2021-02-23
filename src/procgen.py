@@ -9,72 +9,125 @@ import random
 import tcod
 
 
-def connect_2_doors(new_map, door1, door2):
-    # To connect the doors, we have to connect the closets!
-    x1, y1 = door1.closet()
-    x2, y2 = door2.closet()
-
-    # Choose a method of creating the tunnel:
-    path = create_L_path((x1, y1), (x2, y2))
-
-    # Draw a diagonal
-    # path = diagonal_tunnel(start, end):
-
-    for x, y in path:
-        # Stop drawing if we run into room corners.
-        if new_map.tiles[x, y] in tiles.room_corners:
-            return False
-
-        # Do not draw over inner room floors
-        if new_map.tiles[x, y] == tiles.room_floor:
-            return False
-
-    # Dig out a tunnel between this room and the previous one.
+def dig_path(new_map, path):
+    # Dig out a pre-determined path
     for x, y in path:
         new_map.tiles[x, y] = tiles.floor
 
-    return True
+
+def door_distance_dict(room1, room2):
+    """Create a dict of door pairs (keys) and their distances apart (values) """
+    pair_dict = {}
+    for a in room1.get_all_possible_doors():
+        for b in room2.get_all_possible_doors():
+            dist_between = distance(a.x, a.y, b.x, b.y)
+            pair_dict[(a, b)] = dist_between
+    return pair_dict
+
+
+def draw_doors(new_map):
+    """ Drawing doors needs to be a separate activity done last after corridors, because if it's combined with
+    corridor drawing, there are conflicts in where doors and floor appear.
+    """
+    for d in new_map.doors:
+        valid_door = True
+        for direction in settings.CARDINAL_DIR.values():
+            dx, dy = direction
+
+            # Check around for other doors.
+            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
+                # Oh no, a door is adjacent! Abort mission!
+                valid_door = False
+                continue
+
+        if valid_door:
+            new_map.tiles[d.x, d.y] = tiles.door
+
+            # Is the closet wall yet?
+            closet_x, closet_y = d.closet()
+            if new_map.tiles[closet_x, closet_y] == tiles.wall:
+                # Dig out the closet
+                new_map.tiles[closet_x, closet_y] = tiles.floor
 
 
 def connect_room_to_room(new_map, room1, room2):
+    """ Connects two rooms by choosing a pair of doors and connecting their closets with a path.
+        Returns True if the room was connected successfully, False otherwise.
+    """
+    print("---------------------------------------------------------------")
+    # First, find a pair of doors that is suitable for connecting.
+    # Directness
+    # 0: Use the closest pair (most direct) (20%)
+    # 1: Use a facing pair (conducive to straight, L, and diagonal tunnels) (60%)
+    # 2: Use a random pair of doors (15%)
+    # 3: Use the farthest pair (least direct) (5%)
+
+    # Start with a list of all the possible door pairs between room1 and room2
+    # Create a dict with distances as values
+    door_pairs = door_distance_dict(room1, room2)
+
+    # Thin them down with any non-valid pairs (edge of map, adjacent)
+    door_pairs = {
+        k: y for k, y in door_pairs.items()
+        if valid_pair_of_doors(new_map, k[0], k[1])
+    }
+
+    # Create a sub-dict of facing pairs.
+    facing_pairs = {k: y for k, y in door_pairs.items() if k[0].facing_other(k[1])}
+
+    door1, door2 = None, None  # prevents annoying Pycharm warning.
+    path = []  # prevents annoying Pycharm warning.
+    # Loop until we discover a connected set of doors or we exhaust all of the door pairs.
     connected = False
-    # Find all the pairs of doors that face eachother.
-    facing_doors = room1.match_facing_doors(room2)
-    door1, door2 = None, None
+    tries = 0
+    while not connected and door_pairs:
+        tries += 1
+        if facing_pairs:
+            # min(d, key=d.get)
+            # Use the most direct pair by default.
+            next_pair = min(facing_pairs, key=facing_pairs.get)
 
-    if facing_doors:
-        closest_pair = get_closest_pair_of_doors(facing_doors)
+            # random_pair = random.choice(list(facing_pairs.keys()))
 
-        pair = get_valid_pair_of_doors(facing_doors)
-        if not pair:
-            pair = closest_pair
+            # Remove the pair from both dicts
+            facing_pairs.pop(next_pair)
+            door_pairs.pop(next_pair)
 
-        door1, door2 = pair
-        connected = connect_2_doors(new_map, door1, door2)
+        else:
+            print('No facing pairs...')
+            # Choose a random pair.
+            next_pair = random.choice(list(door_pairs.keys()))
 
-    if not connected:
-        # Either: we don't have facing doors, or the first connector didn't work.
+            # Remove the pair from the dict
+            door_pairs.pop(next_pair)
 
-        # We'll allow a lot of tries before we give up
-        tries = 0
-        while not connected and tries < 100:
-            tries += 1
+        # We have a set of doors to work with
+        door1, door2 = next_pair
 
-            # Get a random set of doors
-            door1 = room.Door(room1, *room1.random_door_loc())
-            door2 = room.Door(room2, *room2.random_door_loc())
+        # To connect the doors, we have to connect the closets!
+        closet1_x, closet1_y = door1.closet()
+        closet2_x, closet2_y = door2.closet()
 
-            if not new_map.valid_door_location(room1, door1.x, door1.y):
-                continue
-            if not new_map.valid_door_location(room2, door2.x, door2.y):
-                continue
+        # Try easiest path first.
+        path = create_L_path((closet1_x, closet1_y), (closet2_x, closet2_y))
+        connected = valid_path(new_map, path)
 
-            connected = dig_Astar_path(new_map, door1, door2)
+        if not connected:
+            print(f'A* tunnel! {room1.label} to {room2.label}')
+            # first connector didn't work.
+            path = create_Astar_path_to(new_map, closet1_x, closet1_y, closet2_x, closet2_y)
+            connected = valid_path(new_map, path)
+        else:
+            print(f'L tunnel! {room1.label} to {room2.label}')
 
     if connected:
-        # Dig out adjacent doors
+        # Dig out the path
+        dig_path(new_map, path)
+
+        # Special case for doors that are right next to each other
+        # TODO: We might be able to move this to draw_doors later...
         if distance(door1.x, door1.y, door2.x, door2.y) == 1:
-            # If the doors are next to eachother, just leave it as floor.
+            # Dig out as floor.
             new_map.tiles[door1.x, door1.y] = tiles.floor
             new_map.tiles[door2.x, door2.y] = tiles.floor
         else:
@@ -84,6 +137,11 @@ def connect_room_to_room(new_map, room1, room2):
         # Add the rooms to each-other's list of connections
         room1.connections.append(room2.label)
         room2.connections.append(room1.label)
+        print(f'{tries} tries')
+        return True
+
+    print("Could not connect rooms!")
+    return False
 
 
 def connecting_algorithm(new_map):
@@ -166,58 +224,8 @@ def create_L_path(start, end, twist=0):
     return coordinates
 
 
-def dig_Astar_path(new_map, door1, door2):
-    # Get the closets outside the doors
-    x1, y1 = door1.closet()
-    x2, y2 = door2.closet()
-
-    # A* path
-    path = create_Astar_path_to(new_map, x1, y1, x2, y2)
-    # If there is only a single point - the path is not able to complete
-    if len(path) == 1:
-        return False
-
-    # Chck the path
-    for point in path:
-        x, y = point
-
-        # We won't allow drawing over room walls or doors.
-        if new_map.tiles[x, y] in tiles.room_walls:
-            return False
-
-    # Draw the path
-    for point in path:
-        new_map.tiles[point] = tiles.floor
-    return True
-
-
 def distance(x1, y1, x2, y2):
     return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
-
-
-def draw_doors(new_map):
-    """ Drawing doors needs to be a separate activity done last after corridors, because if it's combined with
-    corridor drawing, there are conflicts in where doors and floor appear.
-    """
-    for d in new_map.doors:
-        valid_door = True
-        for direction in settings.CARDINAL_DIR.values():
-            dx, dy = direction
-
-            # Check around for other doors.
-            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
-                # Oh no, a door is adjacent! Abort mission!
-                valid_door = False
-                continue
-
-        if valid_door:
-            new_map.tiles[d.x, d.y] = tiles.door
-
-            # Is the closet wall yet?
-            closet_x, closet_y = d.closet()
-            if new_map.tiles[closet_x, closet_y] == tiles.wall:
-                # Dig out the closet
-                new_map.tiles[closet_x, closet_y] = tiles.floor
 
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, engine):
@@ -292,60 +300,6 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
 
         # Add this room to the map's list.
         new_map.rooms.append(new_room)
-
-
-def get_valid_pair_of_doors(matches):
-    """ Iterates through a list of facing doors and picks until we find a valid choice.
-    """
-    while matches:
-        pair = random.choice(matches)
-        matches.remove(pair)
-        door1, door2 = pair
-
-        # We have to check that these are not lined up so that the closets are over-extended
-        x_diff = abs(door1.x - door2.x)
-        y_diff = abs(door1.y - door2.y)
-
-        # Hopefully we only have to test one door to see if they are facing vertically or horizontally.
-        # This is okay:
-        # |    |   ---||---
-        # --+---      ++
-        # --+---      ||
-        # |    |   ---||---
-
-        # We don't want this
-        # |    |   ---||---
-        # --+---      +|
-        # ---+--      |+
-        # |    |   ---||---
-
-        if door1.facing in ['S', 'N'] and y_diff == 1:
-            # Vertical facing: If the y-difference is 1, the x-difference has to be 0 (aligned)
-            if x_diff == 0:
-                return pair
-            continue
-
-        if door1.facing in ['E', 'W'] and x_diff == 1:
-            # Horizontal facing: If the x-difference is 1, the y-difference has to be 0 (aligned)
-            if x_diff == 0:
-                return pair
-            continue
-
-        # If the pair passes the above tests, it should be okay.
-        return pair
-
-
-def get_closest_pair_of_doors(matches):
-    # Find the pair of doors that are the closest in distance.
-    closest_pair = None
-    record = 1000000  # Unlikely we'll see a distance larger than this...
-    for pair in matches:
-        door1, door2 = pair
-        dist_between = distance(door1.x, door1.y, door2.x, door2.y)
-        if dist_between < record:
-            record = dist_between
-            closest_pair = pair
-    return closest_pair
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
@@ -434,7 +388,7 @@ def min_spanning_tree_for_rooms(rooms):
     return edges
 
 
-def place_items(room, dungeon, floor_number):
+def place_items(new_room, dungeon, floor_number):
     number_of_items = random.randint(
         0, get_max_value_for_floor(settings.max_items_by_floor, floor_number)
     )
@@ -444,12 +398,12 @@ def place_items(room, dungeon, floor_number):
     )
 
     for entity in items:
-        x, y = room.random_point_inside()
+        x, y = new_room.random_point_inside()
         # We don't care if they stack on the map
         entity.spawn(dungeon, x, y)
 
 
-def place_monsters(room, dungeon, floor_number):
+def place_monsters(new_room, dungeon, floor_number):
     number_of_monsters = random.randint(
         0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
     )
@@ -459,8 +413,8 @@ def place_monsters(room, dungeon, floor_number):
     )
 
     for entity in monsters:
-        x = random.randint(room.x1 + 1, room.x2 - 2)
-        y = random.randint(room.y1 + 1, room.y2 - 2)
+        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
+        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
 
         # Don't spawn them on top of each other.
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
@@ -468,7 +422,74 @@ def place_monsters(room, dungeon, floor_number):
 
 
 def populate_map(new_map, engine):
-    for room in new_map.rooms:
+    for r in new_map.rooms:
         # Populate the room with monsters and items
-        place_monsters(room, new_map, engine.game_world.current_floor)
-        place_items(room, new_map, engine.game_world.current_floor)
+        place_monsters(r, new_map, engine.game_world.current_floor)
+        place_items(r, new_map, engine.game_world.current_floor)
+
+
+def valid_pair_of_doors(new_map, door1, door2):
+    """ This is a preliminary check to see if a pair of doors will work together.
+        GameMap has a further check for surrounding tiles, but that is for post-corridor drawing.
+        This checks that each door is not on the map edge, because then a closet would not be possible -
+        or it would overrun to the opposite side of the map.
+        This also checks that the alignment of the doors will not cause closet problems.
+
+        This does NOT check the spaces around or next to the door.
+    """
+
+    # It can't be at the edge of the map
+    if new_map.on_edge_of_map(door1.x, door1.y):
+        return False
+    if new_map.on_edge_of_map(door2.x, door2.y):
+        return False
+
+    # We have to check that these are not lined up (this results in closets that are over-extended)
+    x_diff = abs(door1.x - door2.x)
+    y_diff = abs(door1.y - door2.y)
+
+    # Hopefully we only have to test one door to see if they are facing vertically or horizontally.
+    # This is okay:
+    # |    |   ---||---
+    # --+---      ++
+    # --+---      ||
+    # |    |   ---||---
+
+    # We don't want this
+    # |    |   ---||---
+    # --+---      +|
+    # ---+--      |+
+    # |    |   ---||---
+
+    if door1.facing in ['S', 'N'] and y_diff == 1:
+        # Vertical facing: If the y-difference is 1, the x-difference has to be 0 (aligned)
+        if x_diff == 0:
+            return True
+        return False
+
+    if door1.facing in ['E', 'W'] and x_diff == 1:
+        # Horizontal facing: If the x-difference is 1, the y-difference has to be 0 (aligned)
+        if y_diff == 0:
+            return True
+        return False
+
+    # If it passed the above tests, it should be okay
+    return True
+
+
+def valid_path(new_map, path):
+    """ Walks along a path and makes sure it doesn't dig out anything important.
+    """
+    # This takes care of A* paths that are only 1 sq long.
+    if len(path) == 1:
+        return False
+
+    for x, y in path:
+        # Stop drawing if we run into room corners.
+        if new_map.tiles[x, y] in tiles.room_corners:
+            return False
+
+        # Do not draw over inner room floors
+        if new_map.tiles[x, y] == tiles.room_floor:
+            return False
+    return True

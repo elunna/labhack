@@ -112,15 +112,11 @@ class GameMap:
         return temp_rect.perimeter()
 
     def valid_door_location(self, room, x, y):
-        """ Checks if the tiles around the point allow for placing a door.
+        """ Checks if the tiles around the point allow for placing a door (and more importantly, a closet)
             If valid, returns the coordinates for the closet space outside the door.
         """
+        # First obvious check that the door will occupy part of the perimeter (but not a corner)
         if not room.valid_door_loc(x, y):
-            return False
-        # It can't be at the edge of the map
-        if x == 0 or y == 0:
-            return False
-        elif x == (self.width - 1) or y == (self.height - 1):
             return False
 
         facing = room.direction_facing(x, y)
@@ -187,3 +183,12 @@ class GameMap:
 
                 # Passed all checks!
                 return result
+
+    def on_edge_of_map(self, x, y):
+        """ Checks if a coordinate is on the edge of the map perimeter.
+        returns True if it is, False otherwise.
+        """
+        if x == 0 or y == 0:
+            return False
+        elif x == (self.width - 1) or y == (self.height - 1):
+            return False

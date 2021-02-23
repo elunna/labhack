@@ -176,14 +176,14 @@ def render_map(console, game_map):
 
     # TODO: Move to separate function
     # For testing: Render the room numbers
-    # for room in game_map.rooms:
-    #     room_x, room_y = room.center
-    #     console.print(
-    #         x=room_x,
-    #         y=room_y,
-    #         string=str(room.label),
-    #         # fg=entity.color
-    #     )
+    for room in game_map.rooms:
+        room_x, room_y = room.center
+        console.print(
+            x=room_x,
+            y=room_y,
+            string=str(room.label),
+            # fg=entity.color
+        )
 
 
 def render_history(console, engine, cursor, msglog):
