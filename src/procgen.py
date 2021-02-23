@@ -98,7 +98,7 @@ def connecting_algorithm(new_map):
 
     for i in range(extra_connections):
         room1 = random.choice(new_map.rooms)
-        room2 = get_nearest_unconnected_room(new_map, room1)
+        room2 = new_map.get_nearest_unconnected_room(room1)
         connect_room_to_room(new_map, room1, room2)
 
 
@@ -282,33 +282,6 @@ def get_closest_pair_of_doors(matches):
             record = dist_between
             closest_pair = pair
     return closest_pair
-
-
-def get_nearest_unconnected_room(new_map, room):
-    # Use tiles_around to look for a tiles that belong to rooms.
-    # Keep pushing outward until we find a room that is not connected to this room.
-    x, y = room.center
-
-    min_radius = 3  # Required to create the minimum sized Rect.
-
-    for r in range(min_radius, new_map.height):
-        # Get all the tiles in the new radius
-        surrounding_tiles = new_map.tiles_around(x, y, r)
-
-        for st in surrounding_tiles:
-            # Check each tile and see if it belongs to a room.
-            result = new_map.room_coords.get(st)
-            if not result:
-                continue
-            # Make sure it's not the same room we are looking out from.
-            if room.label == result.label:
-                continue
-            # Make sure it's not connected to this room already.
-            if result.label in room.connections:
-                continue
-
-            # Passed all checks!
-            return result
 
 
 # noinspection PyTypeChecker

@@ -161,3 +161,29 @@ class GameMap:
 
         # Return the coordinates of the closet outside the door
         return closet_x, closet_y
+
+    def get_nearest_unconnected_room(self, room):
+        # Use tiles_around to look for a tiles that belong to rooms.
+        # Keep pushing outward until we find a room that is not connected to this room.
+        x, y = room.center
+
+        min_radius = 3  # Required to create the minimum sized Rect.
+
+        for r in range(min_radius, self.height):
+            # Get all the tiles in the new radius
+            surrounding_tiles = self.tiles_around(x, y, r)
+
+            for st in surrounding_tiles:
+                # Check each tile and see if it belongs to a room.
+                result = self.room_coords.get(st)
+                if not result:
+                    continue
+                # Make sure it's not the same room we are looking out from.
+                if room.label == result.label:
+                    continue
+                # Make sure it's not connected to this room already.
+                if result.label in room.connections:
+                    continue
+
+                # Passed all checks!
+                return result
