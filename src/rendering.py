@@ -412,7 +412,7 @@ def render_main_menu(console):
     console.print(
         console.width // 2,
         console.height - 2,
-        settings.author,
+        f"Version {settings.version}",
         fg=color.menu_title,
         alignment=tcod.CENTER,
     )
