@@ -104,3 +104,17 @@ def test_get_entities_at_random():
 @pytest.mark.skip(reason='Create sample rooms for testing')
 def test_minimum_spanning_tree():
     pass
+
+
+def test_distance__same_point_0():
+    assert procgen.distance(0, 0, 0, 0) == 0
+
+
+def test_distance__1_sq_east_1():
+    assert procgen.distance(0, 0, 1, 0) == 1
+
+
+def test_distance__1_sq_diagonal():
+    result = procgen.distance(0, 0, 1, 1)
+    assert  round(result, 2) == 1.41
+
