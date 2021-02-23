@@ -19,7 +19,12 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        attack_comp, use_method = self.get_attack_method()
+        attack_comp = self.get_attack_component()
+
+        if self.entity.equipment.slots['WEAPON']:
+            use_method = self.hit_with_weapon
+        else:
+            use_method = self.hit_with_barehands
 
         # Iterate through all the attacks
         for atk in attack_comp.attacks:
@@ -39,12 +44,12 @@ class MeleeAction(ActionWithDirection):
         if target.fighter.is_dead():
             return DieAction(entity=target, cause=self.entity)
 
-    def get_attack_method(self):
+    def get_attack_component(self):
         weapon = self.entity.equipment.slots['WEAPON']
         if weapon:
-            return weapon.equippable.attack, self.hit_with_weapon
+            return weapon.equippable.attack
         else:
-            return self.entity.attacks, self.hit_with_barehands
+            return self.entity.attacks
 
     def roll_hit_die(self):
         # Rolls a 1d20 die to determine if the attacker will land the hit.
@@ -133,5 +138,3 @@ class MeleeAction(ActionWithDirection):
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
-
-

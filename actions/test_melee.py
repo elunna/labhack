@@ -46,36 +46,20 @@ def test_MeleeAction_perform__no_target__raises_Impossible(test_map):
 # performs all attacks in entity list (double)
 
 
-def test_MeleeAction_get_attack_method__weapon__uses_weapon_attack_comp(test_map):
+def test_MeleeAction_get_attack_component__weapon(test_map):
     player = test_map.player
     dagger = player.inventory.items.get('a')  # Create and wield the dagger
     player.equipment.toggle_equip(dagger)
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    attack_comp, use_method = a.get_attack_method()
+    attack_comp = a.get_attack_component()
     assert attack_comp == dagger.equippable.attack
 
 
-def test_MeleeAction_get_attack_method__weapon__uses_hit_with_weapon(test_map):
-    player = test_map.player
-    dagger = player.inventory.items.get('a')  # Create and wield the dagger
-    player.equipment.toggle_equip(dagger)
-    a = MeleeAction(entity=player, dx=-1, dy=-1)
-    attack_comp, use_method = a.get_attack_method()
-    assert use_method == a.hit_with_weapon
-
-
-def test_MeleeAction_get_attack_method__noweapon__uses_player_attack_comp(test_map):
+def test_MeleeAction_get_attack_method__noweapon(test_map):
     player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
-    attack_comp, use_method = a.get_attack_method()
+    attack_comp = a.get_attack_component()
     assert attack_comp == player.attacks
-
-
-def test_MeleeAction_get_attack_method__noweapon__use_method(test_map):
-    player = test_map.player
-    a = MeleeAction(entity=player, dx=-1, dy=-1)
-    attack_comp, use_method = a.get_attack_method()
-    assert use_method == a.hit_with_barehands
 
 
 def test_MeleeAction_roll_hit_die(test_map):
@@ -136,6 +120,7 @@ def test_MeleeAction_execute_damage__with_weapon(test_map):
     result = a.execute_damage(target, atk)
     assert result >= atk.min_dmg()
     assert result <= atk.max_dmg()
+
 
 def test_MeleeAction_execute_damage__no_weapon(test_map):
     player = test_map.player
