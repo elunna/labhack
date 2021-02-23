@@ -19,13 +19,7 @@ class MeleeAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        weapon = self.entity.equipment.slots['WEAPON']
-        if weapon:
-            attack_comp = weapon.equippable.attack
-            use_method = self.hit_with_weapon
-        else:
-            attack_comp = self.entity.attacks
-            use_method = self.hit_with_barehands
+        attack_comp, use_method = self.get_attack_method()
 
         # Iterate through all the attacks
         for atk in attack_comp.attacks:
@@ -45,6 +39,13 @@ class MeleeAction(ActionWithDirection):
 
             else:
                 self.miss(target)
+
+    def get_attack_method(self):
+        weapon = self.entity.equipment.slots['WEAPON']
+        if weapon:
+            return weapon.equippable.attack, self.hit_with_weapon
+        else:
+            return self.entity.attacks, self.hit_with_barehands
 
     def calc_target_number(self, target):
         defender_ac = target.attributes.ac
