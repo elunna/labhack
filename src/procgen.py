@@ -209,7 +209,7 @@ def connect_2_doors(new_map, door1, door2):
     x2, y2 = door2.closet()
 
     # Choose a method of creating the tunnel:
-    path = tunnel_between((x1, y1), (x2, y2))
+    path = get_L_path((x1, y1), (x2, y2))
 
     # Draw a diagonal
     # path = diagonal_tunnel(start, end):
@@ -361,7 +361,7 @@ def mk_room(new_map, min_size, max_size):
 
 
 # noinspection PyTypeChecker
-def tunnel_between(start, end, twist=0):
+def get_L_path(start, end, twist=0):
     """ Return an L-shaped tunnel between these two points.
         If the lines are on the same x-axis or y-axis it will simply draw a straight line.
         start: Tuple[int, int],

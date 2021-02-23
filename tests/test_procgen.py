@@ -6,10 +6,10 @@ import pytest
 # generate_dungeon
 
 
-def test_tunnel_between__horz_first():
+def test_get_L_path__horz_first():
     start = (0, 0)
     end = (2, 2)
-    result = procgen.tunnel_between(start, end, twist=1)
+    result = procgen.get_L_path(start, end, twist=1)
 
     # corner is repeated
     assert result == [
@@ -17,10 +17,10 @@ def test_tunnel_between__horz_first():
     ]
 
 
-def test_tunnel_between__vert_first():
+def test_get_L_path__vert_first():
     start = (0, 0)
     end = (2, 2)
-    result = procgen.tunnel_between(start, end, twist=2)
+    result = procgen.get_L_path(start, end, twist=2)
 
     # corner is repeated
     assert result == [
@@ -28,11 +28,11 @@ def test_tunnel_between__vert_first():
     ]
 
 
-def test_tunnel_between__straight_line_vert():
+def test_get_L_path__straight_line_vert():
     # Proof that this can draw straight lines as well.
     start = (0, 0)
     end = (0, 2)
-    result = procgen.tunnel_between(start, end, twist=2)
+    result = procgen.get_L_path(start, end, twist=2)
 
     # corner is repeated
     assert result == [(0, 0), (0, 1), (0, 2)]
