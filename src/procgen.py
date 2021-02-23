@@ -3,7 +3,6 @@ from . import gamemap
 from . import rect
 from . import settings
 from . import tiles
-from .rect import Door
 import math
 import numpy as np
 import random
@@ -115,7 +114,7 @@ def draw_doors(new_map):
 def connect_room_to_room(new_map, room1, room2):
     connected = False
     # Find all the pairs of doors that face eachother.
-    facing_doors = match_facing_doors(room1, room2)
+    facing_doors = room1.match_facing_doors(room2)
     door1, door2 = None, None
 
     if facing_doors:
@@ -253,23 +252,6 @@ def dig_Astar_path(new_map, door1, door2):
     for point in path:
         new_map.tiles[point] = tiles.floor
     return True
-
-
-def get_all_possible_doors_in_room(room):
-    walls = room.perimeter().difference(room.corners())
-    return [Door(room, x, y) for x, y in walls]
-
-
-def match_facing_doors(room1, room2):
-    room1_doors = get_all_possible_doors_in_room(room1)
-    room2_doors = get_all_possible_doors_in_room(room2)
-
-    matches = []
-    for a in room1_doors:
-        for b in room2_doors:
-            if a.facing_other(b):
-                matches.append({a, b})
-    return matches
 
 
 def get_closest_pair_of_doors(matches):

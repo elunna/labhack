@@ -146,6 +146,21 @@ class Rect:
         elif y == self.y2:
             return 'S'
 
+    def match_facing_doors(self, room2):
+        room1_doors = self.get_all_possible_doors()
+        room2_doors = room2.get_all_possible_doors()
+
+        matches = []
+        for a in room1_doors:
+            for b in room2_doors:
+                if a.facing_other(b):
+                    matches.append({a, b})
+        return matches
+
+    def get_all_possible_doors(self):
+        walls = self.perimeter().difference(self.corners())
+        return [Door(self, x, y) for x, y in walls]
+
 
 class Door:
     def __init__(self, room, x, y):
