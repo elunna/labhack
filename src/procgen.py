@@ -73,7 +73,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
 def connecting_algorithm(new_map):
     # First connect rooms with a minimum spanning tree.
-    edges = minimum_spanning_tree(new_map.rooms)
+    edges = min_spanning_tree_for_rooms(new_map.rooms)
     for room1, room2 in edges:
         connect_room_to_room(new_map, room1, room2)
 
@@ -478,9 +478,8 @@ def get_path_to(_map, start_x, start_y, dest_x, dest_y):
     return [(index[0], index[1]) for index in path]
 
 
-def minimum_spanning_tree(rooms):
+def min_spanning_tree_for_rooms(rooms):
     """ Connects all the rooms by using Prim's Algorithm
-
     :return: A list of all the edges (room to room connections)
     """
     edges = []
