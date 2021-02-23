@@ -24,21 +24,20 @@ class MeleeAction(ActionWithDirection):
         # Iterate through all the attacks
         for atk in attack_comp.attacks:
             if self.roll_hit_die() < self.calc_target_number(target):
-                # It's a hit!
-                # Calculate the damage
-                dmg = use_method(target, atk)
+                dmg = self.execute_damage(target, atk)
 
-                # Calculate damage reduction from targets AC
-                dmg = self.reduce_dmg(target, dmg)
-
-                target.fighter.hp -= dmg
-
-                # Check if the target is dead...
-                if target.fighter.is_dead():
-                    return DieAction(entity=target, cause=self.entity)
-
+                # Generate appropriate message
+                if dmg > 0:
+                    use_method(target, atk, dmg)
+                else:
+                    # Blocking message
+                    self.blocked_msg(target, atk)
             else:
                 self.miss(target)
+
+        # Check if the target is dead...
+        if target.fighter.is_dead():
+            return DieAction(entity=target, cause=self.entity)
 
     def get_attack_method(self):
         weapon = self.entity.equipment.slots['WEAPON']
@@ -47,7 +46,12 @@ class MeleeAction(ActionWithDirection):
         else:
             return self.entity.attacks, self.hit_with_barehands
 
+    def roll_hit_die(self):
+        # Rolls a 1d20 die to determine if the attacker will land the hit.
+        return random.randint(1, self.die)
+
     def calc_target_number(self, target):
+        # TODO: Factor in penalty for multi-hit moves.
         defender_ac = target.attributes.ac
         attacker_level = self.entity.level.current_level
 
@@ -62,49 +66,14 @@ class MeleeAction(ActionWithDirection):
             return 1
         return num
 
-    def roll_hit_die(self):
-        # Rolls a 1d20 die to determine if the attacker will land the hit.
-        return random.randint(1, self.die)
-
-    def hit_with_weapon(self, target, atk):
-        # Get the damage from the weapon
+    def execute_damage(self, target, atk):
+        # It's a hit! Calculate the damage
         dmg = AttackComponent.roll_dies(atk.dies)
 
-        # atk_text = self.entity.fighter.attacks.description
-        self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
-
-        if self.entity.name == "Player":
-            self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
-        elif target.name == "Player":
-            self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
-        else:
-            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
-
+        # Calculate damage reduction from targets AC
+        dmg = self.reduce_dmg(target, dmg)
+        target.fighter.hp -= dmg
         return dmg
-
-    def hit_with_barehands(self, target, atk):
-        # We'll use the entities "natural" attack, or Bare-Handed for our Hero.
-        dmg = AttackComponent.roll_dies(atk.dies)
-        self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
-
-        if self.entity.name == "Player":
-            self.msg = f"You {atk.name} the {target.name} for {dmg}! "
-        elif target.name == "Player":
-            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
-        else:
-            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
-
-        return dmg
-
-    def miss(self, target):
-        # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
-
-        if self.entity.name == "Player":
-            self.msg = f"You miss the {target.name}. "
-        elif target.name == "Player":
-            self.msg = f"The {self.entity} misses you. "
-        else:
-            self.msg = f"The {self.entity} misses the {target.name}. "
 
     @staticmethod
     def reduce_dmg(target, dmg):
@@ -122,3 +91,47 @@ class MeleeAction(ActionWithDirection):
             return 1
         else:
             return result
+
+    def hit_with_weapon(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a weapon."""
+
+        self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
+
+        if self.entity.name == "Player":
+            self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
+
+    def hit_with_barehands(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
+
+        self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
+
+        if self.entity.name == "Player":
+            self.msg = f"You {atk.name} the {target.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
+
+    def blocked_msg(self, target, atk):
+        if self.entity.name == "Player":
+            self.msg = f"The {target.name} blocks your attack! "
+        elif target.name == "Player":
+            self.msg = f"You block the {self.entity}'s attack! "
+        else:
+            self.msg = f"The {target.name} blocks the {self.entity}'s attack! "
+
+    def miss(self, target):
+        # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
+
+        if self.entity.name == "Player":
+            self.msg = f"You miss the {target.name}. "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} misses you. "
+        else:
+            self.msg = f"The {self.entity} misses the {target.name}. "
+
+
