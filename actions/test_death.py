@@ -10,8 +10,7 @@ def test_map():
     return toolkit.test_map()
 
 
-
-def test_DieAction_is_Action(test_map):
+def test_is_Action(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
 
@@ -19,7 +18,7 @@ def test_DieAction_is_Action(test_map):
     assert isinstance(a, actions.Action)
 
 
-def test_DieAction_init(test_map):
+def test_init(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
 
@@ -28,7 +27,7 @@ def test_DieAction_init(test_map):
     assert a.cause == orc
 
 
-def test_DieAction_perform__player_kills_enemy(test_map):
+def test_perform__player_kills_enemy(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
     a = DieAction(entity=orc, cause=player)
@@ -42,7 +41,7 @@ def test_DieAction_perform__player_kills_enemy(test_map):
     assert orc.render_order == RenderOrder.CORPSE
 
 
-def test_DieAction_perform__player_kills_enemy__xp(test_map):
+def test_perform__player_kills_enemy__xp(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
     a = DieAction(entity=orc, cause=player)
@@ -51,7 +50,7 @@ def test_DieAction_perform__player_kills_enemy__xp(test_map):
     assert player.level.current_xp == orc.level.xp_given
 
 
-def test_DieAction_perform__player_kills_enemy__msg(test_map):
+def test_perform__player_kills_enemy__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
     a = DieAction(entity=orc, cause=player)
@@ -60,7 +59,7 @@ def test_DieAction_perform__player_kills_enemy__msg(test_map):
     assert a.msg == "You kill the Orc!"
 
 
-def test_DieAction_perform__enemy_kills_player(test_map):
+def test_perform__enemy_kills_player(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
     a = DieAction(entity=player, cause=orc)
@@ -74,7 +73,7 @@ def test_DieAction_perform__enemy_kills_player(test_map):
     assert player.render_order == RenderOrder.CORPSE
 
 
-def test_DieAction_perform__enemy_kills_player__msg(test_map):
+def test_perform__enemy_kills_player__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     player = test_map.player
     a = DieAction(entity=player, cause=orc)
@@ -83,7 +82,7 @@ def test_DieAction_perform__enemy_kills_player__msg(test_map):
     assert a.msg == "You died!"
 
 
-def test_DieAction_perform__enemy_kills_enemy__msg(test_map):
+def test_perform__enemy_kills_enemy__msg(test_map):
     orc = test_map.get_actor_at(5, 4)
     gridbug = test_map.get_actor_at(2, 5)
     a = DieAction(entity=gridbug, cause=orc)
@@ -92,7 +91,7 @@ def test_DieAction_perform__enemy_kills_enemy__msg(test_map):
     assert a.msg == "The Orc kills the Grid Bug!"
 
 
-def test_DieAction_perform__enemy_kills_enemy__xp(test_map):
+def test_perform__enemy_kills_enemy__xp(test_map):
     orc = test_map.get_actor_at(5, 4)
     gridbug = test_map.get_actor_at(2, 5)
     a = DieAction(entity=gridbug, cause=orc)

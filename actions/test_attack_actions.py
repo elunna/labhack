@@ -11,19 +11,19 @@ def test_map():
     return toolkit.test_map()
 
 
-def test_AttackAction_is_Action(test_map):
+def test_init__is_Action(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.Action)
 
 
-def test_AttackAction_is_ActionWithDirection(test_map):
+def test_init__is_ActionWithDirection(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=1, dy=-1)
     assert isinstance(a, actions.ActionWithDirection)
 
 
-def test_AttackAction_init(test_map):
+def test_init(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=1, dy=-1)
     assert a.dx == 1
@@ -31,7 +31,7 @@ def test_AttackAction_init(test_map):
     assert a.entity == player
 
 
-def test_AttackAction_perform__no_target__raises_Impossible(test_map):
+def test_perform__no_target__raises_Impossible(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
     with pytest.raises(exceptions.Impossible):
@@ -46,23 +46,7 @@ def test_AttackAction_perform__no_target__raises_Impossible(test_map):
 # performs all attacks in entity list (double)
 
 
-def test_AttackAction_get_attack_component__weapon(test_map):
-    player = test_map.player
-    dagger = player.inventory.items.get('a')  # Create and wield the dagger
-    player.equipment.toggle_equip(dagger)
-    a = AttackAction(entity=player, dx=-1, dy=-1)
-    attack_comp = a.get_attack_component()
-    assert attack_comp == dagger.equippable.attack_comp
-
-
-def test_AttackAction_get_attack_method__noweapon(test_map):
-    player = test_map.player
-    a = AttackAction(entity=player, dx=-1, dy=-1)
-    attack_comp = a.get_attack_component()
-    assert attack_comp == player.attack_comp
-
-
-def test_AttackAction_roll_hit_die(test_map):
+def test_roll_hit_die(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
     result = a.roll_hit_die()
@@ -71,7 +55,7 @@ def test_AttackAction_roll_hit_die(test_map):
     assert result <= a.die
 
 
-def test_AttackAction_calc_target_number__positive_ac(test_map):
+def test_calc_target_number__positive_ac(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
@@ -83,7 +67,7 @@ def test_AttackAction_calc_target_number__positive_ac(test_map):
     assert result == expected
 
 
-def test_AttackAction_calc_target_number__negative_ac(test_map):
+def test_calc_target_number__negative_ac(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
@@ -98,7 +82,7 @@ def test_AttackAction_calc_target_number__negative_ac(test_map):
     assert result <= max_expected
 
 
-def test_AttackAction_calc_target_number__negative_target_number(test_map):
+def test_calc_target_number__negative_target_number(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
@@ -109,46 +93,46 @@ def test_AttackAction_calc_target_number__negative_target_number(test_map):
     assert result >= 1
 
 
-def test_AttackAction_execute_damage__with_weapon(test_map):
+def test_execute_damage__with_weapon(test_map):
     player = test_map.player
     dagger = player.inventory.items.get('a')
     assert player.equipment.toggle_equip(dagger)
 
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attack_comp[0]
+    atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attacks[0]
     result = a.execute_damage(target, atk)
     assert result >= atk.min_dmg()
     assert result <= atk.max_dmg()
 
 
-def test_AttackAction_execute_damage__no_weapon(test_map):
+def test_execute_damage__no_weapon(test_map):
     player = test_map.player
     assert not player.equipment.slots['WEAPON']
 
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    atk = player.attack_comp.attack_comp[0]
+    atk = player.attack_comp.attacks[0]
     result = a.execute_damage(target, atk)
     assert result >= atk.min_dmg()
     assert result <= atk.max_dmg()
 
 
-def test_AttackAction_reduce_dmg__positive_ac_equals_no_reduction():
+def test_reduce_dmg__positive_ac_equals_no_reduction():
     orc = factory.orc
     assert orc.attributes.ac == 7
     result = AttackAction.reduce_dmg(orc, 5)
     assert result == 5
 
 
-def test_AttackAction_reduce_dmg__negative_ac():
+def test_reduce_dmg__negative_ac():
     troll = factory.troll
     assert troll.attributes.ac == -2
     result = AttackAction.reduce_dmg(troll, 5)
     assert result == 3 or result == 4
 
 
-def test_AttackAction_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
+def test_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
     stormdrone = factory.storm_drone
     assert stormdrone.attributes.ac == -20
 
@@ -158,19 +142,32 @@ def test_AttackAction_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
     assert result == 1
 
 
-def test_AttackAction_hit_with_weapon__msg__you_hit(test_map):
+def test_miss__player_misses(test_map):
     player = test_map.player
-    dagger = player.inventory.items.get('a')
-    assert player.equipment.toggle_equip(dagger)
-
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attack_comp[0]
-    dmg = 10
-    a.hit_with_weapon(target, atk, dmg)
-    assert a.msg == f"You hit the Orc with your dagger for {dmg}! "
+    a.miss(target)
+    assert a.msg == f"You miss the Orc. "
 
 
+def test_miss__enemy_misses_you(test_map):
+    target = test_map.player
+    orc = factory.orc
+    a = AttackAction(entity=orc, dx=0, dy=1)
+    a.miss(target)
+    assert a.msg == f"The Orc misses you. "
+
+
+def test_miss__enemy_misses_enemy():
+    orc = factory.orc
+    a = AttackAction(entity=orc, dx=0, dy=1)
+    a.miss(orc)
+    assert a.msg == f"The Orc misses the Orc. "
+
+
+
+# TODO: Move to separate modules
+"""
 def test_AttackAction_hit_with_barehands__msg(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
@@ -198,27 +195,18 @@ def test_AttackAction_hit_with_barehands__msg__enemy_hits_enemy():
     dmg = 10
     a.hit_with_barehands(orc, atk, dmg)
     assert a.msg == f"The Orc hits the Orc for {dmg}! "
-
-
-def test_AttackAction_miss__player_misses(test_map):
+    
+    
+def test_hit_with_weapon__msg__you_hit(test_map):
     player = test_map.player
+    dagger = player.inventory.items.get('a')
+    assert player.equipment.toggle_equip(dagger)
+
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
-    a.miss(target)
-    assert a.msg == f"You miss the Orc. "
+    atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attack_comp[0]
+    dmg = 10
+    a.hit_with_weapon(target, atk, dmg)
+    assert a.msg == f"You hit the Orc with your dagger for {dmg}! "
 
-
-def test_AttackAction_miss__enemy_misses_you(test_map):
-    target = test_map.player
-    orc = factory.orc
-    a = AttackAction(entity=orc, dx=0, dy=1)
-    a.miss(target)
-    assert a.msg == f"The Orc misses you. "
-
-
-def test_AttackAction_miss__enemy_misses_enemy():
-    orc = factory.orc
-    a = AttackAction(entity=orc, dx=0, dy=1)
-    a.miss(orc)
-    assert a.msg == f"The Orc misses the Orc. "
-
+"""

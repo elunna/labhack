@@ -10,14 +10,14 @@ def test_map():
     return toolkit.test_map()
 
 
-def test_EquipAction_is_Action(test_map):
+def test_init__is_Action(test_map):
     player = test_map.player
     armor = factory.leather_vest
     a = EquipAction(entity=player, item=armor)
     assert isinstance(a, actions.Action)
 
 
-def test_EquipAction_init(test_map):
+def test_init(test_map):
     player = test_map.player
     armor = factory.leather_vest
     a = EquipAction(entity=player, item=armor)
@@ -25,7 +25,7 @@ def test_EquipAction_init(test_map):
     assert a.item == armor
 
 
-def test_EquipAction_perform(test_map):
+def test_perform(test_map):
     player = test_map.player
     armor = factory.leather_vest
     assert not player.equipment.is_equipped(armor)

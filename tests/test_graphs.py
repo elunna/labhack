@@ -3,130 +3,130 @@ import pytest
 from src import graphs
 
 
-def test_Graph_init():
+def test_init():
     g = graphs.Graph()
     assert g.edges == set()
     assert g.neighbors == {}
 
 
-def test_Graph_init__vertices_arg():
+def test_init__vertices_arg():
     vertices = [1, 2, 3]
     g = graphs.Graph(vertices=vertices)
     assert g.neighbors == {1: set(), 2: set(), 3: set()}
 
 
-def test_Graph_init__edges_arg():
+def test_init__edges_arg():
     g = graphs.Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.edges == {frozenset({1, 2}), frozenset({2, 3})}
 
 
-def test_Graph_add_vertex():
+def test_add_vertex():
     g = graphs.Graph()
     g.add_vertex(1)
     assert 1 in g.neighbors
 
 
-def test_Graph_add_vertex__success_returns_True():
+def test_add_vertex__success_returns_True():
     g = graphs.Graph()
     assert g.add_vertex(1)
 
 
-def test_Graph_add_vertex__already_exists_returns_False():
+def test_add_vertex__already_exists_returns_False():
     g = graphs.Graph(vertices=[1])
     assert g.add_vertex(1) is False
 
 
-def test_Graph_has_edge__edge_DNE():
+def test_has_edge__edge_DNE():
     g = graphs.Graph(vertices=[1, 2])
     assert g.has_edge(2, 3) is False
 
 
-def test_Graph_has_edge__edge_exists():
+def test_has_edge__edge_exists():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.has_edge(1, 2)
 
 
-def test_Graph_add_edge__vertices_exist__adds_edge():
+def test_add_edge__vertices_exist__adds_edge():
     g = graphs.Graph(vertices=[1, 2])
     g.add_edge(1, 2)
     assert g.edges == {frozenset({1, 2})}
 
 
-def test_Graph_add_edge__vertices_exist__returns_True():
+def test_add_edge__vertices_exist__returns_True():
     g = graphs.Graph(vertices=[1, 2])
     assert g.add_edge(1, 2)
 
 
-def test_Graph_add_edge__vertices_DNE__returns_False():
+def test_add_edge__vertices_DNE__returns_False():
     g = graphs.Graph()
     assert not g.add_edge(1, 2)
 
 
-def test_Graph_add_edge__edge_already_exists__returns_False():
+def test_add_edge__edge_already_exists__returns_False():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert not g.add_edge(1, 2)
 
 
-def test_Graph_rm_edge__edge_is_removed():
+def test_rm_edge__edge_is_removed():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     g.rm_edge(1, 2)
     assert frozenset([1, 2]) not in g.edges
 
 
-def test_Graph_rm_edge__neighbors_are_removed():
+def test_rm_edge__neighbors_are_removed():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.neighbors == {1: {2}, 2: {1}}
     g.rm_edge(1, 2)
     assert g.neighbors == {1: set(), 2: set()}
 
 
-def test_Graph_rm_edge__success_returns_True():
+def test_rm_edge__success_returns_True():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_edge(1, 2)
 
 
-def test_Graph_rm_edge__edge_DNE__returns_False():
+def test_rm_edge__edge_DNE__returns_False():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_edge(3, 4) is False
 
 
-def test_Graph_rm_vertex__vertex_is_removed():
+def test_rm_vertex__vertex_is_removed():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     g.rm_vertex(1)
     assert 1 not in g.neighbors
 
 
-def test_Graph_rm_vertex__neighbors_are_removed():
+def test_rm_vertex__neighbors_are_removed():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     g.rm_vertex(1)
     e = frozenset([1, 2])
     assert e not in g.edges
 
 
-def test_Graph_rm_vertex__success_returns_True():
+def test_rm_vertex__success_returns_True():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_vertex(1)
 
 
-def test_Graph_rm_vertex__vertex_DNE_returns_False():
+def test_rm_vertex__vertex_DNE_returns_False():
     g = graphs.Graph(vertices=[1, 2], edges={(1, 2)})
     assert g.rm_vertex(666) is False
 
 
-def test_Graph_degree():
+def test_degree():
     g = graphs.Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.degree(1) == 1
     assert g.degree(2) == 2
     assert g.degree(3) == 1
 
 
-def test_Graph_m_property():
+def test_m_property():
     # m is the # of edges
     g = graphs.Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.m == len(g.edges)
 
 
-def test_Graph_n_property():
+def test_n_property():
     # n is the # of vertices
     g = graphs.Graph(vertices=[1, 2, 3], edges={(1, 2), (2, 3)})
     assert g.n == len(g.neighbors)

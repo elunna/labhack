@@ -4,12 +4,12 @@ from src import entity
 from src import item
 
 
-def test_Item_subclass_of_Entity():
+def test_init__is_Entity():
     i = item.Item()
     assert isinstance(i, entity.Entity)
 
 
-def test_Item_init_defaults():
+def test_init_defaults():
     i = item.Item()
     assert i.x == 0
     assert i.y == 0

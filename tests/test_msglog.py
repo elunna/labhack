@@ -3,6 +3,8 @@ from src import msglog
 
 test_text = 'This is a test'
 
+# TODO: Separate Message to own module.
+
 
 def test_Message():
     m = msglog.Msg(test_text)
@@ -25,18 +27,18 @@ def test_Message_fulltext_count2():
     assert m.full_text == f'{test_text} (x2)'
 
 
-def test_MessageLog():
+def test_init__messages_list():
     ml = msglog.MsgLog()
     assert ml.messages == []
 
 
-def test_MessageLog__add_message():
+def test_add_message():
     ml = msglog.MsgLog()
     ml.add_message(test_text)
     assert len(ml.messages) == 1
 
 
-def test_MessageLog__add_message_same():
+def test_add_message_same():
     ml = msglog.MsgLog()
     ml.add_message(test_text)
     ml.add_message(test_text)
@@ -44,7 +46,7 @@ def test_MessageLog__add_message_same():
     assert ml.messages[0].full_text == f'{test_text} (x2)'
 
 
-def test_MessageLog__wrap():
+def test_wrap():
     ml = msglog.MsgLog()
     result = ml.wrap(test_text, 4)
 

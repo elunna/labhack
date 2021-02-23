@@ -23,24 +23,26 @@ def testengine():
     e.game_map = m
 
 
-def test_Action_init(player):
+def test_init(player):
     a = Action(player)
     assert a.entity == player
     assert a.msg == ''
 
 
-def test_Action_engine(test_map):
+def test_engine(test_map):
     player = test_map.player
     a = Action(player)
     result = a.engine
     assert result is None
 
 
-def test_Action_perform__not_implemented(player):
+def test_perform__not_implemented(player):
     a = Action(player)
     with pytest.raises(NotImplementedError):
         a.perform()
 
+
+# TODO: Move to separate module
 
 def test_ActionWithDirection_is_Action(test_map):
     player = test_map.player

@@ -3,7 +3,7 @@ from src import engine
 import pytest
 
 
-def test_Engine_init():
+def test_init():
     e = engine.Engine(player="Player")
     assert e.msglog.messages == []
     assert e.mouse_location == (0, 0)
@@ -11,22 +11,22 @@ def test_Engine_init():
 
 
 @pytest.mark.skip(reason="Skeleton")
-def test_Engine_handle_enemy_turns():
+def test_handle_enemy_turns():
     pass
 
 
 @pytest.mark.skip(reason="Skeleton")
-def test_Engine_update_fov():
+def test_update_fov():
     pass
 
 
 @pytest.mark.skip(reason="Skeleton")
-def test_Engine_render():
+def test_render():
     pass
 
 
 @pytest.mark.skip(reason="Skeleton")
-def test_Engine_save_as():
+def test_save_as():
     pass
 
 
