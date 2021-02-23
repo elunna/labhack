@@ -1,6 +1,6 @@
 from actions.actions import ActionWithDirection
 from actions.move import MovementAction
-from actions.melee import MeleeAction
+from actions.attack_actions import WeaponAttack, MeleeAttack
 
 
 class BumpAction(ActionWithDirection):
@@ -9,6 +9,10 @@ class BumpAction(ActionWithDirection):
     """
     def perform(self):
         if self.target_actor:
-            return MeleeAction(self.entity, self.dx, self.dy)
+            # Does the entity have a weapon?
+            if self.entity.equipment.slots['WEAPON']:
+                return WeaponAttack(self.entity, self.dx, self.dy)
+            else:
+                return MeleeAttack(self.entity, self.dx, self.dy)
         else:
             return MovementAction(self.entity, self.dx, self.dy)

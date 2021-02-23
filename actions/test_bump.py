@@ -2,7 +2,7 @@ from . import actions
 from tests import toolkit
 from .bump import BumpAction
 from .move import MovementAction
-from .melee import MeleeAction
+from .attack_actions import AttackAction
 import pytest
 
 
@@ -45,4 +45,4 @@ def test_BumpAction_perform__Melee(test_map):
     player.place(2, 4, test_map)
     a = BumpAction(entity=player, dx=0, dy=1)
     result = a.perform()
-    assert isinstance(result, MeleeAction)
+    assert isinstance(result, AttackAction)

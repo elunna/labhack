@@ -12,7 +12,7 @@ class Actor(entity.Entity):
             ai_cls,
             equipment,
             fighter,
-            attacks,
+            attack_comp,
             attributes,
             inventory,
             level,
@@ -31,7 +31,7 @@ class Actor(entity.Entity):
         self.add_comp(ai=ai_cls)
         self.add_comp(equipment=equipment)
         self.add_comp(fighter=fighter)
-        self.add_comp(attacks=attacks)
+        self.add_comp(attack_comp=attack_comp)
         self.add_comp(attributes=attributes)
         self.add_comp(inventory=inventory)
         self.add_comp(level=level)

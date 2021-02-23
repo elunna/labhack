@@ -25,9 +25,9 @@ class Equippable(Component):
 
 
 class Weapon(Equippable):
-    def __init__(self, attack):
+    def __init__(self, attack_comp):
         super().__init__(equipment_type=EquipmentType.WEAPON)
-        self.attack = attack
+        self.attack_comp = attack_comp
 
 
 class Armor(Equippable):

@@ -1,7 +1,7 @@
 from components.component import Component
 from actions.wait import WaitAction
 from actions.move import MovementAction
-from actions.melee import MeleeAction
+from actions.attack_actions import MeleeAttack
 from actions.bump import BumpAction
 from src import settings
 import numpy as np  # type: ignore
@@ -81,7 +81,7 @@ class HostileAI(BaseAI):
         if self.engine.game_map.visible[self.parent.x, self.parent.y]:
             # If the player is right next to the entity, attack the player.
             if distance <= 1:
-                return MeleeAction(self.parent, dx, dy)
+                return MeleeAttack(self.parent, dx, dy)
 
             self.path = self.get_path_to(target.x, target.y)
 

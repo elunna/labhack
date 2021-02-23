@@ -1,39 +1,32 @@
-import random
-
 from actions.actions import ActionWithDirection
 from actions.death import DieAction
 from components.attacks import AttackComponent
 from src import exceptions
+import random
 
 
-class MeleeAction(ActionWithDirection):
+class AttackAction(ActionWithDirection):
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
         # Determine if the entity will hit or miss the target entity.
         # The entity will roll a 20 sided die, and try to get below a target number.
         self.target_base = 10
         self.die = 20
+        self.attack_comp = None
 
     def perform(self):
         target = self.target_actor
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
 
-        attack_comp = self.get_attack_component()
-
-        if self.entity.equipment.slots['WEAPON']:
-            use_method = self.hit_with_weapon
-        else:
-            use_method = self.hit_with_barehands
-
         # Iterate through all the attacks
-        for atk in attack_comp.attacks:
+        for atk in self.attack_comp.attacks:
             if self.roll_hit_die() < self.calc_target_number(target):
                 dmg = self.execute_damage(target, atk)
 
                 # Generate appropriate message
                 if dmg > 0:
-                    use_method(target, atk, dmg)
+                    self.hit_msg(target, atk, dmg)
                 else:
                     # Blocking message
                     self.blocked_msg(target, atk)
@@ -43,13 +36,6 @@ class MeleeAction(ActionWithDirection):
         # Check if the target is dead...
         if target.fighter.is_dead():
             return DieAction(entity=target, cause=self.entity)
-
-    def get_attack_component(self):
-        weapon = self.entity.equipment.slots['WEAPON']
-        if weapon:
-            return weapon.equippable.attack
-        else:
-            return self.entity.attacks
 
     def roll_hit_die(self):
         # Rolls a 1d20 die to determine if the attacker will land the hit.
@@ -97,30 +83,6 @@ class MeleeAction(ActionWithDirection):
         else:
             return result
 
-    def hit_with_weapon(self, target, atk, dmg):
-        """Creates the msg to describe one Actor hitting another Actor with a weapon."""
-
-        self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
-
-        if self.entity.name == "Player":
-            self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
-        elif target.name == "Player":
-            self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
-        else:
-            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
-
-    def hit_with_barehands(self, target, atk, dmg):
-        """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
-
-        self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
-
-        if self.entity.name == "Player":
-            self.msg = f"You {atk.name} the {target.name} for {dmg}! "
-        elif target.name == "Player":
-            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
-        else:
-            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
-
     def blocked_msg(self, target, atk):
         if self.entity.name == "Player":
             self.msg = f"The {target.name} blocks your attack! "
@@ -138,3 +100,45 @@ class MeleeAction(ActionWithDirection):
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
+
+    def hit_msg(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a weapon."""
+        raise NotImplementedError()
+
+
+class MeleeAttack(AttackAction):
+    def __init__(self, entity, dx, dy):
+        super().__init__(entity, dx, dy)
+        self.attack_comp = self.entity.attack_comp
+
+    def hit_msg(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
+
+        self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
+
+        if self.entity.name == "Player":
+            self.msg = f"You {atk.name} the {target.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
+
+
+class WeaponAttack(AttackAction):
+    def __init__(self, entity, dx, dy):
+        super().__init__(entity, dx, dy)
+
+        self.weapon = self.entity.equipment.slots['WEAPON']
+        self.attack_comp = self.weapon.equippable.attack_comp
+
+    def hit_msg(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a weapon."""
+
+        self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
+
+        if self.entity.name == "Player":
+            self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
+        elif target.name == "Player":
+            self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "

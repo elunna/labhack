@@ -47,7 +47,7 @@ player = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=30),
-    attacks=AttackComponent(Attack('punch', [2])),
+    attack_comp=AttackComponent(Attack('punch', [2])),
     attributes=Attributes(base_ac=10, base_strength=5),
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
@@ -62,7 +62,7 @@ grid_bug = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=1),
-    attacks=AttackComponent(Attack('zap', [1])),
+    attack_comp=AttackComponent(Attack('zap', [1])),
     attributes=Attributes(base_ac=1, base_strength=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
@@ -76,7 +76,7 @@ storm_drone = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=1),
-    attacks=AttackComponent(Attack('zap', [5])),
+    attack_comp=AttackComponent(Attack('zap', [5])),
     attributes=Attributes(base_ac=-20, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=55),
@@ -90,7 +90,7 @@ spider_drone = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=4),
-    attacks=AttackComponent(Attack('claw', [3])),
+    attack_comp=AttackComponent(Attack('claw', [3])),
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
@@ -104,7 +104,7 @@ med_school_dropout = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=6),
-    attacks=AttackComponent(Attack('kick', [5])),
+    attack_comp=AttackComponent(Attack('kick', [5])),
     attributes=Attributes(base_ac=6, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
@@ -118,7 +118,7 @@ cyber_cat = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=6),
-    attacks=AttackComponent(Attack('claw', [6])),
+    attack_comp=AttackComponent(Attack('claw', [6])),
     attributes=Attributes(base_ac=3, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
@@ -132,7 +132,7 @@ giant_leech = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=11),
-    attacks=AttackComponent(Attack('suck', [6])),
+    attack_comp=AttackComponent(Attack('suck', [6])),
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
@@ -146,7 +146,7 @@ orc = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=4),
-    attacks=AttackComponent(Attack('hit', [3])),
+    attack_comp=AttackComponent(Attack('hit', [3])),
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
@@ -160,7 +160,7 @@ troll = actor.Actor(
     ai_cls=HostileAI(),
     equipment=Equipment(),
     fighter=Fighter(hp=11),
-    attacks=AttackComponent(Attack('bites', [6])),
+    attack_comp=AttackComponent(Attack('bites', [6])),
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
@@ -202,7 +202,7 @@ dagger = item.Item(
     color=(0, 191, 255),
     name="Dagger",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('dagger', [3])),
+        attack_comp=attacks.AttackComponent(Attack('dagger', [3])),
     ),
 )
 
@@ -211,7 +211,7 @@ riot_baton = item.Item(
     color=(0, 191, 255),
     name="Riot Baton",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('baton', [8])),
+        attack_comp=attacks.AttackComponent(Attack('baton', [8])),
     ),
 )
 
@@ -220,7 +220,7 @@ scalpal = item.Item(
     color=(0, 191, 255),
     name="Scalpal",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('scalpal', [4])),
+        attack_comp=attacks.AttackComponent(Attack('scalpal', [4])),
     ),
 )
 
@@ -229,7 +229,7 @@ police_baton = item.Item(
     color=(0, 191, 255),
     name="Police Baton",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attacks.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -238,7 +238,7 @@ golf_club = item.Item(
     color=(0, 191, 255),
     name="Golf Club",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attacks.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -247,7 +247,7 @@ tennis_racket = item.Item(
     color=(0, 191, 255),
     name="Tennis Racket",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attacks.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -256,7 +256,7 @@ frying_pan = item.Item(
     color=(0, 191, 255),
     name="Frying Pan",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [7])),
+        attack_comp=attacks.AttackComponent(Attack('club', [7])),
     ),
 )
 
@@ -265,7 +265,7 @@ hammer = item.Item(
     color=(0, 191, 255),
     name="Hammer",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attacks.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -274,7 +274,7 @@ metal_pipe = item.Item(
     color=(0, 191, 255),
     name="Metal Pipe",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attacks.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -283,7 +283,7 @@ big_crowbar = item.Item(
     color=(0, 191, 255),
     name="Big Crowbar",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [6])),
+        attack_comp=attacks.AttackComponent(Attack('club', [6])),
     ),
 )
 
@@ -292,7 +292,7 @@ plunger = item.Item(
     color=(0, 191, 255),
     name="Plunger",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [2])),
+        attack_comp=attacks.AttackComponent(Attack('club', [2])),
     ),
 )
 
@@ -301,7 +301,7 @@ rebar_pipe = item.Item(
     color=(0, 191, 255),
     name="Rebar Pipe",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [6])),
+        attack_comp=attacks.AttackComponent(Attack('club', [6])),
     ),
 )
 
@@ -310,7 +310,7 @@ sledgehammer = item.Item(
     color=(0, 191, 255),
     name="Sledgehammer",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [10])),
+        attack_comp=attacks.AttackComponent(Attack('club', [10])),
     ),
 )
 
@@ -319,7 +319,7 @@ wooden_stick = item.Item(
     color=(0, 191, 255),
     name="Wooden Stick",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attacks.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -328,7 +328,7 @@ gr_light_saber = item.Item(
     color=(0, 191, 255),
     name="Green lightsaber",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('lightsaber', [3, 9])),
+        attack_comp=attacks.AttackComponent(Attack('lightsaber', [3, 9])),
     ),
 )
 
@@ -337,7 +337,7 @@ bl_light_saber = item.Item(
     color=(0, 191, 255),
     name="Blue lightsaber",
     equippable=equippable.Weapon(
-        attack=attacks.AttackComponent(Attack('lightsaber', [5, 8])),
+        attack_comp=attacks.AttackComponent(Attack('lightsaber', [5, 8])),
     ),
 )
 
