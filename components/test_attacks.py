@@ -55,3 +55,29 @@ def test_AttackComponent_init__roll_dies__1d2():
     result = AttackComponent.roll_dies([2])
     assert result >= 1
     assert result <= 2
+
+
+def test_AttackComponent_min_dmg__1_die():
+    atk = Attack('bite', [2])
+    result = atk.min_dmg()
+    assert result == 1
+
+
+def test_AttackComponent_min_dmg__2_die():
+    atk = Attack('bite', [2, 2])
+    result = atk.min_dmg()
+    assert result == 2
+
+
+def test_AttackComponent_max_dmg__1_die():
+    atk = Attack('bite', [2])
+    result = atk.max_dmg()
+    assert result == 2
+
+
+def test_AttackComponent_max_dmg__2_die():
+    atk = Attack('bite', [2, 2])
+    result = atk.max_dmg()
+    assert result == 4
+
+

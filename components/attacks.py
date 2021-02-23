@@ -63,6 +63,12 @@ class Attack:
         self.name = name
         self.dies = dies
 
+    def min_dmg(self):
+        return len(self.dies)
+
+    def max_dmg(self):
+        return sum(self.dies)
+
 
 class AttackComponent(Component):
     def __init__(self, *args):
@@ -76,3 +82,4 @@ class AttackComponent(Component):
     def roll_dies(dies):
         # Takes in a list of dies, rolls all of them, and returns the sum of the results.
         return sum(random.randint(1, d) for d in dies)
+

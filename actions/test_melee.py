@@ -82,8 +82,7 @@ def test_MeleeAction_roll_hit_die(test_map):
     player = test_map.player
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     result = a.roll_hit_die()
-    # Just testing that the random number is between 1 and the sides (usually
-    # 20)
+    # Just testing that the random number is between 1 and the sides (usually 20)
     assert result >= 1
     assert result <= a.die
 
@@ -135,10 +134,8 @@ def test_MeleeAction_execute_damage__with_weapon(test_map):
     target = factory.orc
     atk = player.equipment.slots['WEAPON'].equippable.attack.attacks[0]
     result = a.execute_damage(target, atk)
-    attack_max = sum(atk.dies)  # Sum all the dice in this attack
-    assert result >= 1
-    assert result <= attack_max
-
+    assert result >= atk.min_dmg()
+    assert result <= atk.max_dmg()
 
 def test_MeleeAction_execute_damage__no_weapon(test_map):
     player = test_map.player
@@ -147,12 +144,9 @@ def test_MeleeAction_execute_damage__no_weapon(test_map):
     a = MeleeAction(entity=player, dx=-1, dy=-1)
     target = factory.orc
     atk = player.attacks.attacks[0]
-
     result = a.execute_damage(target, atk)
-    # TODO: Replace this with AttackComponent helper method
-    attack_max = sum(atk.dies)
-    assert result >= 1
-    assert result <= attack_max
+    assert result >= atk.min_dmg()
+    assert result <= atk.max_dmg()
 
 
 def test_MeleeAction_reduce_dmg__positive_ac_equals_no_reduction():
