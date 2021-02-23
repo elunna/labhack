@@ -378,8 +378,7 @@ def get_L_path(start, end, twist=0):
     return coordinates
 
 
-# noinspection PyTypeChecker
-def diagonal_tunnel(start, end):
+def get_diagonal_path(start, end):
     # Generate the coordinates for this tunnel.
     # line-of-sight module: draws Bresenham lines.
     x1, y1 = start
