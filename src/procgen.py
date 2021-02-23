@@ -321,7 +321,12 @@ def populate_map(new_map, engine):
 
 def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
     for r in range(max_rooms):
-        new_room = mk_room(new_map, room_min_size, room_max_size)
+        new_room = generate_random_room(
+            map_width=new_map.width,
+            map_height=new_map.height,
+            min_size=room_min_size,
+            max_size=room_max_size
+        )
 
         # Run through the other rooms and see if they intersect with this one.
         if any(new_room.intersects(other_room) for other_room in new_map.rooms):
@@ -350,12 +355,12 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size):
         new_map.rooms.append(new_room)
 
 
-def mk_room(new_map, min_size, max_size):
+def generate_random_room(map_width, map_height, min_size, max_size):
     room_width = random.randint(min_size, max_size)
     room_height = random.randint(min_size, max_size)
 
-    x = random.randint(0, new_map.width - room_width - 1)
-    y = random.randint(0, new_map.height - room_height - 1)
+    x = random.randint(0, map_width - room_width - 1)
+    y = random.randint(0, map_height - room_height - 1)
 
     return rect.Rect(x, y, room_width, room_height)
 
