@@ -498,6 +498,7 @@ class MapDebugHandler(BaseEventHandler):
         self.max_rooms = settings.max_rooms
         self.room_min_size = settings.room_min_size
         self.room_max_size = settings.room_max_size
+        self.maze_path_width = 1
         self.map_func = self.generate_map
         self.mode = ''
         self.map = self.map_func()  # Do this last!
@@ -519,9 +520,9 @@ class MapDebugHandler(BaseEventHandler):
         fitted_width, fitted_height = Maze.dimensions_to_fit(
             settings.map_width,
             settings.map_height,
-            path_width=2
+            path_width=self.maze_path_width
         )
-        m = Maze(width=fitted_width, height=fitted_height, path_width=2)
+        m = Maze(width=fitted_width, height=fitted_height, path_width=self.maze_path_width)
         m.create_maze()
         return m.export_gamemap()
 
@@ -540,7 +541,8 @@ class MapDebugHandler(BaseEventHandler):
             self.mode,
             self.max_rooms,
             self.room_min_size,
-            self.room_max_size
+            self.room_max_size,
+            self.maze_path_width,
         )
 
     def ev_keydown(self, event):
@@ -563,6 +565,13 @@ class MapDebugHandler(BaseEventHandler):
         elif event.sym == tcod.event.K_LEFT:
             if self.room_min_size > 3:
                 self.room_min_size -= 1
+
+        elif event.sym == tcod.event.K_LEFTBRACKET:
+            if self.maze_path_width > 1:
+                self.maze_path_width -= 1
+        elif event.sym == tcod.event.K_RIGHTBRACKET:
+            self.maze_path_width += 1
+
         self.map = self.map_func()
 
 
