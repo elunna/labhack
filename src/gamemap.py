@@ -111,7 +111,7 @@ class GameMap:
         temp_rect = Room(x - radius, y - radius, length, length)
         return temp_rect.perimeter()
 
-    def valid_door_location(self, room, x, y):
+    def valid_door_neighbors(self, room, x, y):
         """ Checks if the tiles around the point allow for placing a door (and more importantly, a closet)
             If valid, returns the coordinates for the closet space outside the door.
         """

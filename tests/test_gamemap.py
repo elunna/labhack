@@ -166,37 +166,37 @@ def test_GameMap_tiles_around__radius_of_1():
     }
 
 
-def test_valid_door_location__facing_north():
+def test_valid_door_neighbors__facing_north():
     m = gamemap.GameMap(engine=None, width=10, height=10)
     r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[1][1] = tiles.room_nw_corner
     m.tiles[3][1] = tiles.room_ne_corner
-    assert m.valid_door_location(r, 2, 1) == (2, 0)
+    assert m.valid_door_neighbors(r, 2, 1) == (2, 0)
 
 
-def test_valid_door_location__facing_south():
+def test_valid_door_neighbors__facing_south():
     m = gamemap.GameMap(engine=None, width=10, height=10)
     r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[1][3] = tiles.room_sw_corner
     m.tiles[3][3] = tiles.room_se_corner
-    assert m.valid_door_location(r, 2, 3) == (2, 4)
+    assert m.valid_door_neighbors(r, 2, 3) == (2, 4)
 
 
-def test_valid_door_location__facing_east():
+def test_valid_door_neighbors__facing_east():
     m = gamemap.GameMap(engine=None, width=10, height=10)
     r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
     # Need to set the tiles for the flanking check!
     m.tiles[3][1] = tiles.room_ne_corner
     m.tiles[3][3] = tiles.room_se_corner
-    assert m.valid_door_location(r, 3, 2) == (4, 2)
+    assert m.valid_door_neighbors(r, 3, 2) == (4, 2)
 
 
-def test_valid_door_location__facing_west():
+def test_valid_door_neighbors__facing_west():
     m = gamemap.GameMap(engine=None, width=10, height=10)
     r = room.Room(1, 1, 3, 3)
     m.rooms.append(r)
@@ -204,50 +204,50 @@ def test_valid_door_location__facing_west():
     # Need to set the tiles for the flanking check!
     m.tiles[1][1] = tiles.room_nw_corner
     m.tiles[1][3] = tiles.room_sw_corner
-    assert m.valid_door_location(r, 1, 2) == (0, 2)
+    assert m.valid_door_neighbors(r, 1, 2) == (0, 2)
 
 
-def test_valid_door_location__corner_returns_false():
+def test_valid_door_neighbors__corner_returns_false():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 3, 3)
     m.rooms.append(r)
-    assert not m.valid_door_location(r, 0, 0)
+    assert not m.valid_door_neighbors(r, 0, 0)
 
 
-def test_valid_door_location__no_closet_space_west():
+def test_valid_door_neighbors__no_closet_space_west():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 3, 3)
     m.rooms.append(r)
-    assert not m.valid_door_location(r, 0, 1)
+    assert not m.valid_door_neighbors(r, 0, 1)
 
 
-def test_valid_door_location__no_closet_space_north():
+def test_valid_door_neighbors__no_closet_space_north():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
-    assert not m.valid_door_location(r, 1, 0)
+    assert not m.valid_door_neighbors(r, 1, 0)
 
 
-def test_valid_door_location_walls__next_to_floor__facing_south():
+def test_valid_door_neighbors_walls__next_to_floor__facing_south():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[0][2] = tiles.floor
-    assert not m.valid_door_location(r, 1, 2)
+    assert not m.valid_door_neighbors(r, 1, 2)
 
 
-def test_valid_door_location__next_to_floors__facing_south():
+def test_valid_door_neighbors__next_to_floors__facing_south():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[3][2] = tiles.floor
     m.tiles[5][2] = tiles.floor
-    assert not m.valid_door_location(r, 4, 2)
+    assert not m.valid_door_neighbors(r, 4, 2)
 
 
-def test_valid_door_location__next_to_floor__facing_east():
+def test_valid_door_neighbors__next_to_floor__facing_east():
     m = gamemap.GameMap(engine=None, width=20, height=20)
     r = room.Room(0, 0, 10, 3)
     m.rooms.append(r)
     m.tiles[9][0] = tiles.floor
-    assert not m.valid_door_location(r, 9, 1)
+    assert not m.valid_door_neighbors(r, 9, 1)
