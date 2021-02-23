@@ -145,7 +145,7 @@ def connect_room_to_room(new_map, room1, room2):
             if not new_map.valid_door_location(room2, door2.x, door2.y):
                 continue
 
-            connected = tunnel_astar(new_map, door1, door2)
+            connected = dig_Astar_path(new_map, door1, door2)
 
     if connected:
         # Dig out adjacent doors
@@ -230,7 +230,7 @@ def connect_2_doors(new_map, door1, door2):
     return True
 
 
-def tunnel_astar(new_map, door1, door2):
+def dig_Astar_path(new_map, door1, door2):
     # Get the closets outside the doors
     x1, y1 = door1.closet()
     x2, y2 = door2.closet()
