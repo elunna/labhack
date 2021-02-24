@@ -1,9 +1,9 @@
 """ Tests for ai.py """
-from actions.bump_action import BumpAction
 from . import ai
 from .component import Component
 from src import gamemap
 from src import tiles
+from src.engine import Engine
 from tests import toolkit
 import pytest
 
@@ -16,26 +16,26 @@ def player():
 
 @pytest.fixture
 def empty_map():
-    new_map = gamemap.GameMap(
+    return gamemap.GameMap(
         width=10,
         height=10,
         fill_tile=tiles.floor
     )
 
 
-def test_BaseAI_is_Component():
+def test_init__is_Component():
     base_ai = ai.BaseAI()
     assert isinstance(base_ai, Component)
 
 
 @pytest.mark.skip(reason='Should we handle entity not having a gamemap/engine?')
-def test_BaseAI_engine(player):
+def test_engine(player):
     base_ai = ai.BaseAI(player)
     result = base_ai.engine
     assert isinstance(result, Engine)
 
 
-def test_BaseAI_perform():
+def test_perform():
     # This is not implemented in the Component class.
     base_ai = ai.BaseAI()
     with pytest.raises(NotImplementedError):
@@ -43,72 +43,7 @@ def test_BaseAI_perform():
 
 
 @pytest.mark.skip(reason='REQUIRES the entity to have a gamemap reference')
-def test_BaseAI_get_path_to():
+def test_get_path_to():
     base_ai = ai.BaseAI()
     result = base_ai.engine
     assert isinstance(result, Engine)
-
-
-def test_HostileAI_is_Component():
-    approach_ai = ai.HostileAI()
-    assert isinstance(approach_ai, Component)
-
-
-def test_HostileAI_init():
-    approach_ai = ai.HostileAI()
-    assert approach_ai.path == []
-
-
-@pytest.mark.skip(reason='REQUIRES the entity to have a gamemap and enginereference')
-def test_HostileAI_perform():
-    approach_ai = ai.HostileAI()
-    assert approach_ai.path == []
-
-    # TODO: Target can be anything in addition to the player
-    # TODO: Target is not visible
-    # TODO: Target is more than 1 square away
-    # TODO: Target is 1 square away - cardinal
-    # TODO: Target is 1 square away - diagonal
-
-
-def test_ConfusedAI_is_Component():
-    confused_ai = ai.ConfusedAI(
-        previous_ai=ai.HostileAI,
-        turns_remaining=4
-    )
-    assert isinstance(confused_ai, Component)
-
-
-@pytest.mark.skip(reason='Engine reference issues')
-def test_ConfusedAI_init(player):
-    confused_ai = ai.ConfusedAI(
-        previous_ai=ai.HostileAI,
-        turns_remaining=4
-    )
-    assert confused_ai.previous_ai == ai.HostileAI
-    assert confused_ai.turns_remaining == 4
-
-
-@pytest.mark.skip(reason='Engine reference issues')
-def test_ConfusedAI_perform(player):
-    confused_ai = ai.ConfusedAI(
-        previous_ai=ai.HostileAI,
-        turns_remaining=4
-    )
-    result = confused_ai.yield_action()
-    assert isinstance(result, BumpAction)
-    assert confused_ai.turns_remaining == 3
-
-
-@pytest.mark.skip(reason='Engine reference issues')
-def test_ConfusedAI_perform__no_turns_remaining(player):
-    confused_ai = ai.ConfusedAI(
-        previous_ai=ai.HostileAI,
-        turns_remaining=4
-    )
-    confused_ai.yield_action()  # 3 remaining
-    confused_ai.yield_action()  # 2 remaining
-    confused_ai.yield_action()  # 1 remaining
-    confused_ai.yield_action()  # 0 remaining
-
-    assert isinstance(player.ai, ai.HostileAI)
