@@ -1,9 +1,8 @@
 """ Tests for actors.py """
-
-from src import factory
-import copy
 from src import actor
 from src import entity
+from src import factory
+import copy
 
 
 def test_init__is_Entity():

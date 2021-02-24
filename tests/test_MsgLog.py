@@ -11,6 +11,7 @@ def test_Message():
     assert m.plain_text == test_text
     assert m.fg == (255, 255, 255) # Default white
 
+
 def test_Message_count():
     m = msglog.Msg(test_text)
     assert m.count == 1
