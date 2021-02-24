@@ -1,4 +1,4 @@
-from actions.action_with_direction import ActionWithDirection
+from actions.actions import ActionWithDirection
 from src import exceptions
 
 

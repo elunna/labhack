@@ -1,4 +1,4 @@
-from .action_with_direction import ActionWithDirection
+from .actions import ActionWithDirection
 from . import actions
 from .move import MovementAction
 from src import exceptions

@@ -1,5 +1,5 @@
 from . import actions
-from .action_with_direction import ActionWithDirection
+from .actions import ActionWithDirection
 from .attack_actions import AttackAction
 from .bump import BumpAction
 from .move import MovementAction

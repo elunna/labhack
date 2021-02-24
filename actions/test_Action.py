@@ -1,6 +1,5 @@
 """ Tests for actions.py """
 from .actions import Action
-from src import engine
 from tests import toolkit
 import pytest
 
@@ -13,14 +12,6 @@ def test_map():
 @pytest.fixture
 def player():
     return toolkit.cp_player()
-
-
-@pytest.fixture
-def testengine():
-    m = toolkit.test_map()
-    p = m.player
-    e = engine.Engine(p)
-    e.game_map = m
 
 
 def test_init(player):

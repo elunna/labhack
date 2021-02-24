@@ -1,5 +1,4 @@
-from .action_with_direction import ActionWithDirection
-from .actions import Action
+from .actions import Action, ActionWithDirection
 from tests import toolkit
 import pytest
 
