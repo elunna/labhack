@@ -143,6 +143,29 @@ def test_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
     assert result == 1
 
 
+def test_blocked_msg__player_blocks(test_map):
+    target = test_map.player
+    orc = factory.orc
+    a = AttackAction(entity=orc, dx=-1, dy=-1)
+    a.blocked_msg(target)
+    assert a.msg == f"You block the Orc's attack! "
+
+
+def test_blocked_msg__enemy_blocks_you(test_map):
+    player = test_map.player
+    target = factory.orc
+    a = AttackAction(entity=player, dx=0, dy=1)
+    a.blocked_msg(target)
+    assert a.msg == f"The Orc blocks your attack! "
+
+
+def test_blocked_msg__enemy_blocks_enemy():
+    orc = factory.orc
+    a = AttackAction(entity=orc, dx=0, dy=1)
+    a.blocked_msg(orc)
+    assert a.msg == f"The Orc blocks the Orc's attack! "
+
+
 def test_miss__player_misses(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=-1, dy=-1)
@@ -159,8 +182,15 @@ def test_miss__enemy_misses_you(test_map):
     assert a.msg == f"The Orc misses you. "
 
 
-def test_miss__enemy_misses_enemy():
+def test_miss__enemy_misses_enemy(test_map):
     orc = factory.orc
     a = AttackAction(entity=orc, dx=0, dy=1)
     a.miss(orc)
     assert a.msg == f"The Orc misses the Orc. "
+
+
+def test_hit_msg__not_implemented(test_map):
+    a = AttackAction(entity=test_map.player, dx=0, dy=1)
+    with pytest.raises(NotImplementedError):
+        a.hit_msg(factory.orc, "hit", 15)
+

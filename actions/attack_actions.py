@@ -83,7 +83,7 @@ class AttackAction(ActionWithDirection):
         else:
             return result
 
-    def blocked_msg(self, target, atk):
+    def blocked_msg(self, target):
         if self.entity.name == "Player":
             self.msg = f"The {target.name} blocks your attack! "
         elif target.name == "Player":
@@ -141,4 +141,4 @@ class WeaponAttack(AttackAction):
         elif target.name == "Player":
             self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
-            self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
+            self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "
