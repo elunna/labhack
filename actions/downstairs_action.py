@@ -16,7 +16,7 @@ class DownStairsAction(Action):
             # Remove player from current map
             self.engine.game_map.player = None
 
-            self.engine.game_world.generate_floor()
+            self.engine.dungeon.generate_floor()
 
             self.msg = "You descend the staircase."
         else:

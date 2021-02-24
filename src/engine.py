@@ -1,18 +1,16 @@
-import random
-
-import tcod
-
-from actions import actions
 from . import color
+from . import dungeon
 from . import exceptions
 from . import gamemap
-from . import gameworld
 from . import messages
 from . import rendering
 from . import settings
+from actions import actions
 from tcod.map import compute_fov
 import lzma
 import pickle
+import random
+import tcod
 
 
 class Engine:
@@ -20,7 +18,7 @@ class Engine:
         makes sure that the screen is correctly updated.
     """
     game_map: gamemap.GameMap
-    game_world: gameworld.GameWorld
+    dungeon: dungeon.Dungeon
 
     def __init__(self, player):
         # TODO: Remove requirement for player
@@ -98,7 +96,7 @@ class Engine:
 
         rendering.render_dungeon_lvl_text(
             console=renderer.stat_panel,
-            dungeon_level=self.game_world.current_floor,
+            dungeon_level=self.dungeon.current_floor,
         )
 
         renderer.msg_panel.blit(renderer.root, 0, settings.msg_panel_y)

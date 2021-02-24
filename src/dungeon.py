@@ -3,7 +3,7 @@ from src import settings
 from . import procgen
 
 
-class GameWorld:
+class Dungeon:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
     """
     def __init__(self, engine):

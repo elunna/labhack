@@ -2,7 +2,7 @@
 
 from src import setup_game
 from src.engine import Engine
-from src.gameworld import GameWorld
+from src.dungeon import Dungeon
 
 
 def test_new_game__is_Engine():
@@ -12,7 +12,7 @@ def test_new_game__is_Engine():
 
 def test_new_game__GameWorld():
     game = setup_game.new_game()
-    assert isinstance(game.game_world, GameWorld)
+    assert isinstance(game.dungeon, Dungeon)
 
 
 def test_new_game__player():

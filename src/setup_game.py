@@ -1,7 +1,7 @@
 """Handle the loading and initialization of game sessions."""
 from . import color
 from . import factory
-from . import gameworld
+from . import dungeon
 from .engine import Engine
 import copy
 import lzma
@@ -14,9 +14,9 @@ def new_game():
 
     engine = Engine(player=player)
 
-    engine.game_world = gameworld.GameWorld(engine)
+    engine.dungeon = dungeon.Dungeon(engine)
 
-    engine.game_world.generate_floor()
+    engine.dungeon.generate_floor()
     engine.update_fov()
 
     engine.msglog.add_message(
