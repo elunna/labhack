@@ -1,7 +1,6 @@
 class Action:
     """ The template for a game action that affects gameplay."""
     def __init__(self, entity):
-        super().__init__()
         self.entity = entity
         self.msg = ''
 
