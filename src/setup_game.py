@@ -15,8 +15,17 @@ def new_game():
     engine = Engine(player=player)
 
     engine.dungeon = dungeon.Dungeon(engine)
-
     engine.dungeon.generate_floor()
+
+    new_map = engine.game_map
+
+    # Add player
+    new_map.entities.add(player)
+    new_map.player = player
+
+    # Place player on upstair.
+    player.place(*new_map.upstairs_location, new_map)
+
     engine.update_fov()
 
     engine.msglog.add_message(

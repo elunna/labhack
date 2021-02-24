@@ -26,13 +26,5 @@ class Dungeon:
 
         self.engine.game_map = new_map
 
-        # Add player
-        player = self.engine.player
-        new_map.entities.add(player)
-        new_map.player = player
-
-        # Place player on upstair.
-        player.place(*new_map.upstairs_location, new_map)
-
         # Place entities, items, etc.
         src.factory.populate_map(new_map, self.engine)
