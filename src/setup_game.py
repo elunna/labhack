@@ -20,7 +20,7 @@ def new_game():
     engine.update_fov()
 
     engine.msglog.add_message(
-        "Hello and welcome, adventurer, to yet another dungeon!", color.welcome_text
+        "You have entered what appears to be an abandoned research facility, or is it...", color.welcome_text
     )
 
     dagger = copy.deepcopy(factory.dagger)

@@ -23,7 +23,7 @@ def test_new_game__player():
 def test_new_game__first_msg():
     game = setup_game.new_game()
     result = game.msglog.messages[0]
-    assert result.plain_text == "Hello and welcome, adventurer, to yet another dungeon!"
+    assert result.plain_text == "You have entered what appears to be an abandoned research facility, or is it..."
 
 
 # TODO: Test load_game with mocks
