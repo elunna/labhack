@@ -1,13 +1,5 @@
+from src import cell
 from src import maze
-
-# TODO: Move to it's own module?
-def test_Cell():
-    c = maze.Cell()
-    c.visited = False
-    c.path_n = None
-    c.path_s = None
-    c.path_w = None
-    c.path_e = None
 
 
 def test_init__width_and_height():
@@ -19,7 +11,7 @@ def test_init__width_and_height():
 def test_init__maze_cells__initialized_to_Cells():
     m = maze.Maze(width=10, height=10)
     # Skip the first starting cell
-    assert all(True for cell in m.maze if isinstance(cell, maze.Cell))
+    assert all(True for c in m.maze if isinstance(c, cell.Cell))
 
 
 def test_init__maze_size():

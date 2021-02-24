@@ -1,17 +1,8 @@
+from src.cell import Cell
+from . import gamemap, tiles
+from src.settings import CARDINAL_DIR
 import math
 import random
-
-from src.settings import CARDINAL_DIR
-from . import gamemap, tiles
-
-
-class Cell:
-    def __init__(self):
-        self.visited = False
-        self.path_n = None
-        self.path_s = None
-        self.path_w = None
-        self.path_e = None
 
 
 class Maze:
