@@ -1,3 +1,4 @@
+from .action_with_direction import ActionWithDirection
 from . import actions
 from .attack_actions import AttackAction
 from src import factory
@@ -20,7 +21,7 @@ def test_init__is_Action(test_map):
 def test_init__is_ActionWithDirection(test_map):
     player = test_map.player
     a = AttackAction(entity=player, dx=1, dy=-1)
-    assert isinstance(a, actions.ActionWithDirection)
+    assert isinstance(a, ActionWithDirection)
 
 
 def test_init(test_map):
@@ -163,7 +164,6 @@ def test_miss__enemy_misses_enemy():
     a = AttackAction(entity=orc, dx=0, dy=1)
     a.miss(orc)
     assert a.msg == f"The Orc misses the Orc. "
-
 
 
 # TODO: Move to separate modules

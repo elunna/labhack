@@ -1,8 +1,9 @@
 from . import actions
-from tests import toolkit
+from .action_with_direction import ActionWithDirection
+from .attack_actions import AttackAction
 from .bump import BumpAction
 from .move import MovementAction
-from .attack_actions import AttackAction
+from tests import toolkit
 import pytest
 
 
@@ -20,7 +21,7 @@ def test_is_Action(test_map):
 def test_is_ActionWithDirection(test_map):
     player = test_map.player
     a = BumpAction(entity=player, dx=1, dy=-1)
-    assert isinstance(a, actions.ActionWithDirection)
+    assert isinstance(a, ActionWithDirection)
 
 
 def test_init(test_map):

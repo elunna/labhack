@@ -1,4 +1,4 @@
-from actions.actions import ActionWithDirection
+from .action_with_direction import ActionWithDirection
 from actions.death import DieAction
 from components.attacks import AttackComponent
 from src import exceptions

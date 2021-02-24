@@ -1,3 +1,4 @@
+from .action_with_direction import ActionWithDirection
 from . import actions
 from .move import MovementAction
 from src import exceptions
@@ -19,7 +20,7 @@ def test_init__is_Action(test_map):
 def test_is_ActionWithDirection(test_map):
     player = test_map.player
     a = MovementAction(entity=player, dx=1, dy=-1)
-    assert isinstance(a, actions.ActionWithDirection)
+    assert isinstance(a, ActionWithDirection)
 
 
 def test_init(test_map):
