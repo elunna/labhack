@@ -2,7 +2,7 @@
 
 from .component import Component
 from .inventory import Inventory
-from .inventory import LetterRoll
+from src.letterroll import LetterRoll
 from src import factory
 import pytest
 
@@ -134,36 +134,3 @@ def test_sorted_dict__multiple_items():
         '[': ['b', 'c'],
         '!': ['d'],
     }
-
-
-# TODO: Move LetterRoll and tests tests to separate module.
-def test_LetterRoll__init():
-    lr = LetterRoll()
-    assert lr.letters == 'abcdefghijklmnopqrstuvwxyz'
-
-
-def test_LetterRoll__init_index():
-    lr = LetterRoll()
-    assert lr.index == -1
-
-
-def test_LetterRoll__size():
-    lr = LetterRoll()
-    assert len(lr) == 26
-
-
-def test_LetterRoll__next_letter__1_is_a():
-    lr = LetterRoll()
-    assert lr.next_letter() == 'a'
-
-
-def test_LetterRoll__next_letter__2_is_a():
-    lr = LetterRoll()
-    lr.next_letter()
-    assert lr.next_letter() == 'b'
-
-
-def test_LetterRoll__next_letter__roll_repeats():
-    lr = LetterRoll()
-    roll = ''.join([lr.next_letter() for x in range(27)])
-    assert roll[-4:] == 'xyza'

@@ -1,7 +1,6 @@
 from components.component import Component
 from collections import defaultdict
-from src import settings
-import string
+from src.letterroll import LetterRoll
 
 
 class Inventory(Component):
@@ -83,18 +82,3 @@ class Inventory(Component):
         for key_letter, item in self.items.items():
             result[item.char].append(key_letter)
         return result
-
-
-class LetterRoll:
-    def __init__(self):
-        # self.letters = string.ascii_lowercase + string.ascii_uppercase
-        self.letters = string.ascii_lowercase
-        self.index = -1
-
-    def __len__(self):
-        return len(self.letters)
-
-    def next_letter(self):
-        self.index += 1
-        i = self.index % len(self.letters)
-        return self.letters[i]
