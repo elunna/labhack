@@ -120,7 +120,7 @@ def render_names_at_mouse_location(console, x, y, engine):
     console.print(x=x, y=y, string=f"({mouse_x},{mouse_y}): {names_at_mouse_location}")
 
 
-def render_messages(console, x, y, width, height, messages):
+def render_messages(console, x, y, width, height, msg_list):
     """Render the messages provided. Render this log over the given area.
             `x`, `y`, `width`, `height` is the rectangular region to render onto
             the `console`.
@@ -129,7 +129,7 @@ def render_messages(console, x, y, width, height, messages):
     """
     y_offset = height - 1
 
-    for message in reversed(messages):
+    for message in reversed(msg_list):
         for line in reversed(list(messages.MsgLog.wrap(message.full_text, width))):
             console.print(x=x, y=y + y_offset, string=line, fg=message.fg)
             y_offset -= 1
@@ -176,14 +176,14 @@ def render_map(console, game_map):
 
     # TODO: Move to separate function
     # For testing: Render the room numbers
-    for room in game_map.rooms:
-        room_x, room_y = room.center
-        console.print(
-            x=room_x,
-            y=room_y,
-            string=str(room.label),
-            # fg=entity.color
-        )
+    # for room in game_map.rooms:
+    #     room_x, room_y = room.center
+    #     console.print(
+    #         x=room_x,
+    #         y=room_y,
+    #         string=str(room.label),
+    #         # fg=entity.color
+    #     )
 
 
 def render_history(console, engine, cursor, msglog):
@@ -202,7 +202,7 @@ def render_history(console, engine, cursor, msglog):
         x=1, y=1,
         width=log_console.width - 2,
         height=log_console.height - 2,
-        messages=msglog.messages[: cursor + 1],
+        msg_list=msglog.messages[: cursor + 1],
     )
     log_console.blit(console, 3, 3)
 

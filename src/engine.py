@@ -69,7 +69,7 @@ class Engine:
             x=settings.msg_panel_x, y=0,
             width=settings.screen_width,
             height=settings.msg_panel_height,
-            messages=self.msglog.messages,
+            msg_list=self.msglog.messages,
         )
 
         # Map Panel
