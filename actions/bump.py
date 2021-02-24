@@ -1,6 +1,6 @@
 from actions.action_with_direction import ActionWithDirection
 from actions.move import MovementAction
-from actions.attack_actions import WeaponAttack, MeleeAttack
+from actions.attack_actions import MeleeAttack, WeaponAttack
 
 
 class BumpAction(ActionWithDirection):
