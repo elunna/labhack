@@ -1,5 +1,6 @@
 from components.component import Component
-from components.attacks import AttackComponent, Attack
+from components.attack_cmp import AttackComponent
+from components.attack import Attack
 
 
 class Fighter(Component):

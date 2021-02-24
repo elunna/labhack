@@ -2,10 +2,11 @@ import random
 
 from . import actor, settings
 from . import item
-from components import consumable, attacks
+from components import consumable, attack_cmp
 from components import equippable
 from components.ai import HostileAI
-from components.attacks import AttackComponent, Attack
+from components.attack_cmp import AttackComponent
+from components.attack import Attack
 from components.attributes import Attributes
 from components.energy import EnergyMeter
 from components.equipment import Equipment
@@ -202,7 +203,7 @@ dagger = item.Item(
     color=(0, 191, 255),
     name="Dagger",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('dagger', [3])),
+        attack_comp=attack_cmp.AttackComponent(Attack('dagger', [3])),
     ),
 )
 
@@ -211,7 +212,7 @@ riot_baton = item.Item(
     color=(0, 191, 255),
     name="Riot Baton",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('baton', [8])),
+        attack_comp=attack_cmp.AttackComponent(Attack('baton', [8])),
     ),
 )
 
@@ -220,7 +221,7 @@ scalpal = item.Item(
     color=(0, 191, 255),
     name="Scalpal",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('scalpal', [4])),
+        attack_comp=attack_cmp.AttackComponent(Attack('scalpal', [4])),
     ),
 )
 
@@ -229,7 +230,7 @@ police_baton = item.Item(
     color=(0, 191, 255),
     name="Police Baton",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -238,7 +239,7 @@ golf_club = item.Item(
     color=(0, 191, 255),
     name="Golf Club",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -247,7 +248,7 @@ tennis_racket = item.Item(
     color=(0, 191, 255),
     name="Tennis Racket",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -256,7 +257,7 @@ frying_pan = item.Item(
     color=(0, 191, 255),
     name="Frying Pan",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [7])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [7])),
     ),
 )
 
@@ -265,7 +266,7 @@ hammer = item.Item(
     color=(0, 191, 255),
     name="Hammer",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -274,7 +275,7 @@ metal_pipe = item.Item(
     color=(0, 191, 255),
     name="Metal Pipe",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [5])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
     ),
 )
 
@@ -283,7 +284,7 @@ big_crowbar = item.Item(
     color=(0, 191, 255),
     name="Big Crowbar",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [6])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [6])),
     ),
 )
 
@@ -292,7 +293,7 @@ plunger = item.Item(
     color=(0, 191, 255),
     name="Plunger",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [2])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [2])),
     ),
 )
 
@@ -301,7 +302,7 @@ rebar_pipe = item.Item(
     color=(0, 191, 255),
     name="Rebar Pipe",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [6])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [6])),
     ),
 )
 
@@ -310,7 +311,7 @@ sledgehammer = item.Item(
     color=(0, 191, 255),
     name="Sledgehammer",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [10])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [10])),
     ),
 )
 
@@ -319,7 +320,7 @@ wooden_stick = item.Item(
     color=(0, 191, 255),
     name="Wooden Stick",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('club', [4])),
+        attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
     ),
 )
 
@@ -328,7 +329,7 @@ gr_light_saber = item.Item(
     color=(0, 191, 255),
     name="Green lightsaber",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('lightsaber', [3, 9])),
+        attack_comp=attack_cmp.AttackComponent(Attack('lightsaber', [3, 9])),
     ),
 )
 
@@ -337,7 +338,7 @@ bl_light_saber = item.Item(
     color=(0, 191, 255),
     name="Blue lightsaber",
     equippable=equippable.Weapon(
-        attack_comp=attacks.AttackComponent(Attack('lightsaber', [5, 8])),
+        attack_comp=attack_cmp.AttackComponent(Attack('lightsaber', [5, 8])),
     ),
 )
 
