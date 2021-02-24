@@ -1,8 +1,8 @@
 from components.component import Component
-from actions.wait import WaitAction
-from actions.move import MovementAction
+from actions.wait_action import WaitAction
+from actions.movement_action import MovementAction
 from actions.attack_actions import MeleeAttack
-from actions.bump import BumpAction
+from actions.bump_action import BumpAction
 from src import settings
 import numpy as np  # type: ignore
 import random

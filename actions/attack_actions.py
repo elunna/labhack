@@ -1,5 +1,5 @@
 from .actions import ActionWithDirection
-from actions.death import DieAction
+from actions.die_action import DieAction
 from components.attack_cmp import AttackComponent
 from src import exceptions
 import random

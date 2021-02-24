@@ -1,5 +1,5 @@
 from . import actions
-from .death import DieAction
+from .die_action import DieAction
 from src.renderorder import RenderOrder
 from tests import toolkit
 import pytest

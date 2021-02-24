@@ -2,7 +2,7 @@ from actions.actions import Action
 from src import exceptions
 
 
-class TakeStairsAction(Action):
+class DownStairsAction(Action):
     def perform(self):
         """ Take the stairs, if any exist at the entity's location. """
         player_location = (self.entity.x, self.entity.y)

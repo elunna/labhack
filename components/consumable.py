@@ -1,5 +1,5 @@
-from actions.death import DieAction
-from actions.useitem import ItemAction
+from actions.die_action import DieAction
+from actions.item_action import ItemAction
 from components.ai import ConfusedAI
 from components.component import Component
 from components.inventory import Inventory

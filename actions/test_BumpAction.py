@@ -1,8 +1,8 @@
 from . import actions
 from .actions import ActionWithDirection
 from .attack_actions import AttackAction
-from .bump import BumpAction
-from .move import MovementAction
+from .bump_action import BumpAction
+from .movement_action import MovementAction
 from tests import toolkit
 import pytest
 

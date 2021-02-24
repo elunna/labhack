@@ -3,7 +3,7 @@
 from . import consumable
 from .component import Component
 from actions import actions
-from actions.useitem import ItemAction
+from actions.item_action import ItemAction
 from src import factory
 from tests import toolkit
 import pytest

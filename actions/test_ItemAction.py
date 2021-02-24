@@ -1,5 +1,5 @@
 from . import actions
-from .useitem import ItemAction
+from .item_action import ItemAction
 from src import factory
 from tests import toolkit
 import pytest

@@ -1,5 +1,5 @@
 from . import actions
-from .pickup import PickupAction
+from .pickup_action import PickupAction
 from src import exceptions
 from src import factory
 from tests import toolkit

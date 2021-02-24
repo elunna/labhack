@@ -1,5 +1,5 @@
 from actions.actions import ActionWithDirection
-from actions.move import MovementAction
+from actions.movement_action import MovementAction
 from actions.attack_actions import MeleeAttack, WeaponAttack
 
 

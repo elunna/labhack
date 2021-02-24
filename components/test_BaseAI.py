@@ -1,5 +1,5 @@
 """ Tests for ai.py """
-from actions.bump import BumpAction
+from actions.bump_action import BumpAction
 from . import ai
 from .component import Component
 from src import gamemap
