@@ -1,6 +1,6 @@
 from . import actions
 from .actions import ActionWithDirection
-from .attack_actions import AttackAction
+from .attack_actions import AttackAction, MeleeAttack, WeaponAttack
 from .bump_action import BumpAction
 from .movement_action import MovementAction
 from tests import toolkit
@@ -40,10 +40,26 @@ def test_perform__Move(test_map):
     assert isinstance(result, MovementAction)
 
 
-def test_perform__Melee(test_map):
+def test_perform__attack_with_weapon(test_map):
     # We'll attack the Grid Bug at (2, 5)
     player = test_map.player
+    dagger = player.inventory.items['a']
+    player.equipment.toggle_equip(dagger)
+    weapon = player.equipment.slots['WEAPON']
+    assert weapon
+
     player.place(2, 4, test_map)
     a = BumpAction(entity=player, dx=0, dy=1)
     result = a.perform()
-    assert isinstance(result, AttackAction)
+    assert isinstance(result, WeaponAttack)
+
+
+def test_perform__attack_without_weapon(test_map):
+    # We'll attack the Grid Bug at (2, 5)
+    player = test_map.player
+    assert player.equipment.slots['WEAPON'] is None
+
+    player.place(2, 4, test_map)
+    a = BumpAction(entity=player, dx=0, dy=1)
+    result = a.perform()
+    assert isinstance(result, MeleeAttack)
