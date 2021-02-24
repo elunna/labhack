@@ -27,8 +27,12 @@ def main():
                 renderer.context.convert_event(event)
                 handler = handler.handle_events(event)
 
+        except exceptions.QuitWithoutSaving:
+            raise
+        except SystemExit:  # Save and Quit
+            save_game(handler, settings.save_file)
+            raise
         except Exception:  # Handle exceptions in game.
-            # TODO: Check that this doesn't go at the end of the block
             traceback.print_exc()  # Print error to stderr.
 
             # Then print the error to the message log.
@@ -36,12 +40,6 @@ def main():
                 handler.engine.msglog.add_message(
                     traceback.format_exc(), color.error
                 )
-
-        except exceptions.QuitWithoutSaving:
-            raise
-        except SystemExit:  # Save and Quit
-            save_game(handler, settings.save_file)
-            raise
         except BaseException:  # Save on any other unexpected exception
             save_game(handler, settings.save_file)
             raise

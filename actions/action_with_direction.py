@@ -15,15 +15,11 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self):
         """Return the blocking entity at this actions destination.."""
-        # return self.engine.game_map.blocking_entity_at(*self.dest_xy)
-        # TODO: Make sure this doesn't breakstuff!
         return self.entity.gamemap.blocking_entity_at(*self.dest_xy)
 
     @property
     def target_actor(self):
         """Return the actor at this actions destination."""
-        # return self.engine.game_map.get_actor_at(*self.dest_xy)
-        # TODO: Make sure this doesn't breakstuff!
         return self.entity.gamemap.get_actor_at(*self.dest_xy)
 
     def perform(self):

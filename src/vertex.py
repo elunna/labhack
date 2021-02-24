@@ -1,9 +1,5 @@
 from src.edge import Edge
 
-# TODO: Implement equals?
-# TODO: get_weight_iter?
-# TODO: neighbors iterator
-
 
 class Vertex:
     def __init__(self, label):

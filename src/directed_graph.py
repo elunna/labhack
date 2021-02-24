@@ -3,12 +3,6 @@ from collections import deque
 
 
 class DirectedGraph:
-    # TODO: Implement contains for vertices
-    # TODO: Add add_vertices
-    # TODO: Add add_edges
-    # TODO: Let us init with vertices
-    # TODO: Let us init with edges
-
     def __init__(self):
         self.vertices = {}
         self.edge_count = 0
@@ -201,7 +195,6 @@ class DirectedGraph:
             path.append(vertex.label)
 
         return pathLength
-
 
     def get_cheapest_path(self, begin, end, path):
         """ Finds the least-cost path between two given vertices.

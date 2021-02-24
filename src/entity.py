@@ -54,7 +54,6 @@ class Entity(object):
             self.components[k] = v
 
             # Set the components parent!
-            # TODO: Take this check out after we require only Components
             if isinstance(v, Component):
                 v.parent = self
 
@@ -63,7 +62,6 @@ class Entity(object):
             self.components.pop(component)
 
             # Unset the components parent!
-            # TODO: Take this check out after we require only Components
             if isinstance(component, Component):
                 component.parent = None
 
