@@ -2,9 +2,9 @@
 
 from .component import Component
 from .inventory import Inventory
-from src.letterroll import LetterRoll
 from src import factory
 import pytest
+
 
 @pytest.fixture
 def sword():

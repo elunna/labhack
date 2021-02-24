@@ -10,8 +10,6 @@ def myround(x, base=25):
 
 
 class Level(Component):
-    # parent: Actor
-
     def __init__(
         self,
         current_level=1,
@@ -29,7 +27,6 @@ class Level(Component):
 
     @property
     def experience_to_next_level(self):
-        # TODO: Rename
         # return self.level_up_base + self.current_level * self.level_up_factor
         result = self.level_up_base * (self.current_level ** self.level_up_factor)
         return myround(result)
