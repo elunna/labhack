@@ -7,7 +7,7 @@ from . import color
 from . import exceptions
 from . import gamemap
 from . import gameworld
-from . import msglog
+from . import messages
 from . import rendering
 from . import settings
 from tcod.map import compute_fov
@@ -24,8 +24,8 @@ class Engine:
 
     def __init__(self, player):
         # TODO: Remove requirement for player
-        self.msglog = msglog.MsgLog()
-        self.helplog = msglog.HelpInfo()
+        self.msglog = messages.MsgLog()
+        self.helplog = messages.HelpInfo()
         self.mouse_location = (0, 0)
         self.player = player
         self.renderer = None
