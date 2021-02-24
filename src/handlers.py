@@ -1,21 +1,20 @@
-from src import procgen
-
-import actions.bump_action
-import actions.drop_action
-import actions.equip_action
-import actions.pickup_action
-import actions.downstairs_action
-import actions.wait_action
-from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
-from .maze import Maze
-from .setup_game import load_game, new_game
 from . import color
 from . import exceptions
 from . import rendering
 from . import settings
+from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from .maze import Maze
+from .setup_game import load_game, new_game
+from src import procgen
 from typing import Union
-import os
 import actions.actions
+import actions.bump_action
+import actions.downstairs_action
+import actions.drop_action
+import actions.equip_action
+import actions.pickup_action
+import actions.wait_action
+import os
 import tcod
 import tcod.event
 import traceback

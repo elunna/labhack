@@ -1,0 +1,2 @@
+# CharacterScreenEventHandler
+#   on_render
