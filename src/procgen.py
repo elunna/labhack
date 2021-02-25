@@ -224,10 +224,10 @@ def distance(x1, y1, x2, y2):
     return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
 
-def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance, engine):
+def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance):
     """Generate a new dungeon map with rooms, corridors, and stairs..
     """
-    new_map = gamemap.GameMap(engine, map_width, map_height)
+    new_map = gamemap.GameMap(map_width, map_height)
 
     # Create all the rooms
     generate_rooms(

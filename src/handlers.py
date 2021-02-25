@@ -131,7 +131,10 @@ class MainGameHandler(EventHandler):
         if key == tcod.event.K_PERIOD and modifier & (
                 tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
         ):
-            return actions.downstairs_action.DownStairsAction(player)
+            return actions.downstairs_action.DownStairsAction(
+                entity=player,
+                dungeon=self.engine.dungeon
+            )
 
         # ? (Help screen)
         if key == tcod.event.K_SLASH and modifier & (
@@ -512,7 +515,6 @@ class MapDebugHandler(BaseEventHandler):
             map_width=settings.map_width,
             map_height=settings.map_height,
             max_distance=self.room_max_distance,
-            engine=None
         )
 
     def generate_maze(self):
@@ -640,7 +642,7 @@ class MainMenuHandler(BaseEventHandler):
         """Render the main menu on a background image."""
         rendering.render_main_menu(renderer.root)
 
-    def ev_keydown( self, event):
+    def ev_keydown(self, event):
         # Event handler for main menu.
 
         if event.sym in (tcod.event.K_q, tcod.event.K_ESCAPE):

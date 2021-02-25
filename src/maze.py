@@ -152,7 +152,7 @@ class Maze:
         # max_width = self.width * (self.path_width + 1)
         # max_height = self.height * (self.path_width + 1)
 
-        new_map = gamemap.GameMap(engine=None, width=self.max_width, height=self.max_height)
+        new_map = gamemap.GameMap(width=self.max_width, height=self.max_height)
 
         for x in range(self.width):
             for y in range(self.height):

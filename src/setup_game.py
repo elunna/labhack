@@ -11,13 +11,10 @@ import pickle
 def new_game():
     """Return a brand new game session as an Engine instance."""
     player = copy.deepcopy(factory.player)
-
     engine = Engine(player=player)
 
-    engine.dungeon = dungeon.Dungeon(engine)
-    engine.dungeon.generate_floor()
-
-    new_map = engine.game_map
+    engine.dungeon = dungeon.Dungeon(engine=engine)
+    new_map = engine.dungeon.generate_floor()
 
     # Add player
     new_map.entities.add(player)
@@ -25,6 +22,12 @@ def new_game():
 
     # Place player on upstair.
     player.place(*new_map.upstairs_location, new_map)
+
+    # Add the map to the engine
+    engine.game_map = new_map
+
+    # Add the engine to the map
+    new_map.engine = engine
 
     engine.update_fov()
 

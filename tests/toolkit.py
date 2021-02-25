@@ -23,7 +23,6 @@ def test_map():
     new_map = gamemap.GameMap(
         width=6,
         height=6,
-        engine=None,
         fill_tile=tiles.floor
     )
     walls = [(0, 0), (1, 0),

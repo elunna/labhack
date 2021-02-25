@@ -96,7 +96,7 @@ class Engine:
 
         rendering.render_dungeon_lvl_text(
             console=renderer.stat_panel,
-            dungeon_level=self.dungeon.current_floor,
+            dungeon_level=self.dungeon.dlevel,
         )
 
         renderer.msg_panel.blit(renderer.root, 0, settings.msg_panel_y)

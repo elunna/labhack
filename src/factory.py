@@ -702,8 +702,8 @@ def place_monsters(new_room, dungeon, floor_number):
             entity.spawn(dungeon, x, y)
 
 
-def populate_map(new_map, engine):
+def populate_map(new_map, current_floor):
     for r in new_map.rooms:
         # Populate the room with monsters and items
-        place_monsters(r, new_map, engine.dungeon.current_floor)
-        place_items(r, new_map, engine.dungeon.current_floor)
+        place_monsters(r, new_map, current_floor)
+        place_items(r, new_map, current_floor)

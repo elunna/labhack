@@ -7,8 +7,9 @@ import numpy as np
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
-    def __init__(self, engine, width, height, fill_tile=tiles.wall):
-        self.engine = engine
+    def __init__(self, width, height, fill_tile=tiles.wall):
+        self.engine = None  # This can be set later if needed
+
         self.width, self.height = width, height
         self.entities = set()
         self.rooms = []  # Start with an empty list of rooms.
