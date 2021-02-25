@@ -7,8 +7,12 @@ class Dungeon:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
     """
     def __init__(self, engine=None):
+        self.dlevel = 1  # The number of the current floor the player is on.
         self.map_list = []
-        self.dlevel = 0  # The number of the current floor the player is on.
+
+        # Create a first map for the dungeon
+        self.generate_floor()
+
         self.engine = engine
 
     @property

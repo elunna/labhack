@@ -11,7 +11,6 @@ def test_dungeon():
     player = toolkit.cp_player()
     e = SimpleNamespace(game_map='testmap')
     d = dungeon.Dungeon(e)
-    d.generate_floor()  # Floor 1
     d.generate_floor()  # Floor 2
     d.generate_floor()  # Floor 3
 
@@ -23,24 +22,24 @@ def test_dungeon():
 
 def test_init__dlevel():
     d = dungeon.Dungeon()
-    assert d.dlevel == 0
+    assert d.dlevel == 1
 
 
 def test_init__map_list():
     d = dungeon.Dungeon()
-    assert d.map_list == []
+    assert d.map_list == [d.current_map]
 
 
-def test_current_map__none_created_yet():
+def test_current_map():
     d = dungeon.Dungeon()
-    assert d.current_map is None
+    assert d.current_map == d.map_list[0]
 
 
 def test_generate_map__added_to_map_list():
     d = dungeon.Dungeon()
-    assert len(d.map_list) == 0
-    d.generate_floor()
     assert len(d.map_list) == 1
+    d.generate_floor()
+    assert len(d.map_list) == 2
 
 
 def test_generate_map__returns_GameMap():

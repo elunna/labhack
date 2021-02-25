@@ -14,8 +14,7 @@ def new_game():
     engine = Engine(player=player)
 
     engine.dungeon = dungeon.Dungeon(engine=engine)
-    new_map = engine.dungeon.generate_floor()
-    engine.dungeon.set_dlevel(1)
+    new_map = engine.dungeon.current_map
 
     # Add player
     new_map.entities.add(player)
