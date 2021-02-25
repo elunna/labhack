@@ -47,15 +47,12 @@ def test_map():
 
     # Give the player items for testing
     dagger = copy.deepcopy(factory.dagger)
-    dagger.parent = player.inventory
     player.inventory.add_item(dagger)
 
     leather_armor = copy.deepcopy(factory.leather_vest)
-    leather_armor.parent = player.inventory
     player.inventory.add_item(leather_armor)
 
     health_potion = copy.deepcopy(factory.health_potion)
-    health_potion.parent = player.inventory
     player.inventory.add_item(health_potion)
 
     # Create a grid bug at 2, 5
