@@ -10,7 +10,7 @@ def test_dungeon():
     # Create a dungeon with 3 floors and adds the player to the floor 2 for easy testing situations.
     player = toolkit.cp_player()
     e = SimpleNamespace(game_map='testmap')
-    d = dungeon.Dungeon(e)
+    d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()  # Floor 2
     d.generate_floor()  # Floor 3
 

@@ -6,9 +6,10 @@ from . import procgen
 class Dungeon:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
     """
-    def __init__(self, engine=None):
+    def __init__(self, engine=None, test_map=None):
         self.dlevel = 1  # The number of the current floor the player is on.
         self.map_list = []
+        self.test_map = test_map  # Just pass a reference to the function.
 
         # Create a first map for the dungeon
         self.generate_floor()
@@ -25,17 +26,21 @@ class Dungeon:
     def generate_floor(self):
         # Generate new map each time we go down a floor.
         # Adds the map to the list of maps and returns the created map.
-        new_map = procgen.generate_map(
-            max_rooms=settings.max_rooms,
-            room_min_size=settings.room_min_size,
-            room_max_size=settings.room_max_size,
-            map_width=settings.map_width,
-            map_height=settings.map_height,
-            max_distance=50,
-        )
+        if self.test_map:
+            # Easy way to speed up testing with test maps.
+            new_map = self.test_map()  # Generate a new test map each time.
+        else:
+            new_map = procgen.generate_map(
+                max_rooms=settings.max_rooms,
+                room_min_size=settings.room_min_size,
+                room_max_size=settings.room_max_size,
+                map_width=settings.map_width,
+                map_height=settings.map_height,
+                max_distance=50,
+            )
 
-        # Place entities, items, etc.
-        factory.populate_map(new_map, self.dlevel)
+            # Place entities, items, etc.
+            factory.populate_map(new_map, self.dlevel)
 
         # Add map to list
         self.map_list.append(new_map)

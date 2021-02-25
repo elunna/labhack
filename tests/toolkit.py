@@ -62,3 +62,15 @@ def test_map():
     factory.orc.spawn(new_map, 5, 4)
 
     return new_map
+
+
+def stair_map():
+    new_map = gamemap.GameMap(
+        width=10,
+        height=10,
+        fill_tile=tiles.floor
+    )
+    new_map.tiles[0, 0] = tiles.up_stairs
+    new_map.tiles[9, 9] = tiles.down_stairs
+
+    return new_map
