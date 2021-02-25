@@ -8,97 +8,79 @@ def test_map():
     return toolkit.test_map()
 
 
-def test_init__defaults():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    assert e.x == 0
-    assert e.y == 0
-    assert e.char == '@'
-    assert e.color is None
-    assert e.name == 'Player'
+def test_init__defaults__always_has_parent_component():
+    e = Entity()
+    assert e.parent is None
 
 
 def test_init__components_dict():
     e = Entity(x=0, y=0)
-    assert e.components == {'x': 0, 'y': 0}
-
-
-@pytest.mark.skip(reason='implement after ecs is mostly done.')
-def test_init__kwargs_become_components():
-    pass
+    assert e.components == {'parent': None, 'x': 0, 'y': 0}
 
 
 def test_str__has_name():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
+    e = Entity(name='Player')
     assert str(e) == 'Player'
 
 
 def test_str__unnamed():
-    e = Entity(x=0, y=0, char='@', color=None)
+    e = Entity(x=0, y=0)
     assert str(e) == 'Unnamed'
 
 
 def test_init__add_comp__1_kwarg():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.add_comp(a=1)
-    assert e.components['a'] == 1
+    e = Entity(x=0)
+    e.add_comp(y=1)
+    assert e.components['y'] == 1
 
 
 def test_init__add_comp__2_kwargs():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
+    e = Entity(x=0, y=1)
     e.add_comp(a=1, b=2)
     assert e.components['a'] == 1
     assert e.components['b'] == 2
 
 
 def test_init__add_comp__already_exists_and_replaces():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.add_comp(a=1)
-    e.add_comp(a=2)
-    assert e.components['a'] == 2
+    e = Entity(x=0, y=1)
+    e.add_comp(x=1)
+    e.add_comp(x=2)
+    assert e.components['x'] == 2
 
 
 def test_contains__init_args():
-    e = Entity(x=0, y=0)
+    e = Entity(x=0, y=1)
     assert 'x' in e
     assert 'y' in e
 
 
 def test_init__rm_comp__success_removes_component():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.add_comp(a=1)
-    e.rm_comp('a')
-    assert 'a' not in e.components
+    e = Entity(x=0, y=1)
+    e.rm_comp('x')
+    assert 'x' not in e.components
 
 
 def test_init__rm_comp__success_returns_True():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.add_comp(a=1)
-    result = e.rm_comp('a')
+    e = Entity(x=0, y=1)
+    result = e.rm_comp('x')
     assert result
 
 
 def test_init__rm_comp__fail_returns_False():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    result = e.rm_comp('z')
+    e = Entity(x=0, y=1)
+    assert e.rm_comp('z') is False
     # Raise exception?
 
 
 def test_init__getattr__returns_component_value():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
-    e.add_comp(a=1)
-    assert e.a == 1
+    e = Entity(x=0, y=1)
+    assert e.x == 0
 
 
 def test_init__getattr__DNE_returns_None():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player')
+    e = Entity(x=0, y=0)
     with pytest.raises(AttributeError):
-        result = e.a
-
-
-def test_init__blocks_component():
-    e = Entity(x=0, y=0, char='@', color=None, name='Player', blocks=True)
-    assert e.blocks
-    assert 'blocks' in e.components
+        result = e.z
 
 
 def test_move():
