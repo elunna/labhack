@@ -13,7 +13,12 @@ class DownStairsAction(Action):
         stair_location = self.dungeon.current_map.downstairs_location
 
         if player_location == stair_location:
-            self.dungeon.move_downstairs()
+            # Do we have a level below us yet?
+            if self.dungeon.dlevel == len(self.dungeon.map_list):
+                # Generate a new level and add it to the map_list
+                self.dungeon.generate_floor()
+
+            self.dungeon.move_downstairs(self.entity)
             self.msg = "You descend the stairs."
         else:
             raise exceptions.Impossible("There are no stairs here.")

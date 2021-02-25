@@ -21,10 +21,6 @@ class Dungeon:
     def generate_floor(self):
         # Generate new map each time we go down a floor.
         # Adds the map to the list of maps and returns the created map.
-
-        # Increment the current floor - done in generate map
-        self.dlevel += 1
-
         new_map = procgen.generate_map(
             max_rooms=settings.max_rooms,
             room_min_size=settings.room_min_size,
@@ -43,44 +39,88 @@ class Dungeon:
         # Return the map for other uses
         return new_map
 
-    def move_downstairs(self):
-        # Returns True if successful, False otherwise.
+    def move_downstairs(self, entity):
+        # Unlatch the player from the old level
+        self.current_map.player = None
 
         # This manages moving an entity between levels
-        player = self.current_map.player
+        next_level = self.dlevel + 1
 
-        # Remove the player from current map
-        self.current_map.player = None
-        self.current_map.entities.remove(player)
-
-        # Do we have a level below us yet?
-        if self.dlevel == len(self.map_list):
-            # Generate a new level and add it to the map_list
-            self.generate_floor()
-
-        # Add the player to the new map
-        self.current_map.entities.add(player)
-        self.current_map.player = player
+        # We can't move below the levels that exist
+        if next_level > len(self.map_list):
+            return False
 
         # Set the player's location to the next level's upstair.
-        player.x, player.y = self.current_map.upstairs_location
+        x, y = self.get_map(next_level).upstairs_location
+        self.place_entity(entity, next_level, x, y)
+
+        # Latch the player to the new level
+        self.current_map.player = entity
+        return True
+
+    def move_upstairs(self, entity):
+        # Unlatch the player from the old level
+        self.current_map.player = None
+
+        # This manages moving an entity between levels
+        next_level = self.dlevel - 1
+
+        # For now, do not allow going upstairs on the top level.
+        if next_level <= 0:
+            return False
+
+        # Set the player's location to the next level's upstair.
+        x, y = self.get_map(next_level).downstairs_location
+        self.place_entity(entity, next_level, x, y)
+
+        # Latch the player to the new level
+        self.current_map.player = entity
+        return True
+
+    def place_entity(self, entity, map_num, x, y):
+        # Returns True if successful, False otherwise.
+
+        # Remove the entity from current map
+        if entity in self.current_map.entities:
+            self.current_map.entities.remove(entity)
+
+        # Change the dlevel
+        self.set_dlevel(map_num)
+
+        # Add the player to the new map
+        self.current_map.entities.add(entity)
 
         # set the players parent
-        player.parent = self.current_map
+        entity.parent = self.current_map
 
-        # Add the map to the engine
+        # Change the entity position
+        entity.x, entity.y = x, y
+
+        # Change the Engine's map to the new one.
         self.engine.game_map = self.current_map
 
         # Add the engine to the map
         self.current_map.engine = self.engine
 
-    def move_upstairs(self):
-        pass
+    def set_dlevel(self, new_dlevel):
+        # Checks that the level number is valid and sets it.
+        # Returns True if successful, False otherwise.
 
-    def place_hero(self, level, x, y):
-        pass
+        if new_dlevel <= 0:
+            raise ValueError("Cannot set the dungeon level to 0 or less!")
 
-    # set_dlevel(num)
+        elif new_dlevel > len(self.map_list):
+            raise ValueError("Cannot set dungeon level greater than the number of levels that exist!")
+
+        if new_dlevel <= len(self.map_list):
+            self.dlevel = new_dlevel
+            return True
+
+        return False
+
+    def get_map(self, dlevel):
+        return self.map_list[dlevel - 1]
+
     # get_map(num)
     # add_map
     # Branches? Each map should get a code as well as a level depth.
