@@ -1,12 +1,5 @@
 from components.component import Component
-import random
-
-
-def myround(x, base=25):
-    """ Simple rounding function to make xp levels look cleaner.
-        Rounds to the nearest 'base'
-    """
-    return base * round(x/base)
+from src.utils import myround
 
 
 class Level(Component):
@@ -67,7 +60,7 @@ class Level(Component):
 
 
 def display_chart(base=20, factor=2):
-    'Useful for comparing the XP level requirements.'
+    """Useful for comparing the XP level requirements."""
     max_level = 20
 
     level = Level(
