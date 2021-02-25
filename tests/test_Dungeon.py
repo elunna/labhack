@@ -102,10 +102,16 @@ def test_move_downstairs__player_set_on_new_map(test_dungeon):
     assert test_dungeon.current_map.player == player
 
 
+def test_move_downstairs__sets_engines_gamemap_ref(test_dungeon):
+    player = test_dungeon.current_map.player
+    test_dungeon.move_downstairs(entity=player)
+    m = test_dungeon.current_map
+    assert test_dungeon.engine.game_map == m
+
+
 def test_move_upstairs__level_1__returns_False(test_dungeon):
     player = test_dungeon.current_map.player
     test_dungeon.place_entity(player, 1, 0, 0)  # Put the player on level 1
-
     assert test_dungeon.dlevel == 1
     assert test_dungeon.move_upstairs(entity=player) is False
 
@@ -118,14 +124,12 @@ def test_move_upstairs__success_returns_True(test_dungeon):
 def test_move_upstairs__dlevel_decrements(test_dungeon):
     player = test_dungeon.current_map.player
     assert test_dungeon.dlevel == 2
-
     test_dungeon.move_upstairs(entity=player)
     assert test_dungeon.dlevel == 1
 
 
 def test_move_upstairs__entity_moves_to_previous_downstair(test_dungeon):
     player = test_dungeon.current_map.player
-
     test_dungeon.move_upstairs(entity=player)
     x, y = test_dungeon.current_map.downstairs_location
     assert player.x == x and player.y == y
@@ -133,7 +137,6 @@ def test_move_upstairs__entity_moves_to_previous_downstair(test_dungeon):
 
 def test_move_upstairs__player_unset_on_old_map(test_dungeon):
     player = test_dungeon.current_map.player
-
     old_map = test_dungeon.current_map
     test_dungeon.move_upstairs(entity=player)
     assert old_map.player is None
@@ -141,9 +144,15 @@ def test_move_upstairs__player_unset_on_old_map(test_dungeon):
 
 def test_move_upstairs__player_set_on_new_map(test_dungeon):
     player = test_dungeon.current_map.player
-
     test_dungeon.move_upstairs(entity=player)
     assert test_dungeon.current_map.player == player
+
+
+def test_move_upstairs__sets_engines_gamemap_ref(test_dungeon):
+    player = test_dungeon.current_map.player
+    test_dungeon.move_upstairs(entity=player)
+    m = test_dungeon.current_map
+    assert test_dungeon.engine.game_map == m
 
 
 def test_place_entity__to_new_map__dlevel_changes(test_dungeon):
@@ -190,11 +199,6 @@ def test_place_entity__added_to_new_map(test_dungeon):
     assert player in test_dungeon.current_map.entities
 
 
-def test_place_entity__sets_engines_gamemap_ref(test_dungeon):
-    player = test_dungeon.current_map.player
-    test_dungeon.place_entity(entity=player, map_num=3, x=0, y=1)
-    m = test_dungeon.current_map
-    assert test_dungeon.engine.game_map == m
 
 
 def test_set_dlevel__empty_maplist__raise_exception(quik_d):

@@ -16,6 +16,9 @@ class Dungeon:
         # Create a first map for the dungeon
         self.generate_floor()
 
+        # Set the engine's map ref
+        self.engine.game_map = self.current_map
+
     @property
     def current_map(self):
         # Returns the floor that the player is currently on.
@@ -68,6 +71,9 @@ class Dungeon:
 
         # Latch the player to the new level
         self.current_map.player = entity
+
+        # Set the engine's map ref
+        self.engine.game_map = self.current_map
         return True
 
     def move_upstairs(self, entity):
@@ -87,6 +93,10 @@ class Dungeon:
 
         # Latch the player to the new level
         self.current_map.player = entity
+
+        # Set the engine's map ref
+        self.engine.game_map = self.current_map
+
         return True
 
     def place_entity(self, entity, map_num, x, y):
@@ -108,8 +118,6 @@ class Dungeon:
         # Change the entity position
         entity.x, entity.y = x, y
 
-        # Update engines game_map ref
-        self.engine.game_map = self.current_map
 
     def set_dlevel(self, new_dlevel):
         # Checks that the level number is valid and sets it.
