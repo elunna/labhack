@@ -1,7 +1,6 @@
 """Handle the loading and initialization of game sessions."""
 from . import color
 from . import factory
-from . import dungeon
 from .engine import Engine
 import copy
 import lzma
@@ -10,7 +9,7 @@ import pickle
 
 def new_game():
     """Return a brand new game session as an Engine instance."""
-    player = copy.deepcopy(factory.player)
+    player = factory.make("player")
     engine = Engine(player=player)
 
     new_map = engine.dungeon.current_map

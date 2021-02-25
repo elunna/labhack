@@ -2,13 +2,12 @@
 
 from .fighter import Fighter
 from src import factory
-import copy
 import pytest
 
 
 @pytest.fixture
 def player():
-    return copy.deepcopy(factory.player)
+    return factory.make("player")
 
 
 def test_init():

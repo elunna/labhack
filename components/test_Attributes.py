@@ -1,5 +1,4 @@
 """ Tests for attributes.py """
-import copy
 import pytest
 from src import factory
 from .attributes import Attributes
@@ -7,7 +6,7 @@ from .attributes import Attributes
 
 @pytest.fixture
 def player():
-    return copy.deepcopy(factory.player)
+    return factory.make("player")
 
 
 def test_ac_property(player):

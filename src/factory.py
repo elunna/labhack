@@ -18,14 +18,9 @@ import tcod
 
 
 def make(entity_name):
-    if entity_name == 'player':
-        return copy.deepcopy(player)
-    elif entity_name == 'grid bug':
-        return copy.deepcopy(grid_bug)
-    elif entity_name == 'orc':
-        return copy.deepcopy(orc)
-    elif entity_name == 'troll':
-        return copy.deepcopy(troll)
+    if entity_name in actor_dict:
+        return copy.deepcopy(actor_dict[entity_name])
+
     elif entity_name == 'dagger':
         return copy.deepcopy(dagger)
     elif entity_name == 'sword':
@@ -41,132 +36,134 @@ def make(entity_name):
     return None
 
 
-player = actor.Actor(
-    char="@",
-    color=(255, 255, 255),
-    name="Player",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=30),
-    attack_comp=AttackComponent(Attack('punch', [2])),
-    attributes=Attributes(base_ac=10, base_strength=5),
-    # Original inventory capacity is 26 because we have 26 lowercase letters.
-    inventory=Inventory(capacity=26),
-    level=Level(level_up_base=20),
-    energy=EnergyComponent(threshold=10)
-)
+actor_dict = {
+    "player": actor.Actor(
+        char="@",
+        color=(255, 255, 255),
+        name="Player",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=30),
+        attack_comp=AttackComponent(Attack('punch', [2])),
+        attributes=Attributes(base_ac=10, base_strength=5),
+        # Original inventory capacity is 26 because we have 26 lowercase letters.
+        inventory=Inventory(capacity=26),
+        level=Level(level_up_base=20),
+        energy=EnergyComponent(threshold=10)
+    ),
 
-grid_bug = actor.Actor(
-    char="x",
-    color=tcod.purple,
-    name="Grid Bug",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=1),
-    attack_comp=AttackComponent(Attack('zap', [1])),
-    attributes=Attributes(base_ac=1, base_strength=1),
-    inventory=Inventory(capacity=0),
-    level=Level(xp_given=1),
-    energy=EnergyComponent(threshold=10)
-)
+    "grid bug": actor.Actor(
+        char="x",
+        color=tcod.purple,
+        name="Grid Bug",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=1),
+        attack_comp=AttackComponent(Attack('zap', [1])),
+        attributes=Attributes(base_ac=1, base_strength=1),
+        inventory=Inventory(capacity=0),
+        level=Level(xp_given=1),
+        energy=EnergyComponent(threshold=10)
+    ),
 
-storm_drone = actor.Actor(
-    char="x",
-    color=(0, 127, 0),
-    name="Storm Drone",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=1),
-    attack_comp=AttackComponent(Attack('zap', [5])),
-    attributes=Attributes(base_ac=-20, base_strength=10),
-    inventory=Inventory(capacity=0),
-    level=Level(current_level=4, xp_given=55),
-    energy=EnergyComponent(threshold=8)
-)
+    "storm drone": actor.Actor(
+        char="x",
+        color=(0, 127, 0),
+        name="Storm Drone",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=1),
+        attack_comp=AttackComponent(Attack('zap', [5])),
+        attributes=Attributes(base_ac=-20, base_strength=10),
+        inventory=Inventory(capacity=0),
+        level=Level(current_level=4, xp_given=55),
+        energy=EnergyComponent(threshold=8)
+    ),
 
-spider_drone = actor.Actor(
-    char="s",
-    color=tcod.silver,
-    name="Spider Drone",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=4),
-    attack_comp=AttackComponent(Attack('claw', [3])),
-    attributes=Attributes(base_ac=7, base_strength=3),
-    inventory=Inventory(capacity=0),
-    level=Level(xp_given=35),
-    energy=EnergyComponent(threshold=13)
-)
+    "spider drone": actor.Actor(
+        char="s",
+        color=tcod.silver,
+        name="Spider Drone",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=4),
+        attack_comp=AttackComponent(Attack('claw', [3])),
+        attributes=Attributes(base_ac=7, base_strength=3),
+        inventory=Inventory(capacity=0),
+        level=Level(xp_given=35),
+        energy=EnergyComponent(threshold=13)
+    ),
 
-med_school_dropout = actor.Actor(
-    char="@",
-    color=tcod.dark_gray,
-    name="Med-School Dropout",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=6),
-    attack_comp=AttackComponent(Attack('kick', [5])),
-    attributes=Attributes(base_ac=6, base_strength=8),
-    inventory=Inventory(capacity=0),
-    level=Level(xp_given=55),
-    energy=EnergyComponent(threshold=12)
-)
+    "med school dropout": actor.Actor(
+        char="@",
+        color=tcod.dark_gray,
+        name="Med-School Dropout",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=6),
+        attack_comp=AttackComponent(Attack('kick', [5])),
+        attributes=Attributes(base_ac=6, base_strength=8),
+        inventory=Inventory(capacity=0),
+        level=Level(xp_given=55),
+        energy=EnergyComponent(threshold=12)
+    ),
 
-cyber_cat = actor.Actor(
-    char="f",
-    color=tcod.dark_blue,
-    name="Cyber Cat",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=6),
-    attack_comp=AttackComponent(Attack('claw', [6])),
-    attributes=Attributes(base_ac=3, base_strength=8),
-    inventory=Inventory(capacity=0),
-    level=Level(xp_given=55),
-    energy=EnergyComponent(threshold=7)
-)
+    "cyber cat": actor.Actor(
+        char="f",
+        color=tcod.dark_blue,
+        name="Cyber Cat",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=6),
+        attack_comp=AttackComponent(Attack('claw', [6])),
+        attributes=Attributes(base_ac=3, base_strength=8),
+        inventory=Inventory(capacity=0),
+        level=Level(xp_given=55),
+        energy=EnergyComponent(threshold=7)
+    ),
 
-giant_leech = actor.Actor(
-    char="L",
-    color=tcod.light_green,
-    name="Giant Leech",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=11),
-    attack_comp=AttackComponent(Attack('suck', [6])),
-    attributes=Attributes(base_ac=-2, base_strength=10),
-    inventory=Inventory(capacity=0),
-    level=Level(current_level=4, xp_given=100),
-    energy=EnergyComponent(threshold=16)
-)
+    "giant leech": actor.Actor(
+        char="L",
+        color=tcod.light_green,
+        name="Giant Leech",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=11),
+        attack_comp=AttackComponent(Attack('suck', [6])),
+        attributes=Attributes(base_ac=-2, base_strength=10),
+        inventory=Inventory(capacity=0),
+        level=Level(current_level=4, xp_given=100),
+        energy=EnergyComponent(threshold=16)
+    ),
 
-orc = actor.Actor(
-    char="o",
-    color=(63, 127, 63),
-    name="Orc",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=4),
-    attack_comp=AttackComponent(Attack('hit', [3])),
-    attributes=Attributes(base_ac=7, base_strength=3),
-    inventory=Inventory(capacity=0),
-    level=Level(xp_given=35),
-    energy=EnergyComponent(threshold=13)
-)
+    "orc": actor.Actor(
+        char="o",
+        color=(63, 127, 63),
+        name="Orc",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=4),
+        attack_comp=AttackComponent(Attack('hit', [3])),
+        attributes=Attributes(base_ac=7, base_strength=3),
+        inventory=Inventory(capacity=0),
+        level=Level(xp_given=35),
+        energy=EnergyComponent(threshold=13)
+    ),
 
-troll = actor.Actor(
-    char="T",
-    color=(0, 127, 0),
-    name="Troll",
-    ai_cls=HostileAI(),
-    equipment=Equipment(),
-    fighter=Fighter(hp=11),
-    attack_comp=AttackComponent(Attack('bites', [6])),
-    attributes=Attributes(base_ac=-2, base_strength=10),
-    inventory=Inventory(capacity=0),
-    level=Level(current_level=4, xp_given=100),
-    energy=EnergyComponent(threshold=16)
-)
+    "troll": actor.Actor(
+        char="T",
+        color=(0, 127, 0),
+        name="Troll",
+        ai_cls=HostileAI(),
+        equipment=Equipment(),
+        fighter=Fighter(hp=11),
+        attack_comp=AttackComponent(Attack('bites', [6])),
+        attributes=Attributes(base_ac=-2, base_strength=10),
+        inventory=Inventory(capacity=0),
+        level=Level(current_level=4, xp_given=100),
+        energy=EnergyComponent(threshold=16)
+    ),
+}
 
 health_potion = item.Item(
     char="!",
@@ -614,10 +611,10 @@ item_chances = {
 }
 
 enemy_chances = {
-    0: [(grid_bug, 40), (spider_drone, 80)],
-    3: [(giant_leech, 15), (med_school_dropout, 25)],
-    5: [(giant_leech, 30), (cyber_cat, 35)],
-    7: [(giant_leech, 60), (cyber_cat, 40)],
+    0: [("grid bug", 40), ("spider drone", 80)],
+    3: [("giant leech", 15), ("med school dropout", 25)],
+    5: [("giant leech", 30), ("cyber cat", 35)],
+    7: [("giant leech", 60), ("cyber cat", 40)],
 }
 
 
@@ -699,7 +696,7 @@ def place_monsters(new_room, dungeon, floor_number):
 
         # Don't spawn them on top of each other.
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            entity.spawn(dungeon, x, y)
+            make(entity).spawn(dungeon, x, y)
 
 
 def populate_map(new_map, current_floor):

@@ -6,7 +6,7 @@ import copy
 
 
 def cp_player():
-    return copy.deepcopy(factory.player)
+    return factory.make("player")
 
 
 def test_map():
@@ -36,7 +36,7 @@ def test_map():
         new_map.tiles[x, y] = tiles.wall
 
     # Create a player at 5, 5
-    player = copy.deepcopy(factory.player)
+    player = factory.make("player")
     new_map.add_entity(player, 5, 5)
     new_map.player = player
 
@@ -54,10 +54,10 @@ def test_map():
     player.inventory.add_item(health_potion)
 
     # Create a grid bug at 2, 5
-    factory.grid_bug.spawn(new_map, 2, 5)
+    factory.make("grid bug").spawn(new_map, 2, 5)
 
     # Create a grid bug at 5, 4
-    factory.orc.spawn(new_map, 5, 4)
+    factory.make("orc").spawn(new_map, 5, 4)
 
     return new_map
 

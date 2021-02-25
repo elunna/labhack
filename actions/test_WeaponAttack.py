@@ -20,7 +20,7 @@ def player():
 
 def test_hit_msg__you_hit_enemy(player):
     a = WeaponAttack(entity=player, dx=-1, dy=-1)
-    target = factory.orc
+    target = factory.make("orc")
     # TODO: Add reference to attacks in AttackActions? Cross link with it's weapon?
     atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attacks[0]
     dmg = 10
@@ -30,7 +30,7 @@ def test_hit_msg__you_hit_enemy(player):
 
 def test_hit_msg__enemy_hits_you(player):
     # Arm the orc with a dagger
-    orc = factory.orc
+    orc = factory.make("orc")
     dagger = factory.make('dagger')
     orc.inventory.add_item(dagger)
     orc.equipment.toggle_equip(dagger)
@@ -44,7 +44,7 @@ def test_hit_msg__enemy_hits_you(player):
 
 def test_hit_msg__enemy_hits_enemy():
     # Arm the orc with a dagger
-    orc = factory.orc
+    orc = factory.make("orc")
     dagger = factory.make('dagger')
     orc.inventory.add_item(dagger)
     orc.equipment.toggle_equip(dagger)
