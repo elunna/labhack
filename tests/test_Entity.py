@@ -139,32 +139,6 @@ def test_spawn__xy(test_map):
     assert result.y == 3
 
 
-def test_place__no_gamemap():
-    e = Entity()
-    e.place(2, 3)
-    assert e.x == 2
-    assert e.y == 3
-
-
-def test_place__gamemap__xy(test_map):
-    e = Entity(x=0, y=0)
-    e.place(2, 3, test_map)
-    assert e.x == 2
-    assert e.y == 3
-
-
-def test_place__gamemap__in_entities(test_map):
-    e = Entity(x=0, y=0)
-    e.place(2, 3, test_map)
-    assert e in test_map.entities
-
-
-def test_place__gamemap(test_map):
-    e = Entity(x=0, y=0)
-    e.place(2, 3, test_map)
-    assert e.gamemap == test_map
-
-
 def test_distance__same_point():
     e = Entity(x=0, y=0)
     assert e.x == 0

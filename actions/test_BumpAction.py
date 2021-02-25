@@ -48,7 +48,7 @@ def test_perform__attack_with_weapon(test_map):
     weapon = player.equipment.slots['WEAPON']
     assert weapon
 
-    player.place(2, 4, test_map)
+    player.x, player.y = 2, 4
     a = BumpAction(entity=player, dx=0, dy=1)
     result = a.perform()
     assert isinstance(result, WeaponAttack)
@@ -59,7 +59,7 @@ def test_perform__attack_without_weapon(test_map):
     player = test_map.player
     assert player.equipment.slots['WEAPON'] is None
 
-    player.place(2, 4, test_map)
+    player.x, player.y = 2, 4
     a = BumpAction(entity=player, dx=0, dy=1)
     result = a.perform()
     assert isinstance(result, MeleeAttack)

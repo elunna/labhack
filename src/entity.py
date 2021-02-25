@@ -82,17 +82,6 @@ class Entity(object):
         gamemap.entities.add(clone)
         return clone
 
-    def place(self, x, y, gamemap=None):
-        """Place this entity at a new location.  Handles moving across GameMaps."""
-        self.x, self.y = x, y
-
-        if gamemap:
-            if hasattr(self, "parent"):  # Possibly uninitialized.
-                if self.parent is self.gamemap:
-                    self.gamemap.entities.remove(self)
-            self.parent = gamemap
-            gamemap.entities.add(self)
-
     def distance(self, x, y):
         """Return the distance between the current entity and the given (x, y) coordinate.
             Return as a float value.
