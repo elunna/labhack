@@ -48,6 +48,13 @@ def test_generate_map__returns_GameMap():
     assert isinstance(result, GameMap)
 
 
+def test_generate_map__sets_new_maps_engine_ref():
+    e = SimpleNamespace(game_map='testmap')
+    d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
+    result = d.generate_floor()
+    assert result.engine == e
+
+
 @pytest.mark.skip(reason="Deal with populate")
 def test_generate_map__calls_populate():
     pass
@@ -189,11 +196,7 @@ def test_place_entity__sets_engines_gamemap_ref(test_dungeon):
     assert test_dungeon.engine.game_map == m
 
 
-def test_place_entity__sets_new_maps_engine_ref(test_dungeon):
-    player = test_dungeon.current_map.player
-    test_dungeon.place_entity(entity=player, map_num=3, x=0, y=1)
-    e = test_dungeon.engine
-    assert test_dungeon.current_map.engine == e
+
 
 
 def test_set_dlevel__empty_maplist__raise_exception():

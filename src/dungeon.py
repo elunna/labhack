@@ -7,14 +7,14 @@ class Dungeon:
     """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
     """
     def __init__(self, engine=None, test_map=None):
+        self.engine = engine  # This must be set before generate_floor.
+
         self.dlevel = 1  # The number of the current floor the player is on.
         self.map_list = []
         self.test_map = test_map  # Just pass a reference to the function.
 
         # Create a first map for the dungeon
         self.generate_floor()
-
-        self.engine = engine
 
     @property
     def current_map(self):
@@ -44,6 +44,9 @@ class Dungeon:
 
         # Add map to list
         self.map_list.append(new_map)
+
+        # Add the engine to the map
+        new_map.engine = self.engine
 
         # Return the map for other uses
         return new_map
@@ -105,11 +108,8 @@ class Dungeon:
         # Change the entity position
         entity.x, entity.y = x, y
 
-        # Change the Engine's map to the new one.
+        # Update engines game_map ref
         self.engine.game_map = self.current_map
-
-        # Add the engine to the map
-        self.current_map.engine = self.engine
 
     def set_dlevel(self, new_dlevel):
         # Checks that the level number is valid and sets it.
