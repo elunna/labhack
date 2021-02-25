@@ -39,6 +39,12 @@ class Equipment(Component):
         """ Returns True if the item is equipped, otherwise returns False."""
         return item in self.slots.values()
 
+    def slot_equipped(self, slot):
+        """ Returns True if the item is equipped, otherwise returns False."""
+        if slot not in self.slots:
+            raise ValueError("Invalid slot!")
+        return self.slots.get(slot) is not None
+
     def unequip_message(self, item_name):
         return f"You remove the {item_name}. "
 

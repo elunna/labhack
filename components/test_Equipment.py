@@ -87,6 +87,22 @@ def test_item_is_equipped__armor_equipped(leather_armor):
     assert e.is_equipped(leather_armor)
 
 
+def test_item_slot_equipped__weapon(dagger):
+    e = Equipment(dagger)
+    assert e.slot_equipped('WEAPON')
+
+
+def test_item_slot_equipped__armor(leather_armor):
+    e = Equipment(leather_armor)
+    assert e.slot_equipped('ARMOR')
+
+
+def test_item_slot_equipped__invalid_slot_raises_ValueError(leather_armor):
+    e = Equipment(leather_armor)
+    with pytest.raises(ValueError):
+        e.slot_equipped('GIMPSUIT')
+
+
 def test_unequip_message(leather_armor):
     e = Equipment(leather_armor)
     result = e.unequip_message(leather_armor.name)
