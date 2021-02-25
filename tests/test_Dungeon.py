@@ -20,31 +20,32 @@ def test_dungeon():
     return d
 
 
-def test_init__dlevel():
-    d = dungeon.Dungeon()
-    assert d.dlevel == 1
+@pytest.fixture
+def quik_d():
+    e = SimpleNamespace(game_map='testmap')
+    return dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
 
 
-def test_init__map_list():
-    d = dungeon.Dungeon()
-    assert d.map_list == [d.current_map]
+def test_init__dlevel(quik_d):
+    assert quik_d.dlevel == 1
 
 
-def test_current_map():
-    d = dungeon.Dungeon()
-    assert d.current_map == d.map_list[0]
+def test_init__map_list(quik_d):
+    assert quik_d.map_list == [quik_d.current_map]
 
 
-def test_generate_map__added_to_map_list():
-    d = dungeon.Dungeon()
-    assert len(d.map_list) == 1
-    d.generate_floor()
-    assert len(d.map_list) == 2
+def test_current_map(quik_d):
+    assert quik_d.current_map == quik_d.map_list[0]
 
 
-def test_generate_map__returns_GameMap():
-    d = dungeon.Dungeon()
-    result = d.generate_floor()
+def test_generate_map__added_to_map_list(quik_d):
+    assert len(quik_d.map_list) == 1
+    quik_d.generate_floor()
+    assert len(quik_d.map_list) == 2
+
+
+def test_generate_map__returns_GameMap(quik_d):
+    result = quik_d.generate_floor()
     assert isinstance(result, GameMap)
 
 
@@ -196,28 +197,21 @@ def test_place_entity__sets_engines_gamemap_ref(test_dungeon):
     assert test_dungeon.engine.game_map == m
 
 
-
-
-
-def test_set_dlevel__empty_maplist__raise_exception():
-    d = dungeon.Dungeon()
+def test_set_dlevel__empty_maplist__raise_exception(quik_d):
     with pytest.raises(ValueError):
-        d.set_dlevel(0)
+        quik_d.set_dlevel(0)
 
 
-def test_set_dlevel__valid_level():
-    d = dungeon.Dungeon()
-    d.generate_floor()
-    d.generate_floor()
-    assert d.set_dlevel(2)
-    assert d.dlevel == 2
+def test_set_dlevel__valid_level(quik_d):
+    quik_d.generate_floor()
+    quik_d.generate_floor()
+    assert quik_d.set_dlevel(2)
+    assert quik_d.dlevel == 2
 
 
-def test_set_dlevel__invalid_level__raise_exception():
-    d = dungeon.Dungeon()
-    d.generate_floor()
+def test_set_dlevel__invalid_level__raise_exception(quik_d):
     with pytest.raises(ValueError):
-        d.set_dlevel(99)
+        quik_d.set_dlevel(99)
 
 
 # get_map(int)
