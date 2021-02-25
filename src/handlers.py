@@ -10,6 +10,7 @@ from typing import Union
 import actions.actions
 import actions.bump_action
 import actions.downstairs_action
+import actions.upstairs_action
 import actions.drop_action
 import actions.equip_action
 import actions.pickup_action
@@ -127,20 +128,22 @@ class MainGameHandler(EventHandler):
 
         player = self.engine.player
 
-        # > (Down stairs)
-        if key == tcod.event.K_PERIOD and modifier & (
-                tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
-        ):
-            return actions.downstairs_action.DownStairsAction(
-                entity=player,
-                dungeon=self.engine.dungeon
-            )
+        # Shift modifiers
+        if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+            if key == tcod.event.K_PERIOD:  # > (Down stairs)
+                return actions.downstairs_action.DownStairsAction(
+                    entity=player,
+                    dungeon=self.engine.dungeon
+                )
 
-        # ? (Help screen)
-        if key == tcod.event.K_SLASH and modifier & (
-                tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT
-        ):
-            return HelpHandler(self.engine)
+            elif key == tcod.event.K_COMMA:  # < (Up stairs)
+                return actions.upstairs_action.UpStairsAction(
+                    entity=player,
+                    dungeon=self.engine.dungeon
+                )
+
+            elif key == tcod.event.K_SLASH:   # ? (Help screen)
+                return HelpHandler(self.engine)
 
         # Ctrl-X: Character Screen
         if key == tcod.event.K_x and modifier & (
