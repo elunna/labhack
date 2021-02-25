@@ -12,6 +12,9 @@ class Entity(object):
         self.components = {}
         self.add_comp(**kwargs)  # Add any components that were passed in at creation
 
+        # Every Entity should have a parent component included.
+        self.add_comp(parent=None)
+
     def __str__(self):
         if 'name' in self:
             return self.name
