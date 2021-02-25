@@ -1,4 +1,3 @@
-import random
 from components.component import Component
 
 """ Describes the attack that a player, monster, or item has.
@@ -65,9 +64,3 @@ class AttackComponent(Component):
 
     def __len__(self):
         return len(self.attacks)
-
-    @staticmethod
-    def roll_dies(dies):
-        # Takes in a list of dies, rolls all of them, and returns the sum of the results.
-        return sum(random.randint(1, d) for d in dies)
-

@@ -1,6 +1,5 @@
 from .actions import ActionWithDirection
 from actions.die_action import DieAction
-from components.attack_cmp import AttackComponent
 from src import exceptions
 import random
 
@@ -29,7 +28,7 @@ class AttackAction(ActionWithDirection):
                     self.hit_msg(target, atk, dmg)
                 else:
                     # Blocking message
-                    self.blocked_msg(target, atk)
+                    self.blocked_msg(target)
             else:
                 self.miss(target)
 
@@ -59,7 +58,7 @@ class AttackAction(ActionWithDirection):
 
     def execute_damage(self, target, atk):
         # It's a hit! Calculate the damage
-        dmg = AttackComponent.roll_dies(atk.dies)
+        dmg = atk.roll_dies()
 
         # Calculate damage reduction from targets AC
         dmg = self.reduce_dmg(target, dmg)

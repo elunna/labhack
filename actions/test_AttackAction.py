@@ -193,4 +193,3 @@ def test_hit_msg__not_implemented(test_map):
     a = AttackAction(entity=test_map.player, dx=0, dy=1)
     with pytest.raises(NotImplementedError):
         a.hit_msg(factory.orc, "hit", 15)
-
