@@ -20,7 +20,7 @@ class PickupAction(Action):
                 if len(inventory.items) >= inventory.capacity:
                     raise exceptions.Impossible("Your inventory is full.")
 
-                self.entity.gamemap.entities.remove(item)
+                self.entity.gamemap.rm_entity(item)
                 item.parent = self.entity.inventory
                 inventory.add_item(item)
                 self.msg = f"You picked up the {item.name}. "

@@ -17,11 +17,9 @@ def new_game():
     new_map = engine.dungeon.current_map
 
     # Add player
-    new_map.entities.add(player)
+    startx, starty = new_map.upstairs_location
+    new_map.add_entity(player, startx, starty)
     new_map.player = player
-
-    # Place player on upstair.
-    player.place(*new_map.upstairs_location, new_map)
 
     # Add the map to the engine
     engine.game_map = new_map

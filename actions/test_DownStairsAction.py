@@ -15,7 +15,7 @@ def test_dungeon():
     e = SimpleNamespace(game_map='testmap')
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()
-    d.current_map.entities.add(player)
+    d.current_map.add_entity(player, 0, 0)
     d.current_map.player = player
     return d
 

@@ -37,9 +37,7 @@ def test_map():
 
     # Create a player at 5, 5
     player = copy.deepcopy(factory.player)
-    player.x = 5
-    player.y = 5
-    new_map.entities.add(player)
+    new_map.add_entity(player, 5, 5)
     new_map.player = player
 
     # Set the player parent to the map
