@@ -1,3 +1,4 @@
+import src.utils
 from actions.die_action import DieAction
 from actions.item_action import ItemAction
 from components.ai import ConfusedAI
@@ -59,7 +60,7 @@ class LightningDamageConsumable(Consumable):
 
         for actor in self.engine.game_map.actors:
             if actor is not consumer and self.parent.gamemap.visible[actor.x, actor.y]:
-                distance = consumer.distance(actor.x, actor.y)
+                distance = src.utils.distance(actor.x, actor.y)
 
                 if distance < closest_distance:
                     target = actor
@@ -150,7 +151,7 @@ class FireballDamageConsumable(Consumable):
 
         results = []
         for actor in self.engine.game_map.actors:
-            if actor.distance(*target_xy) <= self.radius:
+            if src.utils.distance(*target_xy) <= self.radius:
                 action.msg += f"The {actor.name} is engulfed in a fiery explosion! "
                 actor.fighter.hp -= self.damage
 

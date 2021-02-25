@@ -1,10 +1,11 @@
 from . import gamemap
 from . import room
 from . import tiles
-import math
 import numpy as np
 import random
 import tcod
+
+from .utils import distance
 
 
 def dig_path(new_map, path):
@@ -218,10 +219,6 @@ def create_L_path(start, end, twist=0):
     for x, y in tcod.los.bresenham((corner_x, corner_y), (x2, y2)).tolist()[1:]:
         coordinates.append((x, y))
     return coordinates
-
-
-def distance(x1, y1, x2, y2):
-    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance):

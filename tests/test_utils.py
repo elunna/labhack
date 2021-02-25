@@ -1,6 +1,19 @@
 from src import utils
 
 
+def test_distance__same_point_0():
+    assert utils.distance(0, 0, 0, 0) == 0
+
+
+def test_distance__1_sq_east_1():
+    assert utils.distance(0, 0, 1, 0) == 1
+
+
+def test_distance__1_sq_diagonal():
+    result = utils.distance(0, 0, 1, 1)
+    assert round(result, 2) == 1.41
+
+
 def test_myround__0():
     result = utils.myround(0)
     assert result == 0
