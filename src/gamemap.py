@@ -69,7 +69,10 @@ class GameMap:
 
         self.entities.add(e)
         e.x, e.y = x, y  # Update coords
-        if e.parent:
+
+        # Gotta be careful and check if the Entity has a parent component first.
+        # TODO: Add parent by default to all Entities so we don't need this check.
+        if 'parent' in e and e.parent:
             e.parent.rm_entity(e)
         e.parent = self
         return True
