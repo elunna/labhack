@@ -3,7 +3,7 @@ from src.settings import DEFAULT_THRESHOLD
 import random
 
 
-class EnergyMeter(Component):
+class EnergyComponent(Component):
     def __init__(self, threshold=DEFAULT_THRESHOLD):
         if threshold <= 0:
             raise ValueError("EnergyMeter threshold must be a positive integer!")

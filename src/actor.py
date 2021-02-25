@@ -16,7 +16,7 @@ class Actor(entity.Entity):
             attributes,
             inventory,
             level,
-            energymeter,
+            energy,
     ):
         super().__init__(
             x=x,
@@ -35,7 +35,7 @@ class Actor(entity.Entity):
         self.add_comp(attributes=attributes)
         self.add_comp(inventory=inventory)
         self.add_comp(level=level)
-        self.add_comp(energymeter=energymeter)
+        self.add_comp(energymeter=energy)
 
     @property
     def is_alive(self):

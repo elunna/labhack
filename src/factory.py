@@ -8,7 +8,7 @@ from components.ai import HostileAI
 from components.attack_cmp import AttackComponent
 from components.attack import Attack
 from components.attributes import Attributes
-from components.energy import EnergyMeter
+from components.energy import EnergyComponent
 from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
@@ -53,7 +53,7 @@ player = actor.Actor(
     # Original inventory capacity is 26 because we have 26 lowercase letters.
     inventory=Inventory(capacity=26),
     level=Level(level_up_base=20),
-    energymeter=EnergyMeter(threshold=10)
+    energy=EnergyComponent(threshold=10)
 )
 
 grid_bug = actor.Actor(
@@ -67,7 +67,7 @@ grid_bug = actor.Actor(
     attributes=Attributes(base_ac=1, base_strength=1),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=1),
-    energymeter=EnergyMeter(threshold=10)
+    energy=EnergyComponent(threshold=10)
 )
 
 storm_drone = actor.Actor(
@@ -81,7 +81,7 @@ storm_drone = actor.Actor(
     attributes=Attributes(base_ac=-20, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=55),
-    energymeter=EnergyMeter(threshold=8)
+    energy=EnergyComponent(threshold=8)
 )
 
 spider_drone = actor.Actor(
@@ -95,7 +95,7 @@ spider_drone = actor.Actor(
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
-    energymeter=EnergyMeter(threshold=13)
+    energy=EnergyComponent(threshold=13)
 )
 
 med_school_dropout = actor.Actor(
@@ -109,7 +109,7 @@ med_school_dropout = actor.Actor(
     attributes=Attributes(base_ac=6, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
-    energymeter=EnergyMeter(threshold=12)
+    energy=EnergyComponent(threshold=12)
 )
 
 cyber_cat = actor.Actor(
@@ -123,7 +123,7 @@ cyber_cat = actor.Actor(
     attributes=Attributes(base_ac=3, base_strength=8),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=55),
-    energymeter=EnergyMeter(threshold=7)
+    energy=EnergyComponent(threshold=7)
 )
 
 giant_leech = actor.Actor(
@@ -137,7 +137,7 @@ giant_leech = actor.Actor(
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
-    energymeter=EnergyMeter(threshold=16)
+    energy=EnergyComponent(threshold=16)
 )
 
 orc = actor.Actor(
@@ -151,7 +151,7 @@ orc = actor.Actor(
     attributes=Attributes(base_ac=7, base_strength=3),
     inventory=Inventory(capacity=0),
     level=Level(xp_given=35),
-    energymeter=EnergyMeter(threshold=13)
+    energy=EnergyComponent(threshold=13)
 )
 
 troll = actor.Actor(
@@ -165,7 +165,7 @@ troll = actor.Actor(
     attributes=Attributes(base_ac=-2, base_strength=10),
     inventory=Inventory(capacity=0),
     level=Level(current_level=4, xp_given=100),
-    energymeter=EnergyMeter(threshold=16)
+    energy=EnergyComponent(threshold=16)
 )
 
 health_potion = item.Item(
