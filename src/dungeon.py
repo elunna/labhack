@@ -15,6 +15,7 @@ class Dungeon:
 
         # Create a first map for the dungeon
         self.generate_floor()
+        self.populate_map(self.dlevel)
 
         # Set the engine's map ref
         self.engine.game_map = self.current_map
@@ -42,9 +43,6 @@ class Dungeon:
                 max_distance=50,
             )
 
-            # Place entities, items, etc.
-            factory.populate_map(new_map, self.dlevel)
-
         # Add map to list
         self.map_list.append(new_map)
 
@@ -53,6 +51,11 @@ class Dungeon:
 
         # Return the map for other uses
         return new_map
+
+    def populate_map(self, dlevel):
+        # Place entities, items, etc.
+        map_to_populate = self.get_map(dlevel)
+        factory.populate_map(map_to_populate, self.dlevel)
 
     def move_downstairs(self, entity):
         # Unlatch the player from the old level
