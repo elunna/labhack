@@ -129,7 +129,7 @@ def test_spawn__not_exact_clone(test_map):
 def test_spawn__in_gamemap_entities(test_map):
     e = Entity()
     result = e.spawn(test_map, 2, 3)
-    assert result in test_map.entities
+    assert result in test_map
 
 
 def test_spawn__xy(test_map):

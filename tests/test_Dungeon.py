@@ -190,15 +190,13 @@ def test_place_entity__removed_from_old_map(test_dungeon):
     player = test_dungeon.current_map.player
     old_map = test_dungeon.current_map
     test_dungeon.place_entity(entity=player, map_num=3, x=0, y=1)
-    assert player not in old_map.entities
+    assert player not in old_map
 
 
 def test_place_entity__added_to_new_map(test_dungeon):
     player = test_dungeon.current_map.player
     test_dungeon.place_entity(entity=player, map_num=3, x=0, y=1)
-    assert player in test_dungeon.current_map.entities
-
-
+    assert player in test_dungeon.current_map
 
 
 def test_set_dlevel__empty_maplist__raise_exception(quik_d):

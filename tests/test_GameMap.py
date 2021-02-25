@@ -38,6 +38,17 @@ def test_init():
     assert m.upstairs_location == (-1, -1)
 
 
+def test_contains__entity_not_in_returns_False(player):
+    m = gamemap.GameMap(width=10, height=15)
+    assert player not in m
+
+
+def test_contains__entity_inside_returns_True(player):
+    m = gamemap.GameMap(width=10, height=15)
+    m.add_entity(player, 0, 0)
+    assert player in m
+
+
 def test_gamemap(test_map):
     assert test_map.gamemap is test_map
 
@@ -91,7 +102,7 @@ def test_add_entity__updates_entity_parent(player):
 def test_add_entity__added_to_map_entities(player):
     g = gamemap.GameMap(width=10, height=15)
     g.add_entity(player, 0, 0)
-    assert player in g.entities
+    assert player in g
 
 
 def test_add_entity__removed_from_previous_parent(test_map):
@@ -100,7 +111,7 @@ def test_add_entity__removed_from_previous_parent(test_map):
 
     g = gamemap.GameMap(width=10, height=15)
     g.add_entity(player, 0, 0)
-    assert player not in test_map.entities
+    assert player not in test_map
 
 
 def test_rm_entity__success_returns_True(test_map):
@@ -115,7 +126,7 @@ def test_rm_entity__not_in_map_returns_False(test_map):
 def test_rm_entity__removed_from_map_entities(test_map):
     player = test_map.player
     test_map.rm_entity(player)
-    assert player not in test_map.entities
+    assert player not in test_map
 
 
 def test_rm_entity__updates_entity_parent_to_None(test_map):

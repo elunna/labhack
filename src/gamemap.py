@@ -38,6 +38,9 @@ class GameMap:
             order="F"
         )  # Tiles the player has seen before
 
+    def __contains__(self, entity):
+        return entity in self.entities
+
     @property
     def gamemap(self):
         return self
@@ -62,7 +65,7 @@ class GameMap:
         """
         if not self.in_bounds(x, y):
             return False
-        if e in self.entities:
+        if e in self:
             return False
         if not isinstance(e, Entity):
             return False
@@ -77,13 +80,12 @@ class GameMap:
         e.parent = self
         return True
 
-
     def rm_entity(self, e):
         """ Removes an entity from this map and unsets it's parent.
             Set's the entity's coordinates to -1, -1.
             Returns True if successful, False if not.
         """
-        if e in self.entities:
+        if e in self:
             self.entities.remove(e)
             e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
             e.parent = None  # Update the parent before ditching it.
