@@ -18,7 +18,6 @@ class Engine:
         makes sure that the screen is correctly updated.
     """
     game_map: gamemap.GameMap
-    dungeon: dungeon.Dungeon
 
     def __init__(self, player):
         # TODO: Remove requirement for player
@@ -28,6 +27,7 @@ class Engine:
         self.player = player
         self.renderer = None
         self.turns = 0
+        self.dungeon = dungeon.Dungeon(engine=self)
 
     def handle_enemy_turns(self):
         for actor in set(self.game_map.actors) - {self.player}:

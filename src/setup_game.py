@@ -13,19 +13,12 @@ def new_game():
     player = copy.deepcopy(factory.player)
     engine = Engine(player=player)
 
-    engine.dungeon = dungeon.Dungeon(engine=engine)
     new_map = engine.dungeon.current_map
 
     # Add player
     startx, starty = new_map.upstairs_location
     new_map.add_entity(player, startx, starty)
     new_map.player = player
-
-    # Add the map to the engine
-    engine.game_map = new_map
-
-    # Add the engine to the map
-    new_map.engine = engine
 
     engine.update_fov()
 

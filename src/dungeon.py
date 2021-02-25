@@ -118,7 +118,6 @@ class Dungeon:
         # Change the entity position
         entity.x, entity.y = x, y
 
-
     def set_dlevel(self, new_dlevel):
         # Checks that the level number is valid and sets it.
         # Returns True if successful, False otherwise.
