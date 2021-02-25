@@ -564,6 +564,12 @@ class MapDebugHandler(BaseEventHandler):
             elif key == tcod.event.K_COMMA:
                 if self.room_max_distance > 10:
                     self.room_max_distance -= 1
+            # +
+            elif key == tcod.event.K_EQUALS:
+                self.max_rooms += 1
+            # -
+            elif key == tcod.event.K_MINUS:
+                self.max_rooms -= 1
             else:
                 return
 
