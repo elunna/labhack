@@ -1,6 +1,7 @@
 import copy
 import math
 from components.component import Component
+from src import utils
 
 
 class Entity(object):
@@ -87,6 +88,5 @@ class Entity(object):
 
     def distance(self, x, y):
         """Return the distance between the current entity and the given (x, y) coordinate.
-            Return as a float value.
         """
-        return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
+        return utils.distance(self.x, self.y, x, y)
