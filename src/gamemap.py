@@ -1,6 +1,7 @@
 from . import actor, settings
 from . import item
 from . import tiles
+from .entity import Entity
 from .room import Room
 import numpy as np
 
@@ -53,6 +54,38 @@ class GameMap:
     @property
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, item.Item))
+
+    def add_entity(self, e, x, y):
+        """ Adds an entity to the map at the specified coordinates.
+            Also sets the entities parent to this map.
+            Returns True if successful, False if not.
+        """
+        if not self.in_bounds(x, y):
+            return False
+        if e in self.entities:
+            return False
+        if not isinstance(e, Entity):
+            return False
+
+        self.entities.add(e)
+        e.x, e.y = x, y  # Update coords
+        if e.parent:
+            e.parent.rm_entity(e)
+        e.parent = self
+        return True
+
+
+    def rm_entity(self, e):
+        """ Removes an entity from this map and unsets it's parent.
+            Set's the entity's coordinates to -1, -1.
+            Returns True if successful, False if not.
+        """
+        if e in self.entities:
+            self.entities.remove(e)
+            e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
+            e.parent = None  # Update the parent before ditching it.
+            return True
+        return False
 
     def get_items_at(self, x, y):
         return [i for i in self.items if i.x == x and i.y == y]

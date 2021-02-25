@@ -10,6 +10,13 @@ def test_map():
     return toolkit.test_map()
 
 
+@pytest.fixture
+def player():
+    p = toolkit.cp_player()
+    p.parent = None  # Gotta set this...
+    return p
+
+
 def test_init():
     m = gamemap.GameMap(width=10, height=15)
     assert m.width == 10
@@ -45,6 +52,83 @@ def test_actors(test_map):
 def test_items__none_by_default(test_map):
     # We get a generator, need to convert to list.
     assert list(test_map.items) == []
+
+
+def test_add_entity__success_returns_True(player):
+    g = gamemap.GameMap(width=10, height=15)
+    assert g.add_entity(player, 0, 0)
+
+
+def test_add_entity__not_an_Entity_returns_False(player):
+    g = gamemap.GameMap(width=10, height=15)
+    assert g.add_entity('x', 0, 0) is False
+
+
+def test_add_entity__already_in_map_returns_False(test_map):
+    player = test_map.player
+    assert test_map.add_entity(player, 0, 0) is False
+
+
+def test_add_entity__out_of_bounds_returns_False(player):
+    g = gamemap.GameMap(width=10, height=15)
+    assert g.add_entity(player, -5, -5) is False
+
+
+def test_add_entity__updates_entity_coordinates(player):
+    g = gamemap.GameMap(width=10, height=15)
+    assert player.x == 0 and player.y == 0
+    g.add_entity(player, 3, 2)
+    assert player.x == 3 and player.y == 2
+
+
+def test_add_entity__updates_entity_parent(player):
+    g = gamemap.GameMap(width=10, height=15)
+    assert player.parent is None
+    g.add_entity(player, 0, 0)
+    assert player.parent == g
+
+
+def test_add_entity__added_to_map_entities(player):
+    g = gamemap.GameMap(width=10, height=15)
+    g.add_entity(player, 0, 0)
+    assert player in g.entities
+
+
+def test_add_entity__removed_from_previous_parent(test_map):
+    player = test_map.player
+    assert player.parent == test_map
+
+    g = gamemap.GameMap(width=10, height=15)
+    g.add_entity(player, 0, 0)
+    assert player not in test_map.entities
+
+
+def test_rm_entity__success_returns_True(test_map):
+    player = test_map.player
+    assert test_map.rm_entity(player)
+
+
+def test_rm_entity__not_in_map_returns_False(test_map):
+    assert test_map.rm_entity('x') is False
+
+
+def test_rm_entity__removed_from_map_entities(test_map):
+    player = test_map.player
+    test_map.rm_entity(player)
+    assert player not in test_map.entities
+
+
+def test_rm_entity__updates_entity_parent_to_None(test_map):
+    player = test_map.player
+    assert player.parent == test_map
+    test_map.rm_entity(player)
+    assert player.parent is None
+
+
+def test_rm_entity__updates_entity_coords(test_map):
+    player = test_map.player
+    test_map.rm_entity(player)
+    assert player.x == -1 and player.y == -1
 
 
 def test_get_blocking_entity_at_location__walls(test_map):
@@ -113,7 +197,8 @@ def test_get_names_at__visible(test_map):
 @pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__multiple_visible(test_map):
     potion = factory.health_potion
-    potion.place(5, 5, test_map)
+    potion.x, potion.y = 5, 5
+    test_map.entities.add(potion)
 
     # Set map tile to visible
     test_map.visible[5, 5] = True
