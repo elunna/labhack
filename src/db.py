@@ -24,7 +24,7 @@ actor_dict = {
         "attributes": Attributes(base_strength=5),
         # Original inventory capacity is 26 because we have 26 lowercase letters.
         "inventory": Inventory(capacity=26),
-        "level": Level(level_up_base=20),
+        "level": Level(level_up_base=20, difficulty=0),
         "energy": EnergyComponent(threshold=10)
     },
 
@@ -34,7 +34,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=1, base_ac=1),
         "attack_comp": AttackComponent(Attack('zap', [1])),
-        "level": Level(xp_given=1),
+        "level": Level(xp_given=1, difficulty=1),
         "energy": EnergyComponent(threshold=10)
     },
 
@@ -44,7 +44,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=1, base_ac=-20),
         "attack_comp": AttackComponent(Attack('zap', [5])),
-        "level": Level(current_level=4, xp_given=55),
+        "level": Level(current_level=4, xp_given=55, difficulty=20),
         "energy": EnergyComponent(threshold=8)
     },
 
@@ -54,7 +54,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=4, base_ac=7),
         "attack_comp": AttackComponent(Attack('claw', [3])),
-        "level": Level(xp_given=35),
+        "level": Level(xp_given=35, difficulty=3),
         "energy": EnergyComponent(threshold=13)
     },
 
@@ -64,7 +64,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('kick', [5])),
-        "level": Level(xp_given=55),
+        "level": Level(xp_given=55, difficulty=3),
         "energy": EnergyComponent(threshold=12)
     },
 
@@ -74,7 +74,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('punch', [5])),
-        "level": Level(xp_given=55),
+        "level": Level(xp_given=55, difficulty=4),
         "energy": EnergyComponent(threshold=12)
     },
 
@@ -84,7 +84,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=3),
         "attack_comp": AttackComponent(Attack('claw', [6])),
-        "level": Level(xp_given=55),
+        "level": Level(xp_given=55, difficulty=6),
         "energy": EnergyComponent(threshold=7)
     },
 
@@ -94,7 +94,7 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=11, base_ac=-2),
         "attack_comp": AttackComponent(Attack('suck', [6])),
-        "level": Level(current_level=4, xp_given=100),
+        "level": Level(current_level=4, xp_given=100, difficulty=4),
         "energy": EnergyComponent(threshold=16),
     },
 }

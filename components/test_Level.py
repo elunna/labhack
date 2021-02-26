@@ -18,6 +18,12 @@ def test_init__defaults():
     assert l.level_up_factor == 2
     assert l.xp_given == 0
     assert l.base_gain_per_level == .25
+    assert l.difficulty == 0
+
+
+def test_difficulty():
+    l = Level(difficulty=1)
+    assert l.difficulty == 1
 
 
 def test_experience_to_next_level():

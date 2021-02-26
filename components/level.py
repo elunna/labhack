@@ -10,6 +10,7 @@ class Level(Component):
         level_up_base=20,
         level_up_factor=2,
         xp_given=0,
+        difficulty=0
     ):
         self.current_level = current_level
         self.current_xp = current_xp
@@ -17,6 +18,7 @@ class Level(Component):
         self.level_up_factor = level_up_factor
         self.xp_given = xp_given
         self.base_gain_per_level = .25
+        self.difficulty = difficulty
 
     @property
     def experience_to_next_level(self):
