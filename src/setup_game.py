@@ -28,7 +28,7 @@ def new_game():
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 
-    leather_armor = factory.make("leather_vest")
+    leather_armor = factory.make("leather vest")
     player.inventory.add_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
 
@@ -36,19 +36,19 @@ def new_game():
     # TODO: Factory for making these
 
     # Health Potion
-    health_potion = factory.make("health_potion")
+    health_potion = factory.make("health potion")
     player.inventory.add_item(health_potion)
 
     # Lightning scroll
-    lightning_scroll = factory.make("lightning_scroll")
+    lightning_scroll = factory.make("lightning scroll")
     player.inventory.add_item(lightning_scroll)
 
     # Confusion scroll
-    confusion_scroll = factory.make("confusion_scroll")
+    confusion_scroll = factory.make("confusion scroll")
     player.inventory.add_item(confusion_scroll)
 
     # Fireball scroll
-    fireball_scroll = factory.make("fireball_scroll")
+    fireball_scroll = factory.make("fireball scroll")
     player.inventory.add_item(fireball_scroll)
 
     return engine

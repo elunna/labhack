@@ -10,7 +10,7 @@ def make(entity_name):
         return copy.deepcopy(actor_dict[entity_name])
     if entity_name in item_dict:
         return copy.deepcopy(item_dict[entity_name])
-    return None
+    raise ValueError(f'{entity_name} is not a valid Entity!')
 
 
 def spawn(entity_name, gamemap, x, y):

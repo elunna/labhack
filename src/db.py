@@ -128,28 +128,28 @@ actor_dict = {
     ),
 }
 item_dict = {
-    "health_potion": item.Item(
+    "health potion": item.Item(
         char="!",
         color=(127, 0, 255),
         name="Health Potion",
         consumable=consumable.HealConsumable(amount=5),
     ),
 
-    "lightning_scroll": item.Item(
+    "lightning scroll": item.Item(
         char="~",
         color=(255, 255, 0),
         name="Lightning Scroll",
         consumable=consumable.LightningDamageConsumable(damage=20, maximum_range=5),
     ),
 
-    "confusion_scroll": item.Item(
+    "confusion scroll": item.Item(
         char="~",
         color=(207, 63, 255),
         name="Confusion Scroll",
         consumable=consumable.ConfusionConsumable(number_of_turns=10),
     ),
 
-    "fireball_scroll": item.Item(
+    "fireball scroll": item.Item(
         char="~",
         color=(255, 0, 0),
         name="Fireball Scroll",
@@ -167,7 +167,7 @@ item_dict = {
         ),
     ),
 
-    "riot_baton": item.Item(
+    "riot baton": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Riot Baton",
@@ -185,7 +185,7 @@ item_dict = {
         ),
     ),
 
-    "police_baton": item.Item(
+    "police baton": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Police Baton",
@@ -194,7 +194,7 @@ item_dict = {
         ),
     ),
 
-    "golf_club": item.Item(
+    "golf club": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Golf Club",
@@ -203,7 +203,7 @@ item_dict = {
         ),
     ),
 
-    "tennis_racket": item.Item(
+    "tennis racket": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Tennis Racket",
@@ -212,7 +212,7 @@ item_dict = {
         ),
     ),
 
-    "frying_pan": item.Item(
+    "frying pan": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Frying Pan",
@@ -230,7 +230,7 @@ item_dict = {
         ),
     ),
 
-    "metal_pipe": item.Item(
+    "metal pipe": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Metal Pipe",
@@ -239,7 +239,7 @@ item_dict = {
         ),
     ),
 
-    "big_crowbar": item.Item(
+    "big crowbar": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Big Crowbar",
@@ -257,7 +257,7 @@ item_dict = {
         ),
     ),
 
-    "rebar_pipe": item.Item(
+    "rebar pipe": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Rebar Pipe",
@@ -275,7 +275,7 @@ item_dict = {
         ),
     ),
 
-    "wooden_stick": item.Item(
+    "wooden stick": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Wooden Stick",
@@ -284,7 +284,7 @@ item_dict = {
         ),
     ),
 
-    "gr_light_saber": item.Item(
+    "green lightsaber": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Green lightsaber",
@@ -293,7 +293,7 @@ item_dict = {
         ),
     ),
 
-    "bl_light_saber": item.Item(
+    "blue lightsaber": item.Item(
         char="/",
         color=(0, 191, 255),
         name="Blue lightsaber",
@@ -304,49 +304,49 @@ item_dict = {
 
     # ARMOR
 
-    "leather_vest": item.Item(
+    "leather vest": item.Item(
        char="[",
        color=tcod.dark_amber,
        name="Leather Vest",
        equippable=equippable.Armor(ac_bonus=-1),
     ),
 
-    "bulletproof_vest": item.Item(
+    "bulletproof vest": item.Item(
         char="[",
         color=tcod.turquoise,
         name="Bulletproof Vest",
         equippable=equippable.Armor(ac_bonus=-3),
     ),
 
-    "chain_vest": item.Item(
+    "chain vest": item.Item(
         char="[",
         color=tcod.dark_gray,
         name="Chain Vest",
         equippable=equippable.Armor(ac_bonus=-3),
     ),
 
-    "chest_guard": item.Item(
+    "chest guard": item.Item(
         char="[",
         color=tcod.cyan,
         name="Chest Guard",
         equippable=equippable.Armor(ac_bonus=-2),
     ),
 
-    "tactical_vest": item.Item(
+    "tactical vest": item.Item(
         char="[",
         color=tcod.green,
         name="Tactical Vest",
         equippable=equippable.Armor(ac_bonus=-2),
     ),
 
-    "riot_armor": item.Item(
+    "riot armor": item.Item(
         char="[",
         color=tcod.dark_blue,
         name="Riot Armor",
         equippable=equippable.Armor(ac_bonus=-4),
     ),
 
-    "power_armor": item.Item(
+    "power armor": item.Item(
         char="[",
         color=tcod.flame,
         name="Power Armor",
@@ -374,140 +374,140 @@ item_dict = {
         equippable=equippable.Helmet(ac_bonus=-1),
     ),
 
-    "visored_helmet": item.Item(
+    "visored helmet": item.Item(
         char="[",
         color=tcod.orange,
         name="Visored Helmet",
         equippable=equippable.Helmet(ac_bonus=-1),
     ),
 
-    "riot_helmet": item.Item(
+    "riot helmet": item.Item(
         char="[",
         color=tcod.dark_blue,
         name="Riot Helmet",
         equippable=equippable.Helmet(ac_bonus=-2),
     ),
 
-    "ballistic_helmet": item.Item(
+    "ballistic helmet": item.Item(
         char="[",
         color=tcod.turquoise,
         name="Ballistic Helmet",
         equippable=equippable.Helmet(ac_bonus=-3),
     ),
 
-    "power_helmet": item.Item(
+    "power helmet": item.Item(
         char="[",
         color=tcod.flame,
         name="Power Helmet",
         equippable=equippable.Helmet(ac_bonus=-4),
     ),
 
-    "rubber_gloves": item.Item(
+    "rubber gloves": item.Item(
         char="[",
         color=tcod.orange,
         name="Rubber Gloves",
         equippable=equippable.Gloves(ac_bonus=0),
     ),
 
-    "leather_gloves": item.Item(
+    "leather gloves": item.Item(
         char="[",
         color=tcod.dark_amber,
         name="Leather Gloves",
         equippable=equippable.Gloves(ac_bonus=-1),
     ),
 
-    "riot_gloves": item.Item(
+    "riot gloves": item.Item(
         char="[",
         color=tcod.dark_blue,
         name="Riot Gloves",
         equippable=equippable.Gloves(ac_bonus=-2),
     ),
 
-    "tactical_boots": item.Item(
+    "tactical boots": item.Item(
         char="[",
         color=tcod.green,
         name="Tactical Boots",
         equippable=equippable.Boots(ac_bonus=-1),
     ),
 
-    "combat_boots": item.Item(
+    "combat boots": item.Item(
         char="[",
         color=tcod.dark_green,
         name="Combat Boots",
         equippable=equippable.Boots(ac_bonus=-2),
     ),
 
-    "power_boots": item.Item(
+    "power boots": item.Item(
         char="[",
         color=tcod.flame,
         name="Power Boots",
         equippable=equippable.Boots(ac_bonus=-3),
     ),
 
-    "garbage_lid": item.Item(
+    "garbage lid": item.Item(
         char="[",
         color=tcod.light_gray,
         name="Garbage Can Lid",
         equippable=equippable.Shield(ac_bonus=-1),
     ),
 
-    "riot_shield": item.Item(
+    "riot shield": item.Item(
         char="[",
         color=tcod.dark_blue,
         name="Riot Shield",
         equippable=equippable.Shield(ac_bonus=-2),
     ),
 
-    "ballistic_shield": item.Item(
+    "ballistic shield": item.Item(
         char="[",
         color=tcod.turquoise,
         name="Ballistic Shield",
         equippable=equippable.Shield(ac_bonus=-3),
     ),
 
-    "leather_belt": item.Item(
+    "leather belt": item.Item(
         char="[",
         color=tcod.dark_amber,
         name="Leather Belt",
         equippable=equippable.Belt(ac_bonus=-1),
     ),
 
-    "tactical_belt": item.Item(
+    "tactical belt": item.Item(
         char="[",
         color=tcod.green,
         name="Tactical Belt",
         equippable=equippable.Belt(ac_bonus=-2),
     ),
 
-    "power_belt": item.Item(
+    "power belt": item.Item(
         char="[",
         color=tcod.flame,
         name="Power Belt",
         equippable=equippable.Belt(ac_bonus=-3),
     ),
 
-    "leather_wrists": item.Item(
+    "leather wrists": item.Item(
         char="[",
         color=tcod.dark_amber,
         name="Leather Wrists",
         equippable=equippable.Arms(ac_bonus=-1),
     ),
 
-    "elbow_pads": item.Item(
+    "elbow pads": item.Item(
         char="[",
         color=tcod.orange,
         name="Elbow Pads",
         equippable=equippable.Arms(ac_bonus=-1),
     ),
 
-    "forearm_guards": item.Item(
+    "forearm guards": item.Item(
         char="[",
         color=tcod.dark_gray,
         name="Forearm Guards",
         equippable=equippable.Arms(ac_bonus=-2),
     ),
 
-    "power_wrists": item.Item(
+    "power wrists": item.Item(
         char="[",
         color=tcod.flame,
         name="Power Wrists",
@@ -518,58 +518,58 @@ item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     0: [
-        ("health_potion", 200),
-        ("confusion_scroll", 45),
-        ("lightning_scroll", 35),
-        ("fireball_scroll", 35),
+        ("health potion", 200),
+        ("confusion scroll", 45),
+        ("lightning scroll", 35),
+        ("fireball scroll", 35),
 
         ("dagger", 3),
-        ("riot_baton", 3),
+        ("riot baton", 3),
         ("scalpal", 3),
-        ("police_baton", 1),
-        ("golf_club", 2),
+        ("police baton", 1),
+        ("golf club", 2),
         ("hammer", 3),
-        ("metal_pipe", 3),
-        ("big_crowbar", 3),
+        ("metal pipe", 3),
+        ("big crowbar", 3),
         ("plunger", 3),
-        ("rebar_pipe", 3),
+        ("rebar pipe", 3),
         ("sledgehammer", 1),
-        ("wooden_stick", 3),
-        ("gr_light_saber", 1),
-        ("bl_light_saber", 1),
-        ("tennis_racket", 2),
-        ("frying_pan", 2),
+        ("wooden stick", 3),
+        ("green lightsaber", 1),
+        ("blue lightsaber", 1),
+        ("tennis racket", 2),
+        ("frying pan", 2),
 
-        ("leather_vest", 5),      # AC1
-        ("chest_guard", 5),       # AC2
-        ("tactical_vest", 5),     # AC2
-        ("bulletproof_vest", 3),  # AC3
-        ("chain_vest", 2),        # AC3
-        ("riot_armor", 2),        # AC4
-        ("power_armor", 1),       # AC5
+        ("leather vest", 5),      # AC1
+        ("chest guard", 5),       # AC2
+        ("tactical vest", 5),     # AC2
+        ("bulletproof vest", 3),  # AC3
+        ("chain vest", 2),        # AC3
+        ("riot armor", 2),        # AC4
+        ("power armor", 1),       # AC5
         ("fedora", 1),            # AC0
         ("bandana", 2),           # AC0
         ("helmet", 5),            # AC1
-        ("visored_helmet", 3),    # AC1
-        ("riot_helmet", 5),       # AC2
-        ("ballistic_helmet", 2),  # AC3
-        ("power_helmet", 1),      # AC4
-        ("rubber_gloves", 3),     # AC0
-        ("leather_gloves", 6),    # AC1
-        ("riot_gloves", 1),       # AC2
-        ("tactical_boots", 5),    # AC1
-        ("combat_boots", 3),      # AC2
-        ("power_boots", 1),       # AC3
-        ("garbage_lid", 5),       # AC1
-        ("riot_shield", 6),       # AC2
-        ("ballistic_shield", 1),  # AC3
-        ("leather_belt", 6),      # AC1
-        ("tactical_belt", 3),     # AC2
-        ("power_belt", 1),        # AC3
-        ("elbow_pads", 6),        # AC1
-        ("leather_wrists", 5),    # AC1
-        ("forearm_guards", 6),    # AC2
-        ("power_wrists", 1),      # AC3
+        ("visored helmet", 3),    # AC1
+        ("riot helmet", 5),       # AC2
+        ("ballistic helmet", 2),  # AC3
+        ("power helmet", 1),      # AC4
+        ("rubber gloves", 3),     # AC0
+        ("leather gloves", 6),    # AC1
+        ("riot gloves", 1),       # AC2
+        ("tactical boots", 5),    # AC1
+        ("combat boots", 3),      # AC2
+        ("power boots", 1),       # AC3
+        ("garbage lid", 5),       # AC1
+        ("riot shield", 6),       # AC2
+        ("ballistic shield", 1),  # AC3
+        ("leather belt", 6),      # AC1
+        ("tactical belt", 3),     # AC2
+        ("power belt", 1),        # AC3
+        ("elbow pads", 6),        # AC1
+        ("leather wrists", 5),    # AC1
+        ("forearm guards", 6),    # AC2
+        ("power wrists", 1),      # AC3
     ],
 }
 enemy_chances = {

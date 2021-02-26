@@ -207,7 +207,7 @@ def test_get_names_at__visible(test_map):
 
 @pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__multiple_visible(test_map):
-    potion = factory.health_potion
+    potion = factory.make("health potion")
     test_map.add_entity(potion, 5, 5)
 
     # Set map tile to visible

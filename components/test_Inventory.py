@@ -124,9 +124,9 @@ def test_sorted_dict__one_item(dagger):
 def test_sorted_dict__multiple_items():
     i = Inventory(10)
     i.add_item(factory.make("dagger"))
-    i.add_item(factory.make("leather_vest"))
-    i.add_item(factory.make("bulletproof_vest"))
-    i.add_item(factory.make("health_potion"))
+    i.add_item(factory.make("leather vest"))
+    i.add_item(factory.make("bulletproof vest"))
+    i.add_item(factory.make("health potion"))
     result = i.sorted_dict()
     assert result == {
         '/': ['a'],

@@ -14,7 +14,7 @@ def dagger():
 
 @pytest.fixture
 def leather_armor():
-    return factory.make("leather_vest")
+    return factory.make("leather vest")
 
 
 def test_is_BaseComponent():
@@ -148,7 +148,7 @@ def test_equip_to_slot__armor2weaponslot__raises_Impossible(leather_armor):
 
 
 def test_equip_to_slot__non_equippable():
-    potion = factory.make("health_potion")
+    potion = factory.make("health potion")
     e = Equipment()
     with pytest.raises(exceptions.Impossible):
         e.equip_to_slot(slot="WEAPON", item=potion)
@@ -228,34 +228,34 @@ def test_toggle_equip__armor2none__msg(leather_armor):
 
 def test_toggle_equip__weapon2weapon(dagger):
     e = Equipment(dagger)
-    baton = factory.make("riot_baton")
+    baton = factory.make("riot baton")
     e.toggle_equip(item=baton)
     assert e.slots['WEAPON'] == baton
 
 
 def test_toggle_equip__weapon2weapon__msg(dagger):
     e = Equipment(dagger)
-    baton = factory.make("riot_baton")
+    baton = factory.make("riot baton")
     result = e.toggle_equip(item=baton)
     assert result == "You remove the Dagger. You equip the Riot Baton. "
 
 
 def test_toggle_equip__armor2armor(leather_armor):
     e = Equipment(leather_armor)
-    bp_vest = factory.make("bulletproof_vest")
+    bp_vest = factory.make("bulletproof vest")
     e.toggle_equip(item=bp_vest)
     assert e.slots['ARMOR'] == bp_vest
 
 
 def test_toggle_equip__armor2armor__msg(leather_armor):
     e = Equipment(leather_armor)
-    bp_vest = factory.make("bulletproof_vest")
+    bp_vest = factory.make("bulletproof vest")
     result = e.toggle_equip(item=bp_vest)
     assert result == "You remove the Leather Vest. You equip the Bulletproof Vest. "
 
 
 def test_toggle_equip__non_equippable__raisesImpossible():
     e = Equipment()
-    potion = factory.make("health_potion")
+    potion = factory.make("health potion")
     with pytest.raises(exceptions.Impossible):
         e.toggle_equip(item=potion)

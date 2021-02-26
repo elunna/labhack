@@ -14,7 +14,7 @@ def test_map():
 
 @pytest.fixture
 def potion():
-    return factory.make("health_potion")
+    return factory.make("health potion")
 
 
 def test_is_Action(test_map, potion):
@@ -68,7 +68,7 @@ def test_perform__msg(test_map):
 
 def test_perform__invalid_item_raises_Impossible(test_map):
     player = test_map.player
-    a = DropAction(entity=player, item=factory.make("riot_baton"))
+    a = DropAction(entity=player, item=factory.make("riot baton"))
 
     with pytest.raises(exceptions.Impossible):
         a.perform()

@@ -12,7 +12,7 @@ def test_map():
 
 @pytest.fixture
 def potion():
-    return factory.make("health_potion")
+    return factory.make("health potion")
 
 
 def test_init__is_Action(test_map, potion):
