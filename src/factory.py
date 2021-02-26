@@ -1,15 +1,30 @@
 from . import settings
-from .db import actor_dict, item_dict, item_chances, enemy_chances
+from . import db
 import copy
 import random
+
+from .actor import Actor
+from .entity import Entity
 
 
 def make(entity_name):
     # Returns a new copy of the specified entity.
-    if entity_name in actor_dict:
-        return copy.deepcopy(actor_dict[entity_name])
-    if entity_name in item_dict:
-        return copy.deepcopy(item_dict[entity_name])
+
+    if entity_name in db.actor_dict:
+
+        # Create an actor entity
+        components = db.actor_dict.get(entity_name)
+        return copy.deepcopy(Actor(**components))
+
+        # Add the components common to all actors
+        # components.update(db.actor_components)
+        # Add the name component
+        # components['name'] = entity_name
+        # return Entity(**components)
+        # return copy.deepcopy(db.actor_dict[entity_name])
+
+    if entity_name in db.item_dict:
+        return copy.deepcopy(db.item_dict[entity_name])
     raise ValueError(f'{entity_name} is not a valid Entity!')
 
 
@@ -76,7 +91,7 @@ def place_items(new_room, dungeon, floor_number):
     )
 
     items = get_entities_at_random(
-        item_chances, number_of_items, floor_number
+        db.item_chances, number_of_items, floor_number
     )
 
     for entity in items:
@@ -92,7 +107,7 @@ def place_monsters(new_room, dungeon, floor_number):
     )
 
     monsters = get_entities_at_random(
-        enemy_chances, number_of_monsters, floor_number
+        db.enemy_chances, number_of_monsters, floor_number
     )
 
     for entity in monsters:

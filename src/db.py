@@ -11,122 +11,125 @@ from components.equipment import Equipment
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from src import actor, item
+from src import item
+
 
 actor_dict = {
-    "player": actor.Actor(
-        char="@",
-        color=(255, 255, 255),
-        name="Player",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=30),
-        attack_comp=AttackComponent(Attack('punch', [2])),
-        attributes=Attributes(base_ac=10, base_strength=5),
+    "player": {
+        "char": "@",
+        "color": (255, 255, 255),
+        "name": "Player",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=30),
+        "attack_comp": AttackComponent(Attack('punch', [2])),
+        "attributes": Attributes(base_ac=10, base_strength=5),
         # Original inventory capacity is 26 because we have 26 lowercase letters.
-        inventory=Inventory(capacity=26),
-        level=Level(level_up_base=20),
-        energy=EnergyComponent(threshold=10)
-    ),
+        "inventory": Inventory(capacity=26),
+        "level": Level(level_up_base=20),
+        "energy": EnergyComponent(threshold=10)
+    },
 
-    "grid bug": actor.Actor(
-        char="x",
-        color=tcod.purple,
-        name="Grid Bug",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=1),
-        attack_comp=AttackComponent(Attack('zap', [1])),
-        attributes=Attributes(base_ac=1, base_strength=1),
-        inventory=Inventory(capacity=0),
-        level=Level(xp_given=1),
-        energy=EnergyComponent(threshold=10)
-    ),
+    "grid bug": {
+        "char": "x",
+        "color": tcod.purple,
+        "name": "Grid Bug",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=1),
+        "attack_comp": AttackComponent(Attack('zap', [1])),
+        "attributes": Attributes(base_ac=1, base_strength=1),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=1),
+        "energy": EnergyComponent(threshold=10)
+    },
 
-    "storm drone": actor.Actor(
-        char="x",
-        color=(0, 127, 0),
-        name="Storm Drone",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=1),
-        attack_comp=AttackComponent(Attack('zap', [5])),
-        attributes=Attributes(base_ac=-20, base_strength=10),
-        inventory=Inventory(capacity=0),
-        level=Level(current_level=4, xp_given=55),
-        energy=EnergyComponent(threshold=8)
-    ),
+    "storm drone": {
+        "char": "x",
+        "color": (0, 127, 0),
+        "name": "Storm Drone",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=1),
+        "attack_comp": AttackComponent(Attack('zap', [5])),
+        "attributes": Attributes(base_ac=-20, base_strength=10),
+        "inventory": Inventory(capacity=0),
+        "level": Level(current_level=4, xp_given=55),
+        "energy": EnergyComponent(threshold=8)
+    },
 
-    "spider drone": actor.Actor(
-        char="s",
-        color=tcod.silver,
-        name="Spider Drone",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=4),
-        attack_comp=AttackComponent(Attack('claw', [3])),
-        attributes=Attributes(base_ac=7, base_strength=3),
-        inventory=Inventory(capacity=0),
-        level=Level(xp_given=35),
-        energy=EnergyComponent(threshold=13)
-    ),
+    "spider drone": {
+        "char": "s",
+        "color": tcod.silver,
+        "name": "Spider Drone",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=4),
+        "attack_comp": AttackComponent(Attack('claw', [3])),
+        "attributes": Attributes(base_ac=7, base_strength=3),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=35),
+        "energy": EnergyComponent(threshold=13)
+    },
 
-    "med school dropout": actor.Actor(
-        char="@",
-        color=tcod.dark_gray,
-        name="Med-School Dropout",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=6),
-        attack_comp=AttackComponent(Attack('kick', [5])),
-        attributes=Attributes(base_ac=6, base_strength=8),
-        inventory=Inventory(capacity=0),
-        level=Level(xp_given=55),
-        energy=EnergyComponent(threshold=12)
-    ),
+    "med school dropout": {
+        "char": "@",
+        "color": tcod.dark_gray,
+        "name": "Med-School Dropout",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6),
+        "attack_comp": AttackComponent(Attack('kick', [5])),
+        "attributes": Attributes(base_ac=6, base_strength=8),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=55),
+        "energy": EnergyComponent(threshold=12)
+    },
 
-    "henchman": actor.Actor(
-        char="@",
-        color=tcod.dark_gray,
-        name="Henchman",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=6),
-        attack_comp=AttackComponent(Attack('punch', [5])),
-        attributes=Attributes(base_ac=6, base_strength=8),
-        inventory=Inventory(capacity=0),
-        level=Level(xp_given=55),
-        energy=EnergyComponent(threshold=12)
-    ),
+    "henchman": {
+        "char": "@",
+        "color": tcod.dark_gray,
+        "name": "Henchman",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6),
+        "attack_comp": AttackComponent(Attack('punch', [5])),
+        "attributes": Attributes(base_ac=6, base_strength=8),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=55),
+        "energy": EnergyComponent(threshold=12)
+    },
 
-    "cyber cat": actor.Actor(
-        char="f",
-        color=tcod.dark_blue,
-        name="Cyber Cat",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=6),
-        attack_comp=AttackComponent(Attack('claw', [6])),
-        attributes=Attributes(base_ac=3, base_strength=8),
-        inventory=Inventory(capacity=0),
-        level=Level(xp_given=55),
-        energy=EnergyComponent(threshold=7)
-    ),
+    "cyber cat": {
+        "char": "f",
+        "color": tcod.dark_blue,
+        "name": "Cyber Cat",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=6),
+        "attack_comp": AttackComponent(Attack('claw', [6])),
+        "attributes": Attributes(base_ac=3, base_strength=8),
+        "inventory": Inventory(capacity=0),
+        "level": Level(xp_given=55),
+        "energy": EnergyComponent(threshold=7)
+    },
 
-    "giant leech": actor.Actor(
-        char="L",
-        color=tcod.light_green,
-        name="Giant Leech",
-        ai_cls=HostileAI(),
-        equipment=Equipment(),
-        fighter=Fighter(hp=11),
-        attack_comp=AttackComponent(Attack('suck', [6])),
-        attributes=Attributes(base_ac=-2, base_strength=10),
-        inventory=Inventory(capacity=0),
-        level=Level(current_level=4, xp_given=100),
-        energy=EnergyComponent(threshold=16)
-    ),
+    "giant leech": {
+        "char": "L",
+        "color": tcod.light_green,
+        "name": "Giant Leech",
+        "ai_cls": HostileAI(),
+        "equipment": Equipment(),
+        "fighter": Fighter(hp=11),
+        "attack_comp": AttackComponent(Attack('suck', [6])),
+        "attributes": Attributes(base_ac=-2, base_strength=10),
+        "inventory": Inventory(capacity=0),
+        "level": Level(current_level=4, xp_given=100),
+        "energy": EnergyComponent(threshold=16),
+    },
 }
+
+
 item_dict = {
     "health potion": item.Item(
         char="!",

@@ -35,8 +35,7 @@ def test_map():
         new_map.tiles[x, y] = tiles.wall
 
     # Create a player at 5, 5
-    player = factory.make("player")
-    new_map.add_entity(player, 5, 5)
+    player = factory.spawn("player", new_map, 5, 5)
     new_map.player = player
 
     # Set the player parent to the map
