@@ -148,7 +148,7 @@ def test_blocked_msg__player_blocks(test_map):
     henchman = factory.make("henchman")
     a = AttackAction(entity=henchman, dx=-1, dy=-1)
     a.blocked_msg(target)
-    assert a.msg == f"You block the Henchman's attack! "
+    assert a.msg == f"You block the henchman's attack! "
 
 
 def test_blocked_msg__enemy_blocks_you(test_map):
@@ -156,14 +156,14 @@ def test_blocked_msg__enemy_blocks_you(test_map):
     target = factory.make("henchman")
     a = AttackAction(entity=player, dx=0, dy=1)
     a.blocked_msg(target)
-    assert a.msg == f"The Henchman blocks your attack! "
+    assert a.msg == f"The henchman blocks your attack! "
 
 
 def test_blocked_msg__enemy_blocks_enemy():
     henchman = factory.make("henchman")
     a = AttackAction(entity=henchman, dx=0, dy=1)
     a.blocked_msg(henchman)
-    assert a.msg == f"The Henchman blocks the Henchman's attack! "
+    assert a.msg == f"The henchman blocks the henchman's attack! "
 
 
 def test_miss__player_misses(test_map):
@@ -171,7 +171,7 @@ def test_miss__player_misses(test_map):
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.make("henchman")
     a.miss(target)
-    assert a.msg == f"You miss the Henchman. "
+    assert a.msg == f"You miss the henchman. "
 
 
 def test_miss__enemy_misses_you(test_map):
@@ -179,14 +179,14 @@ def test_miss__enemy_misses_you(test_map):
     henchman = factory.make("henchman")
     a = AttackAction(entity=henchman, dx=0, dy=1)
     a.miss(target)
-    assert a.msg == f"The Henchman misses you. "
+    assert a.msg == f"The henchman misses you. "
 
 
 def test_miss__enemy_misses_enemy(test_map):
     henchman = factory.make("henchman")
     a = AttackAction(entity=henchman, dx=0, dy=1)
     a.miss(henchman)
-    assert a.msg == f"The Henchman misses the Henchman. "
+    assert a.msg == f"The henchman misses the henchman. "
 
 
 def test_hit_msg__not_implemented(test_map):

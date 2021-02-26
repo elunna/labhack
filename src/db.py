@@ -18,7 +18,6 @@ actor_dict = {
     "player": {
         "char": "@",
         "color": (255, 255, 255),
-        "name": "Player",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=30),
@@ -33,7 +32,6 @@ actor_dict = {
     "grid bug": {
         "char": "x",
         "color": tcod.purple,
-        "name": "Grid Bug",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=1),
@@ -47,7 +45,6 @@ actor_dict = {
     "storm drone": {
         "char": "x",
         "color": (0, 127, 0),
-        "name": "Storm Drone",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=1),
@@ -61,7 +58,6 @@ actor_dict = {
     "spider drone": {
         "char": "s",
         "color": tcod.silver,
-        "name": "Spider Drone",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=4),
@@ -75,7 +71,6 @@ actor_dict = {
     "med school dropout": {
         "char": "@",
         "color": tcod.dark_gray,
-        "name": "Med-School Dropout",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=6),
@@ -89,7 +84,6 @@ actor_dict = {
     "henchman": {
         "char": "@",
         "color": tcod.dark_gray,
-        "name": "Henchman",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=6),
@@ -103,7 +97,6 @@ actor_dict = {
     "cyber cat": {
         "char": "f",
         "color": tcod.dark_blue,
-        "name": "Cyber Cat",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=6),
@@ -117,7 +110,6 @@ actor_dict = {
     "giant leech": {
         "char": "L",
         "color": tcod.light_green,
-        "name": "Giant Leech",
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
         "fighter": Fighter(hp=11),

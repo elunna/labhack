@@ -11,9 +11,9 @@ def make(entity_name):
     # Returns a new copy of the specified entity.
 
     if entity_name in db.actor_dict:
-
         # Create an actor entity
         components = db.actor_dict.get(entity_name)
+        components['name'] = entity_name
         return copy.deepcopy(Actor(**components))
 
         # Add the components common to all actors

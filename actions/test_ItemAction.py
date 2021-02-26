@@ -45,7 +45,7 @@ def test_target_actor(test_map, potion):
     # We'll target the grid bug
     a = ItemAction(entity=player, item=potion, target_xy=(2, 5))
     result = a.target_actor
-    assert result.name == "Grid Bug"
+    assert result.name == "grid bug"
 
 
 # perform

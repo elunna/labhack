@@ -37,7 +37,7 @@ def test_perform__player_kills_enemy(test_map):
     assert henchman.color == (191, 0, 0)
     assert henchman.blocks_movement is False
     assert henchman.ai is None
-    assert henchman.name == "Henchman corpse"
+    assert henchman.name == "henchman corpse"
     assert henchman.render_order == RenderOrder.CORPSE
 
 
@@ -56,7 +56,7 @@ def test_perform__player_kills_enemy__msg(test_map):
     a = DieAction(entity=orc, cause=player)
     a.perform()
 
-    assert a.msg == "You kill the Henchman!"
+    assert a.msg == "You kill the henchman!"
 
 
 def test_perform__enemy_kills_player(test_map):
@@ -69,7 +69,7 @@ def test_perform__enemy_kills_player(test_map):
     assert player.color == (191, 0, 0)
     assert player.blocks_movement is False
     assert player.ai is None
-    assert player.name == "Player corpse"
+    assert player.name == "player corpse"
     assert player.render_order == RenderOrder.CORPSE
 
 
@@ -86,7 +86,7 @@ def test_perform__enemy_kills_enemy__msg(test_map):
     gridbug = test_map.get_actor_at(2, 5)
     a = DieAction(entity=gridbug, cause=henchman)
     a.perform()
-    assert a.msg == "The Henchman kills the Grid Bug!"
+    assert a.msg == "The henchman kills the grid bug!"
 
 
 def test_perform__enemy_kills_enemy__xp(test_map):

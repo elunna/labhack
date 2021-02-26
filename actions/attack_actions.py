@@ -83,9 +83,11 @@ class AttackAction(ActionWithDirection):
             return result
 
     def blocked_msg(self, target):
-        if self.entity.name == "Player":
+        # TODO: Update with component type/breed check
+        if self.entity.name == "player":
             self.msg = f"The {target.name} blocks your attack! "
-        elif target.name == "Player":
+        # TODO: Update with component type/breed check
+        elif target.name == "player":
             self.msg = f"You block the {self.entity}'s attack! "
         else:
             self.msg = f"The {target.name} blocks the {self.entity}'s attack! "
@@ -93,9 +95,11 @@ class AttackAction(ActionWithDirection):
     def miss(self, target):
         # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
 
-        if self.entity.name == "Player":
+        # TODO: Update with component type/breed check
+        if self.entity.name == "player":
             self.msg = f"You miss the {target.name}. "
-        elif target.name == "Player":
+        # TODO: Update with component type/breed check
+        elif target.name == "player":
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
@@ -115,9 +119,11 @@ class MeleeAttack(AttackAction):
 
         self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
 
-        if self.entity.name == "Player":
+        # TODO: Update with component type/breed check
+        if self.entity.name == "player":
             self.msg = f"You {atk.name} the {target.name} for {dmg}! "
-        elif target.name == "Player":
+        # TODO: Update with component type/breed check
+        elif target.name == "player":
             self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
         else:
             self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
@@ -135,9 +141,11 @@ class WeaponAttack(AttackAction):
 
         self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
-        if self.entity.name == "Player":
+        # TODO: Update with component type/breed check
+        if self.entity.name == "player":
             self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
-        elif target.name == "Player":
+        # TODO: Update with component type/breed check
+        elif target.name == "player":
             self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
             self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "

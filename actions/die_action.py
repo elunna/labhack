@@ -11,9 +11,12 @@ class DieAction(Action):
         # TODO: What if the cause is a non-actor? Trap, drowning, bomb, etc.
 
         # if self.entity == self.engine.player:
-        if self.entity.name == "Player":
+        # TODO: Update with component type/breed check
+        if self.entity.name == "player":
             self.msg = "You died!"
-        elif self.cause.name == "Player":
+
+        # TODO: Update with component type/breed check
+        elif self.cause.name == "player":
             self.msg = f"You kill the {self.entity.name}!"
 
             # You get xp for the kill

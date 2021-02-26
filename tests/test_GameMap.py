@@ -153,7 +153,7 @@ def test_get_blocking_entity_at_location__floors(test_map):
 def test_get_blocking_entity_at_location__valid_blocker(test_map):
     # test_map has player at (5, 5)
     result = test_map.blocking_entity_at(5, 5)
-    assert result.name == "Player"
+    assert result.name == "player"
 
 
 def test_get_actor_at_location__empty_tile(test_map):
@@ -163,7 +163,7 @@ def test_get_actor_at_location__empty_tile(test_map):
 
 def test_get_actor_at_location__valid_actor(test_map):
     result = test_map.get_actor_at(5, 5)
-    assert result.name == "Player"
+    assert result.name == "player"
 
 
 def test_in_bounds__valid_loc(test_map):

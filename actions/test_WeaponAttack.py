@@ -25,7 +25,7 @@ def test_hit_msg__you_hit_enemy(player):
     atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attacks[0]
     dmg = 10
     a.hit_msg(target, atk, dmg)
-    assert a.msg == f"You hit the Henchman with your dagger for {dmg}! "
+    assert a.msg == f"You hit the henchman with your dagger for {dmg}! "
 
 
 def test_hit_msg__enemy_hits_you(player):
@@ -39,7 +39,7 @@ def test_hit_msg__enemy_hits_you(player):
     atk = dagger.equippable.attack_comp.attacks[0]
     dmg = 10
     a.hit_msg(player, atk, dmg)
-    assert a.msg == f"The Henchman hits you with it's dagger for {dmg}! "
+    assert a.msg == f"The henchman hits you with it's dagger for {dmg}! "
 
 
 def test_hit_msg__enemy_hits_enemy():
@@ -53,4 +53,4 @@ def test_hit_msg__enemy_hits_enemy():
     atk = dagger.equippable.attack_comp.attacks[0]
     dmg = 10
     a.hit_msg(henchman, atk, dmg)
-    assert a.msg == f"The Henchman hits the Henchman with it's dagger for {dmg}! "
+    assert a.msg == f"The henchman hits the henchman with it's dagger for {dmg}! "

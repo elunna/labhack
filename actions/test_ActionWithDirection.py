@@ -47,7 +47,7 @@ def test_target_actor(player):
     testmap = toolkit.test_map()
     testmap.add_entity(player, 2, 4)
     a = ActionWithDirection(entity=player, dx=0, dy=1)
-    assert a.target_actor.name == "Grid Bug"
+    assert a.target_actor.name == "grid bug"
 
 
 def test_perform(player):
