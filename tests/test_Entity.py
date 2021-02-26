@@ -90,37 +90,6 @@ def test_move():
     assert e.y == 1
 
 
-def test_spawn__creates_clone(test_map):
-    e = Entity(name='cloner')
-    result = e.spawn(test_map, 2, 3)
-    # Should be a clone
-    assert e.name == result.name
-
-    # Not an exact clone thogh
-    assert result != e
-    assert result is not e
-
-
-def test_spawn__not_exact_clone(test_map):
-    e = Entity(name='cloner')
-    result = e.spawn(test_map, 2, 3)
-    assert result != e
-    assert result is not e
-
-
-def test_spawn__in_gamemap_entities(test_map):
-    e = Entity()
-    result = e.spawn(test_map, 2, 3)
-    assert result in test_map
-
-
-def test_spawn__xy(test_map):
-    e = Entity()
-    result = e.spawn(test_map, 2, 3)
-    assert result.x == 2
-    assert result.y == 3
-
-
 def test_distance__same_point():
     e = Entity(x=0, y=0)
     assert e.x == 0

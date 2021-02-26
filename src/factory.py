@@ -5,12 +5,21 @@ import random
 
 
 def make(entity_name):
+    # Returns a new copy of the specified entity.
     if entity_name in actor_dict:
         return copy.deepcopy(actor_dict[entity_name])
     if entity_name in item_dict:
         return copy.deepcopy(item_dict[entity_name])
-
     return None
+
+
+def spawn(entity_name, gamemap, x, y):
+    """Spawn a copy of the entity at the given map and location.
+    Returns the instance of the entity.
+    """
+    e = make(entity_name)
+    gamemap.add_entity(e, x, y)
+    return e
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
@@ -74,7 +83,7 @@ def place_items(new_room, dungeon, floor_number):
         x, y = new_room.random_point_inside()
         # We don't care if they stack on the map
         # entity.spawn(dungeon, x, y)
-        make(entity).spawn(dungeon, x, y)
+        spawn(entity, dungeon, x, y)
 
 
 def place_monsters(new_room, dungeon, floor_number):
@@ -92,7 +101,7 @@ def place_monsters(new_room, dungeon, floor_number):
 
         # Don't spawn them on top of each other.
         if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            make(entity).spawn(dungeon, x, y)
+            spawn(entity, dungeon, x, y)
 
 
 def populate_map(new_map, current_floor):

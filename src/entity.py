@@ -77,15 +77,6 @@ class Entity(object):
         self.x += dx
         self.y += dy
 
-    def spawn(self, gamemap, x, y):
-        """Spawn a copy of this instance at the given location."""
-        clone = copy.deepcopy(self)
-        clone.x = x
-        clone.y = y
-        clone.parent = gamemap
-        gamemap.entities.add(clone)
-        return clone
-
     def distance(self, x, y):
         """Return the distance between the current entity and the given (x, y) coordinate.
         """

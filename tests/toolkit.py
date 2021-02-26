@@ -53,10 +53,10 @@ def test_map():
     player.inventory.add_item(health_potion)
 
     # Create a grid bug at 2, 5
-    factory.make("grid bug").spawn(new_map, 2, 5)
+    factory.spawn("grid bug", new_map, 2, 5)
 
     # Create a spider drone at 5, 4
-    factory.make("henchman").spawn(new_map, 5, 4)
+    factory.spawn("henchman", new_map, 5, 4)
 
     return new_map
 
