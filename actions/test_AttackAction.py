@@ -61,10 +61,10 @@ def test_calc_target_number__positive_ac(test_map):
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
     target = factory.make("henchman")
-    assert target.attributes.ac == 6
+    assert target.fighter.ac == 6
 
     result = a.calc_target_number(target)
-    expected = 10 + target.attributes.ac + player.level.current_level
+    expected = 10 + target.fighter.ac + player.level.current_level
     assert result == expected
 
 
@@ -73,11 +73,11 @@ def test_calc_target_number__negative_ac(test_map):
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
     target = factory.make("giant leech")
-    assert target.attributes.ac == -2
+    assert target.fighter.ac == -2
 
     result = a.calc_target_number(target)
     max_expected = 10 - 1 + player.level.current_level
-    min_expected = 10 + target.attributes.ac + player.level.current_level
+    min_expected = 10 + target.fighter.ac + player.level.current_level
 
     assert result >= min_expected
     assert result <= max_expected
@@ -88,7 +88,7 @@ def test_calc_target_number__negative_target_number(test_map):
     a = AttackAction(entity=player, dx=-1, dy=-1)
 
     target = factory.make("storm drone")
-    assert target.attributes.ac == -20
+    assert target.fighter.ac == -20
 
     result = a.calc_target_number(target)
     assert result >= 1
@@ -121,21 +121,21 @@ def test_execute_damage__no_weapon(test_map):
 
 def test_reduce_dmg__positive_ac_equals_no_reduction():
     henchman = factory.make("henchman")
-    assert henchman.attributes.ac == 6
+    assert henchman.fighter.ac == 6
     result = AttackAction.reduce_dmg(henchman, 5)
     assert result == 5
 
 
 def test_reduce_dmg__negative_ac():
     giant_leech = factory.make("giant leech")
-    assert giant_leech.attributes.ac == -2
+    assert giant_leech.fighter.ac == -2
     result = AttackAction.reduce_dmg(giant_leech, 5)
     assert result == 3 or result == 4
 
 
 def test_reduce_dmg__ac_reduces_dmg_below_0__returns_1():
     stormdrone = factory.make("storm drone")
-    assert stormdrone.attributes.ac == -20
+    assert stormdrone.fighter.ac == -20
 
     # Note: We'll only pass in 1 damage to test that damage can never be reduced below 1.
     # With any -AC, the defender will always try to reduce it to 0.

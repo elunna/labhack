@@ -55,7 +55,7 @@ class Level(Component):
         self.increase_level()
 
     def increase_ac(self, amount=-1):
-        self.parent.attributes.base_ac += amount
+        self.parent.fighter.base_ac += amount
         self.increase_level()
 
 

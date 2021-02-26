@@ -40,6 +40,18 @@ def test_hp_setter__over_max():
     assert f.hp == 10
 
 
+def test_ac_property(player):
+    f = Fighter(hp=10, base_ac=15)
+    f.parent = player  # Needs parent to check it's equipment
+    assert f.ac == 15  # No bonus
+
+
+def test_bonus__ac(player):
+    f = Fighter(hp=10, base_ac=15)
+    f.parent = player  # Needs parent to check it's ai
+    # No bonus when player has no equipment
+    assert f.ac_bonus() == 0
+
 def test_heal__under_max():
     f = Fighter(hp=10)
     f.hp = 5

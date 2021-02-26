@@ -42,12 +42,12 @@ class AttackAction(ActionWithDirection):
 
     def calc_target_number(self, target):
         # TODO: Factor in penalty for multi-hit moves.
-        defender_ac = target.attributes.ac
+        defender_ac = target.fighter.ac
         attacker_level = self.entity.level.current_level
 
-        if target.attributes.ac < 0:
+        if target.fighter.ac < 0:
             # If the defender has negative AC, choose a number from -1 to their AC
-            defender_ac = -random.randint(1, abs(target.attributes.ac))
+            defender_ac = -random.randint(1, abs(target.fighter.ac))
 
         num = self.target_base + defender_ac + attacker_level
 
@@ -72,10 +72,10 @@ class AttackAction(ActionWithDirection):
             If the target has negative AC, calculates how much damage reduction it recieves.
             If the damage would be reduced below 1, it is always set to at least 1.
         """
-        if target.attributes.ac >= 0:
+        if target.fighter.ac >= 0:
             return dmg
 
-        dmg_reduced = random.randint(1, abs(target.attributes.ac))
+        dmg_reduced = random.randint(1, abs(target.fighter.ac))
         result = dmg - dmg_reduced
         if result < 1:
             return 1

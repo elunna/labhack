@@ -89,7 +89,7 @@ def render_dungeon_lvl_text(console, dungeon_level):
 
 
 def render_stats(console, engine, player):
-    ac_stat = f"AC:{player.attributes.ac}"
+    ac_stat = f"AC:{player.fighter.ac}"
     str_stat = f"Str:{player.attributes.strength}"
     dex_stat = f"Dex:{player.attributes.dexterity}"
     con_stat = f"Con:{player.attributes.constitution}"
