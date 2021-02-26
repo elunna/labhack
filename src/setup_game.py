@@ -2,7 +2,6 @@
 from . import color
 from . import factory
 from .engine import Engine
-import copy
 import lzma
 import pickle
 
@@ -25,11 +24,11 @@ def new_game():
         "You have entered what appears to be an abandoned research facility, or is it...", color.welcome_text
     )
 
-    dagger = copy.deepcopy(factory.dagger)
+    dagger = factory.make("dagger")
     player.inventory.add_item(dagger)
     player.equipment.toggle_equip(dagger)
 
-    leather_armor = copy.deepcopy(factory.leather_vest)
+    leather_armor = factory.make("leather_vest")
     player.inventory.add_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
 
@@ -37,19 +36,19 @@ def new_game():
     # TODO: Factory for making these
 
     # Health Potion
-    health_potion = copy.deepcopy(factory.health_potion)
+    health_potion = factory.make("health_potion")
     player.inventory.add_item(health_potion)
 
     # Lightning scroll
-    lightning_scroll = copy.deepcopy(factory.lightning_scroll)
+    lightning_scroll = factory.make("lightning_scroll")
     player.inventory.add_item(lightning_scroll)
 
     # Confusion scroll
-    confusion_scroll = copy.deepcopy(factory.confusion_scroll)
+    confusion_scroll = factory.make("confusion_scroll")
     player.inventory.add_item(confusion_scroll)
 
     # Fireball scroll
-    fireball_scroll = copy.deepcopy(factory.fireball_scroll)
+    fireball_scroll = factory.make("fireball_scroll")
     player.inventory.add_item(fireball_scroll)
 
     return engine

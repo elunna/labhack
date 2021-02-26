@@ -12,23 +12,25 @@ def test_map():
     return toolkit.test_map()
 
 
-def test_is_Action(test_map):
+@pytest.fixture
+def potion():
+    return factory.make("health_potion")
+
+
+def test_is_Action(test_map, potion):
     player = test_map.player
-    potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, actions.Action)
 
 
-def test_is_ItemAction(test_map):
+def test_is_ItemAction(test_map, potion):
     player = test_map.player
-    potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert isinstance(a, ItemAction)
 
 
-def test_init(test_map):
+def test_init(test_map, potion):
     player = test_map.player
-    potion = factory.health_potion
     a = DropAction(entity=player, item=potion)
     assert a.entity == player
     assert a.item == potion
@@ -66,7 +68,7 @@ def test_perform__msg(test_map):
 
 def test_perform__invalid_item_raises_Impossible(test_map):
     player = test_map.player
-    a = DropAction(entity=player, item=factory.riot_baton)
+    a = DropAction(entity=player, item=factory.make("riot_baton"))
 
     with pytest.raises(exceptions.Impossible):
         a.perform()

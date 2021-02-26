@@ -27,12 +27,13 @@ def test_Consumable_get_action(player):
     # This returns an ItemAction initialized with the consumer and this
     # Consumables parent.
     c = consumable.Consumable()
-    c.parent = factory.health_potion
+    potion = factory.make("health_potion")
+    c.parent = potion
     result = c.get_action(consumer=player)
 
     assert isinstance(result, ItemAction)
     assert result.entity == player
-    assert result.item == factory.health_potion
+    assert result.item == potion
 
 
 def test_Consumable_activate():
@@ -43,7 +44,7 @@ def test_Consumable_activate():
 
 def test_Consumable_consume(player):
     c = consumable.Consumable()
-    potion = factory.make('health potion')
+    potion = factory.make('health_potion')
     c.parent = potion
     player.inventory.add_item(c.parent)  # Add potion to players inv.
     c.consume()

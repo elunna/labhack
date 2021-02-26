@@ -2,7 +2,6 @@
 from src import factory
 from src import gamemap
 from src import tiles
-import copy
 
 
 def cp_player():
@@ -44,13 +43,13 @@ def test_map():
     player.parent = new_map
 
     # Give the player items for testing
-    dagger = copy.deepcopy(factory.dagger)
+    dagger = factory.make("dagger")
     player.inventory.add_item(dagger)
 
-    leather_armor = copy.deepcopy(factory.leather_vest)
+    leather_armor = factory.make("leather_vest")
     player.inventory.add_item(leather_armor)
 
-    health_potion = copy.deepcopy(factory.health_potion)
+    health_potion = factory.make("health_potion")
     player.inventory.add_item(health_potion)
 
     # Create a grid bug at 2, 5

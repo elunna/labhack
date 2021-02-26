@@ -33,7 +33,8 @@ def test_perform__no_items__raises_Impossible(test_map):
 def test_perform__single_item(test_map):
     player = test_map.player
     # Put a scroll at player location
-    factory.lightning_scroll.spawn(test_map, player.x, player.y)
+    lightning_scroll = factory.make("lightning_scroll")
+    test_map.add_entity(lightning_scroll, player.x, player.y)
     a = PickupAction(entity=player)
     a.perform()
     assert a.msg == "You picked up the Lightning Scroll. "
@@ -42,9 +43,12 @@ def test_perform__single_item(test_map):
 @pytest.mark.skip(reason='Pickup for piles of items not yet supported')
 def test_perform__multiple_items(test_map):
     player = test_map.player
+
     # Put 2 scrolls at player location
-    factory.lightning_scroll.spawn(test_map, player.x, player.y)
-    factory.fireball_scroll.spawn(test_map, player.x, player.y)
+    lightning_scroll = factory.make("lightning_scroll")
+    test_map.add_entity(lightning_scroll, player.x, player.y)
+    fireball_scroll = factory.make("fireball_scroll")
+    test_map.add_entity(fireball_scroll, player.x, player.y)
 
     a = PickupAction(entity=player)
     a.perform()
