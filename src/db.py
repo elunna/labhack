@@ -34,7 +34,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=1, base_ac=1),
         "attack_comp": AttackComponent(Attack('zap', [1])),
-        "attributes": Attributes(base_strength=1),
         "level": Level(xp_given=1),
         "energy": EnergyComponent(threshold=10)
     },
@@ -45,7 +44,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=1, base_ac=-20),
         "attack_comp": AttackComponent(Attack('zap', [5])),
-        "attributes": Attributes(base_strength=10),
         "level": Level(current_level=4, xp_given=55),
         "energy": EnergyComponent(threshold=8)
     },
@@ -56,7 +54,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=4, base_ac=7),
         "attack_comp": AttackComponent(Attack('claw', [3])),
-        "attributes": Attributes(base_strength=3),
         "level": Level(xp_given=35),
         "energy": EnergyComponent(threshold=13)
     },
@@ -67,7 +64,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('kick', [5])),
-        "attributes": Attributes(base_strength=8),
         "level": Level(xp_given=55),
         "energy": EnergyComponent(threshold=12)
     },
@@ -78,7 +74,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('punch', [5])),
-        "attributes": Attributes(base_strength=8),
         "level": Level(xp_given=55),
         "energy": EnergyComponent(threshold=12)
     },
@@ -89,7 +84,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=6, base_ac=3),
         "attack_comp": AttackComponent(Attack('claw', [6])),
-        "attributes": Attributes(base_strength=8),
         "level": Level(xp_given=55),
         "energy": EnergyComponent(threshold=7)
     },
@@ -100,7 +94,6 @@ actor_dict = {
         "ai_cls": HostileAI(),
         "fighter": Fighter(hp=11, base_ac=-2),
         "attack_comp": AttackComponent(Attack('suck', [6])),
-        "attributes": Attributes(base_strength=10),
         "level": Level(current_level=4, xp_given=100),
         "energy": EnergyComponent(threshold=16),
     },
