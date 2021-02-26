@@ -39,3 +39,23 @@ weighted_chances = {
 @pytest.mark.skip(reason='Create sample tables for testing')
 def test_get_entities_at_random():
     pass
+
+
+@pytest.mark.skip
+def test_place_items():
+    pass
+
+
+@pytest.mark.skip
+def test_place_monsters():
+    pass
+
+
+@pytest.mark.skip
+def test_populate_map__calls_place_monsters():
+    pass
+
+
+@pytest.mark.skip
+def test_populate_map__calls_place_items():
+    pass

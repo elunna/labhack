@@ -100,3 +100,5 @@ def populate_map(new_map, current_floor):
         # Populate the room with monsters and items
         place_monsters(r, new_map, current_floor)
         place_items(r, new_map, current_floor)
+        # place traps
+        # place secrets
