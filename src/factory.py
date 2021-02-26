@@ -1,5 +1,5 @@
 from . import settings
-from .db import actor_dict, item_dict
+from .db import actor_dict, item_dict, item_chances, enemy_chances
 import copy
 import random
 
@@ -11,73 +11,6 @@ def make(entity_name):
         return copy.deepcopy(item_dict[entity_name])
 
     return None
-
-
-item_chances = {
-    # keys in the dictionary represent the floor number,
-    # and the value is a list of tuples.
-    0: [
-        ("health_potion", 200),
-        ("confusion_scroll", 45),
-        ("lightning_scroll", 35),
-        ("fireball_scroll", 35),
-
-        ("dagger", 3),
-        ("riot_baton", 3),
-        ("scalpal", 3),
-        ("police_baton", 1),
-        ("golf_club", 2),
-        ("hammer", 3),
-        ("metal_pipe", 3),
-        ("big_crowbar", 3),
-        ("plunger", 3),
-        ("rebar_pipe", 3),
-        ("sledgehammer", 1),
-        ("wooden_stick", 3),
-        ("gr_light_saber", 1),
-        ("bl_light_saber", 1),
-        ("tennis_racket", 2),
-        ("frying_pan", 2),
-
-        ("leather_vest", 5),      # AC1
-        ("chest_guard", 5),       # AC2
-        ("tactical_vest", 5),     # AC2
-        ("bulletproof_vest", 3),  # AC3
-        ("chain_vest", 2),        # AC3
-        ("riot_armor", 2),        # AC4
-        ("power_armor", 1),       # AC5
-        ("fedora", 1),            # AC0
-        ("bandana", 2),           # AC0
-        ("helmet", 5),            # AC1
-        ("visored_helmet", 3),    # AC1
-        ("riot_helmet", 5),       # AC2
-        ("ballistic_helmet", 2),  # AC3
-        ("power_helmet", 1),      # AC4
-        ("rubber_gloves", 3),     # AC0
-        ("leather_gloves", 6),    # AC1
-        ("riot_gloves", 1),       # AC2
-        ("tactical_boots", 5),    # AC1
-        ("combat_boots", 3),      # AC2
-        ("power_boots", 1),       # AC3
-        ("garbage_lid", 5),       # AC1
-        ("riot_shield", 6),       # AC2
-        ("ballistic_shield", 1),  # AC3
-        ("leather_belt", 6),      # AC1
-        ("tactical_belt", 3),     # AC2
-        ("power_belt", 1),        # AC3
-        ("elbow_pads", 6),        # AC1
-        ("leather_wrists", 5),    # AC1
-        ("forearm_guards", 6),    # AC2
-        ("power_wrists", 1),      # AC3
-    ],
-}
-
-enemy_chances = {
-    0: [("grid bug", 40), ("spider drone", 80)],
-    3: [("giant leech", 15), ("med school dropout", 25)],
-    5: [("giant leech", 30), ("cyber cat", 35)],
-    7: [("giant leech", 60), ("cyber cat", 40)],
-}
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
