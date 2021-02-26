@@ -39,7 +39,7 @@ def test_init(test_map, potion):
 def test_perform__item_leaves_inventory(test_map):
     player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
-    assert item.name == "Dagger"
+    assert item.name == "dagger"
 
     a = DropAction(entity=player, item=item)
     result = a.perform()
@@ -49,7 +49,7 @@ def test_perform__item_leaves_inventory(test_map):
 def test_perform__item_appears_on_map(test_map):
     player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
-    assert item.name == "Dagger"
+    assert item.name == "dagger"
 
     a = DropAction(entity=player, item=item)
     result = a.perform()
@@ -59,7 +59,7 @@ def test_perform__item_appears_on_map(test_map):
 def test_perform__msg(test_map):
     player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
-    assert item.name == "Dagger"
+    assert item.name == "dagger"
 
     a = DropAction(entity=player, item=item)
     result = a.perform()
@@ -77,7 +77,7 @@ def test_perform__invalid_item_raises_Impossible(test_map):
 def test_perform__equipped_item(test_map):
     player = test_map.player
     item = player.inventory.items.get('a')  # Need the actual item from inv
-    assert item.name == "Dagger"
+    assert item.name == "dagger"
     player.equipment.toggle_equip(item)
     assert player.equipment.is_equipped(item)
 

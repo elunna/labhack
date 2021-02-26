@@ -36,7 +36,7 @@ def test_perform__single_item(test_map):
     factory.spawn("lightning scroll", test_map, player.x, player.y)
     a = PickupAction(entity=player)
     a.perform()
-    assert a.msg == "You picked up the Lightning Scroll. "
+    assert a.msg == "You picked up the lightning scroll. "
 
 
 @pytest.mark.skip(reason='Pickup for piles of items not yet supported')
@@ -51,4 +51,4 @@ def test_perform__multiple_items(test_map):
     a.perform()
 
     # How do we know which item to pickup?
-    assert a.msg == "You picked up the Lightning Scroll. "
+    assert a.msg == "You picked up the lightning scroll. "

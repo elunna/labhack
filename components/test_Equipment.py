@@ -106,13 +106,13 @@ def test_item_slot_equipped__invalid_slot_raises_ValueError(leather_armor):
 def test_unequip_message(leather_armor):
     e = Equipment(leather_armor)
     result = e.unequip_message(leather_armor.name)
-    assert result == "You remove the Leather Vest. "
+    assert result == "You remove the leather vest. "
 
 
 def test_equip_message(dagger):
     e = Equipment()
     result = e.equip_message(dagger.name)
-    assert result == "You equip the Dagger. "
+    assert result == "You equip the dagger. "
 
 
 def test_equip_to_slot__weapon_to_weaponslot(dagger):
@@ -124,7 +124,7 @@ def test_equip_to_slot__weapon_to_weaponslot(dagger):
 def test_equip_to_slot__msg(dagger):
     e = Equipment()
     result = e.equip_to_slot(slot="WEAPON", item=dagger)
-    assert result == 'You equip the Dagger. '
+    assert result == 'You equip the dagger. '
 
 
 def test_equip_to_slot__armor_to_armorslot(leather_armor):
@@ -169,7 +169,7 @@ def test_unequip_from_slot__armor(leather_armor):
 def test_unequip_from_slot__msg(dagger):
     e = Equipment(dagger)
     result = e.unequip_from_slot(slot="WEAPON")
-    assert result == 'You remove the Dagger. '
+    assert result == 'You remove the dagger. '
 
 
 def test_unequip_from_slot__fail_returns_False():
@@ -187,7 +187,7 @@ def test_toggle_equip__none2weapon(dagger):
 def test_toggle_equip__none2weapon__msg(dagger):
     e = Equipment()
     result = e.toggle_equip(item=dagger)
-    assert result == "You equip the Dagger. "
+    assert result == "You equip the dagger. "
 
 
 def test_toggle_equip__none2armor(leather_armor):
@@ -199,7 +199,7 @@ def test_toggle_equip__none2armor(leather_armor):
 def test_toggle_equip__none2armor__msg(leather_armor):
     e = Equipment()
     result = e.toggle_equip(item=leather_armor)
-    assert result == "You equip the Leather Vest. "
+    assert result == "You equip the leather vest. "
 
 
 def test_toggle_equip__weapon2none(dagger):
@@ -211,7 +211,7 @@ def test_toggle_equip__weapon2none(dagger):
 def test_toggle_equip__weapon2none__msg(dagger):
     e = Equipment(dagger)
     result = e.toggle_equip(item=dagger)
-    assert result == "You remove the Dagger. "
+    assert result == "You remove the dagger. "
 
 
 def test_toggle_equip__armor2none(leather_armor):
@@ -223,7 +223,7 @@ def test_toggle_equip__armor2none(leather_armor):
 def test_toggle_equip__armor2none__msg(leather_armor):
     e = Equipment(leather_armor)
     result = e.toggle_equip(item=leather_armor)
-    assert result == "You remove the Leather Vest. "
+    assert result == "You remove the leather vest. "
 
 
 def test_toggle_equip__weapon2weapon(dagger):
@@ -237,7 +237,7 @@ def test_toggle_equip__weapon2weapon__msg(dagger):
     e = Equipment(dagger)
     baton = factory.make("riot baton")
     result = e.toggle_equip(item=baton)
-    assert result == "You remove the Dagger. You equip the Riot Baton. "
+    assert result == "You remove the dagger. You equip the riot baton. "
 
 
 def test_toggle_equip__armor2armor(leather_armor):
@@ -251,7 +251,7 @@ def test_toggle_equip__armor2armor__msg(leather_armor):
     e = Equipment(leather_armor)
     bp_vest = factory.make("bulletproof vest")
     result = e.toggle_equip(item=bp_vest)
-    assert result == "You remove the Leather Vest. You equip the Bulletproof Vest. "
+    assert result == "You remove the leather vest. You equip the bulletproof vest. "
 
 
 def test_toggle_equip__non_equippable__raisesImpossible():

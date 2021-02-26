@@ -5,13 +5,14 @@ import random
 
 from .actor import Actor
 from .entity import Entity
+from .item import Item
 
 
 def make(entity_name):
     # Returns a new copy of the specified entity.
 
     if entity_name in db.actor_dict:
-        # Create an actor entity
+        # Create an Actor entity
         components = db.actor_dict.get(entity_name)
         components['name'] = entity_name
         return copy.deepcopy(Actor(**components))
@@ -24,7 +25,13 @@ def make(entity_name):
         # return copy.deepcopy(db.actor_dict[entity_name])
 
     if entity_name in db.item_dict:
-        return copy.deepcopy(db.item_dict[entity_name])
+        # Create an Item entity
+        components = db.item_dict.get(entity_name)
+        components['name'] = entity_name
+        return copy.deepcopy(Item(**components))
+
+        # return copy.deepcopy(db.item_dict[entity_name])
+
     raise ValueError(f'{entity_name} is not a valid Entity!')
 
 
