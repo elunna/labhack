@@ -350,7 +350,7 @@ def render_levelup_menu(console, engine, title):
     )
     console.print(
         x=x + 1, y=6,
-        string=f"c) Agility (+1 defense, from {engine.player.attributes.ac})",
+        string=f"c) Agility (+1 defense, from {engine.player.fighter.ac})",
     )
 
 
@@ -360,7 +360,7 @@ def render_character_stats(console, engine, title):
         f"XP: {engine.player.level.current_xp}",
         f"XP for next Level: {engine.player.level.experience_to_next_level}",
         "",
-        f"AC: {engine.player.attributes.ac}",
+        f"AC: {engine.player.fighter.ac}",
         f"Strength: {engine.player.attributes.strength}",
         f"Dexterity: {engine.player.attributes.dexterity}",
         f"Constitution: {engine.player.attributes.constitution}",
