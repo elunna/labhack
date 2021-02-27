@@ -1,16 +1,45 @@
+import math
+
 from . import settings
 from . import db
 import copy
 import random
-
 from .actor import Actor
-from .entity import Entity
 from .item import Item
+
+
+class EntityFactory:
+    """ Builds a database of all the Entities in db.py -
+    Let's us get a monster appropriate in level for the players current XP level and dungeon level.
+    # TODO: Contains
+    """
+    def __init__(self, entity_dict):
+        # We'll create a dict of names and their Entities for easy accessibility
+        self.entities = {k: make(k) for k in entity_dict}
+        # Don't include the player
+        if "player" in self.entities:
+            self.entities.pop('player')
+
+    def difficulty_specific_monster(self, dlevel, player_level):
+        """Finds monster that is appropriate for the player level and the dungeon level
+            Returns the entity
+        """
+        max_difficulty = math.ceil((dlevel + player_level) / 2)
+        min_difficulty = math.floor(dlevel / 6)
+        qualifiers = []
+        for name, entity in self.entities.items():
+            if min_difficulty <= entity.level.difficulty <= max_difficulty:
+                qualifiers.append(name)
+
+        if len(qualifiers) == 0:
+            raise Exception('No valid monsters for difficulty!')
+
+        choice = random.choice(qualifiers)
+        return make(choice)
 
 
 def make(entity_name):
     # Returns a new copy of the specified entity.
-
     if entity_name in db.actor_dict:
         # Create an Actor entity
         components = db.actor_dict.get(entity_name)

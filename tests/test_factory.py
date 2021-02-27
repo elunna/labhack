@@ -1,5 +1,31 @@
 from src import factory
 import pytest
+from components.level import Level
+from src.entity import Entity
+
+actor_dict = {
+    "player": {"level": Level(level_up_base=20, difficulty=0)},
+    "grid bug": {"level": Level(xp_given=1, difficulty=1)},
+    "storm drone": {"level": Level(current_level=4, xp_given=55, difficulty=20)},
+}
+
+
+def test_EntityFactory_creates_dict_of_actors():
+    ef = factory.EntityFactory(actor_dict)
+    assert isinstance(ef.entities["grid bug"], Entity)
+    assert isinstance(ef.entities["storm drone"], Entity)
+
+
+def test_EntityFactory_no_player_included():
+    ef = factory.EntityFactory(actor_dict)
+    assert "player" not in ef.entities
+
+
+def test_difficulty_specific_monster__xp1_dlevel1():
+    ef = factory.EntityFactory(actor_dict)
+    result = ef.difficulty_specific_monster(1, 1)
+    assert result.name == "grid bug"
+
 
 max_foos_by_floor = [
     (0, 1), (2, 2), (3, 3), (5, 5)
