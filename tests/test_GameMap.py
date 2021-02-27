@@ -346,3 +346,26 @@ def test_valid_door_neighbors__next_to_floor__facing_east():
     m.rooms.append(r)
     m.tiles[9][0] = tiles.floor
     assert not m.valid_door_neighbors(r, 9, 1)
+
+
+def test_get_random_unoccupied_tile__all_wall():
+    m = gamemap.GameMap(width=3, height=3)
+    result = m.get_random_unoccupied_tile()
+    assert result is None
+
+
+def test_get_random_unoccupied_tile__1_valid_tile():
+    m = gamemap.GameMap(width=3, height=3)
+    m.tiles[1][1] = tiles.floor
+    result = m.get_random_unoccupied_tile()
+    assert result == (1, 1)
+
+
+def test_get_random_unoccupied_tile__1floor_1actor(player):
+    m = gamemap.GameMap(width=3, height=3)
+    m.tiles[0][0] = tiles.floor
+    m.tiles[1][1] = tiles.floor
+    m.add_entity(player, 0, 0)
+
+    result = m.get_random_unoccupied_tile()
+    assert result == (1, 1)

@@ -1,3 +1,5 @@
+import random
+
 from . import actor, settings
 from . import item
 from . import tiles
@@ -241,3 +243,15 @@ class GameMap:
             return True
 
         return False
+
+    def get_random_unoccupied_tile(self):
+        # Get every walkable tile, choose a random one until one is found.
+        floors = [(x, y) for x in range(self.width)
+                  for y in range(self.height) if self.walkable(x, y)]
+
+        while floors:
+            result = random.choice(floors)
+            if not self.get_actor_at(*result):
+                return result
+            floors.remove(result)
+        return None
