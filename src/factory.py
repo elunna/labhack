@@ -46,8 +46,8 @@ class EntityFactory:
         new_map = self.dungeon.get_map(dlevel)
         for r in new_map.rooms:
             # Populate the room with monsters and items
-            if random.random() < .33:
-                # 33% for each new room to have a monster
+            if random.random() > .50:
+                # 33% for each new room to have monsters
                 self.place_monsters(new_map, r)
 
             self.place_items(new_map, r)
