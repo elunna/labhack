@@ -35,8 +35,8 @@ class EntityFactory:
             raise Exception('No valid monsters for difficulty!')
 
         choice = random.choice(qualifiers)
-        return make(choice)
-
+        # return make(choice)
+        return choice
 
 def make(entity_name):
     # Returns a new copy of the specified entity.
@@ -61,7 +61,7 @@ def make(entity_name):
 
         # return copy.deepcopy(db.item_dict[entity_name])
 
-    raise ValueError(f'{entity_name} is not a valid Entity!')
+    raise ValueError(f"'{entity_name}' is not a valid Entity!")
 
 
 def spawn(entity_name, gamemap, x, y):

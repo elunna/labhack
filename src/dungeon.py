@@ -1,4 +1,4 @@
-from src import factory
+from src import factory, db
 from src import settings
 from . import procgen
 
@@ -19,6 +19,9 @@ class Dungeon:
 
         # Set the engine's map ref
         self.engine.game_map = self.current_map
+
+        # Entity factory
+        self.entity_factory = factory.EntityFactory(db.actor_dict)
 
     @property
     def current_map(self):
@@ -56,6 +59,17 @@ class Dungeon:
         # Place entities, items, etc.
         map_to_populate = self.get_map(dlevel)
         factory.populate_map(map_to_populate, self.dlevel)
+
+    def summon_random_monster(self, player_level):
+        map_to_populate = self.get_map(self.dlevel)
+
+        # Create a new monster based on difficulty
+        new_monster = self.entity_factory.difficulty_specific_monster(self.dlevel, player_level)
+        # Place it at a random open spot in the level.
+        x, y = self.current_map.get_random_unoccupied_tile()
+
+        # Spawn the monster to the current level
+        factory.spawn(new_monster, self.current_map, x, y)
 
     def move_downstairs(self, entity):
         # Unlatch the player from the old level

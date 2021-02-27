@@ -24,7 +24,7 @@ def test_EntityFactory_no_player_included():
 def test_difficulty_specific_monster__xp1_dlevel1():
     ef = factory.EntityFactory(actor_dict)
     result = ef.difficulty_specific_monster(1, 1)
-    assert result.name == "grid bug"
+    assert result == "grid bug"
 
 
 max_foos_by_floor = [

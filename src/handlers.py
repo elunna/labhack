@@ -96,6 +96,9 @@ class EventHandler(BaseEventHandler):
                 self.engine.add_energy()
 
                 self.engine.handle_enemy_turns()
+
+                self.engine.generate_monster()
+
                 return True
         return False
 
