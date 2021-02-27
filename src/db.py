@@ -32,10 +32,152 @@ actor_dict = {
         "char": "x",
         "color": tcod.purple,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=1),
+        "fighter": Fighter(hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
-        "level": Level(xp_given=1, difficulty=1),
+        "level": Level(xp_given=1, difficulty=0),
         "energy": EnergyComponent(threshold=10)
+    },
+
+    "larva": {
+        "char": "w",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=1, base_ac=9),
+        "attack_comp": AttackComponent(Attack('bite', [2])),
+        "level": Level(xp_given=8, difficulty=2),
+        "energy": EnergyComponent(threshold=13)
+    },
+
+    "grasshopper": {
+        "char": "a",
+        "color": tcod.green,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=2, base_ac=7),
+        "attack_comp": AttackComponent(Attack('bite', [1])),
+        "level": Level(xp_given=8, difficulty=1),
+        "energy": EnergyComponent(threshold=7)
+    },
+
+    "maggot": {
+        "char": "w",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=1, base_ac=9),
+        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "level": Level(xp_given=17, difficulty=3),
+        "energy": EnergyComponent(threshold=13)
+    },
+
+    "centipede": {
+        "char": "s",
+        "color": tcod.yellow,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=1, base_ac=3),
+        "attack_comp": AttackComponent(Attack('bite', [3])),  # Poisonous
+        "level": Level(xp_given=19, difficulty=4),
+        "energy": EnergyComponent(threshold=15)
+    },
+
+    "mouse": {
+        "char": "r",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=2, base_ac=9),
+        "attack_comp": AttackComponent(Attack('bite', [2])),
+        "level": Level(xp_given=1, difficulty=1),
+        "energy": EnergyComponent(threshold=9)
+    },
+
+    "black rat": {
+        "char": "r",
+        "color": tcod.dark_gray,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=2, base_ac=10),
+        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "level": Level(xp_given=1, difficulty=1),
+        "energy": EnergyComponent(threshold=9)
+    },
+
+    "guinea pig": {
+        "char": "r",
+        "color": tcod.amber,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=4, base_ac=9),
+        "attack_comp": AttackComponent(Attack('bite', [4])),
+        "level": Level(xp_given=8, difficulty=2),
+        "energy": EnergyComponent(threshold=9)
+    },
+
+    "monkey": {
+        "char": "Y",
+        "color": tcod.gray,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=2, base_ac=6),
+        "attack_comp": AttackComponent(
+            Attack('claw', [1]),
+            Attack('bite', [3]),
+        ),
+        "level": Level(xp_given=1, difficulty=4),
+        "energy": EnergyComponent(threshold=10)
+    },
+
+    "chimpanzee": {
+        "char": "Y",
+        "color": tcod.light_gray,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=12, base_ac=4),
+        "attack_comp": AttackComponent(
+            Attack('claw', [2]),
+            Attack('bite', [5]),
+        ),
+        "level": Level(xp_given=1, difficulty=6),
+        "energy": EnergyComponent(threshold=7)
+    },
+
+    "chicken": {
+        "char": "c",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=7, base_ac=8),
+        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "level": Level(xp_given=20, difficulty=3),
+        "energy": EnergyComponent(threshold=7)
+    },
+
+    "lamb": {
+        "char": "q",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=12, base_ac=10),
+        "attack_comp": AttackComponent(
+            Attack('head butt', [2]),
+            Attack('kick', [2]),
+        ),
+        "level": Level(xp_given=8, difficulty=3),
+        "energy": EnergyComponent(threshold=8)
+    },
+
+    "sheep": {
+        "char": "q",
+        "color": tcod.white,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=12, base_ac=10),
+        "attack_comp": AttackComponent(
+            Attack('head butt', [4]),
+            Attack('kick', [3]),
+        ),
+        "level": Level(xp_given=28, difficulty=5),
+        "energy": EnergyComponent(threshold=10)
+    },
+
+    "bat": {
+        "char": "B",
+        "color": tcod.orange,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=4, base_ac=8),
+        "attack_comp": AttackComponent(Attack('bite', [4])),
+        "level": Level(xp_given=6, difficulty=3),
+        "energy": EnergyComponent(threshold=4)
     },
 
     "spider drone": {
