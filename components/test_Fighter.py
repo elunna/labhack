@@ -12,7 +12,7 @@ def player():
 
 @pytest.fixture
 def test_fighter():
-    return Fighter(hp=10, base_ac=15)
+    return Fighter(max_hp=10, base_ac=15)
 
 
 def test_init__max_hp_and_hp(test_fighter):

@@ -6,9 +6,9 @@ from components.attack import Attack
 class Fighter(Component):
     parent = None  # Should be Actor
 
-    def __init__(self, hp, base_ac):
-        self.max_hp = hp
-        self._hp = hp
+    def __init__(self, max_hp, base_ac):
+        self.max_hp = max_hp
+        self._hp = max_hp
         self.base_ac = base_ac
 
     @property

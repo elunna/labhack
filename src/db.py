@@ -19,7 +19,7 @@ actor_dict = {
         "color": (255, 255, 255),
         "ai_cls": HostileAI(),
         "equipment": Equipment(),
-        "fighter": Fighter(hp=30, base_ac=10),
+        "fighter": Fighter(max_hp=30, base_ac=10),
         "attack_comp": AttackComponent(Attack('punch', [2])),
         "attributes": Attributes(base_strength=5),
         # Original inventory capacity is 26 because we have 26 lowercase letters.
@@ -32,7 +32,7 @@ actor_dict = {
         "char": "x",
         "color": tcod.purple,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=10),
+        "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
         "energy": EnergyComponent(threshold=10)
@@ -42,7 +42,7 @@ actor_dict = {
         "char": "w",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=9),
+        "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=8, difficulty=2),
         "energy": EnergyComponent(threshold=13)
@@ -52,7 +52,7 @@ actor_dict = {
         "char": "a",
         "color": tcod.green,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=2, base_ac=7),
+        "fighter": Fighter(max_hp=2, base_ac=7),
         "attack_comp": AttackComponent(Attack('bite', [1])),
         "level": Level(xp_given=8, difficulty=1),
         "energy": EnergyComponent(threshold=7)
@@ -62,7 +62,7 @@ actor_dict = {
         "char": "w",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=9),
+        "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=17, difficulty=3),
         "energy": EnergyComponent(threshold=13)
@@ -72,7 +72,7 @@ actor_dict = {
         "char": "s",
         "color": tcod.yellow,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=3),
+        "fighter": Fighter(max_hp=1, base_ac=3),
         "attack_comp": AttackComponent(Attack('bite', [3])),  # Poisonous
         "level": Level(xp_given=19, difficulty=4),
         "energy": EnergyComponent(threshold=15)
@@ -82,7 +82,7 @@ actor_dict = {
         "char": "r",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=2, base_ac=9),
+        "fighter": Fighter(max_hp=2, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=1, difficulty=1),
         "energy": EnergyComponent(threshold=9)
@@ -92,7 +92,7 @@ actor_dict = {
         "char": "r",
         "color": tcod.dark_gray,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=2, base_ac=10),
+        "fighter": Fighter(max_hp=2, base_ac=10),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=1, difficulty=1),
         "energy": EnergyComponent(threshold=9)
@@ -102,7 +102,7 @@ actor_dict = {
         "char": "r",
         "color": tcod.amber,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=4, base_ac=9),
+        "fighter": Fighter(max_hp=4, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=8, difficulty=2),
         "energy": EnergyComponent(threshold=9)
@@ -112,7 +112,7 @@ actor_dict = {
         "char": "Y",
         "color": tcod.gray,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=2, base_ac=6),
+        "fighter": Fighter(max_hp=2, base_ac=6),
         "attack_comp": AttackComponent(
             Attack('claw', [1]),
             Attack('bite', [3]),
@@ -125,7 +125,7 @@ actor_dict = {
         "char": "Y",
         "color": tcod.light_gray,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=12, base_ac=4),
+        "fighter": Fighter(max_hp=12, base_ac=4),
         "attack_comp": AttackComponent(
             Attack('claw', [2]),
             Attack('bite', [5]),
@@ -138,7 +138,7 @@ actor_dict = {
         "char": "c",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=7, base_ac=8),
+        "fighter": Fighter(max_hp=7, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=20, difficulty=3),
         "energy": EnergyComponent(threshold=7)
@@ -148,7 +148,7 @@ actor_dict = {
         "char": "q",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=12, base_ac=10),
+        "fighter": Fighter(max_hp=12, base_ac=10),
         "attack_comp": AttackComponent(
             Attack('head butt', [2]),
             Attack('kick', [2]),
@@ -161,7 +161,7 @@ actor_dict = {
         "char": "q",
         "color": tcod.white,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=12, base_ac=10),
+        "fighter": Fighter(max_hp=12, base_ac=10),
         "attack_comp": AttackComponent(
             Attack('head butt', [4]),
             Attack('kick', [3]),
@@ -174,7 +174,7 @@ actor_dict = {
         "char": "B",
         "color": tcod.orange,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=4, base_ac=8),
+        "fighter": Fighter(max_hp=4, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=6, difficulty=3),
         "energy": EnergyComponent(threshold=4)
@@ -184,7 +184,7 @@ actor_dict = {
         "char": "s",
         "color": tcod.silver,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=4, base_ac=7),
+        "fighter": Fighter(max_hp=4, base_ac=7),
         "attack_comp": AttackComponent(Attack('claw', [3])),
         "level": Level(xp_given=35, difficulty=3),
         "energy": EnergyComponent(threshold=13)
@@ -194,7 +194,7 @@ actor_dict = {
         "char": "@",
         "color": tcod.dark_gray,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=6, base_ac=6),
+        "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('kick', [5])),
         "level": Level(xp_given=55, difficulty=3),
         "energy": EnergyComponent(threshold=12)
@@ -204,7 +204,7 @@ actor_dict = {
         "char": "L",
         "color": tcod.light_green,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=11, base_ac=-2),
+        "fighter": Fighter(max_hp=11, base_ac=-2),
         "attack_comp": AttackComponent(Attack('suck', [6])),
         "level": Level(current_level=4, xp_given=100, difficulty=4),
         "energy": EnergyComponent(threshold=16),
@@ -214,7 +214,7 @@ actor_dict = {
         "char": "@",
         "color": tcod.dark_gray,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=6, base_ac=6),
+        "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('punch', [5])),
         "level": Level(xp_given=55, difficulty=4),
         "energy": EnergyComponent(threshold=12)
@@ -224,7 +224,7 @@ actor_dict = {
         "char": "f",
         "color": tcod.dark_blue,
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=6, base_ac=3),
+        "fighter": Fighter(max_hp=6, base_ac=3),
         "attack_comp": AttackComponent(Attack('claw', [6])),
         "level": Level(xp_given=55, difficulty=6),
         "energy": EnergyComponent(threshold=7)
@@ -234,7 +234,7 @@ actor_dict = {
         "char": "x",
         "color": (0, 127, 0),
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=-20),
+        "fighter": Fighter(max_hp=1, base_ac=-20),
         "attack_comp": AttackComponent(Attack('zap', [5])),
         "level": Level(current_level=4, xp_given=55, difficulty=20),
         "energy": EnergyComponent(threshold=8)
