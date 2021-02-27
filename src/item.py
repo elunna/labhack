@@ -23,11 +23,4 @@ class Item(entity.Entity):
         )
 
         self.consumable = consumable
-
-        if self.consumable:
-            self.consumable.parent = self
-
         self.equippable = equippable
-
-        if self.equippable:
-            self.equippable.parent = self
