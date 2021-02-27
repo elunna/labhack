@@ -167,5 +167,4 @@ class Engine:
         # 1 out of 70 chance of creating a monster
         CHANCE = 70
         if random.randint(1, CHANCE) == 1:
-            self.msglog.add_message("A new monster was summoned somewhere!", tcod.green)
             self.dungeon.summon_random_monster(self.player.level.current_level)

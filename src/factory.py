@@ -12,13 +12,17 @@ class EntityFactory:
     """ Builds a database of all the Entities in db.py -
     Let's us get a monster appropriate in level for the players current XP level and dungeon level.
     # TODO: Contains
+    # TODO: Needs Player and Dungeon to work properly.
     """
-    def __init__(self, entity_dict):
+    def __init__(self, entity_dict, dungeon=None, player=None):
         # We'll create a dict of names and their Entities for easy accessibility
         self.entities = {k: make(k) for k in entity_dict}
         # Don't include the player
         if "player" in self.entities:
             self.entities.pop('player')
+
+        self.dungeon = dungeon
+        self.player = player
 
     def difficulty_specific_monster(self, dlevel, player_level):
         """Finds monster that is appropriate for the player level and the dungeon level
@@ -37,6 +41,44 @@ class EntityFactory:
         choice = random.choice(qualifiers)
         # return make(choice)
         return choice
+
+    def populate_level(self, dlevel):
+        new_map = self.dungeon.get_map(dlevel)
+        for r in new_map.rooms:
+            # Populate the room with monsters and items
+            if random.random() < .33:
+                # 33% for each new room to have a monster
+                self.place_monsters(new_map, r)
+
+            self.place_items(new_map, r)
+            # place traps
+            # place secrets
+
+    def place_items(self, new_map, new_room):
+        max_items = get_max_value_for_floor(settings.max_items_by_floor, self.dungeon.dlevel)
+        number_of_items = random.randint(0, max_items)
+
+        items = get_entities_at_random(
+            db.item_chances, number_of_items, self.dungeon.dlevel
+        )
+
+        for entity in items:
+            x, y = new_room.random_point_inside()
+            # We don't care if they stack on the map
+            spawn(entity, new_map, x, y)
+
+    def place_monsters(self, new_map, new_room):
+        new_monster = self.difficulty_specific_monster(
+            self.dungeon.dlevel,
+            self.player.level.current_level
+        )
+        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
+        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
+
+        # Don't spawn them on top of each other.
+        if not new_map.get_actor_at(x, y):
+            spawn(new_monster, new_map, x, y)
+
 
 def make(entity_name):
     # Returns a new copy of the specified entity.
@@ -119,46 +161,3 @@ def get_entities_at_random(weighted_chances_by_floor, number_of_entities, floor)
     )
 
     return chosen_entities
-
-
-def place_items(new_room, dungeon, floor_number):
-    number_of_items = random.randint(
-        0, get_max_value_for_floor(settings.max_items_by_floor, floor_number)
-    )
-
-    items = get_entities_at_random(
-        db.item_chances, number_of_items, floor_number
-    )
-
-    for entity in items:
-        x, y = new_room.random_point_inside()
-        # We don't care if they stack on the map
-        # entity.spawn(dungeon, x, y)
-        spawn(entity, dungeon, x, y)
-
-
-def place_monsters(new_room, dungeon, floor_number):
-    number_of_monsters = random.randint(
-        0, get_max_value_for_floor(settings.max_monsters_by_floor, floor_number)
-    )
-
-    monsters = get_entities_at_random(
-        db.enemy_chances, number_of_monsters, floor_number
-    )
-
-    for entity in monsters:
-        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
-        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
-
-        # Don't spawn them on top of each other.
-        if not any(entity.x == x and entity.y == y for entity in dungeon.entities):
-            spawn(entity, dungeon, x, y)
-
-
-def populate_map(new_map, current_floor):
-    for r in new_map.rooms:
-        # Populate the room with monsters and items
-        place_monsters(r, new_map, current_floor)
-        place_items(r, new_map, current_floor)
-        # place traps
-        # place secrets

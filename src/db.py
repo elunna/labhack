@@ -38,16 +38,6 @@ actor_dict = {
         "energy": EnergyComponent(threshold=10)
     },
 
-    "storm drone": {
-        "char": "x",
-        "color": (0, 127, 0),
-        "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=1, base_ac=-20),
-        "attack_comp": AttackComponent(Attack('zap', [5])),
-        "level": Level(current_level=4, xp_given=55, difficulty=20),
-        "energy": EnergyComponent(threshold=8)
-    },
-
     "spider drone": {
         "char": "s",
         "color": tcod.silver,
@@ -66,6 +56,16 @@ actor_dict = {
         "attack_comp": AttackComponent(Attack('kick', [5])),
         "level": Level(xp_given=55, difficulty=3),
         "energy": EnergyComponent(threshold=12)
+    },
+
+    "giant leech": {
+        "char": "L",
+        "color": tcod.light_green,
+        "ai_cls": HostileAI(),
+        "fighter": Fighter(hp=11, base_ac=-2),
+        "attack_comp": AttackComponent(Attack('suck', [6])),
+        "level": Level(current_level=4, xp_given=100, difficulty=4),
+        "energy": EnergyComponent(threshold=16),
     },
 
     "henchman": {
@@ -88,14 +88,14 @@ actor_dict = {
         "energy": EnergyComponent(threshold=7)
     },
 
-    "giant leech": {
-        "char": "L",
-        "color": tcod.light_green,
+    "storm drone": {
+        "char": "x",
+        "color": (0, 127, 0),
         "ai_cls": HostileAI(),
-        "fighter": Fighter(hp=11, base_ac=-2),
-        "attack_comp": AttackComponent(Attack('suck', [6])),
-        "level": Level(current_level=4, xp_given=100, difficulty=4),
-        "energy": EnergyComponent(threshold=16),
+        "fighter": Fighter(hp=1, base_ac=-20),
+        "attack_comp": AttackComponent(Attack('zap', [5])),
+        "level": Level(current_level=4, xp_given=55, difficulty=20),
+        "energy": EnergyComponent(threshold=8)
     },
 }
 

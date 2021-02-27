@@ -12,7 +12,7 @@ import pytest
 def test_dungeon():
     # Create a dungeon with 1 floor and add the Player to it.
     player = toolkit.cp_player()
-    e = SimpleNamespace(game_map='testmap')
+    e = SimpleNamespace(game_map='testmap', player=player)
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()
     d.current_map.add_entity(player, 0, 0)

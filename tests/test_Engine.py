@@ -2,39 +2,46 @@
 from src import engine, messages, dungeon
 import pytest
 
+from tests import toolkit
 
-def test_init__msglog():
-    e = engine.Engine(player="Player")
+
+@pytest.fixture
+def player():
+    return toolkit.cp_player()
+
+
+def test_init__msglog(player):
+    e = engine.Engine(player=player)
     assert e.msglog.messages == []
 
 
-def test_init__mouse_location():
-    e = engine.Engine(player="Player")
+def test_init__mouse_location(player):
+    e = engine.Engine(player=player)
     assert e.mouse_location == (0, 0)
 
 
-def test_init__player():
-    e = engine.Engine(player="Player")
-    assert e.player == "Player"
+def test_init__player(player):
+    e = engine.Engine(player=player)
+    assert e.player == player
 
 
-def test_init__helplog():
-    e = engine.Engine(player="Player")
+def test_init__helplog(player):
+    e = engine.Engine(player=player)
     assert e.helplog  # Make sure it exists
 
 
-def test_init__renderer():
-    e = engine.Engine(player="Player")
+def test_init__renderer(player):
+    e = engine.Engine(player=player)
     assert e.renderer is None
 
 
-def test_init__turns():
-    e = engine.Engine(player="Player")
+def test_init__turns(player):
+    e = engine.Engine(player=player)
     assert e.turns == 0
 
 
-def test_init__dungeon():
-    e = engine.Engine(player="Player")
+def test_init__dungeon(player):
+    e = engine.Engine(player=player)
     assert isinstance(e.dungeon, dungeon.Dungeon)
 
 

@@ -13,15 +13,19 @@ class Dungeon:
         self.map_list = []
         self.test_map = test_map  # Just pass a reference to the function.
 
+        # Entity factory
+        self.entity_factory = factory.EntityFactory(
+            entity_dict=db.actor_dict,
+            dungeon=self,
+            player=self.engine.player
+        )
+
         # Create a first map for the dungeon
         self.generate_floor()
         self.populate_map(self.dlevel)
 
         # Set the engine's map ref
         self.engine.game_map = self.current_map
-
-        # Entity factory
-        self.entity_factory = factory.EntityFactory(db.actor_dict)
 
     @property
     def current_map(self):
@@ -57,8 +61,9 @@ class Dungeon:
 
     def populate_map(self, dlevel):
         # Place entities, items, etc.
-        map_to_populate = self.get_map(dlevel)
-        factory.populate_map(map_to_populate, self.dlevel)
+        # map_to_populate = self.get_map(dlevel)
+        self.entity_factory.populate_level(dlevel)
+        # factory.populate_map(map_to_populate, self.dlevel)
 
     def summon_random_monster(self, player_level):
         map_to_populate = self.get_map(self.dlevel)

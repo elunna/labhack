@@ -9,7 +9,7 @@ import pytest
 def test_dungeon():
     # Create a dungeon with 3 floors and adds the player to the floor 2 for easy testing situations.
     player = toolkit.cp_player()
-    e = SimpleNamespace(game_map='testmap')
+    e = SimpleNamespace(game_map='testmap', player=player)
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()  # Floor 2
     d.generate_floor()  # Floor 3
@@ -22,7 +22,8 @@ def test_dungeon():
 
 @pytest.fixture
 def quik_d():
-    e = SimpleNamespace(game_map='testmap')
+    player = toolkit.cp_player()
+    e = SimpleNamespace(game_map='testmap', player=player)
     return dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
 
 
@@ -50,7 +51,7 @@ def test_generate_map__returns_GameMap(quik_d):
 
 
 def test_generate_map__sets_new_maps_engine_ref():
-    e = SimpleNamespace(game_map='testmap')
+    e = SimpleNamespace(game_map='testmap', player=toolkit.cp_player())
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     result = d.generate_floor()
     assert result.engine == e
