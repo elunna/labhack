@@ -1,5 +1,6 @@
 import math
 
+import src.db
 from . import settings
 from . import db
 import copy
@@ -52,6 +53,7 @@ class EntityFactory:
 
             self.place_items(new_map, r)
             # place traps
+            self.place_traps(new_map, r)
             # place secrets
 
     def place_items(self, new_map, new_room):
@@ -78,6 +80,13 @@ class EntityFactory:
         # Don't spawn them on top of each other.
         if not new_map.get_actor_at(x, y):
             spawn(new_monster, new_map, x, y)
+
+    def place_traps(self, new_map, new_room):
+        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
+        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
+
+        new_trap = copy.deepcopy(src.db.bear_trap)
+        new_map.add_entity(new_trap, x, y)
 
 
 def make(entity_name):

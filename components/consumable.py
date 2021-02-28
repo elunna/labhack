@@ -4,7 +4,6 @@ from actions.item_action import ItemAction
 from components.ai import ConfusedAI
 from components.component import Component
 from components.inventory import Inventory
-from actions import actions
 from src import color
 from src import exceptions
 from src import handlers
@@ -166,3 +165,23 @@ class FireballDamageConsumable(Consumable):
         self.consume()
 
         return results
+
+
+class BearTrapConsumable(Consumable):
+    def __init__(self, damage):
+        self.damage = damage  # How much damage the bear trap will deal.
+
+    def activate(self, action):
+        consumer = action.entity
+
+        action.msg = f"A bear trap snaps on the {consumer.name}!! "
+        consumer.fighter.hp -= self.damage
+
+        # Reveal it if it is hidden.
+        if "hidden" in self.parent:
+            self.parent.rm_comp("hidden")
+
+        # self.consume()
+
+        if consumer.fighter.is_dead():
+            return DieAction(entity=consumer, cause=self.parent)

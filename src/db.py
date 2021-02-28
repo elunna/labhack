@@ -13,6 +13,8 @@ from components.inventory import Inventory
 from components.item_comp import ItemComponent
 from components.level import Level
 from components.regeneration import Regeneration
+from src.entity import Entity
+from src.renderorder import RenderOrder
 
 actor_dict = {
     "player": {
@@ -629,6 +631,20 @@ item_dict = {
         "equippable": equippable.Arms(ac_bonus=-3),
     },
 }
+
+
+bear_trap = Entity(
+    name='bear trap',
+    char='^',
+    x=-1,
+    y=-1,
+    color=(0xFF, 0x0, 0x0),
+    render_order=RenderOrder.TRAP,
+    blocks_movement=False,
+    hidden=True,
+    trap=True,
+    consumable=consumable.BearTrapConsumable(damage=8),
+)
 
 item_chances = {
     # keys in the dictionary represent the floor number,

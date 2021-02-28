@@ -115,6 +115,13 @@ class GameMap:
 
         return None
 
+    def get_trap_at(self, x, y):
+        entities = [e for e in self.entities if e.x == x and e.y == y]
+        for e in entities:
+            if "trap" in e:
+                return e
+        return None
+
     def in_bounds(self, x, y):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
@@ -130,10 +137,11 @@ class GameMap:
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
 
-        names = ", ".join(
-            entity.name for entity in self.entities if entity.x == x and entity.y == y
-        )
+        entities = [e for e in self.entities if e.x == x and e.y == y]
+        # Filter out hidden
+        # entities = [e for e in entities if "hidden" in e]
 
+        names = ", ".join(e.name for e in entities)
         return names.capitalize()
 
     def walkable(self, x, y):

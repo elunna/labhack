@@ -9,6 +9,7 @@ class DieAction(Action):
 
     def perform(self):
         # TODO: What if the cause is a non-actor? Trap, drowning, bomb, etc.
+        trap_cause = "trap" in self.cause
 
         # if self.entity == self.engine.player:
         # TODO: Update with component type/breed check
@@ -24,8 +25,10 @@ class DieAction(Action):
         else:
             self.msg = f"The {self.cause.name} kills the {self.entity.name}!"
 
-            # The causing entity gets xp for the kill
-            self.cause.level.add_xp(self.entity.level.xp_given)
+            # Traps don't get xp...
+            if not trap_cause:
+                # The causing entity gets xp for the kill
+                self.cause.level.add_xp(self.entity.level.xp_given)
 
         # Kill the entity
         self.entity.char = "%"

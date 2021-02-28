@@ -1,4 +1,5 @@
 from actions.actions import ActionWithDirection
+from actions.trap_action import TrapAction
 from src import exceptions
 
 
@@ -32,3 +33,9 @@ class MovementAction(ActionWithDirection):
             return
 
         self.entity.move(self.dx, self.dy)
+
+        # Did we trigger a trap?
+        trap = self.entity.gamemap.get_trap_at(dest_x, dest_y)
+        if trap:
+            # Trigger it
+            return TrapAction(self.entity, trap)
