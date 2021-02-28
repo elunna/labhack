@@ -1,3 +1,4 @@
+from components.equippable import Weapon
 from . import color
 from . import messages
 from . import settings
@@ -222,14 +223,16 @@ def render_inv(console, engine, title):
         height = 3
 
     # TODO: Design decision, should inventory stay in one place?
-    if engine.player.x <= 30:
-        x = 40
-    else:
-        x = 0
+    x = console.width // 2
+    # if engine.player.x <= 30:
+    #     x = 40
+    # else:
+    #     x = 0
 
     y = 0
 
-    width = len(title) + 10
+    # width = len(title) + 10
+    width = x - 2
 
     console.draw_frame(
         x=x,
@@ -261,8 +264,13 @@ def render_inv(console, engine, title):
 
                     item_string = f"({item_key}) {item.name}"
 
+                    # Weapon notation strings
+                    if "equippable" in item and isinstance(item.equippable, Weapon):
+                        dnotation = item.equippable.attack_comp.attacks[0].to_text()
+                        item_string += f"({dnotation})"
+
                     if is_equipped:
-                        item_string = f"{item_string} (Equipped)"
+                        item_string += f" (Equipped)"
 
                     console.print(x + 1, y + i + 1, item_string)
                     i += 1
