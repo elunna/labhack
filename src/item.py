@@ -1,3 +1,4 @@
+from components.item_comp import ItemComponent
 from src import entity
 from src.renderorder import RenderOrder
 
@@ -11,6 +12,7 @@ class Item(entity.Entity):
         name="<Unnamed>",
         consumable=None,
         equippable=None,
+        item=ItemComponent(),
     ):
         super().__init__(
             x=x,
@@ -20,6 +22,7 @@ class Item(entity.Entity):
             name=name,
             blocks_movement=False,
             render_order=RenderOrder.ITEM,
+            item=item
         )
 
         self.consumable = consumable
