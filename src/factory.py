@@ -1,7 +1,7 @@
 import math
 
 import src.db
-from . import settings
+from . import settings, tiles
 from . import db
 import copy
 import random
@@ -85,8 +85,10 @@ class EntityFactory:
         x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
         y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
 
-        new_trap = copy.deepcopy(src.db.bear_trap)
-        new_map.add_entity(new_trap, x, y)
+        # No traps on stairs!
+        if not new_map.tiles[x][y] in [tiles.up_stairs, tiles.down_stairs]:
+            new_trap = copy.deepcopy(src.db.bear_trap)
+            new_map.add_entity(new_trap, x, y)
 
 
 def make(entity_name):
