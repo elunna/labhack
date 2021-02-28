@@ -5,7 +5,7 @@ from src.letterroll import LetterRoll
 
 class Inventory(Component):
     """ Dictionary based Inventory
-        # TODO: Add contains, add, remove, subscrioption, weight, size
+        # TODO: Add contains, subscrioption, weight, size
         ex:
             $ XXX.XX dogecoin
             # Weapons
