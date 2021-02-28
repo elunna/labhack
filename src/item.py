@@ -25,5 +25,5 @@ class Item(entity.Entity):
             item=item
         )
 
-        self.consumable = consumable
-        self.equippable = equippable
+        self.add_comp(consumable=consumable)
+        self.add_comp(equippable=equippable)
