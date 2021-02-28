@@ -32,7 +32,7 @@ class Engine:
     def handle_enemy_turns(self):
         for actor in set(self.game_map.actors) - {self.player}:
             if actor.ai:
-                while not actor.energymeter.burned_out():
+                while not actor.energymeter.burned_out() and actor.is_alive:
                     # We'll use the energy regardless.
                     actor.energymeter.burn_turn()
 
