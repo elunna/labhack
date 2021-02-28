@@ -15,6 +15,7 @@ import actions.drop_action
 import actions.equip_action
 import actions.pickup_action
 import actions.wait_action
+import actions.search_action
 import os
 import tcod
 import tcod.event
@@ -181,6 +182,9 @@ class MainGameHandler(EventHandler):
 
         elif key == tcod.event.K_SLASH:
             return LookHandler(self.engine)
+
+        elif key == tcod.event.K_s:
+            action = actions.search_action.SearchAction(player)
 
         # No valid key was pressed
         return action
