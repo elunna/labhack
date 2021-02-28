@@ -1,8 +1,10 @@
 """ Tools for testing """
+import copy
+
 from src import factory
 from src import gamemap
 from src import tiles
-
+from src import db
 
 def cp_player():
     return factory.make("player")
@@ -56,6 +58,37 @@ def test_map():
 
     # Create a spider drone at 5, 4
     factory.spawn("henchman", new_map, 5, 4)
+
+    return new_map
+
+
+def hidden_map():
+    # Door pending
+
+    #   0 1 2 3 4
+    # 0 # # . # #
+    # 1 # # b # #   b=hidden banana trap
+    # 2 . + @ % .   +=hidden door, and %=hidden corridor
+    # 3 # # ^ # #   ^=hidden bear trap
+    # 4 # # . # #
+
+    new_map = gamemap.GameMap(
+        width=6,
+        height=6,
+        fill_tile=tiles.wall
+    )
+    floors = [(2, 0), (2, 1), (0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (2, 3), (2, 4)]
+
+    for x, y in floors:
+        new_map.tiles[x, y] = tiles.floor
+
+    # Create a player at 5, 5
+    player = factory.spawn("player", new_map, 2, 2)
+    new_map.player = player
+
+    # Create bear trap at 2, 3
+    new_trap = copy.deepcopy(db.bear_trap)
+    new_map.add_entity(new_trap, 2, 3)
 
     return new_map
 

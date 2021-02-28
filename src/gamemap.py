@@ -7,6 +7,9 @@ from .entity import Entity
 from .room import Room
 import numpy as np
 
+# TODO: Clean up query functions
+# TODO: Get entities at... with filters - and the others use it.
+
 
 class GameMap:
     """ Defines the dimensions and tiles of a single map in the game. """
@@ -93,6 +96,9 @@ class GameMap:
             e.parent = None  # Update the parent before ditching it.
             return True
         return False
+
+    def get_entities_at(self, x, y):
+        return [e for e in self.entities if e.x == x and e.y == y]
 
     def get_items_at(self, x, y):
         return [i for i in self.items if i.x == x and i.y == y]
