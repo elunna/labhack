@@ -12,7 +12,7 @@ from components.fighter import Fighter
 from components.inventory import Inventory
 from components.item_comp import ItemComponent
 from components.level import Level
-
+from components.regeneration import Regeneration
 
 actor_dict = {
     "player": {
@@ -26,7 +26,8 @@ actor_dict = {
         # Original inventory capacity is 26 because we have 26 lowercase letters.
         "inventory": Inventory(capacity=26),
         "level": Level(level_up_base=20, difficulty=0),
-        "energy": EnergyComponent(threshold=10)
+        "energy": EnergyComponent(threshold=10),
+        "regeneration": Regeneration(),
     },
 
     "grid bug": {

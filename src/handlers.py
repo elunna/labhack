@@ -99,6 +99,9 @@ class EventHandler(BaseEventHandler):
 
                 self.engine.generate_monster()
 
+                # Check if player regenerates
+                self.engine.player.regeneration.activate(self.engine.turns)
+
                 return True
         return False
 

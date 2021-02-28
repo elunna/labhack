@@ -29,5 +29,8 @@ class Regeneration(Component):
             return max_gain
         return gain
 
-    #  If your Constitution is 12 or lower, you get one hit point.
-    # Otherwise, you get d(Con) hitpoints up to a maximum of your level minus 9.
+    def activate(self, turns):
+        level = self.parent.level.current_level
+        if self.eligible_for_regen(level, turns):
+            heal_amt = self.regen_amt(self.parent.attributes.constitution, level)
+            self.parent.fighter.heal(heal_amt)
