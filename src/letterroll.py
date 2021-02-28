@@ -4,7 +4,7 @@ import string
 class LetterRoll:
     def __init__(self):
         # self.letters = string.ascii_lowercase + string.ascii_uppercase
-        self.letters = string.ascii_lowercase
+        self.letters = string.ascii_lowercase + string.ascii_uppercase
         self.index = -1
 
     def __len__(self):

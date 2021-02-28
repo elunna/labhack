@@ -308,7 +308,14 @@ class InventoryHandler(AskUserHandler):
         # takes the user’s input, from letters a - z, and associates that with
         # an index in the inventory.
         player = self.engine.player
-        key = chr(event.sym)  # Get letter the player selected
+        modifier = event.mod
+        try:
+            key = chr(event.sym)  # Get letter the player selected
+        except ValueError:
+            return
+
+        if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+            key = key.upper()
 
         if key in player.inventory.items:
             try:

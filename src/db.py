@@ -26,7 +26,7 @@ actor_dict = {
         "attack_comp": AttackComponent(Attack('punch', [2])),
         "attributes": Attributes(base_strength=5),
         # Original inventory capacity is 26 because we have 26 lowercase letters.
-        "inventory": Inventory(capacity=26),
+        "inventory": Inventory(capacity=52),
         "level": Level(level_up_base=20, difficulty=0),
         "energy": EnergyComponent(threshold=10),
         "regeneration": Regeneration(),
