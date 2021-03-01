@@ -35,9 +35,7 @@ class Consumable(Component):
 
 
 class HealConsumable(Consumable):
-    """ Heals x + 1dx, where x is the amount this object is initialized with.
-
-    """
+    """ Heals x + 1dx, where x is the amount this object is initialized with. """
     def __init__(self, amount):
         self.amount = amount
 

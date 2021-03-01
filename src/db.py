@@ -253,6 +253,13 @@ item_dict = {
         "consumable": consumable.HealConsumable(amount=5),
     },
 
+    "vial of extra healing": {
+        "item": ItemComponent(stackable=True),
+        "char": "!",
+        "color": (127, 0, 200),
+        "consumable": consumable.HealConsumable(amount=15),
+    },
+
     "lightning scroll": {
         "item": ItemComponent(stackable=True),
         "char": "~",
@@ -664,7 +671,7 @@ item_chances = {
     # and the value is a list of tuples.
     0: [
         ("vial of healing", 200),
-        # ("vial of extra healing", 35),
+        ("vial of extra healing", 35),
 
         ("confusion scroll", 45),
         ("lightning scroll", 35),
