@@ -96,6 +96,30 @@ def test_add_item__last_letter_not_available(plunger, dagger):
     assert dagger.item.last_letter == 'b'  # Resets the last letter
 
 
+def test_add_item__one_stackable__adds_to_stack(dagger):
+    i = Inventory(2)
+    i.add_item(dagger)
+    i.add_item(dagger)
+    assert dagger.item.stacksize == 2  # Same ref work?
+    assert i.items['a'].item.stacksize == 2  # Which check is more accurate?
+
+
+def test_add_item__one_stackable__capacity_unchanged(dagger):
+    i = Inventory(2)
+    i.add_item(dagger)
+    expected = len(i.items)
+    i.add_item(dagger)
+    assert len(i.items) == expected
+
+
+def test_add_item__stackable__full_capacity(dagger):
+    i = Inventory(1)
+    i.add_item(dagger)
+    assert i.add_item(dagger)
+    assert dagger.item.stacksize == 2  # Same ref work?
+    assert i.items['a'].item.stacksize == 2  # Which check is more accurate?
+
+
 def test_rm_item__success_returns_True(plunger):
     i = Inventory(10)
     i.add_item(plunger)
@@ -120,6 +144,24 @@ def test_rm_item__failure_returns_False(plunger):
     i = Inventory(10)
     i.add_item(plunger)
     assert i.rm_item('dagger') is False
+
+
+def test_rm_item__stackable__single(dagger):
+    i = Inventory(10)
+    dagger.item.stacksize = 10
+    i.add_item(dagger)
+    assert dagger.item.stacksize == 10
+    i.rm_item(dagger)
+    assert dagger.item.stacksize == 9
+
+
+def test_rm_item__stackable__multiple(dagger):
+    i = Inventory(10)
+    dagger.item.stacksize = 10
+    i.add_item(dagger)
+    assert dagger.item.stacksize == 10
+    i.rm_item(dagger, 2)
+    assert dagger.item.stacksize == 8
 
 
 def test_rm_letter__success_returns_True(plunger):
@@ -167,3 +209,22 @@ def test_sorted_dict__multiple_items():
         '[': ['b', 'c'],
         '!': ['d'],
     }
+
+# This should probably have rigorous testing - items could differ by non-significant details:
+# x, y should not matter, but all the other components should match.
+
+
+def test_get_matching_item__has_match(dagger, plunger):
+    i = Inventory(10)
+    i.add_item(dagger)
+    i.add_item(plunger)
+
+    p = factory.make('plunger')
+    assert i.get_matching_item(p) == plunger
+    # assert i.get_matching_item(p) == p
+
+
+def test_get_matching_item__no_match(dagger, plunger):
+    i = Inventory(10)
+    i.add_item(dagger)
+    assert i.get_matching_item(plunger) is None

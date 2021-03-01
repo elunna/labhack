@@ -263,8 +263,13 @@ def render_inv(console, engine, title):
                     item_key = letter
                     item = engine.player.inventory.items[letter]
                     is_equipped = engine.player.equipment.is_equipped(item)
+                    qty = item.item.stacksize
 
-                    item_string = f"({item_key}) {item.name}"
+                    if qty > 1:
+                        item_string = f"({item_key}) {qty} {item.name}"
+                    else:
+                        # Pluralize the first word
+                        item_string = f"({item_key}) {item.name}"
 
                     # Weapon notation strings
                     if "equippable" in item and isinstance(item.equippable, Weapon):

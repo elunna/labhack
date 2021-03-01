@@ -290,7 +290,7 @@ item_dict = {
 
     # WEAPONS
     "dagger": {
-        "item": ItemComponent(),
+        "item": ItemComponent(stackable=True),
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(

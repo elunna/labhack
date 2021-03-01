@@ -24,7 +24,15 @@ class Inventory(Component):
         if not isinstance(item, Item):
             return False
 
-        # If we add the item
+        # Is it stackable and does it have a matching item it can stack with?
+        if item.item.stackable:
+            match = self.get_matching_item(item)
+            if match:
+                # This should match the other items stacksize
+                match.item.stacksize += 1
+                return True
+
+        # Do we have room for a new item slot?
         if len(self.items) >= self.capacity:
             # Inventory full
             return False
@@ -53,29 +61,33 @@ class Inventory(Component):
                 return self.current_letter
             self.current_letter = self.letterroll.next_letter()
 
-    def rm_item(self, item):
-        # Removes an item from the inventory. Returns True if successful, False
-        # otherwise.
+    def rm_item(self, item, qty=1):
+        # Removes an item from the inventory.
+        # Returns True if successful, False otherwise.
         for k, v in self.items.items():
             if v == item:
-                item = self.items.pop(k)
+                item = self.items.get(k)
+                # Check if the item is stackable
+                if item.item.stackable:
+                    # Reduce it by the specified qty
+                    item.item.stacksize -= qty
 
-                # Reset the item's parent to None
-                item.parent = None
-
+                # Totally remove items that are not stackable, or have a 0 stacksize.
+                if not item.item.stackable or item.item.stacksize == 0:
+                    self.items.pop(k)
+                    # Reset the item's parent to None
+                    item.parent = None
                 return True
         return False
 
-    def rm_letter(self, letter):
+    def rm_letter(self, letter, qty=1):
         # Removes an item from the inventory by using it's assigned letter.
         # If the letter is being used, we remove the item and return True.
         # If no item is found using that letter, return False
         if letter in self.items:
-            item = self.items.pop(letter)
-
-            # Reset the item's parent to None
-            item.parent = None
-
+            item = self.items.get(letter)
+            # Use rm_item
+            self.rm_item(item, qty)
             return True
         return False
 
@@ -87,3 +99,13 @@ class Inventory(Component):
         for key_letter, item in self.items.items():
             result[item.char].append(key_letter)
         return result
+
+    def get_matching_item(self, item):
+        """ Searches the inventory items for a matching item type,
+            if found it returns the item, otherwise returns None.
+        """
+        for k, v in self.items.items():
+            # TODO: Use a more sophisticated check than item name.
+            if item.name == v.name:
+                return v
+        return None
