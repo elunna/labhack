@@ -45,3 +45,9 @@ def test_myround__default_base_25__25_rounds_to_25():
 
 def test_myround__default_base_25__26_rounds_to_25():
     assert utils.myround(26) == 25
+
+
+def test_pluralize_last_word():
+    result = utils.pluralize_str("healing vial")
+    expected = "healing vials"
+    assert result == expected

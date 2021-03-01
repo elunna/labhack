@@ -10,3 +10,11 @@ def myround(x, base=25):
         Rounds to the nearest 'base'
     """
     return base * round(x/base)
+
+
+def pluralize_str(string):
+    string += "s"
+    return string
+
+    # broken_up = string.split()
+    # last_word = broken_up[-1]

@@ -1,5 +1,5 @@
 from components.equippable import Weapon
-from . import color
+from . import color, utils
 from . import messages
 from . import settings
 from . import tiles
@@ -266,9 +266,9 @@ def render_inv(console, engine, title):
                     qty = item.item.stacksize
 
                     if qty > 1:
-                        item_string = f"({item_key}) {qty} {item.name}"
+                        item_string = f"({item_key}) {qty} {utils.pluralize_str(item.name)}"
                     else:
-                        # Pluralize the first word
+                        # Pluralize the last word
                         item_string = f"({item_key}) {item.name}"
 
                     # Weapon notation strings
