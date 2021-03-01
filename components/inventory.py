@@ -1,26 +1,14 @@
 from components.component import Component
 from collections import defaultdict
+
+from src.item import Item
 from src.letterroll import LetterRoll
 
 
 class Inventory(Component):
     """ Dictionary based Inventory
         # TODO: Add contains, subscrioption, weight, size
-        ex:
-            $ XXX.XX dogecoin
-            # Weapons
-            (a) Dagger
-            (b) Dagger
-            (c) Sword
 
-            # Armor
-            (d) Leather Jacket
-
-            # Potions
-            (e) Potion of Health
-
-            # Scrolls
-            (f) Scroll of Confusion
     """
     def __init__(self, capacity):
         # Max number of items an Actor can hold.
@@ -31,22 +19,38 @@ class Inventory(Component):
 
     def add_item(self, item):
         # Attempts to add an item to the inventory. Returns True if successful, False otherwise.
+
+        # Only add Entity's that have the ItemComponent
+        if not isinstance(item, Item):
+            return False
+
         # If we add the item
         if len(self.items) >= self.capacity:
             # Inventory full
             return False
 
-        # If we add the item, we need to choose a new inventory letter
+        # If we add the item, we need to choose an inventory letter.
+        # If we have owned the item before, it will have the last letter used, we'll try that first.
+        letter = item.item.last_letter
+        if not letter or letter in self.items:
+            letter = self.find_next_letter()
+
+        self.items[letter] = item
+
+        # Also set the letter in the ItemComponent
+        item.item.last_letter = self.current_letter
+
+        # Set the item's parent to be this inventory
+        item.parent = self
+
+        return True
+
+    def find_next_letter(self):
         # We cannot use an existing letter, but we will keep a running
         # letter count to keep new letter being assigned in a logical order
         while True:
             if self.current_letter not in self.items:
-                self.items[self.current_letter] = item
-
-                # Set the item's parent to be this inventory
-                item.parent = self
-
-                return True
+                return self.current_letter
             self.current_letter = self.letterroll.next_letter()
 
     def rm_item(self, item):
@@ -78,6 +82,7 @@ class Inventory(Component):
     def sorted_dict(self):
         # Sort out the items by char/category (weapons(/), potions(!), etc
         # Create a dict of char and values is a list of item letters
+
         result = defaultdict(list)
         for key_letter, item in self.items.items():
             result[item.char].append(key_letter)

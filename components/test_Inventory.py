@@ -1,4 +1,5 @@
 """ Tests for inventory.py """
+from src.entity import Entity
 from .component import Component
 from .inventory import Inventory
 from src import factory
@@ -36,6 +37,16 @@ def test_add_item__success_returns_True(plunger):
     assert i.add_item(plunger)
 
 
+def test_add_item__only_accept_Items():
+    i = Inventory(10)
+    assert i.add_item('x') is False
+
+
+def test_add_item__must_have_ItemComponent():
+    i = Inventory(10)
+    assert i.add_item(Entity(name="test entity")) is False
+
+
 def test_add_item__sets_parent_on_item(plunger):
     i = Inventory(10)
     i.add_item(plunger)
@@ -60,6 +71,29 @@ def test_add_item__over_capacity_returns_False(plunger, dagger):
     i.add_item(plunger)
     assert i.add_item(dagger) is False
     assert 'b' not in i.items
+
+
+def test_add_item__sets_letter_on_item_component(plunger):
+    i = Inventory(1)
+    i.add_item(plunger)
+    assert i.items['a'] == plunger
+    assert plunger.item.last_letter == 'a'
+
+
+def test_add_item__uses_last_letter_from_item_component(plunger):
+    i = Inventory(1)
+    plunger.item.last_letter = 'z'
+    i.add_item(plunger)
+    assert i.items['z'] == plunger
+
+
+def test_add_item__last_letter_not_available(plunger, dagger):
+    i = Inventory(2)
+    dagger.item.last_letter = 'a'
+    i.add_item(plunger)
+    i.add_item(dagger)
+    assert i.items['b'] == dagger
+    assert dagger.item.last_letter == 'b'  # Resets the last letter
 
 
 def test_rm_item__success_returns_True(plunger):
