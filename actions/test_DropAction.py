@@ -14,7 +14,7 @@ def test_map():
 
 @pytest.fixture
 def vial():
-    return factory.make("vial of healing")
+    return factory.make("healing vial")
 
 
 def test_is_Action(test_map, vial):
