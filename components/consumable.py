@@ -51,6 +51,22 @@ class HealConsumable(Consumable):
             raise exceptions.Impossible(f"Your health is already full.")
 
 
+class PoisonConsumable(Consumable):
+    """ Deals x + 1dx, where x is the amount this object is initialized with. """
+    def __init__(self, amount):
+        self.amount = amount
+
+    def activate(self, action):
+        consumer = action.entity
+        damage = self.amount + random.randint(1, self.amount)
+
+        action.msg = f"You consume the {self.parent.name}, and take {damage} damage!"
+        consumer.fighter.hp -= damage
+
+        if consumer.fighter.is_dead():
+            return DieAction(entity=consumer, cause=self.parent)
+
+
 class LightningDamageConsumable(Consumable):
     def __init__(self, damage, maximum_range):
         self.damage = damage  # How much damage the lightning will deal.
