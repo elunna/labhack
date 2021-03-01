@@ -49,12 +49,13 @@ class Engine:
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
-        transparent_tiles = self.game_map.tiles["transparent"][:]
+        transparent_tiles = self.game_map.tiles["transparent"].copy()
 
         # Account for any entities that block vision
-        for e in self.game_map.entities:
-            if e.transparent is False:
-                transparent_tiles[e.x, e.y] = False
+        blocking_entities = [e for e in self.game_map.entities if e.transparent is False]
+
+        for e in blocking_entities:
+            transparent_tiles[e.x, e.y] = False
 
         # Set the game_map’s visible tiles to the result of the compute_fov.
         self.game_map.visible[:] = tcod.map.compute_fov(
@@ -62,6 +63,10 @@ class Engine:
             (self.player.x, self.player.y),
             radius=settings.fov_radius,
         )
+        # Remove hidden blockers from visible
+        for e in blocking_entities:
+            if "hidden" in e:
+                self.game_map.visible[e.x, e.y] = False
 
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible

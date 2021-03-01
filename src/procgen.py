@@ -14,7 +14,7 @@ from .utils import distance
 def add_extras(new_map):
     # Add hidden corridors.
     # For now, we'll add x hidden corridors, where x is the number of rooms.
-    qty = len(new_map.rooms)
+    qty = len(new_map.rooms) * 2
     for i in range(qty):
         x, y = new_map.get_random_unoccupied_tile()  # Unpack an (x, y) tuple
         if new_map.tiles[x, y] == tiles.floor:
