@@ -23,7 +23,7 @@ class PickupAction(Action):
                 self.entity.gamemap.rm_entity(item)
                 item.parent = self.entity.inventory
                 inventory.add_item(item)
-                self.msg = f"You picked up the {item.name}. "
+                self.msg = f"({item.item.last_letter}) - {item.name}"
                 return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
