@@ -30,6 +30,10 @@ class Inventory(Component):
             if match:
                 # This should match the other items stacksize
                 match.item.stacksize += 1
+
+                # Also set the letter in the ItemComponent
+                item.item.last_letter = self.current_letter
+
                 return True
 
         # Do we have room for a new item slot?

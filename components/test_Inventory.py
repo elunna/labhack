@@ -120,6 +120,13 @@ def test_add_item__stackable__full_capacity(dagger):
     assert i.items['a'].item.stacksize == 2  # Which check is more accurate?
 
 
+def test_rm_item__stackable__sets_last_letter(dagger):
+    i = Inventory(10)
+    dagger.item.stacksize = 10
+    i.add_item(dagger)
+    assert dagger.item.last_letter == 'a'
+
+
 def test_rm_item__success_returns_True(plunger):
     i = Inventory(10)
     i.add_item(plunger)
@@ -153,6 +160,7 @@ def test_rm_item__stackable__single(dagger):
     assert dagger.item.stacksize == 10
     i.rm_item(dagger)
     assert dagger.item.stacksize == 9
+
 
 
 def test_rm_item__stackable__multiple(dagger):
