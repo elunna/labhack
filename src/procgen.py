@@ -1,11 +1,24 @@
+import copy
+
 from . import gamemap
 from . import room
 from . import tiles
+from . import db
 import numpy as np
 import random
 import tcod
 
 from .utils import distance
+
+
+def add_extras(new_map):
+    # Add hidden corridors.
+    # For now, we'll add x hidden corridors, where x is the number of rooms.
+    qty = len(new_map.rooms)
+    for i in range(qty):
+        x, y = new_map.get_random_unoccupied_tile()  # Unpack an (x, y) tuple
+        if new_map.tiles[x, y] == tiles.floor:
+            new_map.add_entity(copy.deepcopy(db.hidden_corridor), x, y)
 
 
 def dig_path(new_map, path):
@@ -257,6 +270,10 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     center_of_last_room = new_map.rooms[-1].center
     new_map.tiles[center_of_last_room] = tiles.down_stairs
     new_map.downstairs_location = center_of_last_room
+
+    # Closets, hidden stuff, traps, etc.
+    add_extras(new_map)
+
     return new_map
 
 

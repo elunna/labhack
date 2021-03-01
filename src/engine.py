@@ -6,7 +6,7 @@ from . import messages
 from . import rendering
 from . import settings
 from actions import actions
-from tcod.map import compute_fov
+# from tcod.map import compute_fov
 import lzma
 import pickle
 import random
@@ -49,10 +49,16 @@ class Engine:
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
+        transparent_tiles = self.game_map.tiles["transparent"][:]
+
+        # Account for any entities that block vision
+        for e in self.game_map.entities:
+            if e.transparent is False:
+                transparent_tiles[e.x, e.y] = False
 
         # Set the game_map’s visible tiles to the result of the compute_fov.
-        self.game_map.visible[:] = compute_fov(
-            self.game_map.tiles["transparent"],
+        self.game_map.visible[:] = tcod.map.compute_fov(
+            transparent_tiles,
             (self.player.x, self.player.y),
             radius=settings.fov_radius,
         )
@@ -151,6 +157,11 @@ class Engine:
             # Display any messages from the current action's result
             if current_action.msg:
                 self.msglog.add_message(current_action.msg)
+
+            # Some actions, like searching, will need to update the display
+            # if current_action.recompute_fov:
+            #     self.update_fov()
+                # self.render(self.renderer)
 
             # Current action has been handled
             action_queue.pop(0)

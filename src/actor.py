@@ -29,6 +29,7 @@ class Actor(entity.Entity):
             name=name,
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
+            transparent=True,
         )
         self.add_comp(ai=ai_cls)
         self.add_comp(fighter=fighter)

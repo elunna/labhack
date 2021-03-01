@@ -644,6 +644,19 @@ bear_trap = Entity(
     hidden=True,
     trap=True,
     consumable=consumable.BearTrapConsumable(damage=8),
+    transparent=True,
+)
+
+hidden_corridor = Entity(
+    name='hidden corridor',
+    char=' ',
+    x=-1,
+    y=-1,
+    color=(0xFF, 0x0, 0x0),
+    render_order=RenderOrder.TRAP,
+    blocks_movement=True,
+    hidden=True,
+    transparent=False,
 )
 
 item_chances = {

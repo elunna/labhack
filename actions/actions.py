@@ -3,6 +3,7 @@ class Action:
     def __init__(self, entity):
         self.entity = entity
         self.msg = ''
+        self.recompute_fov = False  # Use this for actions which require redrawing after.
 
     @property
     def engine(self):
