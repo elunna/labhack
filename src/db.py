@@ -246,7 +246,7 @@ actor_dict = {
 }
 
 item_dict = {
-    "health potion": {
+    "vial of healing": {
         "item": ItemComponent(stackable=True),
         "char": "!",
         "color": (127, 0, 255),
@@ -663,7 +663,9 @@ item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.
     0: [
-        ("health potion", 200),
+        ("vial of healing", 200),
+        # ("vial of extra healing", 35),
+
         ("confusion scroll", 45),
         ("lightning scroll", 35),
         ("fireball scroll", 35),

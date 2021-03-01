@@ -1,3 +1,5 @@
+import random
+
 import src.utils
 from actions.die_action import DieAction
 from actions.item_action import ItemAction
@@ -33,12 +35,16 @@ class Consumable(Component):
 
 
 class HealConsumable(Consumable):
+    """ Heals x + 1dx, where x is the amount this object is initialized with.
+
+    """
     def __init__(self, amount):
         self.amount = amount
 
     def activate(self, action):
         consumer = action.entity
-        amount_recovered = consumer.fighter.heal(self.amount)
+        healing_amount = self.amount + random.randint(1, self.amount)
+        amount_recovered = consumer.fighter.heal(healing_amount)
 
         if amount_recovered > 0:
             action.msg = f"You consume the {self.parent.name}, and recover {amount_recovered} HP!"

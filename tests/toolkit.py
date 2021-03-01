@@ -50,8 +50,8 @@ def test_map():
     leather_armor = factory.make("leather vest")
     player.inventory.add_item(leather_armor)
 
-    health_potion = factory.make("health potion")
-    player.inventory.add_item(health_potion)
+    health_vial = factory.make("vial of healing")
+    player.inventory.add_item(health_vial)
 
     # Create a grid bug at 2, 5
     factory.spawn("grid bug", new_map, 2, 5)

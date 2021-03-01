@@ -13,27 +13,27 @@ def test_map():
 
 
 @pytest.fixture
-def potion():
-    return factory.make("health potion")
+def vial():
+    return factory.make("vial of healing")
 
 
-def test_is_Action(test_map, potion):
+def test_is_Action(test_map, vial):
     player = test_map.player
-    a = DropAction(entity=player, item=potion)
+    a = DropAction(entity=player, item=vial)
     assert isinstance(a, actions.Action)
 
 
-def test_is_ItemAction(test_map, potion):
+def test_is_ItemAction(test_map, vial):
     player = test_map.player
-    a = DropAction(entity=player, item=potion)
+    a = DropAction(entity=player, item=vial)
     assert isinstance(a, ItemAction)
 
 
-def test_init(test_map, potion):
+def test_init(test_map, vial):
     player = test_map.player
-    a = DropAction(entity=player, item=potion)
+    a = DropAction(entity=player, item=vial)
     assert a.entity == player
-    assert a.item == potion
+    assert a.item == vial
 
 
 def test_perform__item_leaves_inventory(test_map):

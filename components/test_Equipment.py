@@ -148,10 +148,10 @@ def test_equip_to_slot__armor2weaponslot__raises_Impossible(leather_armor):
 
 
 def test_equip_to_slot__non_equippable():
-    potion = factory.make("health potion")
+    vial = factory.make("vial of healing")
     e = Equipment()
     with pytest.raises(exceptions.Impossible):
-        e.equip_to_slot(slot="WEAPON", item=potion)
+        e.equip_to_slot(slot="WEAPON", item=vial)
 
 
 def test_unequip_from_slot__weapon(dagger):
@@ -256,6 +256,6 @@ def test_toggle_equip__armor2armor__msg(leather_armor):
 
 def test_toggle_equip__non_equippable__raisesImpossible():
     e = Equipment()
-    potion = factory.make("health potion")
+    vial = factory.make("vial of healing")
     with pytest.raises(exceptions.Impossible):
-        e.toggle_equip(item=potion)
+        e.toggle_equip(item=vial)

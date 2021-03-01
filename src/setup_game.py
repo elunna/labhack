@@ -36,8 +36,8 @@ def new_game():
     # TODO: Factory for making these
 
     # Health Potion
-    health_potion = factory.make("health potion")
-    player.inventory.add_item(health_potion)
+    health_vial = factory.make("vial of healing")
+    player.inventory.add_item(health_vial)
 
     # Lightning scroll
     lightning_scroll = factory.make("lightning scroll")
