@@ -22,7 +22,7 @@ class Entity(object):
         return 'Unnamed'
 
     def __contains__(self, component):
-        return component in self.components
+        return self.has_comp(component)
 
     def __getattr__(self, name):
         if name in self.components:
@@ -71,6 +71,15 @@ class Entity(object):
 
             return True
         return False
+
+    def has_comp(self, component):
+        return component in self.components
+
+    def has_compval(self, **kwargs):
+        for k, v in kwargs.items():
+            if self.components.get(k) != v:
+                return False
+        return True
 
     def move(self, dx, dy):
         # Move the entity by a given amount

@@ -28,20 +28,20 @@ def test_str__unnamed():
     assert str(e) == 'Unnamed'
 
 
-def test_init__add_comp__1_kwarg():
+def test_add_comp__1_kwarg():
     e = Entity(x=0)
     e.add_comp(y=1)
     assert e.components['y'] == 1
 
 
-def test_init__add_comp__2_kwargs():
+def test_add_comp__2_kwargs():
     e = Entity(x=0, y=1)
     e.add_comp(a=1, b=2)
     assert e.components['a'] == 1
     assert e.components['b'] == 2
 
 
-def test_init__add_comp__already_exists_and_replaces():
+def test_add_comp__already_exists_and_replaces():
     e = Entity(x=0, y=1)
     e.add_comp(x=1)
     e.add_comp(x=2)
@@ -54,30 +54,52 @@ def test_contains__init_args():
     assert 'y' in e
 
 
-def test_init__rm_comp__success_removes_component():
+def test_rm_comp__success_removes_component():
     e = Entity(x=0, y=1)
     e.rm_comp('x')
     assert 'x' not in e.components
 
 
-def test_init__rm_comp__success_returns_True():
+def test_rm_comp__success_returns_True():
     e = Entity(x=0, y=1)
     result = e.rm_comp('x')
     assert result
 
 
-def test_init__rm_comp__fail_returns_False():
+def test_rm_comp__fail_returns_False():
     e = Entity(x=0, y=1)
     assert e.rm_comp('z') is False
     # Raise exception?
 
 
-def test_init__getattr__returns_component_value():
+def test_has_comp():
+    e = Entity(x=0, y=1)
+    assert e.has_comp('x')
+    assert e.has_comp('y')
+
+
+def test_has_compval__single_kwarg():
+    e = Entity(x=0, y=1)
+    assert e.has_compval(x=0)
+    assert e.has_compval(y=1)
+
+
+def test_has_compval__multiple_kwargs():
+    e = Entity(x=0, y=1)
+    assert e.has_compval(x=0, y=1)
+
+
+def test_has_compval__invalid_component():
+    e = Entity(x=0, y=1)
+    assert e.has_compval(z=3) is False
+
+
+def test_getattr__returns_component_value():
     e = Entity(x=0, y=1)
     assert e.x == 0
 
 
-def test_init__getattr__DNE_returns_None():
+def test_getattr__DNE_returns_None():
     e = Entity(x=0, y=0)
     with pytest.raises(AttributeError):
         result = e.z
