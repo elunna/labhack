@@ -53,9 +53,12 @@ class Entity(object):
         """Compares another entity to this one to see if their components and values match.
         The purpose of this method is to enable easy identfication of entities that can stack together so
         we ignore stackable because stack sizes might be different, but objects are still the same.
+
+        Ignore parent because stackable might have a parent that is the GameMap that wants to go into
+        an Inventory, and we don't want to exclude them on that basis.
         """
         for k, v in self.components.items():
-            if k == "stackable":
+            if k in ["stackable", "parent"]:
                 continue
             if other.components.get(k) != self.components.get(k):
                 return False
