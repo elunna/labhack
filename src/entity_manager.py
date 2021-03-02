@@ -1,6 +1,6 @@
 from src.entity import Entity
 
-NO_LIMIT = 0
+NO_LIMIT = -1
 
 
 class EntityManager:
@@ -20,6 +20,8 @@ class EntityManager:
         return len(self.entities)
 
     def add_entity(self, e: Entity) -> bool:
+        if self.is_full():
+            return False
         if self.required_comp and self.required_comp not in e:
             raise ValueError(f'EntityManager requires {self.required_comp} component for entities!')
         if e in self.entities:
@@ -117,4 +119,6 @@ class EntityManager:
         return len(self) == 0
 
     def is_full(self):
-        return self.capacity == NO_LIMIT or len(self) == self.capacity
+        if self.capacity == NO_LIMIT:
+            return False  # Never full if there is no limit
+        return len(self) == self.capacity

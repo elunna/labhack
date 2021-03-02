@@ -1,7 +1,7 @@
 import pytest
 
 from src.entity import Entity
-from src.entity_manager import EntityManager
+from src.entity_manager import EntityManager, NO_LIMIT
 
 
 @pytest.fixture
@@ -27,15 +27,16 @@ def test_init__capacity():
     assert em.capacity == 1
 
 
-def test_init__default_capacity_is_0():
+def test_init__default_capacity_is_NO_LIMIT():
     em = EntityManager()
-    assert em.capacity == 0
+    assert em.capacity == NO_LIMIT
 
 
 def test_len(em):
     assert len(em) == 0
     em.add_entity(Entity(name="fleeb"))
     assert len(em) == 1
+
 
 def test_add_entity__Entity__returns_True(em):
     e = Entity(name="fleeb")
@@ -52,6 +53,12 @@ def test_add_entity__dupe_Entity__returns_False(em):
     e = Entity(name="fleeb")
     assert em.add_entity(e)
     assert em.add_entity(e) is False
+
+
+def test_init__add_entity_when_full_returns_False():
+    em = EntityManager(capacity=1)
+    em.add_entity(Entity(name="fleeb"))
+    assert em.add_entity(Entity(name="floop")) is False
 
 
 def test_add_entity__e_has_required_component():
@@ -230,6 +237,6 @@ def test_is_full__set_capacity_has_space():
 
 def test_is_full__no_capacity__never_is_full():
     em = EntityManager()
-    assert em.is_full()
+    assert not em.is_full()
     em.add_entity(Entity(name="fleeb"))
-    assert em.is_full()
+    assert not em.is_full()
