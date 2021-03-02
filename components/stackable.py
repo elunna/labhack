@@ -4,9 +4,9 @@ from components.component import Component
 
 
 class StackableComponent(Component):
-    def __init__(self):
+    def __init__(self, size=1):
         # TODO: Can we limit access to this if the item isn't stackable?
-        self.size = 1
+        self.size = size
 
     def merge_stack(self, other):
         """ Merge another stackable item of the same type into this one.

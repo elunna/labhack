@@ -21,9 +21,14 @@ def test_init__is_Component(stackcomp):
     assert isinstance(stackcomp, Component)
 
 
-def test_init__stacksize_always_starts_as_1():
+def test_init__size_default_1():
     s = StackableComponent()
     assert s.size == 1
+
+
+def test_init__size_arg():
+    s = StackableComponent(size=5)
+    assert s.size == 5
 
 
 # def test_merge_stack__identical_Item__returns_True():
