@@ -1,5 +1,6 @@
 """ Tests for gamemap.py """
 from components.item_comp import ItemComponent
+from components.stackable import StackableComponent
 from src import factory, gamemap, room, tiles
 import pytest
 import toolkit
@@ -20,7 +21,12 @@ def player():
 
 @pytest.fixture
 def testitem():
-    e = Entity(x=0, y=0, name="fleepgork", item=ItemComponent(stackable=True))
+    e = Entity(
+        x=0, y=0,
+        name="fleepgork",
+        item=ItemComponent(),
+        stackable=StackableComponent(),
+    )
     e.item.stacksize = 10
     return e
 
@@ -125,13 +131,13 @@ def test_add_entity__removed_from_previous_parent(test_map):
 
 def test_add_entity__stackable__adds_to_existing_stack(testitem):
     g = gamemap.GameMap(width=10, height=15)
-    assert testitem.item.stacksize == 10
+    assert testitem.stackable.stacksize == 1
     assert g.add_entity(testitem, 0, 0)  # Add 10
     assert g.add_entity(testitem, 0, 0)  # Add another stack of 10
     pile = g.get_entities_at(0, 0)
     assert len(pile) == 1
     result = pile[0]
-    assert result.item.stacksize == 20
+    assert result.stackable.stacksize == 2
 
 
 def test_rm_entity__success_returns_True(test_map):

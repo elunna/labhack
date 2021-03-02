@@ -25,11 +25,11 @@ class Inventory(Component):
             return False
 
         # Is it stackable and does it have a matching item it can stack with?
-        if item.item.stackable:
+        if "stackable" in item:
             match = self.get_matching_item(item)
             if match:
                 # This should match the other items stacksize
-                match.item.stacksize += qty
+                match.stackable.stacksize += qty
 
                 # Also set the letter in the ItemComponent
                 item.item.last_letter = match.item.last_letter
@@ -75,13 +75,13 @@ class Inventory(Component):
             if v == item:
                 new_item = self.items.get(k)
                 # Check if the item is stackable
-                if item.item.stackable:
+                if "stackable" in item:
                     # Reduce it by the specified qty
                     # Split the stack
-                    new_item = item.item.split_stack(qty)
+                    new_item = item.stackable.split_stack(qty)
 
                 # Totally remove items that are not stackable, or have a 0 stacksize.
-                if not item.item.stackable or item.item.stacksize == 0:
+                if "stackable" not in item or item.stackable.stacksize == 0:
                     self.items.pop(k)
                 # Reset the item's parent to None
                 new_item.parent = None

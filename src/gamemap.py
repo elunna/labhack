@@ -75,14 +75,14 @@ class GameMap:
             return False
 
         # Is it stackable?
-        if "item" in e and e.item.stackable:
+        if "stackable" in e:
             # Is there a matching entity already at the same location?
             for p in self.get_entities_at(x, y):
                 # # Check if it's a stackable item ... Crude...
                 if e.name == p.name:
-                    p.item.stacksize += e.item.stacksize
+                    p.stackable.stacksize += e.stackable.stacksize
                     # Erase the original stack, might not be necessary
-                    # e.item.deplete_stack(e.item.stacksize)
+                    # e.item.deplete_stack(e.stackable.stacksize)
                     return True
 
         # Non stackable, just add like normal.
@@ -102,10 +102,10 @@ class GameMap:
             Returns True if successful, False if not.
         """
         if e in self:
-            if "item" in e and e.item.stackable:
+            if "stackable" in e:
                 # Deal with the stackable.
-                result = e.item.split_stack(qty)
-                if e.item.stacksize == 0:
+                result = e.stackable.split_stack(qty)
+                if e.stackable.stacksize == 0:
                     self.entities.remove(e)
                 return result
 

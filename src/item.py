@@ -12,6 +12,7 @@ class Item(entity.Entity):
         name="<Unnamed>",
         consumable=None,
         equippable=None,
+        stackable=None,
         item=ItemComponent(),
     ):
         super().__init__(
@@ -28,3 +29,5 @@ class Item(entity.Entity):
         self.add_comp(consumable=consumable)
         self.add_comp(equippable=equippable)
         self.add_comp(transparent=True)
+        if stackable:
+            self.add_comp(stackable=stackable)

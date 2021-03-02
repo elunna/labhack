@@ -13,6 +13,7 @@ from components.inventory import Inventory
 from components.item_comp import ItemComponent
 from components.level import Level
 from components.regeneration import Regeneration
+from components.stackable import StackableComponent
 from src.entity import Entity
 from src.renderorder import RenderOrder
 
@@ -247,42 +248,48 @@ actor_dict = {
 
 item_dict = {
     "healing vial": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "!",
         "color": (127, 0, 255),
         "consumable": consumable.HealConsumable(amount=5),
     },
 
     "extra healing vial": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "!",
         "color": (127, 0, 200),
         "consumable": consumable.HealConsumable(amount=15),
     },
 
     "poison vial": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "!",
         "color": (255, 0, 0),
         "consumable": consumable.PoisonConsumable(amount=10),
     },
 
     "lightning scroll": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "~",
         "color": (255, 255, 0),
         "consumable": consumable.LightningDamageConsumable(damage=20, maximum_range=5),
     },
 
     "confusion scroll": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "~",
         "color": (207, 63, 255),
         "consumable": consumable.ConfusionConsumable(number_of_turns=10),
     },
 
     "fireball scroll": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "~",
         "color": (255, 0, 0),
         "consumable": consumable.FireballDamageConsumable(damage=12, radius=3),
@@ -290,7 +297,8 @@ item_dict = {
 
     # WEAPONS
     "dagger": {
-        "item": ItemComponent(stackable=True),
+        "item": ItemComponent(),
+        "stackable": StackableComponent(),
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(

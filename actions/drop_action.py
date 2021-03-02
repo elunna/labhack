@@ -12,8 +12,8 @@ class DropAction(ItemAction):
             self.entity.equipment.toggle_equip(self.item)
 
         # If stackable, drop all of them
-        if self.item.item.stackable:
-            amount = self.item.item.stacksize
+        if "stackable" in self.item:
+            amount = self.item.stackable.stacksize
         else:
             amount = 1
 

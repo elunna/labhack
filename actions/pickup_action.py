@@ -15,8 +15,8 @@ class PickupAction(Action):
         items_on_location = self.entity.gamemap.get_items_at(self.entity.x, self.entity.y)
         for item in items_on_location:
             # If stackable, pickup all of them
-            if item.item.stackable:
-                amount = item.item.stacksize
+            if "stackable" in item:
+                amount = item.stackable.stacksize
             else:
                 amount = 1
 
