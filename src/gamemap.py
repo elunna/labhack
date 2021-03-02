@@ -164,7 +164,7 @@ class GameMap:
 
         entities = [e for e in self.entities if e.x == x and e.y == y]
         # Filter out hidden
-        # entities = [e for e in entities if "hidden" in e]
+        entities = [e for e in entities if "hidden" not in e]
 
         names = ", ".join(e.name for e in entities)
         return names.capitalize()
