@@ -34,6 +34,51 @@ class EntityManager:
         for e in args:
             self.add_entity(e)
 
+    def add_stackable(self, e):
+        # Should we allow passing in qty?  Harder...
+        # Or should we assume that the entity already has the desired stack size? Easier...
+        # Means that we will be splitting something else before passing it in.
+
+        # Verify the entity is a stackable.
+        # Stackables can bypass the capacity if they have a match.
+
+        # Is there a matching entity?
+        #       GameMap: same location?
+        #       Inventory: location -1 -1?
+
+        #       Add to the existing stackables stacksize.
+        #       matching_item.stacksize += e.item.stacksize
+
+        #       Erase the original stack? might not be necessary
+        #       e.item.deplete_stack(e.item.stacksize)
+        #       return True if it worked.
+
+        # If it is Non-stackable, or it doesn't have another stack to join, just add like normal.
+        # Return false and let the add_entity function do it's work?
+        pass
+
+    def rm_stackable(self, e, qty):
+        # Verify is it stackable? (already checked in rm_entity?)
+        # Is the the entity in there?  (confirmed in rm_entity?)
+
+        #       Split the stack
+        #       result = e.item.split_stack(qty)
+
+        #       If the stack is empty, we'll remove it from the set.
+        #       if e.item.stacksize == 0:
+        #           self.entities.remove(e)
+
+        #       return result  # Return the resulting new stack
+
+        # If it is not stackable, or if the qty would wipe out the stack, handle it normally?
+        #   self.entities.remove(e)
+        #   e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
+        #   e.parent = None  # Update the parent before ditching it.
+        #   return e  # Return the entity
+
+        # return None   # If the operation failed, return nothing.
+        pass
+
     def rm_entity(self, e):
         if e in self.entities:
             self.entities.remove(e)
