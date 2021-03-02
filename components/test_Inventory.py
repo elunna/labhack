@@ -100,8 +100,8 @@ def test_add_item__one_stackable__adds_to_stack(dagger):
     i = Inventory(2)
     i.add_item(dagger)
     i.add_item(dagger)
-    assert dagger.stackable.stacksize == 2  # Same ref work?
-    assert i.items['a'].stackable.stacksize == 2  # Which check is more accurate?
+    assert dagger.stackable.size == 2  # Same ref work?
+    assert i.items['a'].stackable.size == 2  # Which check is more accurate?
 
 
 def test_add_item__one_stackable__capacity_unchanged(dagger):
@@ -116,13 +116,13 @@ def test_add_item__stackable__full_capacity(dagger):
     i = Inventory(1)
     i.add_item(dagger)
     assert i.add_item(dagger)
-    assert dagger.stackable.stacksize == 2  # Same ref work?
-    assert i.items['a'].stackable.stacksize == 2  # Which check is more accurate?
+    assert dagger.stackable.size == 2  # Same ref work?
+    assert i.items['a'].stackable.size == 2  # Which check is more accurate?
 
 
 def test_rm_item__stackable__sets_last_letter(dagger):
     i = Inventory(10)
-    dagger.stackable.stacksize = 10
+    dagger.stackable.size = 10
     i.add_item(dagger)
     assert dagger.item.last_letter == 'a'
 
@@ -156,29 +156,29 @@ def test_rm_item__failure_returns_False(plunger):
 
 def test_rm_item__stackable__single(dagger):
     i = Inventory(10)
-    dagger.stackable.stacksize = 10
+    dagger.stackable.size = 10
     i.add_item(dagger)
-    assert dagger.stackable.stacksize == 10
+    assert dagger.stackable.size == 10
     i.rm_item(dagger)
-    assert dagger.stackable.stacksize == 9
+    assert dagger.stackable.size == 9
 
 
 def test_rm_item__stackable__multiple__adjusts_stacksize(dagger):
     i = Inventory(10)
-    dagger.stackable.stacksize = 10
+    dagger.stackable.size = 10
     i.add_item(dagger)
-    assert dagger.stackable.stacksize == 10
+    assert dagger.stackable.size == 10
     i.rm_item(dagger, 2)
-    assert dagger.stackable.stacksize == 8
+    assert dagger.stackable.size == 8
 
 
 def test_rm_item__stackable__multiple__returns_stackable(dagger):
     i = Inventory(10)
-    dagger.stackable.stacksize = 10
+    dagger.stackable.size = 10
     i.add_item(dagger)
-    assert dagger.stackable.stacksize == 10
+    assert dagger.stackable.size == 10
     result = i.rm_item(dagger, 2)
-    assert result.stackable.stacksize == 2
+    assert result.stackable.size == 2
 
 
 def test_rm_letter__success_returns_True(plunger):

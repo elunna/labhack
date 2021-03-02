@@ -264,7 +264,7 @@ def render_inv(console, engine, title):
                     item = engine.player.inventory.items[letter]
                     is_equipped = engine.player.equipment.is_equipped(item)
                     if "stackable" in item:
-                        qty = item.stackable.stacksize
+                        qty = item.stackable.size
                     else:
                         qty = 1
 

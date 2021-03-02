@@ -6,7 +6,7 @@ from components.component import Component
 class StackableComponent(Component):
     def __init__(self):
         # TODO: Can we limit access to this if the item isn't stackable?
-        self.stacksize = 1
+        self.size = 1
 
     def merge_stack(self, other):
         """ Merge another stackable item of the same type into this one.
@@ -22,7 +22,7 @@ class StackableComponent(Component):
         """
 
         cloned_item = copy.deepcopy(self.parent)
-        cloned_item.stackable.stacksize = qty
+        cloned_item.stackable.size = qty
 
         self.deplete_stack(qty)
 
@@ -33,8 +33,8 @@ class StackableComponent(Component):
             If all the items are used up, the Item is destroyed.
             Returns True if successful, False otherwise.
         """
-        if qty < 1 or qty > self.stacksize:
-            raise ValueError("deplete stack must be within the stacksize!")
+        if qty < 1 or qty > self.size:
+            raise ValueError("deplete stack must be within the size!")
 
-        self.stacksize -= qty
+        self.size -= qty
         return True

@@ -80,9 +80,9 @@ class GameMap:
             for p in self.get_entities_at(x, y):
                 # # Check if it's a stackable item ... Crude...
                 if e.name == p.name:
-                    p.stackable.stacksize += e.stackable.stacksize
+                    p.stackable.size += e.stackable.size
                     # Erase the original stack, might not be necessary
-                    # e.item.deplete_stack(e.stackable.stacksize)
+                    # e.item.deplete_stack(e.stackable.size)
                     return True
 
         # Non stackable, just add like normal.
@@ -105,7 +105,7 @@ class GameMap:
             if "stackable" in e:
                 # Deal with the stackable.
                 result = e.stackable.split_stack(qty)
-                if e.stackable.stacksize == 0:
+                if e.stackable.size == 0:
                     self.entities.remove(e)
                 return result
 

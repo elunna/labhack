@@ -48,11 +48,11 @@ class EntityManager:
         #       GameMap: same location?
         #       Inventory: location -1 -1?
 
-        #       Add to the existing stackables stacksize.
-        #       matching_item.stacksize += e.item.stacksize
+        #       Add to the existing stackables size.
+        #       matching_item.size += e.item.size
 
         #       Erase the original stack? might not be necessary
-        #       e.item.deplete_stack(e.item.stacksize)
+        #       e.item.deplete_stack(e.item.size)
         #       return True if it worked.
 
         # If it is Non-stackable, or it doesn't have another stack to join, just add like normal.
@@ -67,7 +67,7 @@ class EntityManager:
         #       result = e.item.split_stack(qty)
 
         #       If the stack is empty, we'll remove it from the set.
-        #       if e.item.stacksize == 0:
+        #       if e.item.size == 0:
         #           self.entities.remove(e)
 
         #       return result  # Return the resulting new stack

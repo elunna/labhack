@@ -13,7 +13,7 @@ def itemcomp():
 @pytest.fixture
 def testitem():
     e = Entity(name="fleepgork", item=ItemComponent())
-    e.item.stacksize = 10
+    e.item.size = 10
     return e
 
 

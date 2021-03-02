@@ -13,7 +13,7 @@ class DropAction(ItemAction):
 
         # If stackable, drop all of them
         if "stackable" in self.item:
-            amount = self.item.stackable.stacksize
+            amount = self.item.stackable.size
         else:
             amount = 1
 

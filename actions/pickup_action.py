@@ -16,7 +16,7 @@ class PickupAction(Action):
         for item in items_on_location:
             # If stackable, pickup all of them
             if "stackable" in item:
-                amount = item.stackable.stacksize
+                amount = item.stackable.size
             else:
                 amount = 1
 

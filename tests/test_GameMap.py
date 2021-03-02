@@ -27,7 +27,7 @@ def testitem():
         item=ItemComponent(),
         stackable=StackableComponent(),
     )
-    e.item.stacksize = 10
+    e.item.size = 10
     return e
 
 
@@ -131,13 +131,13 @@ def test_add_entity__removed_from_previous_parent(test_map):
 
 def test_add_entity__stackable__adds_to_existing_stack(testitem):
     g = gamemap.GameMap(width=10, height=15)
-    assert testitem.stackable.stacksize == 1
+    assert testitem.stackable.size == 1
     assert g.add_entity(testitem, 0, 0)  # Add 10
     assert g.add_entity(testitem, 0, 0)  # Add another stack of 10
     pile = g.get_entities_at(0, 0)
     assert len(pile) == 1
     result = pile[0]
-    assert result.stackable.stacksize == 2
+    assert result.stackable.size == 2
 
 
 def test_rm_entity__success_returns_True(test_map):
