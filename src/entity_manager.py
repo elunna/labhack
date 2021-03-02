@@ -20,6 +20,20 @@ class EntityManager:
         return len(self.entities)
 
     def add_entity(self, e: Entity) -> bool:
+        """ Takes an Entity and adds it to the set of entities.
+            If an entity is stackable, it will be handled a bit differently by the add_stackable method.
+            We cannot add if the capacity is at full.
+            If the EntityManager was initialized with a required component (like "item"), we'll check to make
+            sure only those entities are added. We also will not add identical entities to the set.
+
+        :param e: The Entity to add.
+        :return: True if addition was successful, False otherwise.
+        """
+        # Stackables can bypass the capacity if they have a match.
+        if "stackable" in e:
+            if self.add_stackable(e):
+                return True
+
         if self.is_full():
             return False
         if self.required_comp and self.required_comp not in e:
@@ -37,52 +51,26 @@ class EntityManager:
             self.add_entity(e)
 
     def add_stackable(self, e):
-        # Should we allow passing in qty?  Harder...
-        # Or should we assume that the entity already has the desired stack size? Easier...
-        # Means that we will be splitting something else before passing it in.
-
-        # Verify the entity is a stackable.
-        # Stackables can bypass the capacity if they have a match.
+        # Option: Allow passing in qty?
+        # Assume that the entity already has the desired stack size?
+        # Requires stacks to be split before they are added.
 
         # Is there a matching entity?
-        #       GameMap: same location?
-        #       Inventory: location -1 -1?
-
-        #       Add to the existing stackables size.
-        #       matching_item.size += e.item.size
-
-        #       Erase the original stack? might not be necessary
-        #       e.item.deplete_stack(e.item.size)
-        #       return True if it worked.
+        for f in self.entities:
+            if f.is_similar(e):
+                # Found twin
+                return f.stackable.merge_stack(e)
 
         # If it is Non-stackable, or it doesn't have another stack to join, just add like normal.
         # Return false and let the add_entity function do it's work?
-        pass
-
-    def rm_stackable(self, e, qty):
-        # Verify is it stackable? (already checked in rm_entity?)
-        # Is the the entity in there?  (confirmed in rm_entity?)
-
-        #       Split the stack
-        #       result = e.item.split_stack(qty)
-
-        #       If the stack is empty, we'll remove it from the set.
-        #       if e.item.size == 0:
-        #           self.entities.remove(e)
-
-        #       return result  # Return the resulting new stack
-
-        # If it is not stackable, or if the qty would wipe out the stack, handle it normally?
-        #   self.entities.remove(e)
-        #   e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
-        #   e.parent = None  # Update the parent before ditching it.
-        #   return e  # Return the entity
-
-        # return None   # If the operation failed, return nothing.
-        pass
+        return False
 
     def rm_entity(self, e):
         if e in self.entities:
+            if "stackable" in e:
+                self.rm_stackable(e)
+                return
+
             self.entities.remove(e)
             e.parent = None
             return e
@@ -122,3 +110,27 @@ class EntityManager:
         if self.capacity == NO_LIMIT:
             return False  # Never full if there is no limit
         return len(self) == self.capacity
+
+
+
+    def rm_stackable(self, e, qty):
+        # Verify is it stackable? (already checked in rm_entity?)
+        # Is the the entity in there?  (confirmed in rm_entity?)
+
+        #       Split the stack
+        #       result = e.item.split_stack(qty)
+
+        #       If the stack is empty, we'll remove it from the set.
+        #       if e.item.size == 0:
+        #           self.entities.remove(e)
+
+        #       return result  # Return the resulting new stack
+
+        # If it is not stackable, or if the qty would wipe out the stack, handle it normally?
+        #   self.entities.remove(e)
+        #   e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
+        #   e.parent = None  # Update the parent before ditching it.
+        #   return e  # Return the entity
+
+        # return None   # If the operation failed, return nothing.
+        pass

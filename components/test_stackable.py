@@ -12,7 +12,7 @@ def stackcomp():
 
 @pytest.fixture
 def testitem():
-    e = Entity(name="fleepgork", stackable=StackableComponent())
+    e = Entity(name="fleepgork", stackable=StackableComponent(10))
     e.stackable.size = 10
     return e
 
@@ -31,10 +31,26 @@ def test_init__size_arg():
     assert s.size == 5
 
 
-# def test_merge_stack__identical_Item__returns_True():
-# def test_merge_stack__identical_Item__adds_to_stack():
-# def test_merge_stack__identical_Item__destroy_other_stack():
-# def test_merge_stack__different_Item__returns_False():
+def test_merge_stack__twinitem__success_returns_True(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(1))
+    assert testitem.stackable.merge_stack(e)
+
+
+def test_merge_stack__identical_Item__adds_to_stack(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(1))
+    testitem.stackable.merge_stack(e)
+    assert testitem.stackable.size == 11
+
+
+def test_merge_stack__identical_Item__destroy_other_stack(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(1))
+    testitem.stackable.merge_stack(e)
+    assert e.stackable.size == 0
+
+@pytest.mark.skip
+def test_merge_stack__different_Item__returns_False(testitem):
+    e = Entity(name="floob", stackable=StackableComponent(1))
+    assert testitem.stackable.merge_stack(e) is False
 
 
 def test_split_stack__0_qty__raises_ValueError(testitem):

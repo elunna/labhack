@@ -1,7 +1,8 @@
-import pytest
-
+from components.stackable import StackableComponent
+from pytest_mock import mocker
 from src.entity import Entity
 from src.entity_manager import EntityManager, NO_LIMIT
+import pytest
 
 
 @pytest.fixture
@@ -79,7 +80,18 @@ def test_add_entity__updates_entity_parent(em):
     assert e.parent == em
 
 
-# # def test_add_entity__stackable_Entity__adds_to_existing stackable():
+def test_add_entity__stackable__calls_add_stackable(em, mocker):
+    mocker.patch('src.entity_manager.EntityManager.add_stackable')
+    e = Entity(name="fleeb", stackable=StackableComponent(1))
+    em.add_entity(e)
+    em.add_stackable.assert_called_once()
+
+
+def test_add_entity__stackable__no_twin__adds_like_normal(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(1))
+    assert em.add_entity(e)
+    assert e in em.entities
+    assert e.parent == em
 
 
 def test_add_entities__single(em):
@@ -103,6 +115,34 @@ def test_add_entities__multiple_args(em):
     em.add_entities(e, f)  # as *args
     assert e in em.entities
     assert f in em.entities
+
+
+def test_add_stackable__has_twin__returns_True(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(5))
+    f = Entity(name="fleeb", stackable=StackableComponent(1))
+    assert em.add_entity(e)  # as *args
+    assert em.add_stackable(f)
+
+
+def test_add_stackable__has_twin__merged_into_twin(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(5))
+    f = Entity(name="fleeb", stackable=StackableComponent(1))
+    assert em.add_entity(e)  # as *args
+    assert em.add_stackable(f)
+    assert e.stackable.size == 6
+
+
+def test_add_stackable__has_twin__source_is_depleted(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(5))
+    f = Entity(name="fleeb", stackable=StackableComponent(1))
+    assert em.add_entity(e)  # as *args
+    assert em.add_stackable(f)
+    assert f.stackable.size == 0
+
+
+def test_add_stackable__no_twin__returns_False(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(5))
+    assert em.add_stackable(e) is False
 
 
 def test_rm_entity__entity_DNE_returns_None(em):
@@ -130,6 +170,15 @@ def test_rm_entity__updates_entity_parent_to_None(em):
     em.add_entity(e)
     em.rm_entity(e)
     assert e.parent is None
+
+
+@pytest.mark.skip
+def test_rm_entity__stackable__calls_rm_stackable(em, mocker):
+    mocker.patch('src.entity_manager.EntityManager.rm_stackable')
+    e = Entity(name="fleeb", stackable=StackableComponent(1))
+    em.add_entity(e)
+    em.rm_entity(e)
+    em.rm_stackable.assert_called_once()
 
 
 def test_rm_entities__single_arg(em):
