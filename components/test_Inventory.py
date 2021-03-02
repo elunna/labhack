@@ -127,10 +127,11 @@ def test_rm_item__stackable__sets_last_letter(dagger):
     assert dagger.item.last_letter == 'a'
 
 
-def test_rm_item__success_returns_True(plunger):
+def test_rm_item__success_returns_the_item(plunger):
     i = Inventory(10)
     i.add_item(plunger)
-    assert i.rm_item(plunger)
+    result = i.rm_item(plunger)
+    assert result == plunger
 
 
 def test_rm_item__item_removed(plunger):
@@ -143,14 +144,14 @@ def test_rm_item__item_removed(plunger):
 def test_rm_item__resets_item_parent(plunger):
     i = Inventory(10)
     i.add_item(plunger)
-    i.rm_item(plunger)
-    assert plunger.parent is None
+    result = i.rm_item(plunger)
+    assert result.parent is None
 
 
 def test_rm_item__failure_returns_False(plunger):
     i = Inventory(10)
     i.add_item(plunger)
-    assert i.rm_item('dagger') is False
+    assert i.rm_item('dagger') is None
 
 
 def test_rm_item__stackable__single(dagger):
@@ -162,14 +163,22 @@ def test_rm_item__stackable__single(dagger):
     assert dagger.item.stacksize == 9
 
 
-
-def test_rm_item__stackable__multiple(dagger):
+def test_rm_item__stackable__multiple__adjusts_stacksize(dagger):
     i = Inventory(10)
     dagger.item.stacksize = 10
     i.add_item(dagger)
     assert dagger.item.stacksize == 10
     i.rm_item(dagger, 2)
     assert dagger.item.stacksize == 8
+
+
+def test_rm_item__stackable__multiple__returns_stackable(dagger):
+    i = Inventory(10)
+    dagger.item.stacksize = 10
+    i.add_item(dagger)
+    assert dagger.item.stacksize == 10
+    result = i.rm_item(dagger, 2)
+    assert result.item.stacksize == 2
 
 
 def test_rm_letter__success_returns_True(plunger):

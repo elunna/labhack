@@ -50,4 +50,5 @@ def test_Consumable_consume(player):
     c.consume()
 
     # Item should be removed from inventory
-    assert player.inventory.rm_item(vial) is False
+    assert player.inventory.rm_item(vial) is None
+    assert vial not in player.inventory.items.values()

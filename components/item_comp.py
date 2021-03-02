@@ -31,12 +31,13 @@ class ItemComponent(Component):
         """
         if not self.stackable:
             raise exceptions.Impossible("Item is not stackable!")
-        elif qty < 1 or qty >= self.stacksize:
-            raise ValueError("split_stack requires positive integer for qty!")
+
+        cloned_item = copy.deepcopy(self.parent)
+        cloned_item.item.stacksize = qty
+
         self.deplete_stack(qty)
-        new_item = copy.deepcopy(self.parent)
-        new_item.item.stacksize = qty
-        return new_item
+
+        return cloned_item
 
     def deplete_stack(self, qty):
         """ Consumes a portion (or all) of the items in this stack

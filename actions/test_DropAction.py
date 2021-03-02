@@ -52,8 +52,9 @@ def test_perform__item_appears_on_map(test_map):
     assert item.name == "dagger"
 
     a = DropAction(entity=player, item=item)
-    result = a.perform()
-    assert item in test_map.get_items_at(player.x, player.y)
+    a.perform()
+    assert test_map.get_matching_entity(item, player.x, player.y)  # Good enough?
+    # assert item in test_map.get_items_at(player.x, player.y)
 
 
 def test_perform__msg(test_map):
@@ -63,7 +64,7 @@ def test_perform__msg(test_map):
 
     a = DropAction(entity=player, item=item)
     result = a.perform()
-    assert a.msg == f"You dropped the {item.name}."
+    assert a.msg == f"You dropped a {item.name}."
 
 
 def test_perform__invalid_item_raises_Impossible(test_map):

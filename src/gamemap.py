@@ -63,18 +63,29 @@ class GameMap:
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, item.Item))
 
-    def add_entity(self, e, x, y):
+    def add_entity(self, e, x, y, qty=1):
         """ Adds an entity to the map at the specified coordinates.
             Also sets the entities parent to this map.
             Returns True if successful, False if not.
         """
         if not self.in_bounds(x, y):
             return False
-        if e in self:
-            return False
+
         if not isinstance(e, Entity):
             return False
 
+        # Is it stackable?
+        if "item" in e and e.item.stackable:
+            # Is there a matching entity already at the same location?
+            for p in self.get_entities_at(x, y):
+                # # Check if it's a stackable item ... Crude...
+                if e.name == p.name:
+                    p.item.stacksize += e.item.stacksize
+                    # Erase the original stack, might not be necessary
+                    # e.item.deplete_stack(e.item.stacksize)
+                    return True
+
+        # Non stackable, just add like normal.
         self.entities.add(e)
         e.x, e.y = x, y  # Update coords
 
@@ -85,17 +96,25 @@ class GameMap:
         e.parent = self
         return True
 
-    def rm_entity(self, e):
+    def rm_entity(self, e, qty=1):
         """ Removes an entity from this map and unsets it's parent.
             Set's the entity's coordinates to -1, -1.
             Returns True if successful, False if not.
         """
         if e in self:
+            if "item" in e and e.item.stackable:
+                # Deal with the stackable.
+                result = e.item.split_stack(qty)
+                if e.item.stacksize == 0:
+                    self.entities.remove(e)
+                return result
+
             self.entities.remove(e)
             e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
             e.parent = None  # Update the parent before ditching it.
-            return True
-        return False
+            return e
+
+        return None
 
     def get_entities_at(self, x, y):
         return [e for e in self.entities if e.x == x and e.y == y]
@@ -145,7 +164,7 @@ class GameMap:
 
         entities = [e for e in self.entities if e.x == x and e.y == y]
         # Filter out hidden
-        entities = [e for e in entities if "hidden" in e]
+        # entities = [e for e in entities if "hidden" in e]
 
         names = ", ".join(e.name for e in entities)
         return names.capitalize()
@@ -268,4 +287,13 @@ class GameMap:
             if not self.get_actor_at(*result):
                 return result
             floors.remove(result)
+        return None
+
+    def get_matching_entity(self, other, x, y):
+        # Implement equals for Entity...
+        pile = self.get_entities_at(x, y)
+        for e in pile:
+            # Match by name...
+            if e.name == other.name:
+                return e
         return None

@@ -80,10 +80,9 @@ def test_split_stack__not_stackable__raises_Impossible():
         i.split_stack(1)
 
 
-def test_split_stack__0_qty__raises_ValueError():
-    i = ItemComponent(stackable=True)
+def test_split_stack__0_qty__raises_ValueError(testitem):
     with pytest.raises(ValueError):
-        i.split_stack(0)
+        testitem.item.split_stack(0)
 
 
 def test_split_stack__partial__returns_copied_Item(testitem):
@@ -105,18 +104,17 @@ def test_split_stack__partial__copy_stacksize(testitem):
     assert result.item.stacksize == 1
 
 
-def test_split_stack__full__raises_ValueError():
-    i = ItemComponent(stackable=True)
-    i.stacksize = 1
-    with pytest.raises(ValueError):
-        i.split_stack(1)
+def test_split_stack__full__stacksize_depleted(testitem):
+    assert testitem.item.stacksize == 10
+    result = testitem.item.split_stack(10)
+    assert result
+    assert testitem.item.stacksize == 0
 
 
-def test_split_stack__more_than_stacksize__raises_ValueError():
-    i = ItemComponent(stackable=True)
-    assert i.stacksize == 1
+def test_split_stack__more_than_stacksize__raises_ValueError(testitem):
+    assert testitem.item.stacksize == 10
     with pytest.raises(ValueError):
-        i.split_stack(2)
+        testitem.item.split_stack(11)
 
 
 def test_deplete_stack__not_stackable__raises_Impossible():

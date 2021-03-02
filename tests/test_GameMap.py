@@ -1,8 +1,9 @@
 """ Tests for gamemap.py """
-
+from components.item_comp import ItemComponent
 from src import factory, gamemap, room, tiles
 import pytest
 import toolkit
+from src.entity import Entity
 
 
 @pytest.fixture
@@ -15,6 +16,13 @@ def player():
     p = toolkit.cp_player()
     p.parent = None  # Gotta set this...
     return p
+
+
+@pytest.fixture
+def testitem():
+    e = Entity(x=0, y=0, name="fleepgork", item=ItemComponent(stackable=True))
+    e.item.stacksize = 10
+    return e
 
 
 def test_init():
@@ -75,6 +83,7 @@ def test_add_entity__not_an_Entity_returns_False(player):
     assert g.add_entity('x', 0, 0) is False
 
 
+@pytest.mark.skip(reason="all this is good for is no multiple players?")
 def test_add_entity__already_in_map_returns_False(test_map):
     player = test_map.player
     assert test_map.add_entity(player, 0, 0) is False
@@ -114,13 +123,24 @@ def test_add_entity__removed_from_previous_parent(test_map):
     assert player not in test_map
 
 
+def test_add_entity__stackable__adds_to_existing_stack(testitem):
+    g = gamemap.GameMap(width=10, height=15)
+    assert testitem.item.stacksize == 10
+    assert g.add_entity(testitem, 0, 0)  # Add 10
+    assert g.add_entity(testitem, 0, 0)  # Add another stack of 10
+    pile = g.get_entities_at(0, 0)
+    assert len(pile) == 1
+    result = pile[0]
+    assert result.item.stacksize == 20
+
+
 def test_rm_entity__success_returns_True(test_map):
     player = test_map.player
     assert test_map.rm_entity(player)
 
 
 def test_rm_entity__not_in_map_returns_False(test_map):
-    assert test_map.rm_entity('x') is False
+    assert test_map.rm_entity('x') is None
 
 
 def test_rm_entity__removed_from_map_entities(test_map):
@@ -369,3 +389,10 @@ def test_get_random_unoccupied_tile__1floor_1actor(player):
 
     result = m.get_random_unoccupied_tile()
     assert result == (1, 1)
+
+
+def test_get_matching_entity(player):
+    m = gamemap.GameMap(width=3, height=3)
+    m.add_entity(player, 0, 0)
+    result = m.get_matching_entity(player, 0, 0)
+    assert result.name == player.name

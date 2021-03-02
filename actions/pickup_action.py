@@ -11,19 +11,23 @@ class PickupAction(Action):
         # TODO: Support for piles
         # TODO: Pickup menu handler
 
-        actor_location_x = self.entity.x
-        actor_location_y = self.entity.y
         inventory = self.entity.inventory
+        items_on_location = self.entity.gamemap.get_items_at(self.entity.x, self.entity.y)
+        for item in items_on_location:
+            # If stackable, pickup all of them
+            if item.item.stackable:
+                amount = item.item.stacksize
+            else:
+                amount = 1
 
-        for item in self.entity.gamemap.items:
-            if actor_location_x == item.x and actor_location_y == item.y:
-                if len(inventory.items) >= inventory.capacity:
-                    raise exceptions.Impossible("Your inventory is full.")
+            result = self.entity.gamemap.rm_entity(item, amount)
 
-                self.entity.gamemap.rm_entity(item)
-                item.parent = self.entity.inventory
-                inventory.add_item(item)
-                self.msg = f"({item.item.last_letter}) - {item.name}"
-                return
+            inventory.add_item(result, amount)
+
+            if amount > 1:
+                self.msg = f"({result.item.last_letter}) - {amount} {result.name}s"
+            else:
+                self.msg = f"({result.item.last_letter}) - {result.name}"
+            return
 
         raise exceptions.Impossible("There is nothing here to pick up.")

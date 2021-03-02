@@ -17,7 +17,7 @@ class Inventory(Component):
         self.letterroll = LetterRoll()
         self.current_letter = self.letterroll.next_letter()
 
-    def add_item(self, item):
+    def add_item(self, item, qty=1):
         # Attempts to add an item to the inventory. Returns True if successful, False otherwise.
 
         # Only add Entity's that have the ItemComponent
@@ -29,11 +29,10 @@ class Inventory(Component):
             match = self.get_matching_item(item)
             if match:
                 # This should match the other items stacksize
-                match.item.stacksize += 1
+                match.item.stacksize += qty
 
                 # Also set the letter in the ItemComponent
-                item.item.last_letter = self.current_letter
-
+                item.item.last_letter = match.item.last_letter
                 return True
 
         # Do we have room for a new item slot?
@@ -47,10 +46,10 @@ class Inventory(Component):
         if not letter or letter in self.items:
             letter = self.find_next_letter()
 
-        self.items[letter] = item
-
         # Also set the letter in the ItemComponent
-        item.item.last_letter = self.current_letter
+        item.item.last_letter = letter
+
+        self.items[letter] = item
 
         # Set the item's parent to be this inventory
         item.parent = self
@@ -65,24 +64,31 @@ class Inventory(Component):
                 return self.current_letter
             self.current_letter = self.letterroll.next_letter()
 
+    def rm_entity(self, e):
+        # Adapter for gamemap
+        self.rm_item(e)
+
     def rm_item(self, item, qty=1):
-        # Removes an item from the inventory.
-        # Returns True if successful, False otherwise.
+        # Removes an item from the inventory and returns it.
+        # If the item doesn't exist in the inventory, returns None
         for k, v in self.items.items():
             if v == item:
-                item = self.items.get(k)
+                new_item = self.items.get(k)
                 # Check if the item is stackable
                 if item.item.stackable:
                     # Reduce it by the specified qty
-                    item.item.stacksize -= qty
+                    # Split the stack
+                    new_item = item.item.split_stack(qty)
 
                 # Totally remove items that are not stackable, or have a 0 stacksize.
                 if not item.item.stackable or item.item.stacksize == 0:
                     self.items.pop(k)
-                    # Reset the item's parent to None
-                    item.parent = None
-                return True
-        return False
+                # Reset the item's parent to None
+                new_item.parent = None
+
+                # Don't forget the new_item's Parent setting.
+                return new_item
+        return None
 
     def rm_letter(self, letter, qty=1):
         # Removes an item from the inventory by using it's assigned letter.
