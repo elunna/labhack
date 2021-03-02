@@ -1,4 +1,6 @@
 import pytest
+
+from components.stackable import StackableComponent
 from src.entity import Entity
 import toolkit
 
@@ -26,6 +28,30 @@ def test_str__has_name():
 def test_str__unnamed():
     e = Entity(x=0, y=0)
     assert str(e) == 'Unnamed'
+
+
+def test_equals__same_entity__True():
+    e = Entity(x=0, y=0)
+    assert e == e
+    assert e is e
+
+
+def test_is_similar__same_components__True():
+    e = Entity(name="dart", x=0, y=0)
+    f = Entity(name="dart", x=0, y=0)
+    assert e.is_similar(f)
+
+
+def test_is_similar__same_components_diff_values__False():
+    e = Entity(name="dart", x=0, y=1)
+    f = Entity(name="dart", x=0, y=0)
+    assert not e.is_similar(f)
+
+
+def test_is_similar__different_stacksizes__True():
+    e = Entity(name="dart", x=0, y=0, stackable=StackableComponent(5))
+    f = Entity(name="dart", x=0, y=0, stackable=StackableComponent(1))
+    assert e.is_similar(f)
 
 
 def test_add_comp__1_kwarg():
