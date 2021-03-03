@@ -47,6 +47,7 @@ class GameMap(EntityManager):
         return entity in self.entities
 
     def place(self, e, x, y):
+        """ Wrapper for add_entity with coordinates."""
         if self.add_entity(e):
             e.x, e.y = x, y
             return True
@@ -59,43 +60,24 @@ class GameMap(EntityManager):
     @property
     def actors(self):
         """Iterate over this maps living actors."""
-        yield from (
-            entity
-            for entity in self.entities
-            if isinstance(entity, actor.Actor) and entity.is_alive
-        )
+        yield from (e for e in self.has_comp("fighter") if e.is_alive)
 
     @property
     def items(self):
-        yield from (entity for entity in self.entities if isinstance(entity, item.Item))
-
-    def get_entities_at(self, x, y):
-        return [e for e in self.entities if e.x == x and e.y == y]
+        """Iterate over this maps items."""
+        yield from (e for e in self.has_comp("item"))
 
     def get_items_at(self, x, y):
         return [i for i in self.items if i.x == x and i.y == y]
-
-    def blocking_entity_at(self, location_x, location_y):
-        for entity in self.entities:
-            if (
-                    entity.blocks_movement
-                    and entity.x == location_x
-                    and entity.y == location_y
-            ):
-                return entity
-
-        return None
 
     def get_actor_at(self, x, y):
         for a in self.actors:
             if a.x == x and a.y == y:
                 return a
-
         return None
 
     def get_trap_at(self, x, y):
-        entities = [e for e in self.entities if e.x == x and e.y == y]
-        for e in entities:
+        for e in self.filter(x=x, y=y):
             if "trap" in e:
                 return e
         return None
@@ -114,11 +96,8 @@ class GameMap(EntityManager):
         """
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
-
-        entities = [e for e in self.entities if e.x == x and e.y == y]
         # Filter out hidden
-        entities = [e for e in entities if "hidden" not in e]
-
+        entities = [e for e in self.filter(x=x, y=y) if "hidden" not in e]
         names = ", ".join(e.name for e in entities)
         return names.capitalize()
 
@@ -240,13 +219,4 @@ class GameMap(EntityManager):
             if not self.get_actor_at(*result):
                 return result
             floors.remove(result)
-        return None
-
-    def get_matching_entity(self, other, x, y):
-        # Implement equals for Entity...
-        pile = self.get_entities_at(x, y)
-        for e in pile:
-            # Match by name...
-            if e.name == other.name:
-                return e
         return None

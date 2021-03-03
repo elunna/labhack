@@ -169,7 +169,8 @@ class FireballDamageConsumable(Consumable):
         targets_hit = False
 
         results = []
-        for actor in self.engine.game_map.actors:
+        actors = self.engine.game_map.has_comp("fighter")
+        for actor in actors:
             if src.utils.distance(actor.x, actor.y, *target_xy) <= self.radius:
                 action.msg += f"The {actor.name} is engulfed in a fiery explosion! "
                 actor.fighter.hp -= self.damage

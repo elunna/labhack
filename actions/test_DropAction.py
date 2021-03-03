@@ -53,9 +53,10 @@ def test_perform__item_appears_on_map(test_map):
 
     a = DropAction(entity=player, item=item)
     a.perform()
-    assert test_map.get_matching_entity(item, player.x, player.y)  # Good enough?
-    # assert item in test_map.get_items_at(player.x, player.y)
-
+    result = test_map.filter(x=player.x, y=player.y, name="dagger").pop()
+    assert result.x == player.x
+    assert result.y == player.y
+    assert result.name == "dagger"
 
 def test_perform__msg(test_map):
     player = test_map.player

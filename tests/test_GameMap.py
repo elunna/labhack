@@ -79,20 +79,6 @@ def test_items__none_by_default(test_map):
     assert list(test_map.items) == []
 
 
-def test_get_blocking_entity_at_location__walls(test_map):
-    assert test_map.blocking_entity_at(0, 0) is None
-
-
-def test_get_blocking_entity_at_location__floors(test_map):
-    assert test_map.blocking_entity_at(0, 0) is None
-
-
-def test_get_blocking_entity_at_location__valid_blocker(test_map):
-    # test_map has player at (5, 5)
-    result = test_map.blocking_entity_at(5, 5)
-    assert result.name == "player"
-
-
 def test_get_actor_at_location__empty_tile(test_map):
     result = test_map.get_actor_at(0, 0)
     assert result is None
@@ -306,10 +292,3 @@ def test_get_random_unoccupied_tile__1floor_1actor(player):
 
     result = m.get_random_unoccupied_tile()
     assert result == (1, 1)
-
-
-def test_get_matching_entity(player):
-    m = gamemap.GameMap(width=3, height=3)
-    m.place(player, 0, 0)
-    result = m.get_matching_entity(player, 0, 0)
-    assert result.name == player.name

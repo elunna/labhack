@@ -23,7 +23,7 @@ class MovementAction(ActionWithDirection):
             return
 
         # Theoretically, this won’t ever trigger, it's a safeguard.
-        if self.entity.gamemap.blocking_entity_at(dest_x, dest_y):
+        if self.blocking_entity:
             # Destination is blocked by an entity.
             # TODO: Update with component type/breed check
             if self.entity.name == "player":

@@ -120,3 +120,8 @@ class EntityManager:
             return False  # Never full if there is no limit
         return len(self) == self.capacity
 
+    def get_similar(self, e):
+        for f in self.entities:
+            if f.is_similar(e):
+                return e
+        return None

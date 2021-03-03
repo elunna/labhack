@@ -30,7 +30,8 @@ class Engine:
         self.dungeon = dungeon.Dungeon(engine=self)
 
     def handle_enemy_turns(self):
-        for actor in set(self.game_map.actors) - {self.player}:
+        actors = set(self.game_map.actors) - {self.player}
+        for actor in actors:
             if actor.ai:
                 while not actor.energymeter.burned_out() and actor.is_alive:
                     # We'll use the energy regardless.
@@ -44,7 +45,7 @@ class Engine:
 
     def add_energy(self):
         # All actors gets an energy reboost!
-        for entity in set(self.game_map.actors):
+        for entity in self.game_map.actors:
             entity.energymeter.add_energy(settings.energy_per_turn)
 
     def update_fov(self):

@@ -35,7 +35,12 @@ class ActionWithDirection(Action):
     @property
     def blocking_entity(self):
         """Return the blocking entity at this actions destination.."""
-        return self.entity.gamemap.blocking_entity_at(*self.dest_xy)
+        dest_x, dest_y = self.dest_xy
+        blockers = self.entity.gamemap.filter(
+            x=dest_x, y=dest_y,
+            blocks_movement=True
+        )
+        return blockers
 
     @property
     def target_actor(self):

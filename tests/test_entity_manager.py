@@ -277,8 +277,7 @@ def test_get_by_name__single_in_set(em):
 def test_get_by_name__multiple_in_set(em):
     e1 = Entity(name="fleeb", x=0)
     e2 = Entity(name="fleeb", x=1)
-    em.add_entity(e1)
-    em.add_entity(e2)
+    em.add_entities(e1, e2)
     assert em.get_by_name("fleeb") == {e1, e2}
 
 
@@ -339,3 +338,15 @@ def test_is_full__no_capacity__never_is_full():
     assert not em.is_full()
     em.add_entity(Entity(name="fleeb"))
     assert not em.is_full()
+
+
+def test_get_similar__has_twin_returns_entity(em):
+    e1 = Entity(name="fleeb", x=0)
+    e2 = Entity(name="fleeb", x=1)
+    em.add_entities(e1, e2)
+    assert em.get_similar(e1) == e1
+
+
+def test_get_similar__no_match_returns_None(em):
+    e1 = Entity(name="fleeb", x=0)
+    assert em.get_similar(e1) is None

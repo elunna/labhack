@@ -40,7 +40,7 @@ def test_blocking_entity(player):
     testmap.place(player, 1, 2)
     # Blocked by a wall, not an entity
     a = ActionWithDirection(entity=player, dx=0, dy=-1)
-    assert a.blocking_entity is None
+    assert not a.blocking_entity
 
 
 def test_target_actor(player):

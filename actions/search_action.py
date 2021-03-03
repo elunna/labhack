@@ -23,7 +23,7 @@ class SearchAction(Action):
 
         hidden_entities = []
         for x, y in tiles_around:
-            entities = _map.get_entities_at(x, y)
+            entities = _map.filter(x=x, y=y)
             for e in entities:
                 if "hidden" in e:
                     hidden_entities.append(e)
