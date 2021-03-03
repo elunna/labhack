@@ -96,7 +96,7 @@ def test_calc_target_number__negative_target_number(test_map):
 
 def test_execute_damage__with_weapon(test_map):
     player = test_map.player
-    dagger = player.inventory.items.get('a')
+    dagger = player.inventory.item_dict.get('a')
     assert player.equipment.toggle_equip(dagger)
 
     a = AttackAction(entity=player, dx=-1, dy=-1)

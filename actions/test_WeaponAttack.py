@@ -13,7 +13,7 @@ def test_map():
 def player():
     m = toolkit.test_map()
     player = m.player
-    dagger = player.inventory.items.get('a')
+    dagger = player.inventory.item_dict.get('a')
     assert player.equipment.toggle_equip(dagger)
     return player
 

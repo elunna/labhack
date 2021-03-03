@@ -43,7 +43,7 @@ def test_perform__Move(test_map):
 def test_perform__attack_with_weapon(test_map):
     # We'll attack the Grid Bug at (2, 5)
     player = test_map.player
-    dagger = player.inventory.items['a']
+    dagger = player.inventory.item_dict['a']
     player.equipment.toggle_equip(dagger)
     weapon = player.equipment.slots['WEAPON']
     assert weapon

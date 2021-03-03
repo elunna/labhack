@@ -214,7 +214,7 @@ def render_inv(console, engine, title):
     """ Displays a nicely formatted list of our inventory, separated by category
         Categories: weapons, armor, potions, scrolls
     """
-    qty_of_items = len(engine.player.inventory.items)
+    qty_of_items = len(engine.player.inventory.item_dict)
     item_groups = engine.player.inventory.sorted_dict()
 
     height_for_groups = (len(item_groups) * 2)
@@ -261,7 +261,7 @@ def render_inv(console, engine, title):
             for group in groups:
                 for letter in group:
                     item_key = letter
-                    item = engine.player.inventory.items[letter]
+                    item = engine.player.inventory.item_dict[letter]
                     is_equipped = engine.player.equipment.is_equipped(item)
                     if "stackable" in item:
                         qty = item.stackable.size

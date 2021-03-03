@@ -24,7 +24,7 @@ def test_init__is_BaseComponent():
 def test_init():
     i = Inventory(10)
     assert i.capacity == 10
-    assert i.items == {}
+    assert i.item_dict == {}
 
 
 def test_init__first_inv_letter_is_a():
@@ -56,27 +56,27 @@ def test_add_item__sets_parent_on_item(plunger):
 def test_add_item__letter1_is_a(plunger):
     i = Inventory(10)
     i.add_item(plunger)
-    assert i.items['a'] == plunger
+    assert i.item_dict['a'] == plunger
 
 
 def test_add_item__letter2_is_a(plunger, dagger):
     i = Inventory(10)
     i.add_item(plunger)
     i.add_item(dagger)
-    assert i.items['b'] == dagger
+    assert i.item_dict['b'] == dagger
 
 
 def test_add_item__over_capacity_returns_False(plunger, dagger):
     i = Inventory(1)
     i.add_item(plunger)
     assert i.add_item(dagger) is False
-    assert 'b' not in i.items
+    assert 'b' not in i.item_dict
 
 
 def test_add_item__sets_letter_on_item_component(plunger):
     i = Inventory(1)
     i.add_item(plunger)
-    assert i.items['a'] == plunger
+    assert i.item_dict['a'] == plunger
     assert plunger.item.last_letter == 'a'
 
 
@@ -84,7 +84,7 @@ def test_add_item__uses_last_letter_from_item_component(plunger):
     i = Inventory(1)
     plunger.item.last_letter = 'z'
     i.add_item(plunger)
-    assert i.items['z'] == plunger
+    assert i.item_dict['z'] == plunger
 
 
 def test_add_item__last_letter_not_available(plunger, dagger):
@@ -92,7 +92,7 @@ def test_add_item__last_letter_not_available(plunger, dagger):
     dagger.item.last_letter = 'a'
     i.add_item(plunger)
     i.add_item(dagger)
-    assert i.items['b'] == dagger
+    assert i.item_dict['b'] == dagger
     assert dagger.item.last_letter == 'b'  # Resets the last letter
 
 
@@ -101,15 +101,15 @@ def test_add_item__one_stackable__adds_to_stack(dagger):
     i.add_item(dagger)
     i.add_item(dagger)
     assert dagger.stackable.size == 2  # Same ref work?
-    assert i.items['a'].stackable.size == 2  # Which check is more accurate?
+    assert i.item_dict['a'].stackable.size == 2  # Which check is more accurate?
 
 
 def test_add_item__one_stackable__capacity_unchanged(dagger):
     i = Inventory(2)
     i.add_item(dagger)
-    expected = len(i.items)
+    expected = len(i.item_dict)
     i.add_item(dagger)
-    assert len(i.items) == expected
+    assert len(i.item_dict) == expected
 
 
 def test_add_item__stackable__full_capacity(dagger):
@@ -117,7 +117,7 @@ def test_add_item__stackable__full_capacity(dagger):
     i.add_item(dagger)
     assert i.add_item(dagger)
     assert dagger.stackable.size == 2  # Same ref work?
-    assert i.items['a'].stackable.size == 2  # Which check is more accurate?
+    assert i.item_dict['a'].stackable.size == 2  # Which check is more accurate?
 
 
 def test_rm_item__stackable__sets_last_letter(dagger):
@@ -138,7 +138,7 @@ def test_rm_item__item_removed(plunger):
     i = Inventory(10)
     i.add_item(plunger)
     i.rm_item(plunger)
-    assert plunger not in i.items.values()
+    assert plunger not in i.item_dict.values()
 
 
 def test_rm_item__resets_item_parent(plunger):
@@ -191,7 +191,7 @@ def test_rm_letter__item_removed(plunger):
     i = Inventory(10)
     i.add_item(plunger)
     i.rm_letter('a')
-    assert 'a' not in i.items
+    assert 'a' not in i.item_dict
 
 
 def test_rm_letter__resets_item_parent(plunger):

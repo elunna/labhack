@@ -51,4 +51,4 @@ def test_Consumable_consume(player):
 
     # Item should be removed from inventory
     assert player.inventory.rm_item(vial) is None
-    assert vial not in player.inventory.items.values()
+    assert vial not in player.inventory.item_dict.values()

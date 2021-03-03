@@ -321,10 +321,10 @@ class InventoryHandler(AskUserHandler):
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
             key = key.upper()
 
-        if key in player.inventory.items:
+        if key in player.inventory.item_dict:
             try:
                 # selected_item = player.inventory.items[index]
-                selected_item = player.inventory.items.get(key)
+                selected_item = player.inventory.item_dict.get(key)
             except IndexError:
                 self.engine.msglog.add_message("Invalid entry.", color.invalid)
                 return None

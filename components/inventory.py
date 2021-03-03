@@ -13,7 +13,7 @@ class Inventory(Component):
     def __init__(self, capacity):
         # Max number of items an Actor can hold.
         self.capacity = capacity
-        self.items = {}
+        self.item_dict = {}
         self.letterroll = LetterRoll()
         self.current_letter = self.letterroll.next_letter()
 
@@ -36,20 +36,20 @@ class Inventory(Component):
                 return True
 
         # Do we have room for a new item slot?
-        if len(self.items) >= self.capacity:
+        if len(self.item_dict) >= self.capacity:
             # Inventory full
             return False
 
         # If we add the item, we need to choose an inventory letter.
         # If we have owned the item before, it will have the last letter used, we'll try that first.
         letter = item.item.last_letter
-        if not letter or letter in self.items:
+        if not letter or letter in self.item_dict:
             letter = self.find_next_letter()
 
         # Also set the letter in the ItemComponent
         item.item.last_letter = letter
 
-        self.items[letter] = item
+        self.item_dict[letter] = item
 
         # Set the item's parent to be this inventory
         item.parent = self
@@ -60,7 +60,7 @@ class Inventory(Component):
         # We cannot use an existing letter, but we will keep a running
         # letter count to keep new letter being assigned in a logical order
         while True:
-            if self.current_letter not in self.items:
+            if self.current_letter not in self.item_dict:
                 return self.current_letter
             self.current_letter = self.letterroll.next_letter()
 
@@ -71,9 +71,9 @@ class Inventory(Component):
     def rm_item(self, item, qty=1):
         # Removes an item from the inventory and returns it.
         # If the item doesn't exist in the inventory, returns None
-        for k, v in self.items.items():
+        for k, v in self.item_dict.items():
             if v == item:
-                new_item = self.items.get(k)
+                new_item = self.item_dict.get(k)
                 # Check if the item is stackable
                 if "stackable" in item:
                     # Reduce it by the specified qty
@@ -82,7 +82,7 @@ class Inventory(Component):
 
                 # Totally remove items that are not stackable, or have a 0 size.
                 if "stackable" not in item or item.stackable.size == 0:
-                    self.items.pop(k)
+                    self.item_dict.pop(k)
                 # Reset the item's parent to None
                 new_item.parent = None
 
@@ -94,8 +94,8 @@ class Inventory(Component):
         # Removes an item from the inventory by using it's assigned letter.
         # If the letter is being used, we remove the item and return True.
         # If no item is found using that letter, return False
-        if letter in self.items:
-            item = self.items.get(letter)
+        if letter in self.item_dict:
+            item = self.item_dict.get(letter)
             # Use rm_item
             self.rm_item(item, qty)
             return True
@@ -106,7 +106,7 @@ class Inventory(Component):
         # Create a dict of char and values is a list of item letters
 
         result = defaultdict(list)
-        for key_letter, item in self.items.items():
+        for key_letter, item in self.item_dict.items():
             result[item.char].append(key_letter)
         return result
 
@@ -114,7 +114,7 @@ class Inventory(Component):
         """ Searches the inventory items for a matching item type,
             if found it returns the item, otherwise returns None.
         """
-        for k, v in self.items.items():
+        for k, v in self.item_dict.items():
             # TODO: Use a more sophisticated check than item name.
             if item.name == v.name:
                 return v
