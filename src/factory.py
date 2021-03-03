@@ -88,7 +88,7 @@ class EntityFactory:
         # No traps on stairs!
         if not new_map.tiles[x][y] in [tiles.up_stairs, tiles.down_stairs]:
             new_trap = copy.deepcopy(src.db.bear_trap)
-            new_map.add_entity(new_trap, x, y)
+            new_map.place(new_trap, x, y)
 
 
 def make(entity_name):
@@ -122,7 +122,7 @@ def spawn(entity_name, gamemap, x, y):
     Returns the instance of the entity.
     """
     e = make(entity_name)
-    gamemap.add_entity(e, x, y)
+    gamemap.place(e, x, y)
     return e
 
 

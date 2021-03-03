@@ -15,7 +15,7 @@ def new_game():
 
     # Add player
     startx, starty = new_map.upstairs_location
-    new_map.add_entity(player, startx, starty)
+    new_map.place(player, startx, starty)
     new_map.player = player
 
     engine.update_fov()

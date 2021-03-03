@@ -4,6 +4,7 @@ from . import actor, settings
 from . import item
 from . import tiles
 from .entity import Entity
+from .entity_manager import EntityManager
 from .room import Room
 import numpy as np
 
@@ -11,13 +12,12 @@ import numpy as np
 # TODO: Get entities at... with filters - and the others use it.
 
 
-class GameMap:
+class GameMap(EntityManager):
     """ Defines the dimensions and tiles of a single map in the game. """
     def __init__(self, width, height, fill_tile=tiles.wall):
+        super().__init__()
         self.engine = None  # This can be set later if needed
-
         self.width, self.height = width, height
-        self.entities = set()
         self.rooms = []  # Start with an empty list of rooms.
         self.doors = []  # Empty list of doors, helps in map generation.
         self.downstairs_location = (-1, -1)
@@ -46,6 +46,12 @@ class GameMap:
     def __contains__(self, entity):
         return entity in self.entities
 
+    def place(self, e, x, y):
+        if self.add_entity(e):
+            e.x, e.y = x, y
+            return True
+        return False
+
     @property
     def gamemap(self):
         return self
@@ -62,59 +68,6 @@ class GameMap:
     @property
     def items(self):
         yield from (entity for entity in self.entities if isinstance(entity, item.Item))
-
-    def add_entity(self, e, x, y, qty=1):
-        """ Adds an entity to the map at the specified coordinates.
-            Also sets the entities parent to this map.
-            Returns True if successful, False if not.
-        """
-        if not self.in_bounds(x, y):
-            return False
-
-        if not isinstance(e, Entity):
-            return False
-
-        # Is it stackable?
-        if "stackable" in e:
-            # Is there a matching entity already at the same location?
-            for p in self.get_entities_at(x, y):
-                # # Check if it's a stackable item ... Crude...
-                if e.name == p.name:
-                    p.stackable.size += e.stackable.size
-                    # Erase the original stack, might not be necessary
-                    # e.item.deplete_stack(e.stackable.size)
-                    return True
-
-        # Non stackable, just add like normal.
-        self.entities.add(e)
-        e.x, e.y = x, y  # Update coords
-
-        # Gotta be careful and check if the Entity has a parent component first.
-        # TODO: Add parent by default to all Entities so we don't need this check.
-        if 'parent' in e and e.parent:
-            e.parent.rm_entity(e)
-        e.parent = self
-        return True
-
-    def rm_entity(self, e, qty=1):
-        """ Removes an entity from this map and unsets it's parent.
-            Set's the entity's coordinates to -1, -1.
-            Returns True if successful, False if not.
-        """
-        if e in self:
-            if "stackable" in e:
-                # Deal with the stackable.
-                result = e.stackable.split_stack(qty)
-                if e.stackable.size == 0:
-                    self.entities.remove(e)
-                return result
-
-            self.entities.remove(e)
-            e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
-            e.parent = None  # Update the parent before ditching it.
-            return e
-
-        return None
 
     def get_entities_at(self, x, y):
         return [e for e in self.entities if e.x == x and e.y == y]

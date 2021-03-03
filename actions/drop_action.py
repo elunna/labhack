@@ -21,7 +21,7 @@ class DropAction(ItemAction):
 
         if result:
             # Put it on the map
-            self.entity.gamemap.add_entity(result, self.entity.x, self.entity.y)
+            self.entity.gamemap.place(result, self.entity.x, self.entity.y)
 
             if amount == 1:
                 self.msg = f"You dropped a {result.name}."

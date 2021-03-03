@@ -18,7 +18,7 @@ def add_extras(new_map):
     for i in range(qty):
         x, y = new_map.get_random_unoccupied_tile()  # Unpack an (x, y) tuple
         if new_map.tiles[x, y] == tiles.floor:
-            new_map.add_entity(copy.deepcopy(db.hidden_corridor), x, y)
+            new_map.place(copy.deepcopy(db.hidden_corridor), x, y)
 
 
 def dig_path(new_map, path):

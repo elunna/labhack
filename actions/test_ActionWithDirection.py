@@ -37,7 +37,7 @@ def test_dest_xy(test_map):
 
 def test_blocking_entity(player):
     testmap = toolkit.test_map()
-    testmap.add_entity(player, 1, 2)
+    testmap.place(player, 1, 2)
     # Blocked by a wall, not an entity
     a = ActionWithDirection(entity=player, dx=0, dy=-1)
     assert a.blocking_entity is None
@@ -45,7 +45,7 @@ def test_blocking_entity(player):
 
 def test_target_actor(player):
     testmap = toolkit.test_map()
-    testmap.add_entity(player, 2, 4)
+    testmap.place(player, 2, 4)
     a = ActionWithDirection(entity=player, dx=0, dy=1)
     assert a.target_actor.name == "grid bug"
 

@@ -6,6 +6,7 @@ from src import gamemap
 from src import tiles
 from src import db
 
+
 def cp_player():
     return factory.make("player")
 
@@ -88,7 +89,7 @@ def hidden_map():
 
     # Create bear trap at 2, 3
     new_trap = copy.deepcopy(db.bear_trap)
-    new_map.add_entity(new_trap, 2, 3)
+    new_map.place(new_trap, 2, 3)
 
     return new_map
 

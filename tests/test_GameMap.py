@@ -59,7 +59,7 @@ def test_contains__entity_not_in_returns_False(player):
 
 def test_contains__entity_inside_returns_True(player):
     m = gamemap.GameMap(width=10, height=15)
-    m.add_entity(player, 0, 0)
+    m.place(player, 0, 0)
     assert player in m
 
 
@@ -77,95 +77,6 @@ def test_actors(test_map):
 def test_items__none_by_default(test_map):
     # We get a generator, need to convert to list.
     assert list(test_map.items) == []
-
-
-def test_add_entity__success_returns_True(player):
-    g = gamemap.GameMap(width=10, height=15)
-    assert g.add_entity(player, 0, 0)
-
-
-def test_add_entity__not_an_Entity_returns_False(player):
-    g = gamemap.GameMap(width=10, height=15)
-    assert g.add_entity('x', 0, 0) is False
-
-
-@pytest.mark.skip(reason="all this is good for is no multiple players?")
-def test_add_entity__already_in_map_returns_False(test_map):
-    player = test_map.player
-    assert test_map.add_entity(player, 0, 0) is False
-
-
-def test_add_entity__out_of_bounds_returns_False(player):
-    g = gamemap.GameMap(width=10, height=15)
-    assert g.add_entity(player, -5, -5) is False
-
-
-def test_add_entity__updates_entity_coordinates(player):
-    g = gamemap.GameMap(width=10, height=15)
-    assert player.x == 0 and player.y == 0
-    g.add_entity(player, 3, 2)
-    assert player.x == 3 and player.y == 2
-
-
-def test_add_entity__updates_entity_parent(player):
-    g = gamemap.GameMap(width=10, height=15)
-    assert player.parent is None
-    g.add_entity(player, 0, 0)
-    assert player.parent == g
-
-
-def test_add_entity__added_to_map_entities(player):
-    g = gamemap.GameMap(width=10, height=15)
-    g.add_entity(player, 0, 0)
-    assert player in g
-
-
-def test_add_entity__removed_from_previous_parent(test_map):
-    player = test_map.player
-    assert player.parent == test_map
-
-    g = gamemap.GameMap(width=10, height=15)
-    g.add_entity(player, 0, 0)
-    assert player not in test_map
-
-
-def test_add_entity__stackable__adds_to_existing_stack(testitem):
-    g = gamemap.GameMap(width=10, height=15)
-    assert testitem.stackable.size == 1
-    assert g.add_entity(testitem, 0, 0)  # Add 10
-    assert g.add_entity(testitem, 0, 0)  # Add another stack of 10
-    pile = g.get_entities_at(0, 0)
-    assert len(pile) == 1
-    result = pile[0]
-    assert result.stackable.size == 2
-
-
-def test_rm_entity__success_returns_True(test_map):
-    player = test_map.player
-    assert test_map.rm_entity(player)
-
-
-def test_rm_entity__not_in_map_returns_False(test_map):
-    assert test_map.rm_entity('x') is None
-
-
-def test_rm_entity__removed_from_map_entities(test_map):
-    player = test_map.player
-    test_map.rm_entity(player)
-    assert player not in test_map
-
-
-def test_rm_entity__updates_entity_parent_to_None(test_map):
-    player = test_map.player
-    assert player.parent == test_map
-    test_map.rm_entity(player)
-    assert player.parent is None
-
-
-def test_rm_entity__updates_entity_coords(test_map):
-    player = test_map.player
-    test_map.rm_entity(player)
-    assert player.x == -1 and player.y == -1
 
 
 def test_get_blocking_entity_at_location__walls(test_map):
@@ -234,7 +145,7 @@ def test_get_names_at__visible(test_map):
 @pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__multiple_visible(test_map):
     potion = factory.make("health potion")
-    test_map.add_entity(potion, 5, 5)
+    test_map.place(potion, 5, 5)
 
     # Set map tile to visible
     test_map.visible[5, 5] = True
@@ -391,7 +302,7 @@ def test_get_random_unoccupied_tile__1floor_1actor(player):
     m = gamemap.GameMap(width=3, height=3)
     m.tiles[0][0] = tiles.floor
     m.tiles[1][1] = tiles.floor
-    m.add_entity(player, 0, 0)
+    m.place(player, 0, 0)
 
     result = m.get_random_unoccupied_tile()
     assert result == (1, 1)
@@ -399,6 +310,6 @@ def test_get_random_unoccupied_tile__1floor_1actor(player):
 
 def test_get_matching_entity(player):
     m = gamemap.GameMap(width=3, height=3)
-    m.add_entity(player, 0, 0)
+    m.place(player, 0, 0)
     result = m.get_matching_entity(player, 0, 0)
     assert result.name == player.name
