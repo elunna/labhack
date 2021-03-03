@@ -49,13 +49,6 @@ class GameMap(EntityManager):
 
 
 
-    def place(self, e, x, y):
-        """ Wrapper for add_entity with coordinates."""
-        if self.add_entity(e):
-            e.x, e.y = x, y
-            return True
-        return False
-
     def get_actor_at(self, x, y):
         for a in self.actors:
             if a.x == x and a.y == y:

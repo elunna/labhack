@@ -22,7 +22,7 @@ class EntityManager:
     @property
     def actors(self):
         """Iterate over this maps living actors."""
-        yield from (e for e in self.has_comp("fighter"))
+        yield from (e for e in self.has_comp("fighter") if e.is_alive)
 
     @property
     def items(self):
@@ -69,6 +69,13 @@ class EntityManager:
 
         # If it is Non-stackable, or it doesn't have another stack to join, just add like normal.
         # Return false and let the add_entity function do it's work.
+        return False
+
+    def place(self, e, x, y):
+        """ Wrapper for add_entity with coordinates."""
+        if self.add_entity(e):
+            e.x, e.y = x, y
+            return True
         return False
 
     def rm_entity(self, e, qty=1):

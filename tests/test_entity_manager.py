@@ -1,5 +1,7 @@
 from components.stackable import StackableComponent
 from pytest_mock import mocker
+
+from src import factory
 from src.entity import Entity
 from src.entity_manager import EntityManager, NO_LIMIT
 import pytest
@@ -41,7 +43,8 @@ def test_len(em):
 
 def test_actors_property(em):
     assert list(em.actors) == []  # None by default
-    f = Entity(name="fighter", fighter=True)
+    # f = Entity(name="fighter", fighter=True)
+    f = factory.make("mouse")
     em.add_entity(f)
     assert f in em.actors
 
@@ -158,6 +161,26 @@ def test_add_stackable__has_twin__source_is_depleted(em):
 def test_add_stackable__no_twin__returns_False(em):
     e = Entity(name="fleeb", stackable=StackableComponent(5))
     assert em.add_stackable(e) is False
+
+
+def test_place__success_returns_True(em):
+    e = Entity(name="fleeb")
+    assert em.place(e, 2, 3)
+    assert e in em
+
+
+def test_place__calls_add_entity(em, mocker):
+    mocker.patch('src.entity_manager.EntityManager.add_entity')
+    e = Entity(name="fleeb")
+    em.place(e, 2, 3)
+    em.add_entity.assert_called_once()
+
+
+def test_place__updates_xy(em):
+    e = Entity(name="fleeb")
+    em.place(e, 2, 3)
+    assert e.x == 2
+    assert e.y == 3
 
 
 def test_rm_entity__entity_DNE_returns_None(em):
