@@ -8,8 +8,27 @@ from src.entity import Entity
 
 
 @pytest.fixture
+def std_map():
+    return gamemap.GameMap(width=10, height=15)
+
+
+@pytest.fixture
 def test_map():
     return toolkit.test_map()
+
+
+@pytest.fixture
+def room_map():
+    m = gamemap.GameMap(width=20, height=20)
+    a = room.Room(0, 0, 3, 3)
+    b = room.Room(4, 0, 3, 3)
+    c = room.Room(0, 5, 3, 3)
+    d = room.Room(4, 4, 3, 3)
+    for i, r in enumerate([a, b, c, d]):
+        r.label = i
+        m.rooms.append(r)
+    m.room_coords = m.room_coordinates()
+    return m
 
 
 @pytest.fixture
@@ -31,25 +50,45 @@ def testitem():
     return e
 
 
-def test_init():
-    m = gamemap.GameMap(width=10, height=15)
-    assert m.width == 10
-    assert m.height == 15
-    assert m.entities == set()
+def test_init__engine(std_map):
+    assert std_map.engine is None
 
-    assert len(m.tiles) == 10
 
-    # g.visible
-    assert len(m.visible) == 10
-    assert not m.visible.all()  # By default none should be visible
+def test_init__width_height(std_map):
+    assert std_map.width == 10
+    assert std_map.height == 15
 
-    # self.explored
-    assert len(m.explored) == 10
-    assert not m.explored.all()  # By default none should be explored
 
+def test_init__rooms(std_map):
+    assert std_map.rooms == []
+
+
+def test_init__doors(std_map):
+    assert std_map.doors == []
+
+
+def test_init__stairs_locations(std_map):
     # This should default to 0,0
-    assert m.downstairs_location == (-1, -1)
-    assert m.upstairs_location == (-1, -1)
+    assert std_map.downstairs_location == (-1, -1)
+    assert std_map.upstairs_location == (-1, -1)
+
+
+def test_init__room_coords(std_map):
+    assert std_map.room_coords is None
+
+
+def test_init__tiles(std_map):
+    assert len(std_map.tiles) == 10
+
+
+def test_init__visible_tiles(std_map):
+    assert len(std_map.visible) == 10
+    assert not std_map.visible.all()  # By default none should be visible
+
+
+def test_init__explored_tiles(std_map):
+    assert len(std_map.explored) == 10
+    assert not std_map.explored.all()  # By default none should be explored
 
 
 def test_gamemap(test_map):
@@ -68,25 +107,11 @@ def test_in_bounds__invalid_loc(test_map):
     assert not test_map.in_bounds(10, 15)
 
 
-@pytest.mark.skip(reason='Need to create walkable')
-def test_walkable__wall_tile(test_map):
-    # test_map: 0, 0 is a wall
-    assert not test_map.walkable(0, 0)
-
-
-@pytest.mark.skip(reason='Need to create walkable')
-def test_walkable__floor_tile(test_map):
-    # test_map: 5, 5 is a floor
-    assert test_map.walkable(5, 5)
-
-
-@pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__no_visible(test_map):
     result = test_map.get_names_at(0, 1)
     assert result == ""
 
 
-@pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__visible(test_map):
     # Set map tile to visible
     test_map.visible[5, 5] = True
@@ -95,19 +120,19 @@ def test_get_names_at__visible(test_map):
     assert result == "Player"
 
 
-@pytest.mark.skip(reason='Need to import from rendering_functions')
 def test_get_names_at__multiple_visible(test_map):
-    potion = factory.make("health potion")
+    potion = factory.make("healing vial")
     test_map.place(potion, 5, 5)
 
     # Set map tile to visible
     test_map.visible[5, 5] = True
 
     result = test_map.get_names_at(5, 5)
-    assert result == "Health potion, Player"
+    assert result == "Healing vial, Player"
 
 
-def test_walkable__all_walls(test_map):
+def test_walkable__wall_tile(test_map):
+    # test_map: 0, 0 is a wall
     assert not test_map.walkable(0, 0)
 
 
@@ -125,15 +150,9 @@ def test_room_coordinates():
 
     result = m.room_coordinates()
     assert result == {
-        (0, 0): r,
-        (0, 1): r,
-        (0, 2): r,
-        (1, 0): r,
-        (1, 1): r,
-        (1, 2): r,
-        (2, 0): r,
-        (2, 1): r,
-        (2, 2): r,
+        (0, 0): r, (0, 1): r, (0, 2): r,
+        (1, 0): r, (1, 1): r, (1, 2): r,
+        (2, 0): r, (2, 1): r, (2, 2): r,
     }
 
 
@@ -236,6 +255,46 @@ def test_valid_door_neighbors__next_to_floor__facing_east():
     m.rooms.append(r)
     m.tiles[9][0] = tiles.floor
     assert not m.valid_door_neighbors(r, 9, 1)
+
+
+def test_get_nearest_unconnected_room__no_connections(room_map):
+    a = room_map.rooms[0]
+    b = room_map.rooms[1]
+    c = room_map.rooms[2]
+    d = room_map.rooms[3]
+    assert room_map.get_nearest_unconnected_room(a) == b
+    assert room_map.get_nearest_unconnected_room(c) == d
+
+    # This should be b... must be a rounding issue
+    assert room_map.get_nearest_unconnected_room(d) == c
+
+
+# def test_get_nearest_unconnected_room__connections(room_map):
+
+
+def test_on_edge_of_map__x_is_0__returns_True():
+    m = gamemap.GameMap(width=20, height=20)
+    assert m.on_edge_of_map(x=0, y=5)
+
+
+def test_on_edge_of_map__y_is_0__returns_True():
+    m = gamemap.GameMap(width=20, height=20)
+    assert m.on_edge_of_map(x=5, y=0)
+
+
+def test_on_edge_of_map__x_1off_from_width__returns_True():
+    m = gamemap.GameMap(width=20, height=20)
+    assert m.on_edge_of_map(x=19, y=5)
+
+
+def test_on_edge_of_map__y_1off_from_height__returns_True():
+    m = gamemap.GameMap(width=20, height=20)
+    assert m.on_edge_of_map(x=5, y=19)
+
+
+def test_on_edge_of_map__middle_of_map__returns_False():
+    m = gamemap.GameMap(width=20, height=20)
+    assert m.on_edge_of_map(x=10, y=10) is False
 
 
 def test_get_random_unoccupied_tile__all_wall():

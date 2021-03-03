@@ -45,7 +45,7 @@ class GameMap(EntityManager):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
 
-    def get_names_at_location(self, x, y):
+    def get_names_at(self, x, y):
         """ takes “x” and “y” variables, though these represent a spot on the map.
             We first check that the x and y coordinates are within the map, and are
             currently visible to the player. If they are, then we create a string of
@@ -56,10 +56,11 @@ class GameMap(EntityManager):
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
         # Filter out hidden
-        entities = [e for e in self.filter(x=x, y=y) if "hidden" not in e]
-        # Format nicely
-        names = ", ".join(e.name for e in entities)
-        return names.capitalize()
+        names = [e.name for e in self.filter(x=x, y=y) if "hidden" not in e]
+
+        # Format nicely, the sort makes it easier to test.
+        sorted_names = sorted(n.capitalize() for n in names)
+        return ", ".join(sorted_names)
 
     def walkable(self, x, y):
         return self.tiles["walkable"][x, y]
@@ -108,16 +109,7 @@ class GameMap(EntityManager):
             dx, dy = settings.CARDINAL_DIR['S']
             if self.tiles[x + dx][y + dy] not in tiles.room_walls:
                 return False
-        """
-        for direction in settings.CARDINAL_DIR.values():
-            dx, dy = direction
 
-            # Check around for other doors.
-            if new_map.tiles[d.x + dx][d.y + dy] == tiles.door:
-                # Oh no, a door is adjacent! Abort mission!
-                valid_door = False
-                continue
-        """
         # Does it have a "closet" space outside directly outside of the door that is not part of another room?
         dx, dy = settings.CARDINAL_DIR[facing]
         closet_x, closet_y = x + dx, y + dy
