@@ -158,3 +158,9 @@ class EntityManager:
             if a.x == x and a.y == y:
                 return a
         return None
+
+    def get_trap_at(self, x, y):
+        traps = self.filter("trap", x=x, y=y)
+        if traps:
+            return traps.pop()
+        return None

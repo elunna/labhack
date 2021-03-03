@@ -413,3 +413,13 @@ def test_get_actor_at__valid_actor(em):
     em.place(e, 1, 1)
     result = em.get_actor_at(1, 1)
     assert result == e
+
+
+def test_get_trap_at__DNE_returns_None(em):
+    assert em.get_actor_at(0, 0) is None
+
+
+def test_get_trap_at__valid_actor(em):
+    e = Entity(name="banana trap", x=1, y=1, trap=True)
+    em.add_entity(e)
+    assert em.get_trap_at(1, 1) == e

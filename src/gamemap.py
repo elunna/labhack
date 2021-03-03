@@ -1,15 +1,9 @@
 import random
-
-from . import actor, settings
-from . import item
+from . import settings
 from . import tiles
-from .entity import Entity
 from .entity_manager import EntityManager
 from .room import Room
 import numpy as np
-
-# TODO: Clean up query functions
-# TODO: Get entities at... with filters - and the others use it.
 
 
 class GameMap(EntityManager):
@@ -47,14 +41,6 @@ class GameMap(EntityManager):
     def gamemap(self):
         return self
 
-
-
-    def get_trap_at(self, x, y):
-        traps = self.filter("trap", x=x, y=y)
-        if traps:
-            return traps.pop()
-        return None
-
     def in_bounds(self, x, y):
         """Return True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
@@ -71,6 +57,7 @@ class GameMap(EntityManager):
             return ""
         # Filter out hidden
         entities = [e for e in self.filter(x=x, y=y) if "hidden" not in e]
+        # Format nicely
         names = ", ".join(e.name for e in entities)
         return names.capitalize()
 
