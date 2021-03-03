@@ -48,10 +48,6 @@ class GameMap(EntityManager):
         return self
 
 
-    @property
-    def items(self):
-        """Iterate over this maps items."""
-        yield from (e for e in self.has_comp("item"))
 
     def place(self, e, x, y):
         """ Wrapper for add_entity with coordinates."""

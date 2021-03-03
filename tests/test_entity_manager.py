@@ -40,9 +40,18 @@ def test_len(em):
 
 
 def test_actors_property(em):
+    assert list(em.actors) == []  # None by default
     f = Entity(name="fighter", fighter=True)
     em.add_entity(f)
     assert f in em.actors
+
+
+def test_items_property_none_by_default(em):
+    # We get a generator, need to convert to list.
+    assert list(em.items) == []  # None by default
+    i = Entity(name="item", item=True)
+    em.add_entity(i)
+    assert i in em.items
 
 
 def test_add_entity__Entity__returns_True(em):

@@ -56,19 +56,12 @@ def test_gamemap(test_map):
     assert test_map.gamemap is test_map
 
 
-
-
-def test_items__none_by_default(test_map):
-    # We get a generator, need to convert to list.
-    assert list(test_map.items) == []
-
-
-def test_get_actor_at_location__empty_tile(test_map):
+def test_get_actor_at__empty_tile(test_map):
     result = test_map.get_actor_at(0, 0)
     assert result is None
 
 
-def test_get_actor_at_location__valid_actor(test_map):
+def test_get_actor_at__valid_actor(test_map):
     result = test_map.get_actor_at(5, 5)
     assert result.name == "player"
 

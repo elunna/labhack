@@ -24,6 +24,11 @@ class EntityManager:
         """Iterate over this maps living actors."""
         yield from (e for e in self.has_comp("fighter"))
 
+    @property
+    def items(self):
+        """Iterate over this maps items."""
+        yield from (e for e in self.has_comp("item"))
+
     def add_entity(self, e: Entity) -> bool:
         """ Takes an Entity and adds it to the set of entities.
             If an entity is stackable, it will be handled a bit differently by the add_stackable method.
