@@ -7,7 +7,9 @@ import numpy as np
 
 
 class GameMap(EntityManager):
-    """ Defines the dimensions and tiles of a single map in the game. """
+    """ Manages the tiles and rooms in a map. Also keeps track of important info like the
+    locations of stairs.
+    """
     def __init__(self, width, height, fill_tile=tiles.wall):
         super().__init__()
         self.engine = None  # This can be set later if needed
@@ -39,19 +41,24 @@ class GameMap(EntityManager):
 
     @property
     def gamemap(self):
+        """Direct reference to self. Other Entities will use this via their parent referene.
+
+        :return: A reference to this map.
+        """
         return self
 
     def in_bounds(self, x, y):
-        """Return True if x and y are inside of the bounds of this map."""
+        """Returns True if x and y are inside of the bounds of this map."""
         return 0 <= x < self.width and 0 <= y < self.height
 
     def get_names_at(self, x, y):
-        """ takes “x” and “y” variables, though these represent a spot on the map.
-            We first check that the x and y coordinates are within the map, and are
-            currently visible to the player. If they are, then we create a string of
-            the entity names at that spot, separated by a comma. We then return that
-            string, adding capitalize to make sure the first letter in the string is
-            capitalized.
+        """ Returns a string of all the names of entities at the given location.
+        We filter out hidden entities so the player cannot cheat with tooltips.
+        We also format the list so be sorted, capitalized, and separated by commas.
+
+        :param x: The x coordinate
+        :param y: The y coordinate
+        :return: A list of entity names.
         """
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
@@ -63,6 +70,12 @@ class GameMap(EntityManager):
         return ", ".join(sorted_names)
 
     def walkable(self, x, y):
+        """ Lets us know if the given location on the map is walkable by actors (ie: floor)
+
+        :param x: The x coordinate
+        :param y: The y coordinate
+        :return: True if the tile is walkable, False if not.
+        """
         return self.tiles["walkable"][x, y]
 
     def room_coordinates(self):
@@ -73,6 +86,21 @@ class GameMap(EntityManager):
 
     @staticmethod
     def tiles_around(x, y, radius):
+        """ Returns a set of the coordinates around the given location, at a distance of radius.
+
+        :param x: The x coordinate of the location
+        :param y: The y coordinate of the location
+        :param radius: How far out from the location we want the tile "perimeter" to be.
+        :return: A set of coordinates.
+
+        ex: radius 2 at (2, 2) - returns all the coordinates marked by x
+        # 0 1 2 3 4 5
+        0 x x x x x
+        1 x . . . x
+        2 x . @ . x
+        3 x . . . x
+        4 x x x x x
+        """
         length = (radius * 2) + 1
         # Create a helper Rect so we can use it's perimeter.
         temp_rect = Room(x - radius, y - radius, length, length)
@@ -125,8 +153,14 @@ class GameMap(EntityManager):
         return True
 
     def get_nearest_unconnected_room(self, room):
-        # Use tiles_around to look for a tiles that belong to rooms.
-        # Keep pushing outward until we find a room that is not connected to this room.
+        """ Searches from the center of a room to find the next nearest room. Only returns
+        the found room if it is unconnected to the source room. Uses tiles_around to look
+        for a tiles that belong to rooms and keeps pushing outward until we find a room that
+        is not connected to this room.
+
+        :param room: The room to start searching from
+        :return: A room if we are able to find one, or None.
+        """
         x, y = room.center
 
         min_radius = 3  # Required to create the minimum sized Rect.
@@ -162,6 +196,11 @@ class GameMap(EntityManager):
         return False
 
     def get_random_unoccupied_tile(self):
+        """ Attempts to find a tile on the map that is open for an actor to occupy - so it must
+        be walkable and non-occupied by any other actors or blocking entities.
+
+        :return: The coordinates of the open tile, or None if nothing was open.
+        """
         # Get every walkable tile, choose a random one until one is found.
         floors = [(x, y) for x in range(self.width)
                   for y in range(self.height) if self.walkable(x, y)]
