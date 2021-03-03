@@ -47,6 +47,7 @@ def test_merge_stack__identical_Item__destroy_other_stack(testitem):
     testitem.stackable.merge_stack(e)
     assert e.stackable.size == 0
 
+
 @pytest.mark.skip
 def test_merge_stack__different_Item__returns_False(testitem):
     e = Entity(name="floob", stackable=StackableComponent(1))

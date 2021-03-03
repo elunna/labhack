@@ -172,13 +172,27 @@ def test_rm_entity__updates_entity_parent_to_None(em):
     assert e.parent is None
 
 
-@pytest.mark.skip
 def test_rm_entity__stackable__calls_rm_stackable(em, mocker):
     mocker.patch('src.entity_manager.EntityManager.rm_stackable')
     e = Entity(name="fleeb", stackable=StackableComponent(1))
     em.add_entity(e)
     em.rm_entity(e)
     em.rm_stackable.assert_called_once()
+
+
+def test_rm_entity__qty_gt_1_calls_rm_stackable(em, mocker):
+    mocker.patch('src.entity_manager.EntityManager.rm_stackable')
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    em.add_entity(e)
+    em.rm_entity(e, 2)
+    em.rm_stackable.assert_called_once()
+
+
+def test_rm_entity__qty_gt_1_but_not_stackable__raises_ValueError(em):
+    e = Entity(name="fleeb")
+    em.add_entity(e)
+    with pytest.raises(ValueError):
+        em.rm_entity(e, 2)
 
 
 def test_rm_entities__single_arg(em):
@@ -194,6 +208,42 @@ def test_rm_entities__multiple_args(em):
     em.add_entities(e, f)
     em.rm_entities(e, f)
     assert len(em.entities) == 0
+
+
+def test_rm_stackable__default_qty1(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    em.add_entity(e)
+    result = em.rm_stackable(e)
+    assert result.stackable.size == 1
+    assert e.stackable.size == 9
+
+
+def test_rm_stackable__success_returns_new_stackable(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    em.add_entity(e)
+    result = em.rm_stackable(e, 2)
+    assert result.stackable.size == 2
+    assert e != result
+    assert e.is_similar(result)
+
+
+def test_rm_stackable__success_decreases_stacksize(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    em.add_entity(e)
+    em.rm_stackable(e, 2)
+    assert e.stackable.size == 8
+
+
+def test_rm_stackable__full_stack_deletes_item(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    em.add_entity(e)
+    em.rm_stackable(e, 10)
+    assert e not in em
+
+
+def test_rm_stackable__no_twin__returns_None(em):
+    e = Entity(name="fleeb", stackable=StackableComponent(10))
+    assert em.rm_stackable(e) is None
 
 
 def test_has_entity__entity_DNE_returns_False(em):

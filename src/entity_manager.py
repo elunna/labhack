@@ -51,26 +51,22 @@ class EntityManager:
             self.add_entity(e)
 
     def add_stackable(self, e):
-        # Option: Allow passing in qty?
-        # Assume that the entity already has the desired stack size?
-        # Requires stacks to be split before they are added.
-
         # Is there a matching entity?
         for f in self.entities:
             if f.is_similar(e):
-                # Found twin
+                # Found match we can add the stack to
                 return f.stackable.merge_stack(e)
 
         # If it is Non-stackable, or it doesn't have another stack to join, just add like normal.
-        # Return false and let the add_entity function do it's work?
+        # Return false and let the add_entity function do it's work.
         return False
 
-    def rm_entity(self, e):
+    def rm_entity(self, e, qty=1):
         if e in self.entities:
             if "stackable" in e:
-                self.rm_stackable(e)
-                return
-
+                return self.rm_stackable(e, qty)
+            elif qty > 1:
+                raise ValueError("rm_entity received qty greater than 1 but without stackable!")
             self.entities.remove(e)
             e.parent = None
             return e
@@ -79,6 +75,19 @@ class EntityManager:
     def rm_entities(self, *args):
         for e in args:
             self.rm_entity(e)
+
+    def rm_stackable(self, e, qty=1):
+        for f in self.entities:
+            if f.is_similar(e):
+                # Split the stack
+                result = f.stackable.split_stack(qty)
+
+                if e.stackable.size == 0:  # If the stack is empty, remove it.
+                    self.entities.remove(e)
+
+                # Return the resulting new stack
+                return result
+        return None
 
     def has_entity(self, e):
         return e in self.entities
@@ -111,26 +120,3 @@ class EntityManager:
             return False  # Never full if there is no limit
         return len(self) == self.capacity
 
-
-
-    def rm_stackable(self, e, qty):
-        # Verify is it stackable? (already checked in rm_entity?)
-        # Is the the entity in there?  (confirmed in rm_entity?)
-
-        #       Split the stack
-        #       result = e.item.split_stack(qty)
-
-        #       If the stack is empty, we'll remove it from the set.
-        #       if e.item.size == 0:
-        #           self.entities.remove(e)
-
-        #       return result  # Return the resulting new stack
-
-        # If it is not stackable, or if the qty would wipe out the stack, handle it normally?
-        #   self.entities.remove(e)
-        #   e.x, e.y = -1, -1  # Update coordinates (-1 is unlatched since it's not a valid map index)
-        #   e.parent = None  # Update the parent before ditching it.
-        #   return e  # Return the entity
-
-        # return None   # If the operation failed, return nothing.
-        pass
