@@ -52,17 +52,6 @@ def test_init():
     assert m.upstairs_location == (-1, -1)
 
 
-def test_contains__entity_not_in_returns_False(player):
-    m = gamemap.GameMap(width=10, height=15)
-    assert player not in m
-
-
-def test_contains__entity_inside_returns_True(player):
-    m = gamemap.GameMap(width=10, height=15)
-    m.place(player, 0, 0)
-    assert player in m
-
-
 def test_gamemap(test_map):
     assert test_map.gamemap is test_map
 

@@ -43,16 +43,6 @@ class GameMap(EntityManager):
             order="F"
         )  # Tiles the player has seen before
 
-    def __contains__(self, entity):
-        return entity in self.entities
-
-    def place(self, e, x, y):
-        """ Wrapper for add_entity with coordinates."""
-        if self.add_entity(e):
-            e.x, e.y = x, y
-            return True
-        return False
-
     @property
     def gamemap(self):
         return self
@@ -67,8 +57,12 @@ class GameMap(EntityManager):
         """Iterate over this maps items."""
         yield from (e for e in self.has_comp("item"))
 
-    def get_items_at(self, x, y):
-        return [i for i in self.items if i.x == x and i.y == y]
+    def place(self, e, x, y):
+        """ Wrapper for add_entity with coordinates."""
+        if self.add_entity(e):
+            e.x, e.y = x, y
+            return True
+        return False
 
     def get_actor_at(self, x, y):
         for a in self.actors:
@@ -77,9 +71,9 @@ class GameMap(EntityManager):
         return None
 
     def get_trap_at(self, x, y):
-        for e in self.filter(x=x, y=y):
-            if "trap" in e:
-                return e
+        traps = self.filter("trap", x=x, y=y)
+        if traps:
+            return traps.pop()
         return None
 
     def in_bounds(self, x, y):

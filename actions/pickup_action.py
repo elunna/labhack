@@ -12,7 +12,12 @@ class PickupAction(Action):
         # TODO: Pickup menu handler
 
         inventory = self.entity.inventory
-        items_on_location = self.entity.gamemap.get_items_at(self.entity.x, self.entity.y)
+        # items_on_location = self.entity.gamemap.get_items_at(self.entity.x, self.entity.y)
+        items_on_location = self.entity.gamemap.filter(
+            "item",
+            x=self.entity.x,
+            y=self.entity.y
+        )
         for item in items_on_location:
             # If stackable, pickup all of them
             if "stackable" in item:
