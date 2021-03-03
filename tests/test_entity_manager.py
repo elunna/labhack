@@ -298,21 +298,35 @@ def test_has_comp__2_matching_set(em):
     assert em.has_comp("name") == {e, f}
 
 
-def test_filter__no_matching_empty_set(em):
+def test_filter__1_kwarg_no_matching_empty_set(em):
     assert em.filter(name="fleeb") == set()
 
 
-def test_filter__1_matching_set(em):
+def test_filter__1_kwarg(em):
     e = Entity(name="fleeb", x=0)
     em.add_entity(e)
     assert em.filter(name="fleeb") == {e}
 
 
-def test_filter__multiple_filters(em):
+def test_filter__multiple_kwargs(em):
     e = Entity(name="fleeb", x=0)
     f = Entity(name="fleeb2", x=0)
     em.add_entities(e, f)
     assert em.filter(x=0, name="fleeb2") == {f}
+
+
+def test_filter__1_arg(em):
+    e = Entity(name="fleeb", x=0)
+    f = Entity(name="fleeb2")
+    em.add_entities(e, f)
+    assert em.filter("x") == {e}
+
+
+def test_filter__1_arg_1_kwarg(em):
+    e = Entity(name="fleeb", x=0)
+    f = Entity(name="fleeb2", x=1)
+    em.add_entities(e, f)
+    assert em.filter("name", x=0) == {e}
 
 
 def test_is_empty(em):

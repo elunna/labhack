@@ -102,14 +102,23 @@ class EntityManager:
 
     # def has_comps(self, *args):
 
-    def filter(self, **kwargs):
+    def filter(self, *args, **kwargs):
         """Returns a set of entities that contain specific components and values.
         Filters out any entities that do not contain the components with the values."""
         entities_copy = self.entities.copy()
 
         for e in self.entities:
+            # Check the component/value pairs passed in as **kwargs
             if not e.has_compval(**kwargs):
                 entities_copy.remove(e)
+                continue
+
+            # Check the components passed in *args
+            for comp in args:
+                if comp not in e:
+                    entities_copy.remove(e)
+                    continue
+
         return entities_copy
 
     def is_empty(self):
