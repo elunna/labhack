@@ -47,10 +47,6 @@ class GameMap(EntityManager):
     def gamemap(self):
         return self
 
-    @property
-    def actors(self):
-        """Iterate over this maps living actors."""
-        yield from (e for e in self.has_comp("fighter") if e.is_alive)
 
     @property
     def items(self):

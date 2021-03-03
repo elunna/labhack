@@ -39,6 +39,12 @@ def test_len(em):
     assert len(em) == 1
 
 
+def test_actors_property(em):
+    f = Entity(name="fighter", fighter=True)
+    em.add_entity(f)
+    assert f in em.actors
+
+
 def test_add_entity__Entity__returns_True(em):
     e = Entity(name="fleeb")
     assert em.add_entity(e)
