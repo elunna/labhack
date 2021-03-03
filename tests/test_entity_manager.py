@@ -402,3 +402,14 @@ def test_get_similar__has_twin_returns_entity(em):
 def test_get_similar__no_match_returns_None(em):
     e1 = Entity(name="fleeb", x=0)
     assert em.get_similar(e1) is None
+
+
+def test_get_actor_at__DNE_returns_None(em):
+    assert em.get_actor_at(0, 0) is None
+
+
+def test_get_actor_at__valid_actor(em):
+    e = factory.make("mouse")
+    em.place(e, 1, 1)
+    result = em.get_actor_at(1, 1)
+    assert result == e

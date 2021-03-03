@@ -151,3 +151,10 @@ class EntityManager:
             if f.is_similar(e):
                 return e
         return None
+
+    def get_actor_at(self, x, y):
+        # Returns an ALIVE actor at the specified location.
+        for a in self.actors:
+            if a.x == x and a.y == y:
+                return a
+        return None

@@ -56,16 +56,6 @@ def test_gamemap(test_map):
     assert test_map.gamemap is test_map
 
 
-def test_get_actor_at__empty_tile(test_map):
-    result = test_map.get_actor_at(0, 0)
-    assert result is None
-
-
-def test_get_actor_at__valid_actor(test_map):
-    result = test_map.get_actor_at(5, 5)
-    assert result.name == "player"
-
-
 def test_in_bounds__valid_loc(test_map):
     # test_map is a 6x6 map
     assert test_map.in_bounds(0, 0)

@@ -49,12 +49,6 @@ class GameMap(EntityManager):
 
 
 
-    def get_actor_at(self, x, y):
-        for a in self.actors:
-            if a.x == x and a.y == y:
-                return a
-        return None
-
     def get_trap_at(self, x, y):
         traps = self.filter("trap", x=x, y=y)
         if traps:
