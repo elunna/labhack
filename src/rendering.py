@@ -170,12 +170,24 @@ def render_map(console, game_map):
     entities_sorted_for_rendering = sorted(
         game_map.entities, key=lambda x: x.render_order.value
     )
+
     for entity in entities_sorted_for_rendering:
         # Only print entities that are in the FOV
         if game_map.visible[entity.x, entity.y]:
 
             # Make sure it is not hidden or invisible!
             if "hidden" not in entity:
+                console.print(
+                    x=entity.x,
+                    y=entity.y,
+                    string=entity.char,
+                    fg=entity.color
+                )
+
+        # Also remember items/traps that are on explored tiles
+        if game_map.explored[entity.x, entity.y]:
+            item_or_trap = "item" in entity or "trap" in entity
+            if item_or_trap and "hidden" not in entity:
                 console.print(
                     x=entity.x,
                     y=entity.y,
