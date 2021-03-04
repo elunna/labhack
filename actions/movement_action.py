@@ -39,3 +39,4 @@ class MovementAction(ActionWithDirection):
         if trap:
             # Trigger it
             return TrapAction(self.entity, trap)
+

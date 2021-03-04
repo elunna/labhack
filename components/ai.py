@@ -81,7 +81,7 @@ class HostileAI(BaseAI):
         if self.engine.game_map.visible[self.parent.x, self.parent.y]:
             # If the player is right next to the entity, attack the player.
             if distance <= 1:
-                return MeleeAttack(self.parent, dx, dy)
+                return BumpAction(self.parent, dx, dy)
 
             self.path = self.get_path_to(target.x, target.y)
 
@@ -89,63 +89,12 @@ class HostileAI(BaseAI):
             # If the player can see the entity, but the entity is too far away
             # to attack, then move towards the player.
             dest_x, dest_y = self.path.pop(0)
-            return MovementAction(
+            return BumpAction(
                 self.parent, dest_x - self.parent.x, dest_y - self.parent.y,
             )
 
         # If the entity is not in the player’s vision, simply wait.
         return WaitAction(self.parent)
-
-
-class ConfusedAI(BaseAI):
-    """ A confused enemy will stumble around aimlessly for a given number of turns, then
-        revert back to its previous AI. If an actor occupies a tile it is randomly moving
-        into, it will attack.
-    """
-    def __init__(self, previous_ai, turns_remaining):
-        self.previous_ai = previous_ai
-        self.turns_remaining = turns_remaining
-
-    def yield_action(self):
-        # causes the entity to move in a randomly selected direction.
-        # Revert the AI back to the original state if the effect has run its course.
-        # Pick a random direction
-        direction_x, direction_y = random.choice(settings.DIRECTIONS)
-
-        self.turns_remaining -= 1
-
-        # The actor will either try to move or attack in the chosen random direction.
-        # Its possible the actor will just bump into the wall, wasting a turn.
-        action = BumpAction(self.parent, direction_x, direction_y)
-
-        if self.turns_remaining <= 0:
-            # If it's the last turn, we'll notify the player and return the
-            # AI to the previous one.
-            action.msg = f"The {self.parent.name} is no longer confused."
-            self.parent.ai = self.previous_ai
-
-        return action
-
-
-class ParalyzedAI(BaseAI):
-    """ A paralyzed enemy is motionless and unable to act for x turns,
-    then reverts back to its previous AI.
-    """
-    def __init__(self, previous_ai, turns_remaining):
-        self.previous_ai = previous_ai
-        self.turns_remaining = turns_remaining
-
-    def yield_action(self):
-        self.turns_remaining -= 1
-        action = WaitAction(self.parent)
-
-        if self.turns_remaining <= 0:
-            # If it's the last turn, we'll notify the player and return the AI to the previous one.
-            action.msg = f"The {self.parent.name} regains control."
-            self.parent.ai = self.previous_ai
-        elif self.parent.name == "player":
-            action.msg = f"You can't move."
-        return action
 
 
 class RunAI(BaseAI):

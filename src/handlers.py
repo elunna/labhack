@@ -171,11 +171,8 @@ class MainGameHandler(EventHandler):
             return CharacterScreenHandler(self.engine)
 
         if key in MOVE_KEYS:
-            if isinstance(player.ai, ai.ConfusedAI):
-                action = player.ai.yield_action()
-            else:
-                dx, dy = MOVE_KEYS[key]
-                action = actions.bump_action.BumpAction(player, dx, dy)
+            dx, dy = MOVE_KEYS[key]
+            action = actions.bump_action.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
             action = actions.wait_action.WaitAction(player)

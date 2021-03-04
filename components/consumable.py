@@ -3,7 +3,6 @@ import random
 import src.utils
 from actions.die_action import DieAction
 from actions.item_action import ItemAction
-from components.ai import ConfusedAI, ParalyzedAI
 from components.component import Component
 from components.inventory import Inventory
 from src import color
@@ -126,11 +125,7 @@ class TargetedConfusionConsumable(Consumable):
 
         action.msg = f"The eyes of the {target.name} look vacant, as it starts to stumble around!"
 
-        confused_ai = ConfusedAI(
-            previous_ai=target.ai,
-            turns_remaining=self.number_of_turns,
-        )
-        target.add_comp(ai=confused_ai)
+        target.states.add_state("confused", self.number_of_turns)
         self.consume()
 
 
@@ -221,12 +216,6 @@ class ConfusionTrapConsumable(Consumable):
             action.msg = f"A spray of green mist hits the {target.name} and it starts to stumble around!"
 
         target.states.add_state("confused", self.number_of_turns)
-
-        confused_ai = ConfusedAI(
-            previous_ai=target.ai,
-            turns_remaining=self.number_of_turns,
-        )
-        target.add_comp(ai=confused_ai)
         self.parent.rm_comp("hidden")  # Reveal the trap
 
 
