@@ -51,9 +51,10 @@ class EntityFactory:
                 self.place_monsters(new_map, r)
 
             self.place_items(new_map, r)
-            # place traps
             self.place_traps(new_map, r)
             # place secrets
+
+            self.place_money(new_map, r)
 
     def place_items(self, new_map, new_room):
         max_items = get_max_value_for_floor(settings.max_items_by_floor, self.dungeon.dlevel)
@@ -73,22 +74,30 @@ class EntityFactory:
             self.dungeon.dlevel,
             self.player.level.current_level
         )
-        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
-        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
+        x, y = new_room.random_point_inside()
 
         # Don't spawn them on top of each other.
         if not new_map.get_actor_at(x, y):
             spawn(new_monster, new_map, x, y)
 
     def place_traps(self, new_map, new_room):
-        x = random.randint(new_room.x1 + 1, new_room.x2 - 2)
-        y = random.randint(new_room.y1 + 1, new_room.y2 - 2)
+        x, y = new_room.random_point_inside()
 
         # No traps on stairs!
         if not new_map.tiles[x][y] in [tiles.up_stairs, tiles.down_stairs]:
             # Choose a random dungeon feature/trap
             new_trap = make(random.choice(list(db.dungeon_features.keys())))
             new_map.place(new_trap, x, y)
+
+    def place_money(self, new_map, new_room):
+        x, y = new_room.random_point_inside()
+        # 1d10 * level for the amount of the pile?
+        money_pile = make("money")
+        money_min = self.dungeon.dlevel * 2
+        money_max = self.dungeon.dlevel * 15
+        money_pile.stackable.size = random.randint(money_min, money_max)
+
+        new_map.place(money_pile, x, y)
 
 
 def make(entity_name):
@@ -117,6 +126,9 @@ def make(entity_name):
         components = db.dungeon_features.get(entity_name)
         components['name'] = entity_name
         return copy.deepcopy(Entity(**components))
+
+    if entity_name == "money":
+        return copy.deepcopy(Item(**db.money))
 
     raise ValueError(f"'{entity_name}' is not a valid Entity!")
 

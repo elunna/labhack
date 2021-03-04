@@ -99,6 +99,7 @@ CARDINAL_DIR = {
 
 ITEM_CATEGORIES = {
     # Sets the order that the inventory is displayed in.
+    '$': "Money",
     '/': "Weapons",
     '[': "Armor",
     '%': "Edibles",

@@ -654,6 +654,15 @@ item_dict = {
     },
 }
 
+# Money
+money = {
+    "name": 'dollar',
+    "char": '$',
+    "color": tcod.gold,
+    "stackable": StackableComponent(),
+}
+
+
 dungeon_features = {
     "bear trap": {
         "char": '^',
