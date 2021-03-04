@@ -721,6 +721,19 @@ hidden_corridor = Entity(
     transparent=False,
 )
 
+hidden_door = Entity(
+    name='hidden door',
+    char='?',  # Will be replaced with camo-tile depending where on the wall it is.
+    x=-1,
+    y=-1,
+    # color=tcod.white,
+    color=(200, 200, 200),
+    render_order=RenderOrder.TRAP,
+    blocks_movement=True,
+    transparent=False,
+    camo=True
+)
+
 item_chances = {
     # keys in the dictionary represent the floor number,
     # and the value is a list of tuples.

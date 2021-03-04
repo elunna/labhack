@@ -14,6 +14,8 @@ class SearchAction(Action):
             # "remove on found" component.
             if e.name == "hidden corridor":
                 self.entity.gamemap.rm_entity(e)
+            if e.name == "hidden door":
+                self.entity.gamemap.rm_entity(e)
 
     def get_hidden_entities(self, x, y):
         _map = self.entity.gamemap
@@ -25,7 +27,7 @@ class SearchAction(Action):
         for x, y in tiles_around:
             entities = _map.filter(x=x, y=y)
             for e in entities:
-                if "hidden" in e:
+                if "hidden" in e or "camo" in e:
                     hidden_entities.append(e)
 
         # If any entities are hidden, it will unhide them and reveal a message.

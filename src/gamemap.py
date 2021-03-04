@@ -10,6 +10,7 @@ class GameMap(EntityManager):
     """ Manages the tiles and rooms in a map. Also keeps track of important info like the
     locations of stairs.
     """
+
     def __init__(self, width, height, fill_tile=tiles.wall):
         super().__init__()
         self.engine = None  # This can be set later if needed
@@ -211,3 +212,9 @@ class GameMap(EntityManager):
                 return result
             floors.remove(result)
         return None
+
+    def get_all_tiles_of(self, tiletype):
+        """ Returns a list of coordinates for all tiles which map the given tile."""
+        return [(x, y) for x in range(self.width)
+                for y in range(self.height)
+                if self.tiles[x, y] == tiletype]

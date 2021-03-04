@@ -13,12 +13,26 @@ from .utils import distance
 
 def add_extras(new_map):
     # Add hidden corridors.
-    # For now, we'll add x hidden corridors, where x is the number of rooms.
+    # For now, we'll add x hidden corridors, where x is the number of rooms x times 2.
     qty = len(new_map.rooms) * 2
     for i in range(qty):
         x, y = new_map.get_random_unoccupied_tile()  # Unpack an (x, y) tuple
         if new_map.tiles[x, y] == tiles.floor:
             new_map.place(copy.deepcopy(db.hidden_corridor), x, y)
+
+    # Hide doors
+    door_tiles = new_map.get_all_tiles_of(tiles.door)
+    for x, y in door_tiles:
+        # 25% of doors are hidden
+        if random.random() > .25:
+            continue
+        # Hide all doors
+        hidden_door = copy.deepcopy(db.hidden_door)
+        # We need to customize the tile symbol to blend in with the wall.
+        room = new_map.room_coords[x, y]  # Find the room this coordinate belongs to
+        tile_symbol = room.char_dict[x, y]
+        hidden_door.char = tile_symbol
+        new_map.place(hidden_door, x, y)
 
     # Added random closets
     CLOSET_CHANCE = 10

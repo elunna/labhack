@@ -51,6 +51,19 @@ room_max_size = 10
 room_min_size = 6
 max_rooms = 15
 
+# tile_graphics
+wall = ' '
+floor = "░"
+room_floor_dark = ' '
+room_floor_light = '.'
+vert_wall = "│"
+horz_wall = "─"
+ne_corner = "┐"
+nw_corner = "┌"
+se_corner = "┘"
+sw_corner = "└"
+closed_door = '+'
+
 # Entity settings
 energy_per_turn = 10  # This is how much energy each actor regains per turn
 DEFAULT_THRESHOLD = 10

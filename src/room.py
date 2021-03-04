@@ -1,4 +1,6 @@
 import random
+
+from src import settings
 from src.door import Door
 
 
@@ -15,6 +17,8 @@ class Room:
         self.connections = []  # List of which rooms this room is connected to
         self.doors = []
         self.label = None  # This will be set externally on map generation
+
+        self.char_dict = self.get_char_dict()
 
     @property
     def center(self):
@@ -161,4 +165,20 @@ class Room:
         walls = self.perimeter().difference(self.corners())
         return [Door(self, x, y) for x, y in walls]
 
+    def get_char_dict(self):
+        """Builds a dict of coordinates and the character to represent that tile in the room"""
+        char_dict = {}
+        # vertical walls
+        for x, y in self.vert_walls():
+            char_dict[(x, y)] = settings.vert_wall
 
+        # horizontal walls
+        for x, y in self.horz_walls():
+            char_dict[(x, y)] = settings.horz_wall
+
+        # Corners (overwrites somes values from vert_walls and horz_walls
+        char_dict[self.ne_corner] = settings.ne_corner
+        char_dict[self.nw_corner] = settings.nw_corner
+        char_dict[self.se_corner] = settings.se_corner
+        char_dict[self.sw_corner] = settings.sw_corner
+        return char_dict

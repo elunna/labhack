@@ -9,6 +9,7 @@ import numpy as np
 #   fg: The foreground color. “3B” means 3 unsigned bytes, which can be used
 #       for RGB color codes.
 #   bg: The background color. Similar to fg.
+from src import settings
 
 graphic_dt = np.dtype(
     [
@@ -49,56 +50,56 @@ floor = new_tile(
     diggable=True,
     # dark=(ord(" "), (255, 255, 255), (50, 50, 150)),  # Original
     # light=(ord(" "), (255, 255, 255), (200, 180, 50)),  # Original
-    dark=(ord("░"), (100, 100, 100), (0, 0, 0)),  # Traditional
-    light=(ord("░"), (200, 200, 200), (0, 0, 0)),  # Traditional
+    dark=(ord(settings.floor), (100, 100, 100), (0, 0, 0)),  # Traditional
+    light=(ord(settings.floor), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
 
 room_floor = new_tile(
     walkable=True,
     transparent=True,
     diggable=False,
-    dark=(ord(" "), (100, 100, 100), (0, 0, 0)),  # Traditional
-    light=(ord("."), (200, 200, 200), (0, 0, 0)),  # Traditional
+    dark=(ord(settings.room_floor_dark), (100, 100, 100), (0, 0, 0)),  # Traditional
+    light=(ord(settings.room_floor_light), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
 
 wall = new_tile(
     walkable=False,
     transparent=False,
     diggable=True,
-    dark=(ord(" "), (100, 100, 100), (0, 0, 0)),  # Traditional
-    light=(ord(" "), (200, 200, 200), (0, 0, 0)),  # Traditional
+    dark=(ord(settings.wall), (100, 100, 100), (0, 0, 0)),  # Traditional
+    light=(ord(settings.wall), (200, 200, 200), (0, 0, 0)),  # Traditional
 )
 
 room_vert_wall = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("│"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("│"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.vert_wall), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.vert_wall), (200, 200, 200), (0, 0, 0)),
 )
 
 room_horz_wall = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("─"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("─"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.horz_wall), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.horz_wall), (200, 200, 200), (0, 0, 0)),
 )
 
 room_ne_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("┐"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("┐"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.ne_corner), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.ne_corner), (200, 200, 200), (0, 0, 0)),
 )
 
 room_sw_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("└"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("└"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.sw_corner), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.sw_corner), (200, 200, 200), (0, 0, 0)),
 )
 
 
@@ -106,24 +107,24 @@ room_nw_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("┌"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("┌"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.nw_corner), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.nw_corner), (200, 200, 200), (0, 0, 0)),
 )
 
 room_se_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    dark=(ord("┘"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("┘"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.se_corner), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.se_corner), (200, 200, 200), (0, 0, 0)),
 )
 
 door = new_tile(
     walkable=True,
     transparent=True,
     diggable=False,
-    dark=(ord("+"), (100, 100, 100), (0, 0, 0)),
-    light=(ord("+"), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.closed_door), (100, 100, 100), (0, 0, 0)),
+    light=(ord(settings.closed_door), (200, 200, 200), (0, 0, 0)),
 )
 
 down_stairs = new_tile(
