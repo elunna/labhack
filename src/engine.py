@@ -38,9 +38,15 @@ class Engine:
                     # We'll use the energy regardless.
                     actor.energymeter.burn_turn()
 
+                    # Check for auto-states (like paralysis)
+                    if actor.states.autopilot:
+                        action = self.handle_auto_states(actor)
+                    else:
+                        action = actor.ai.yield_action()
+
                     try:
                         # Get the next calculated action from the AI.
-                        self.handle_action(actor.ai.yield_action())
+                        self.handle_action(action)
                     except exceptions.Impossible:
                         pass  # Ignore impossible action exceptions from AI
 
