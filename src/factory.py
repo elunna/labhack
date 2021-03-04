@@ -1,11 +1,10 @@
 import math
-
-import src.db
 from . import settings, tiles
 from . import db
 import copy
 import random
 from .actor import Actor
+from .entity import Entity
 from .item import Item
 
 
@@ -87,7 +86,8 @@ class EntityFactory:
 
         # No traps on stairs!
         if not new_map.tiles[x][y] in [tiles.up_stairs, tiles.down_stairs]:
-            new_trap = copy.deepcopy(src.db.bear_trap)
+            # Choose a random dungeon feature/trap
+            new_trap = make(random.choice(list(db.dungeon_features.keys())))
             new_map.place(new_trap, x, y)
 
 
@@ -113,6 +113,10 @@ def make(entity_name):
         return copy.deepcopy(Item(**components))
 
         # return copy.deepcopy(db.item_dict[entity_name])
+    if entity_name in db.dungeon_features:
+        components = db.dungeon_features.get(entity_name)
+        components['name'] = entity_name
+        return copy.deepcopy(Entity(**components))
 
     raise ValueError(f"'{entity_name}' is not a valid Entity!")
 

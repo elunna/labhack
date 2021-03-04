@@ -96,7 +96,7 @@ class LightningDamageConsumable(Consumable):
             return DieAction(entity=target, cause=consumer)
 
 
-class ConfusionConsumable(Consumable):
+class TargetedConfusionConsumable(Consumable):
     def __init__(self, number_of_turns):
         self.number_of_turns = number_of_turns
 
@@ -206,3 +206,24 @@ class BearTrapConsumable(Consumable):
 
         if consumer.fighter.is_dead():
             return DieAction(entity=consumer, cause=self.parent)
+
+
+class ConfusionTrapConsumable(Consumable):
+    def __init__(self, number_of_turns):
+        self.number_of_turns = number_of_turns
+
+    def activate(self, action):
+        consumer = action.entity
+        x, y = consumer.x, consumer.y
+        target = action.entity.gamemap.get_actor_at(x, y)
+        if target.name == "player":
+            action.msg = f"A spray of green mist hits you! You start to stumble..."
+        else:
+            action.msg = f"A spray of green mist hits the {target.name} and it starts to stumble around!"
+
+        confused_ai = ConfusedAI(
+            previous_ai=target.ai,
+            turns_remaining=self.number_of_turns,
+        )
+        target.add_comp(ai=confused_ai)
+        # self.consume()

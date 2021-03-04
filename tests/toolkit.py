@@ -88,7 +88,7 @@ def hidden_map():
     new_map.player = player
 
     # Create bear trap at 2, 3
-    new_trap = copy.deepcopy(db.bear_trap)
+    new_trap = factory.make("bear trap")
     new_map.place(new_trap, 2, 3)
 
     return new_map

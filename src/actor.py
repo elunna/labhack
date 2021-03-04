@@ -1,5 +1,6 @@
 from components.equipment import Equipment
 from components.inventory import Inventory
+from components.states import StatesComponent
 from src import entity
 from src.renderorder import RenderOrder
 
@@ -38,6 +39,9 @@ class Actor(entity.Entity):
         self.add_comp(energymeter=energy)
         self.add_comp(inventory=inventory)
         self.add_comp(equipment=equipment)
+
+        self.add_comp(states=StatesComponent())
+
         if attributes:
             self.add_comp(attributes=attributes)
         if regeneration:

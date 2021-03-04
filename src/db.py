@@ -284,7 +284,7 @@ item_dict = {
         "stackable": StackableComponent(),
         "char": "~",
         "color": (207, 63, 255),
-        "consumable": consumable.ConfusionConsumable(number_of_turns=10),
+        "consumable": consumable.TargetedConfusionConsumable(number_of_turns=10),
     },
 
     "fireball scroll": {
@@ -654,20 +654,34 @@ item_dict = {
     },
 }
 
+dungeon_features = {
+    "bear trap": {
+        "char": '^',
+        "x": -1,
+        "y": -1,
+        "color": (0xFF, 0x0, 0x0),
+        "render_order": RenderOrder.TRAP,
+        "blocks_movement": False,
+        "hidden": True,
+        "trap": True,
+        "consumable": consumable.BearTrapConsumable(damage=8),
+        "transparent": True,
+    },
 
-bear_trap = Entity(
-    name='bear trap',
-    char='^',
-    x=-1,
-    y=-1,
-    color=(0xFF, 0x0, 0x0),
-    render_order=RenderOrder.TRAP,
-    blocks_movement=False,
-    hidden=True,
-    trap=True,
-    consumable=consumable.BearTrapConsumable(damage=8),
-    transparent=True,
-)
+    "gas trap": {
+        "char": '^',
+        "x": -1,
+        "y": -1,
+        "color": tcod.green,
+        "render_order": RenderOrder.TRAP,
+        "blocks_movement": False,
+        "hidden": True,
+        "trap": True,
+        "consumable": consumable.ConfusionTrapConsumable(number_of_turns=5),
+        "transparent": True,
+    },
+}
+
 
 hidden_corridor = Entity(
     name='hidden corridor',

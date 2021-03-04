@@ -1,3 +1,5 @@
+from components import ai
+from components.ai import ConfusedAI
 from . import color
 from . import exceptions
 from . import rendering
@@ -80,6 +82,10 @@ class EventHandler(BaseEventHandler):
         """ Handle actions returned from event methods.
             Returns True if the action will advance a turn.
         """
+        # Evaluate states here?
+        # if isinstance(self.engine.player.ai, ConfusedAI):
+        #     action = self.engine.player.ai.yield_action()
+
         if self.engine.handle_action(action):  # Successful action completed.
             # Here - we will evaluate the player's energy
             # Use up a turn worth of energy
@@ -90,6 +96,10 @@ class EventHandler(BaseEventHandler):
             # If the player doesn't have enough energy for another turn, we'll
             # run the enemy turns.
             if self.engine.player.energymeter.burned_out():
+                # Handle end-of-turn states for player..
+
+                # Decrease timeouts on states
+
                 # Increment turns
                 self.engine.turns += 1
 
@@ -98,6 +108,7 @@ class EventHandler(BaseEventHandler):
 
                 self.engine.handle_enemy_turns()
 
+                # Random chance at summoning new dungeon monster.
                 self.engine.generate_monster()
 
                 # Check if player regenerates
@@ -127,13 +138,21 @@ class MainGameHandler(EventHandler):
         # A key was pressed, determine which key and create an appropriate action.
         action = None
 
-        key = event.sym
-
-        # Used to tell us if a player is holding a modifier key like control,
-        # alt, or shift.
-        modifier = event.mod
-
         player = self.engine.player
+
+        # TODO: Crude way to handle paralysis, fix this later
+        if isinstance(player.ai, ai.ParalyzedAI):
+            action = player.ai.yield_action()
+            if action:
+                return action
+
+            # This is a hack, we don't want to skip the players turn when they
+            # break free of paralysis. This will skip enemy turns and give the
+            # player to act once they are unparalyzed.
+            return None
+
+        key = event.sym
+        modifier = event.mod  # modifier keys like control, alt, or shift.
 
         # Shift modifiers
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
@@ -159,8 +178,11 @@ class MainGameHandler(EventHandler):
             return CharacterScreenHandler(self.engine)
 
         if key in MOVE_KEYS:
-            dx, dy = MOVE_KEYS[key]
-            action = actions.bump_action.BumpAction(player, dx, dy)
+            if isinstance(player.ai, ai.ConfusedAI):
+                action = player.ai.yield_action()
+            else:
+                dx, dy = MOVE_KEYS[key]
+                action = actions.bump_action.BumpAction(player, dx, dy)
 
         elif key in WAIT_KEYS:
             action = actions.wait_action.WaitAction(player)

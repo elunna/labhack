@@ -158,3 +158,23 @@ class RunAI(BaseAI):
             dx=self.parent.x + self.dx,
             dy=self.parent.y + self.dy
         )
+
+
+class ParalyzedAI(BaseAI):
+    """ A paralyzed enemy is motionless and unable to act for x turns,
+    then reverts back to its previous AI.
+    """
+    def __init__(self, previous_ai, turns_remaining):
+        self.previous_ai = previous_ai
+        self.turns_remaining = turns_remaining
+
+    def yield_action(self):
+        self.turns_remaining -= 1
+        action = WaitAction(self.parent)
+
+        if self.turns_remaining <= 0:
+            # If it's the last turn, we'll notify the player and return the AI to the previous one.
+            action.msg = f"The {self.parent.name} regains control."
+            self.parent.ai = self.previous_ai
+
+        return action
