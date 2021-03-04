@@ -38,3 +38,21 @@ def test_decrease__eliminate_state():
     s.decrease()
     s.decrease()
     assert "confused" not in s.states
+
+
+def test_decrease__eliminate_state__returns_list_of_removed_states():
+    s = StatesComponent()
+    s.add_state("confused", 2)
+    assert s.decrease() == []
+    assert s.decrease() == ["confused"]
+
+
+def test_autopilot__paralyzed_returns_True():
+    s = StatesComponent()
+    s.add_state("paralyzed", 2)
+    assert s.autopilot
+
+
+def test_autopilot__no_states_returns_False():
+    s = StatesComponent()
+    assert s.autopilot is False
