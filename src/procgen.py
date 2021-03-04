@@ -20,6 +20,14 @@ def add_extras(new_map):
         if new_map.tiles[x, y] == tiles.floor:
             new_map.place(copy.deepcopy(db.hidden_corridor), x, y)
 
+    # Added random closets
+    CLOSET_CHANCE = 10
+    for r in new_map.rooms:
+        if random.randint(1, CLOSET_CHANCE) == 1:
+            all_doors = r.get_all_possible_doors()
+            # Pick a random one. If it works, great, otherwise just skip.
+            draw_door(new_map, random.choice(all_doors))
+
 
 def dig_path(new_map, path):
     # Dig out a pre-determined path
@@ -42,14 +50,18 @@ def draw_doors(new_map):
     corridor drawing, there are conflicts in where doors and floor appear.
     """
     for d in new_map.doors:
-        if new_map.valid_door_neighbors(d.room, d.x, d.y):
-            new_map.tiles[d.x, d.y] = tiles.door
+        draw_door(new_map, d)
 
-            # Has the closet been drawn yet?
-            closet_x, closet_y = d.closet()
-            if new_map.tiles[closet_x, closet_y] == tiles.wall:
-                # Dig out the closet
-                new_map.tiles[closet_x, closet_y] = tiles.floor
+
+def draw_door(new_map, d):
+    if new_map.valid_door_neighbors(d.room, d.x, d.y):
+        new_map.tiles[d.x, d.y] = tiles.door
+
+        # Has the closet been drawn yet?
+        closet_x, closet_y = d.closet()
+        if new_map.tiles[closet_x, closet_y] == tiles.wall:
+            # Dig out the closet
+            new_map.tiles[closet_x, closet_y] = tiles.floor
 
 
 def draw_room(new_map, new_room):
