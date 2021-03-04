@@ -7,7 +7,8 @@ title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
 
 
 """Filename info """
-tileset = "images/dejavu10x10_gs_tc.png"
+# tileset = "images/dejavu10x10_gs_tc.png"
+tileset = "images/dejavu12x12_gs_tc.png"
 bg_img = "images/menu_background.png"
 save_file = "savegame.sav"
 
