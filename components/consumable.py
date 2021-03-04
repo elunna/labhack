@@ -198,14 +198,13 @@ class BearTrapConsumable(Consumable):
         action.msg = f"A bear trap snaps on the {consumer.name}!! "
         consumer.fighter.hp -= self.damage
 
-        # Reveal it if it is hidden.
-        if "hidden" in self.parent:
-            self.parent.rm_comp("hidden")
-
-        # self.consume()
-
         if consumer.fighter.is_dead():
             return DieAction(entity=consumer, cause=self.parent)
+
+        # Set the actors state to trapped for x turns
+        consumer.states.add_state("trapped", 10)
+
+        self.parent.rm_comp("hidden")  # Reveal the trap
 
 
 class ConfusionTrapConsumable(Consumable):
@@ -221,11 +220,14 @@ class ConfusionTrapConsumable(Consumable):
         else:
             action.msg = f"A spray of green mist hits the {target.name} and it starts to stumble around!"
 
+        target.states.add_state("confused", self.number_of_turns)
+
         confused_ai = ConfusedAI(
             previous_ai=target.ai,
             turns_remaining=self.number_of_turns,
         )
         target.add_comp(ai=confused_ai)
+        self.parent.rm_comp("hidden")  # Reveal the trap
 
 
 class ParalysisTrapConsumable(Consumable):
@@ -241,8 +243,7 @@ class ParalysisTrapConsumable(Consumable):
         else:
             action.msg = f"A spray of purple mist hits the {target.name}!"
 
-        paralyzed_ai = ParalyzedAI(
-            previous_ai=target.ai,
-            turns_remaining=self.number_of_turns,
-        )
-        target.add_comp(ai=paralyzed_ai)
+        consumer.states.add_state("paralyzed", self.number_of_turns)
+
+        self.parent.rm_comp("hidden")  # Reveal the trap
+2

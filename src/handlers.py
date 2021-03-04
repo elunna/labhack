@@ -1,5 +1,4 @@
 from components import ai
-from components.ai import ConfusedAI
 from . import color
 from . import exceptions
 from . import rendering
@@ -62,29 +61,24 @@ class EventHandler(BaseEventHandler):
     def handle_events(self, event):
         """Handle events for input handlers with an engine."""
         action_or_state = self.dispatch(event)
+        player = self.engine.player
 
         if isinstance(action_or_state, BaseEventHandler):
             return action_or_state
 
         if self.handle_action(action_or_state):
             # A valid action was performed.
-            if not self.engine.player.is_alive:
+            if not player.is_alive:
                 # The player was killed sometime during or after the action.
                 return GameOverHandler(self.engine)
 
             # If the player leveled up, handle it.
             self.engine.check_level()
 
-            # TODO: Crude way to handle paralysis, fix this later
-            while isinstance(self.engine.player.ai, ai.ParalyzedAI):
-                action = self.engine.player.ai.yield_action()
+            # Handle auto-states
+            while self.engine.player.states.autopilot:
+                action = self.engine.handle_auto_states(player)
                 self.handle_action(action)
-                # if action:
-                #     return action
-
-                # This is a hack, we don't want to skip the players turn when they
-                # break free of paralysis. This will skip enemy turns and give the
-                # player to act once they are unparalyzed.
 
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
@@ -107,9 +101,10 @@ class EventHandler(BaseEventHandler):
             # If the player doesn't have enough energy for another turn, we'll
             # run the enemy turns.
             if self.engine.player.energymeter.burned_out():
-                # Handle end-of-turn states for player..
+                # TODO: Move all this crap to an end_of_turn method in Engine
 
-                # Decrease timeouts on states
+                # Handle end-of-turn states ..Decrease timeouts on states
+                self.engine.reduce_timeouts()
 
                 # Increment turns
                 self.engine.turns += 1
@@ -149,9 +144,6 @@ class MainGameHandler(EventHandler):
         # A key was pressed, determine which key and create an appropriate action.
         action = None
         player = self.engine.player
-
-
-
         key = event.sym
         modifier = event.mod  # modifier keys like control, alt, or shift.
 

@@ -1,3 +1,4 @@
+from actions.wait_action import WaitAction
 from . import color
 from . import dungeon
 from . import exceptions
@@ -185,3 +186,18 @@ class Engine:
         CHANCE = 70
         if random.randint(1, CHANCE) == 1:
             self.dungeon.summon_random_monster(self.player.level.current_level)
+
+    def reduce_timeouts(self):
+        for actor in self.game_map.actors:
+            # Decrease all the timeouts for states in each actor
+            for state in actor.states.decrease():
+                if actor.name == "player":
+                    self.msglog.add_message(f"You feel less {state}")
+                else:
+                    self.msglog.add_message(f"The {actor.name} is less {state}")
+
+    def handle_auto_states(self, actor):
+        """ This handles things that "take over" an actors turn, like paralysis or sleep.
+        """
+        # For now just use WaitAction
+        return WaitAction(actor)
