@@ -106,7 +106,7 @@ class Inventory(Component):
         # Create a dict of char and values is a list of item letters
 
         result = defaultdict(list)
-        for key_letter, item in self.item_dict.items():
+        for key_letter, item in sorted(self.item_dict.items()):
             result[item.char].append(key_letter)
         return result
 
