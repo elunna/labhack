@@ -3,7 +3,7 @@ import random
 import src.utils
 from actions.die_action import DieAction
 from actions.item_action import ItemAction
-from components.ai import ConfusedAI
+from components.ai import ConfusedAI, ParalyzedAI
 from components.component import Component
 from components.inventory import Inventory
 from src import color
@@ -226,4 +226,23 @@ class ConfusionTrapConsumable(Consumable):
             turns_remaining=self.number_of_turns,
         )
         target.add_comp(ai=confused_ai)
-        # self.consume()
+
+
+class ParalysisTrapConsumable(Consumable):
+    def __init__(self, number_of_turns):
+        self.number_of_turns = number_of_turns
+
+    def activate(self, action):
+        consumer = action.entity
+        x, y = consumer.x, consumer.y
+        target = action.entity.gamemap.get_actor_at(x, y)
+        if target.name == "player":
+            action.msg = f"A spray of purple mist hits you! You can't move..."
+        else:
+            action.msg = f"A spray of purple mist hits the {target.name}!"
+
+        paralyzed_ai = ParalyzedAI(
+            previous_ai=target.ai,
+            turns_remaining=self.number_of_turns,
+        )
+        target.add_comp(ai=paralyzed_ai)

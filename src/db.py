@@ -680,6 +680,19 @@ dungeon_features = {
         "consumable": consumable.ConfusionTrapConsumable(number_of_turns=5),
         "transparent": True,
     },
+
+    "nerve gas trap": {
+        "char": '^',
+        "x": -1,
+        "y": -1,
+        "color": tcod.purple,
+        "render_order": RenderOrder.TRAP,
+        "blocks_movement": False,
+        "hidden": True,
+        "trap": True,
+        "consumable": consumable.ParalysisTrapConsumable(number_of_turns=10),
+        "transparent": True,
+    },
 }
 
 

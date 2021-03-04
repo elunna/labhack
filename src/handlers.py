@@ -137,12 +137,11 @@ class MainGameHandler(EventHandler):
     def ev_keydown(self, event):
         # A key was pressed, determine which key and create an appropriate action.
         action = None
-
         player = self.engine.player
 
         # TODO: Crude way to handle paralysis, fix this later
-        if isinstance(player.ai, ai.ParalyzedAI):
-            action = player.ai.yield_action()
+        if isinstance(self.engine.player.ai, ai.ParalyzedAI):
+            action = self.engine.player.ai.yield_action()
             if action:
                 return action
 
