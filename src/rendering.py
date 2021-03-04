@@ -102,6 +102,12 @@ def render_stats(console, engine, player):
         string=f"{ac_stat} | {str_stat} | {dex_stat} | {con_stat} | {xp_lvl_stat} | {turns}"
     )
 
+    # Render states
+    console.print(
+        x=22, y=settings.tooltip_y - 2, fg=tcod.red,
+        string=f"{player.states.to_string()}"
+    )
+
 
 def render_names_at_mouse_location(console, x, y, engine):
     """ takes the console, x and y coordinates (the location to draw the names),

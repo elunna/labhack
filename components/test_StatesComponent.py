@@ -30,3 +30,11 @@ def test_decrease():
     s.add_state("confused", 10)
     s.decrease()
     assert s.states["confused"] == 9
+
+
+def test_decrease__eliminate_state():
+    s = StatesComponent()
+    s.add_state("confused", 2)
+    s.decrease()
+    s.decrease()
+    assert "confused" not in s.states

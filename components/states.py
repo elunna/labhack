@@ -24,9 +24,17 @@ class StatesComponent(Component):
 
     def decrease(self):
         # Decrease the timeout on all states by 1.
+        to_remove = []
+
         for state in self.states:
             self.states[state] -= 1
-
-            # If the timeout is 0, delete it.
             if self.states[state] == 0:
-                self.states.pop(state)
+                to_remove.append(state)
+
+        # Remove any states with 0 timeout
+        for state in to_remove:
+            self.states.pop(state)
+
+    def to_string(self):
+        return ", ".join(f"{k}({v})" for k, v in self.states.items())
+
