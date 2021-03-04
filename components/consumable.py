@@ -5,7 +5,7 @@ from actions.die_action import DieAction
 from actions.item_action import ItemAction
 from components.component import Component
 from components.inventory import Inventory
-from src import color
+from src import color, quotes
 from src import exceptions
 from src import handlers
 
@@ -240,11 +240,9 @@ class ParalysisTrapConsumable(Consumable):
 
 class EngravingConsumable(Consumable):
     def __init__(self):
-        self.quote = "something random"
+        self.quote = random.choice(quotes.quote_db)
 
     def activate(self, action):
         target = action.entity.gamemap.get_actor_at(action.entity.x, action.entity.y)
         if target.name == "player":
-            action.msg = f"You notice an engraving in the floor, it says '{self.quote}'"
-
-        self.parent.rm_comp("hidden")  # Reveal the trap
+            action.msg = f"You see an engraving, it reads: '{self.quote}'"

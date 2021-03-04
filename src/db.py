@@ -695,7 +695,7 @@ dungeon_features = {
     },
 
     "engraving": {
-        "char": '?',
+        "char": ',',
         "x": -1,
         "y": -1,
         "color": tcod.white,
