@@ -695,10 +695,10 @@ dungeon_features = {
     },
 
     "engraving": {
-        "char": ',',
+        "char": '.',
         "x": -1,
         "y": -1,
-        "color": tcod.white,
+        "color": (200, 200, 200),
         "render_order": RenderOrder.TRAP,
         "blocks_movement": False,
         "hidden": True,
