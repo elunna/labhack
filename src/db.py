@@ -690,7 +690,7 @@ dungeon_features = {
         "blocks_movement": False,
         "hidden": True,
         "trap": True,
-        "consumable": consumable.ParalysisTrapConsumable(number_of_turns=10),
+        "consumable": consumable.ParalysisTrapConsumable(number_of_turns=5),
         "transparent": True,
     },
 }

@@ -75,6 +75,17 @@ class EventHandler(BaseEventHandler):
             # If the player leveled up, handle it.
             self.engine.check_level()
 
+            # TODO: Crude way to handle paralysis, fix this later
+            while isinstance(self.engine.player.ai, ai.ParalyzedAI):
+                action = self.engine.player.ai.yield_action()
+                self.handle_action(action)
+                # if action:
+                #     return action
+
+                # This is a hack, we don't want to skip the players turn when they
+                # break free of paralysis. This will skip enemy turns and give the
+                # player to act once they are unparalyzed.
+
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
 
@@ -139,16 +150,7 @@ class MainGameHandler(EventHandler):
         action = None
         player = self.engine.player
 
-        # TODO: Crude way to handle paralysis, fix this later
-        if isinstance(self.engine.player.ai, ai.ParalyzedAI):
-            action = self.engine.player.ai.yield_action()
-            if action:
-                return action
 
-            # This is a hack, we don't want to skip the players turn when they
-            # break free of paralysis. This will skip enemy turns and give the
-            # player to act once they are unparalyzed.
-            return None
 
         key = event.sym
         modifier = event.mod  # modifier keys like control, alt, or shift.
