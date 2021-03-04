@@ -41,7 +41,7 @@ class StatesComponent(Component):
 
         for state in self.states:
             self.states[state] -= 1
-            if self.states[state] == 0:
+            if self.states[state] <= 0:
                 to_remove.append(state)
 
         # Remove any states with 0 timeout

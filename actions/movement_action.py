@@ -40,3 +40,10 @@ class MovementAction(ActionWithDirection):
             # Trigger it
             return TrapAction(self.entity, trap)
 
+
+class WriggleAction(ActionWithDirection):
+    """ Lets an actor wriggle to get out of a trap """
+    def perform(self):
+        # Reduce the trapped timeout by
+        delta = abs(self.dx) + abs(self.dy)
+        self.entity.states.states["trapped"] -= delta

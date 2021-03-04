@@ -664,7 +664,7 @@ dungeon_features = {
         "blocks_movement": False,
         "hidden": True,
         "trap": True,
-        "consumable": consumable.BearTrapConsumable(damage=8),
+        "consumable": consumable.BearTrapConsumable(damage=8, turns=20),
         "transparent": True,
     },
 
@@ -691,6 +691,19 @@ dungeon_features = {
         "hidden": True,
         "trap": True,
         "consumable": consumable.ParalysisTrapConsumable(number_of_turns=5),
+        "transparent": True,
+    },
+
+    "engraving": {
+        "char": '?',
+        "x": -1,
+        "y": -1,
+        "color": tcod.white,
+        "render_order": RenderOrder.TRAP,
+        "blocks_movement": False,
+        "hidden": True,
+        "trap": True,
+        "consumable": consumable.EngravingConsumable(),
         "transparent": True,
     },
 }

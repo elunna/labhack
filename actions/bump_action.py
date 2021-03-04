@@ -1,7 +1,7 @@
 import random
 
 from actions.actions import ActionWithDirection
-from actions.movement_action import MovementAction
+from actions.movement_action import MovementAction, WriggleAction
 from actions.attack_actions import MeleeAttack, WeaponAttack
 from src import settings
 
@@ -21,17 +21,9 @@ class BumpAction(ActionWithDirection):
                 return WeaponAttack(self.entity, self.dx, self.dy)
             else:
                 return MeleeAttack(self.entity, self.dx, self.dy)
+        elif "trapped" in self.entity.states.states:
+            return WriggleAction(self.entity, self.dx, self.dy)
         else:
+
             return MovementAction(self.entity, self.dx, self.dy)
 
-
-class ConfusedBumpAction(ActionWithDirection):
-    def perform(self):
-        # causes the entity to move in a randomly selected direction.
-        # Revert the AI back to the original state if the effect has run its course.
-        # Pick a random direction
-
-
-        # The actor will either try to move or attack in the chosen random direction.
-        # Its possible the actor will just bump into the wall, wasting a turn.
-        return BumpAction(self.entity, direction_x, direction_y)

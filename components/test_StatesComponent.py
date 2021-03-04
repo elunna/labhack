@@ -47,6 +47,14 @@ def test_decrease__eliminate_state__returns_list_of_removed_states():
     assert s.decrease() == ["confused"]
 
 
+def test_negative_timeout__eliminates_state():
+    s = StatesComponent()
+    s.add_state("confused", 2)
+    s.states["confused"] -= 5
+    s.decrease()
+    assert "confused" not in s.states
+
+
 def test_autopilot__paralyzed_returns_True():
     s = StatesComponent()
     s.add_state("paralyzed", 2)

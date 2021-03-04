@@ -184,8 +184,9 @@ class FireballDamageConsumable(Consumable):
 
 
 class BearTrapConsumable(Consumable):
-    def __init__(self, damage):
+    def __init__(self, damage, turns):
         self.damage = damage  # How much damage the bear trap will deal.
+        self.turns = turns
 
     def activate(self, action):
         consumer = action.entity
@@ -197,7 +198,7 @@ class BearTrapConsumable(Consumable):
             return DieAction(entity=consumer, cause=self.parent)
 
         # Set the actors state to trapped for x turns
-        consumer.states.add_state("trapped", 10)
+        consumer.states.add_state("trapped", self.turns)
 
         self.parent.rm_comp("hidden")  # Reveal the trap
 
@@ -235,4 +236,15 @@ class ParalysisTrapConsumable(Consumable):
         consumer.states.add_state("paralyzed", self.number_of_turns)
 
         self.parent.rm_comp("hidden")  # Reveal the trap
-2
+
+
+class EngravingConsumable(Consumable):
+    def __init__(self):
+        self.quote = "something random"
+
+    def activate(self, action):
+        target = action.entity.gamemap.get_actor_at(action.entity.x, action.entity.y)
+        if target.name == "player":
+            action.msg = f"You notice an engraving in the floor, it says '{self.quote}'"
+
+        self.parent.rm_comp("hidden")  # Reveal the trap
