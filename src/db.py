@@ -739,8 +739,10 @@ hidden_door = Entity(
     color=(200, 200, 200),
     render_order=RenderOrder.TRAP,
     blocks_movement=True,
-    transparent=False,
-    camo=True
+    transparent=True,
+    # camo=True,
+    hidden=True,
+    trap=True,  # Just adding this so that it still disguises the door when out of sight.
 )
 
 item_chances = {

@@ -1,5 +1,6 @@
 import copy
 
+from components.consumable import CamoflaugeConsumable
 from . import gamemap
 from . import room
 from . import tiles
@@ -12,6 +13,7 @@ from .utils import distance
 
 
 def add_extras(new_map):
+    # TODO: Break up this function into subfunctions
     # Add hidden corridors.
     # For now, we'll add x hidden corridors, where x is the number of rooms x times 2.
     qty = len(new_map.rooms) * 2
@@ -28,11 +30,9 @@ def add_extras(new_map):
             continue
         # Hide all doors
         hidden_door = copy.deepcopy(db.hidden_door)
-        # We need to customize the tile symbol to blend in with the wall.
-        room = new_map.room_coords[x, y]  # Find the room this coordinate belongs to
-        tile_symbol = room.char_dict[x, y]
-        hidden_door.char = tile_symbol
-        new_map.place(hidden_door, x, y)
+        new_map.place(hidden_door, x, y)  # Need to place it before adding the consumable!
+
+        hidden_door.add_comp(consumable=CamoflaugeConsumable(hidden_door, x, y))
 
     # Added random closets
     CLOSET_CHANCE = 10

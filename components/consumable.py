@@ -246,3 +246,20 @@ class EngravingConsumable(Consumable):
         target = action.entity.gamemap.get_actor_at(action.entity.x, action.entity.y)
         if target.name == "player":
             action.msg = f"You see an engraving, it reads: '{self.quote}'"
+
+
+class CamoflaugeConsumable(Consumable):
+    def __init__(self, entity, x, y):
+        self.x, self.y = x, y
+        self.parent = entity
+
+        # Replace the original tile with a "fake" tile to disguide it.
+        self.original_tile = self.gamemap.tiles[x, y].copy()
+
+        # We need to customize the tile symbol to blend in with the wall.
+        room = self.gamemap.room_coords[x, y]
+        self.gamemap.tiles[x, y] = room.char_dict[x, y]  # camo_tile
+
+    def activate(self, action):
+        # Replace the camo tile with it's original tile.
+        self.gamemap.tiles[self.x, self.y] = self.original_tile

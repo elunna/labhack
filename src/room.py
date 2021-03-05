@@ -1,6 +1,6 @@
 import random
 
-from src import settings
+from src import settings, tiles
 from src.door import Door
 
 
@@ -166,19 +166,19 @@ class Room:
         return [Door(self, x, y) for x, y in walls]
 
     def get_char_dict(self):
-        """Builds a dict of coordinates and the character to represent that tile in the room"""
+        """Builds a dict of coordinates and the tile to represent that tile in the room"""
         char_dict = {}
         # vertical walls
         for x, y in self.vert_walls():
-            char_dict[(x, y)] = settings.vert_wall
+            char_dict[(x, y)] = tiles.room_vert_wall
 
         # horizontal walls
         for x, y in self.horz_walls():
-            char_dict[(x, y)] = settings.horz_wall
+            char_dict[(x, y)] = tiles.room_horz_wall
 
         # Corners (overwrites somes values from vert_walls and horz_walls
-        char_dict[self.ne_corner] = settings.ne_corner
-        char_dict[self.nw_corner] = settings.nw_corner
-        char_dict[self.se_corner] = settings.se_corner
-        char_dict[self.sw_corner] = settings.sw_corner
+        char_dict[self.ne_corner] = tiles.room_ne_corner
+        char_dict[self.nw_corner] = tiles.room_nw_corner
+        char_dict[self.se_corner] = tiles.room_se_corner
+        char_dict[self.sw_corner] = tiles.room_sw_corner
         return char_dict
