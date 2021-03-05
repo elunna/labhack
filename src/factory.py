@@ -77,7 +77,9 @@ class EntityFactory:
         x, y = new_room.random_point_inside()
 
         # Don't spawn them on top of each other.
-        if not new_map.get_actor_at(x, y):
+        not_occupied = not new_map.get_actor_at(x, y)
+        not_upstairs = new_map.upstairs_location != (x, y)
+        if not_occupied and not_upstairs:
             spawn(new_monster, new_map, x, y)
 
     def place_traps(self, new_map, new_room):
