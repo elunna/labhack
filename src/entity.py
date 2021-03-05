@@ -18,6 +18,8 @@ class Entity(object):
 
     def __str__(self):
         if 'name' in self:
+            if "stackable" in self and self.stackable.size > 1:
+                return f"{self.stackable.size} {self.name}s"
             return self.name
         return 'Unnamed'
 

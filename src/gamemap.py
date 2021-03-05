@@ -64,7 +64,7 @@ class GameMap(EntityManager):
         if not self.in_bounds(x, y) or not self.visible[x, y]:
             return ""
         # Filter out hidden
-        names = [e.name for e in self.filter(x=x, y=y) if "hidden" not in e]
+        names = [str(e) for e in self.filter(x=x, y=y) if "hidden" not in e]
 
         # Format nicely, the sort makes it easier to test.
         sorted_names = sorted(n.capitalize() for n in names)

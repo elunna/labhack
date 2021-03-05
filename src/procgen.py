@@ -1,6 +1,6 @@
 import copy
 
-from components.consumable import CamoflaugeConsumable
+import components.consumable
 from . import gamemap
 from . import room
 from . import tiles
@@ -32,7 +32,7 @@ def add_extras(new_map):
         hidden_door = copy.deepcopy(db.hidden_door)
         new_map.place(hidden_door, x, y)  # Need to place it before adding the consumable!
 
-        hidden_door.add_comp(consumable=CamoflaugeConsumable(hidden_door, x, y))
+        hidden_door.add_comp(consumable=components.consumable.CamoflaugeConsumable(hidden_door, x, y))
 
     # Added random closets
     CLOSET_CHANCE = 10
