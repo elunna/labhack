@@ -18,11 +18,15 @@ class DropAction(ItemAction):
             amount = 1
 
         result = self.entity.inventory.rm_item(self.item, amount)
+        result.x = self.entity.x
+        result.y = self.entity.y
 
         if result:
             # Put it on the map
-            self.entity.gamemap.place(result, self.entity.x, self.entity.y)
+            place_result = self.entity.gamemap.add_item(result)
 
+            print(f'Attempt to place {self.item.name}: {place_result}')
+            print(self.item.components)
             if amount == 1:
                 self.msg = f"You dropped a {result.name}."
             else:

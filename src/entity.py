@@ -59,12 +59,13 @@ class Entity(object):
         Ignore parent because stackable might have a parent that is the GameMap that wants to go into
         an Inventory, and we don't want to exclude them on that basis.
         """
-        for k, v in self.components.items():
-            if k in ["stackable", "parent"]:
-                continue
-            if other.components.get(k) != self.components.get(k):
-                return False
-        return True
+        return self.name == other.name
+        # for k, v in self.components.items():
+        #     if k in ["stackable", "parent"]:
+        #         continue
+        #     if other.components.get(k) != self.components.get(k):
+        #         return False
+        # return True
 
     @property
     def gamemap(self):

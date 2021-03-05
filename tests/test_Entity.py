@@ -36,22 +36,16 @@ def test_equals__same_entity__True():
     assert e is e
 
 
-def test_is_similar__same_components__True():
+def test_is_similar__same_name__True():
     e = Entity(name="dart", x=0, y=0)
     f = Entity(name="dart", x=0, y=0)
     assert e.is_similar(f)
 
 
-def test_is_similar__same_components_diff_values__False():
+def test_is_similar__diff_name__False():
     e = Entity(name="dart", x=0, y=1)
-    f = Entity(name="dart", x=0, y=0)
+    f = Entity(name="fart", x=0, y=0)
     assert not e.is_similar(f)
-
-
-def test_is_similar__different_stacksizes__True():
-    e = Entity(name="dart", x=0, y=0, stackable=StackableComponent(5))
-    f = Entity(name="dart", x=0, y=0, stackable=StackableComponent(1))
-    assert e.is_similar(f)
 
 
 def test_add_comp__1_kwarg():

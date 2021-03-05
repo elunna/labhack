@@ -31,21 +31,30 @@ def test_init__size_arg():
     assert s.size == 5
 
 
-def test_merge_stack__twinitem__success_returns_True(testitem):
+def test_merge_stack__success_returns_True(testitem):
     e = Entity(name="fleepgork", stackable=StackableComponent(1))
     assert testitem.stackable.merge_stack(e)
 
 
-def test_merge_stack__identical_Item__adds_to_stack(testitem):
-    e = Entity(name="fleepgork", stackable=StackableComponent(1))
+def test_merge_stack__default_full_stack(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(5))
     testitem.stackable.merge_stack(e)
-    assert testitem.stackable.size == 11
-
-
-def test_merge_stack__identical_Item__destroy_other_stack(testitem):
-    e = Entity(name="fleepgork", stackable=StackableComponent(1))
-    testitem.stackable.merge_stack(e)
+    assert testitem.stackable.size == 15
     assert e.stackable.size == 0
+
+
+def test_merge_stack__default_full_stack__reversed(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(5))
+    e.stackable.merge_stack(testitem)
+    assert testitem.stackable.size == 0
+    assert e.stackable.size == 15
+
+
+def test_merge_stack__qty_arg(testitem):
+    e = Entity(name="fleepgork", stackable=StackableComponent(5))
+    testitem.stackable.merge_stack(e, 3)
+    assert testitem.stackable.size == 13
+    assert e.stackable.size == 2
 
 
 @pytest.mark.skip
@@ -89,32 +98,3 @@ def test_split_stack__more_than_stacksize__raises_ValueError(testitem):
     assert testitem.stackable.size == 10
     with pytest.raises(ValueError):
         testitem.stackable.split_stack(11)
-
-
-def test_deplete_stack__0_qty__raises_ValueError():
-    s = StackableComponent()
-    with pytest.raises(ValueError):
-        s.deplete_stack(0)
-
-
-def test_deplete_stack__partial():
-    s = StackableComponent()
-    s.size = 2
-    s.deplete_stack(1)
-    assert s.size == 1
-
-
-def test_deplete_stack__success_returns_True():
-    s = StackableComponent()
-    s.size = 2
-    assert s.deplete_stack(1)
-
-
-def test_deplete_stack__more_than_stacksize__raises_ValueError():
-    s = StackableComponent()
-    assert s.size == 1
-    with pytest.raises(ValueError):
-        s.deplete_stack(2)
-
-
-# def test_deplete_stack__full__destroys_item():

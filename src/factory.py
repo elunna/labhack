@@ -95,8 +95,8 @@ class EntityFactory:
         x, y = new_room.random_point_inside()
         # 1d10 * level for the amount of the pile?
         money_pile = make("money")
-        money_min = self.dungeon.dlevel * 2
-        money_max = self.dungeon.dlevel * 15
+        money_min = self.dungeon.dlevel * 1
+        money_max = self.dungeon.dlevel * 10
         money_pile.stackable.size = random.randint(money_min, money_max)
 
         new_map.place(money_pile, x, y)

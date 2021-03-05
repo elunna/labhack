@@ -121,8 +121,8 @@ def test_get_names_at__visible(test_map):
 
 
 def test_get_names_at__multiple_visible(test_map):
-    potion = factory.make("healing vial")
-    test_map.place(potion, 5, 5)
+    vial = factory.make("healing vial")
+    assert test_map.place(vial, 5, 5)
 
     # Set map tile to visible
     test_map.visible[5, 5] = True

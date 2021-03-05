@@ -58,6 +58,7 @@ def test_perform__item_appears_on_map(test_map):
     assert result.y == player.y
     assert result.name == "dagger"
 
+
 def test_perform__msg(test_map):
     player = test_map.player
     item = player.inventory.item_dict.get('a')  # Need the actual item from inv

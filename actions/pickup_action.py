@@ -25,8 +25,9 @@ class PickupAction(Action):
             else:
                 amount = 1
 
-            result = self.entity.gamemap.rm_entity(item, amount)
-
+            result = self.entity.gamemap.rm_item(item)
+            result.x = -1
+            result.y = -1
             inventory.add_item(result, amount)
 
             if amount > 1:
