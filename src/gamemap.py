@@ -22,23 +22,16 @@ class GameMap(EntityManager):
         self.room_coords = None
 
         # create a 2D array, filled with the same values: walls.
-        self.tiles = np.full(
-            (width, height),
-            fill_value=fill_tile,
-            order="F"
-        )
+        self.tiles = np.full((width, height), fill_value=fill_tile, order="F")
 
-        self.visible = np.full(
-            (width, height),
-            fill_value=False,
-            order="F"
-        )  # Tiles the player can currently see
+        # Tiles the player can currently see
+        self.visible = np.full((width, height), fill_value=False, order="F")
 
-        self.explored = np.full(
-            (width, height),
-            fill_value=False,
-            order="F"
-        )  # Tiles the player has seen before
+        # Tiles the player has seen before
+        self.explored = np.full((width, height), fill_value=False, order="F")
+
+        # Track which tiles are light
+        self.lit = np.full((width, height), fill_value=False, order="F")
 
     @property
     def gamemap(self):

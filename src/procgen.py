@@ -82,6 +82,9 @@ def draw_room(new_map, new_room):
     # Dig out this rooms inner area.
     new_map.tiles[new_room.inner] = tiles.room_floor
 
+    # light up the entire room
+    new_map.lit[new_room.full_slice] = True
+
     # Draw walls
     for point in new_room.horz_walls():
         new_map.tiles[point] = tiles.room_horz_wall

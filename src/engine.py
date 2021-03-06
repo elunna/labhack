@@ -1,4 +1,3 @@
-from actions.wait_action import WaitAction
 from . import color
 from . import dungeon
 from . import exceptions
@@ -7,7 +6,7 @@ from . import messages
 from . import rendering
 from . import settings
 from actions import actions
-# from tcod.map import compute_fov
+from actions.wait_action import WaitAction
 import lzma
 import pickle
 import random
@@ -65,16 +64,31 @@ class Engine:
         for e in blocking_entities:
             transparent_tiles[e.x, e.y] = False
 
+        lit_tiles = self.game_map.lit.copy()
+
+        # Set the lit tiles immediately around the player.
+        radius = 3
+        for x in range(radius):
+            for y in range(radius):
+                dx = -1 + x
+                dy = -1 + y
+                lit_tiles[self.player.x + dx, self.player.y + dy] = True
+
         # Set the game_map’s visible tiles to the result of the compute_fov.
         self.game_map.visible[:] = tcod.map.compute_fov(
-            transparent_tiles,
-            (self.player.x, self.player.y),
-            radius=settings.fov_radius,
+            transparency=transparent_tiles,
+            pov=(self.player.x, self.player.y),
+            # radius=settings.fov_radius,
+            radius=15,
         )
+
         # Remove hidden blockers from visible
         for e in blocking_entities:
             if "hidden" in e:
                 self.game_map.visible[e.x, e.y] = False
+
+        # If a tile is not "lit", it should be removed from visible.
+        self.game_map.visible &= lit_tiles
 
         # If a tile is "visible" it should be added to "explored".
         self.game_map.explored |= self.game_map.visible

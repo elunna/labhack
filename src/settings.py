@@ -12,7 +12,7 @@ tileset = "images/dejavu12x12_gs_tc.png"
 bg_img = "images/menu_background.png"
 save_file = "savegame.sav"
 
-fov_radius = 8
+fov_radius = 1
 
 # Define screen dimensions
 screen_width = 80
