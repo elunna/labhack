@@ -29,14 +29,14 @@ class PickupAction(Action):
             if result:
                 result.x = -1
                 result.y = -1
-                inventory.add_inv_item(result, amount)
+                letter = inventory.add_inv_item(result, amount)
             else:
                 raise Exception('No result from rm_item!')
 
             if amount > 1:
-                self.msg = f"({result.item.last_letter}) - {amount} {result.name}s"
+                self.msg = f"({letter}) - {amount} {result.name}s"
             else:
-                self.msg = f"({result.item.last_letter}) - {result.name}"
+                self.msg = f"({letter}) - {result.name}"
             return
 
         raise exceptions.Impossible("There is nothing here to pick up.")

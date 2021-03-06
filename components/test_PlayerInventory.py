@@ -2,7 +2,7 @@ import pytest
 
 from components.component import Component
 from components.inventory import PlayerInventory
-from src import factory
+from src import factory, exceptions
 from src.entity_manager import EntityManager
 
 
@@ -69,29 +69,29 @@ def test_add_inv_item__added_to_stackable__no_new_letter(dagger):
     assert pi.item_dict == {"a": dagger}
 
 
-def test_add_inv_item__added_to_stackable__returns_True(dagger):
+def test_add_inv_item__added_to_stackable__returns_letter(dagger):
     pi = PlayerInventory(10)
-    pi.add_inv_item(dagger)
-    assert pi.add_inv_item(dagger)
+    assert pi.add_inv_item(dagger) == "a"
+    assert pi.add_inv_item(dagger) == "a"
 
 
-def test_add_inv_item__added_to_stackable__full_capacity_returns_True(dagger):
+def test_add_inv_item__added_to_stackable__full_capacity_returns_letter(dagger):
     pi = PlayerInventory(1)
     pi.add_inv_item(dagger)
-    assert pi.add_inv_item(dagger)
+    assert pi.add_inv_item(dagger) == "a"
 
 
 def test_add_inv_item__new_slot__full_stack__size_increased(vials5):
     pi = PlayerInventory(10)
     expected = len(pi)
-    pi.add_inv_item(vials5)
+    assert pi.add_inv_item(vials5) == 'a'
     assert len(pi) == expected + 1
 
 
 def test_add_inv_item__new_slot__full_stack__last_letter_unoccupied(vials5):
     pi = PlayerInventory(10)
     vials5.item.last_letter = 'z'
-    pi.add_inv_item(vials5)
+    assert pi.add_inv_item(vials5) == 'z'
     assert pi.item_dict['z'] == vials5
 
 
@@ -110,10 +110,11 @@ def test_add_inv_item__new_slot__full_stack__new_letter(vials5):
     assert pi.item_dict['a'] == vials5
 
 
-def test_add_inv_item__new_slot__full_stack__full_capacity_returns_False(dagger, vials5):
+def test_add_inv_item__new_slot__full_stack__full_capacity_raises_Impossible(dagger, vials5):
     pi = PlayerInventory(1)
     pi.add_inv_item(dagger)
-    assert pi.add_inv_item(vials5) is False
+    with pytest.raises(exceptions.Impossible):
+        pi.add_inv_item(vials5)
 
 
 def test_add_inv_item__new_slot__partial_stack__size_increased(vials5):
@@ -150,10 +151,11 @@ def test_add_inv_item__new_slot__partial_stack__new_letter(vials5):
     assert result.stackable.size == 2
 
 
-def test_add_inv_item__new_slot__partial_stack__full_capacity_returns_False(dagger, vials5):
+def test_add_inv_item__new_slot__partial_stack__full_capacity_raises_Impossible(dagger, vials5):
     pi = PlayerInventory(1)
     pi.add_inv_item(dagger)
-    assert pi.add_inv_item(vials5, 2) is False
+    with pytest.raises(exceptions.Impossible):
+        pi.add_inv_item(vials5, 2)
 
 
 def test_add_inv_item__new_slot__nonstackable__size_increased(plunger):
@@ -163,14 +165,14 @@ def test_add_inv_item__new_slot__nonstackable__size_increased(plunger):
     assert len(pi) == expected + 1
 
 
-def test_add_inv_item__new_slot__nonstackable__last_letter__unoccupied(plunger):
+def test_add_inv_item__new_slot__nonstackable__last_letter_unoccupied(plunger):
     pi = PlayerInventory(10)
     plunger.item.last_letter = 'z'
     pi.add_inv_item(plunger)
     assert pi.item_dict['z'] == plunger
 
 
-def test_add_inv_item__new_slot__nonstackable__last_letter__occupied(dagger, plunger):
+def test_add_inv_item__new_slot__nonstackable__last_letter_occupied(dagger, plunger):
     pi = PlayerInventory(10)
     plunger.item.last_letter = 'a'
     pi.add_inv_item(dagger)
@@ -185,10 +187,11 @@ def test_add_inv_item__new_slot__nonstackable__new_letter(plunger):
     assert pi.item_dict['a'] == plunger
 
 
-def test_add_inv_item__new_slot__nonstackable__full_capacity_returns_False(dagger, plunger):
+def test_add_inv_item__new_slot__nonstackable__full_capacity_raises_Impossible(dagger, plunger):
     pi = PlayerInventory(1)
     pi.add_inv_item(dagger)
-    assert pi.add_inv_item(plunger) is False
+    with pytest.raises(exceptions.Impossible):
+        pi.add_inv_item(plunger)
 
 
 # def test_add_inv_item__non_entity__returns_False():

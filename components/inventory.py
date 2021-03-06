@@ -1,4 +1,7 @@
 from collections import defaultdict
+
+from src import exceptions
+
 from components.component import Component
 from src.entity_manager import EntityManager
 from src.letterroll import LetterRoll
@@ -40,7 +43,8 @@ class PlayerInventory(Component, EntityManager):
 
         if result and not size_changed:
             # it added to a stackable. Letter is already set
-            return True
+            twin = self.get_similar(item)
+            return twin.item.last_letter
 
         elif result and size_changed:
             # a new slot was occupied
@@ -59,8 +63,11 @@ class PlayerInventory(Component, EntityManager):
             new_item.item.last_letter = letter
 
             self.item_dict[letter] = new_item
-            return True
-        return False
+            return letter
+
+        # Something went wrong...
+        raise exceptions.Impossible
+
 
     def rm_inv_item(self, item, qty=0):
         # Removes an item from the inventory and returns it.
