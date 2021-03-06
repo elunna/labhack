@@ -66,13 +66,17 @@ class Inventory(Component):
 
     def rm_entity(self, e):
         # Adapter for gamemap
-        self.rm_item(e)
+        return self.rm_item(e)
 
     def rm_item(self, item, qty=1):
+        if not isinstance(item, Item):
+            raise ValueError
+
+
         # Removes an item from the inventory and returns it.
         # If the item doesn't exist in the inventory, returns None
         for k, v in self.item_dict.items():
-            if v == item:
+            if v.name == item.name:
                 new_item = self.item_dict.get(k)
                 # Check if the item is stackable
                 if "stackable" in item:

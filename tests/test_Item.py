@@ -12,8 +12,8 @@ def test_init__is_Entity():
 
 def test_init_xy():
     i = item.Item()
-    assert i.x == 0
-    assert i.y == 0
+    assert i.x == -1
+    assert i.y == -1
 
 
 def test_init_char():

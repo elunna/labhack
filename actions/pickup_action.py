@@ -26,9 +26,12 @@ class PickupAction(Action):
                 amount = 1
 
             result = self.entity.gamemap.rm_item(item)
-            result.x = -1
-            result.y = -1
-            inventory.add_item(result, amount)
+            if result:
+                result.x = -1
+                result.y = -1
+                inventory.add_item(result, amount)
+            else:
+                raise Exception('No result from rm_item!')
 
             if amount > 1:
                 self.msg = f"({result.item.last_letter}) - {amount} {result.name}s"

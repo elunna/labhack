@@ -100,6 +100,7 @@ class EntityManager:
                 return True
 
             # Split the source stack according to the qty
+            print('split stack')
             add_me = e.stackable.split_stack(qty)
             add_me.parent = self  # Set the parent
             self.entities.add(add_me)  # Add the new stack to the inventory.
@@ -218,11 +219,9 @@ class EntityManager:
         """ Returns True if the set of entities is full, False if not.
             If the capacity was initialized to NO_LIMIT (-1), this will always be False.
         """
-
         if self.capacity == NO_LIMIT:
             return False  # Never full if there is no limit
         return len(self) == self.capacity
-
 
     def get_actor_at(self, x, y):
         """ Looks for an actor at the given coordinates and returns it if it exists. """
@@ -240,6 +239,7 @@ class EntityManager:
         return None
 
     def get_similar(self, e):
+        # optional x, y args for locating items at coordinates?
         # raise NotImplementedError()
         """ Searches for entities that match most of the components and values of the given entity.
             The purpose of this method is mostly for finding matching stackable items.
@@ -249,7 +249,7 @@ class EntityManager:
         """
         for f in self.entities:
             # Needs to match name and coordinates to be similar
-            # if f.name == e and f.x == e.x and f.y == e.y:
             if f.name == e.name:
-                return f
+                if f.x == e.x and f.y == e.y:
+                    return f
         return None

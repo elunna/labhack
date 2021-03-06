@@ -32,8 +32,8 @@ def test_init__is_Entity(test_actor):
 
 
 def test_init_xy(test_actor):
-    assert test_actor.x == 0
-    assert test_actor.y == 0
+    assert test_actor.x == -1
+    assert test_actor.y == -1
 
 
 def test_init_char(test_actor):

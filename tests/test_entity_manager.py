@@ -12,6 +12,21 @@ def em():
     return EntityManager()
 
 
+@pytest.fixture
+def fleeb3():
+    return Entity(item=True, x=-1, y=-1, name="fleeb", stackable=StackableComponent(3))
+
+
+@pytest.fixture
+def fleeb2():
+    return Entity(item=True, x=-1, y=-1, name="fleeb", stackable=StackableComponent(2))
+
+
+@pytest.fixture
+def floob5():
+    return Entity(item=True, x=-1, y=-1, name="floob", stackable=StackableComponent(5))
+
+
 def test_init__entities_list(em):
     assert em.entities == set()
 
@@ -129,153 +144,133 @@ def test_add_entity__item_calls_add_item(em, mocker):
 #########################################################################################################
 
 
-def test_add_item__has_required_component():
+def test_add_item__has_required_component(fleeb3):
     em = EntityManager(required_comp="item")
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    assert em.add_item(e)
+    assert em.add_item(fleeb3)
 
 
-def test_add_item__no_twin__added_returns_True(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    assert em.add_item(e)
+def test_add_item__no_twin__added_returns_True(em, fleeb3):
+    assert em.add_item(fleeb3)
 
 
-def test_add_item__no_twin__e_in_entities(em):
+def test_add_item__no_twin__e_in_entities(em, fleeb3):
     # We don't want the original stack added, we'll always create a new stack
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    assert e in em.entities
+    em.add_item(fleeb3)
+    assert fleeb3 in em.entities
 
 
-def test_add_item__no_twin__similar_in_entities(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    assert em.get_similar(e)
+def test_add_item__no_twin__similar_in_entities(em, fleeb3):
+    em.add_item(fleeb3)
+    assert em.get_similar(fleeb3)
 
 
-def test_add_item__no_twin__e_parent_updated(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    assert e.parent == em
+def test_add_item__no_twin__e_parent_updated(em, fleeb3):
+    em.add_item(fleeb3)
+    assert fleeb3.parent == em
 
 
-def test_add_item__no_twin__default_qty_0__source_depleted(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    assert e.stackable.size == 3  # full stack
+def test_add_item__no_twin__default_qty_0__full_stack_source_intact(em, fleeb3):
+    em.add_item(fleeb3)
+    assert fleeb3.stackable.size == 3  # full stack
 
 
-def test_add_item__no_twin__default_qty_0__same_stack(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    result = em.get_similar(e)
-    assert e is result
+def test_add_item__no_twin__default_qty_0__same_stack(em, fleeb3):
+    em.add_item(fleeb3)
+    result = em.get_similar(fleeb3)
+    assert fleeb3 is result
     assert result.stackable.size == 3
-    assert e.stackable.size == 3
+    assert fleeb3.stackable.size == 3
 
 
-def test_add_item__no_twin__qty_2__source_depleted(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e, 2)
-    assert e.stackable.size == 1
+def test_add_item__no_twin__qty_2__source_depleted(em, fleeb3):
+    em.add_item(fleeb3, 2)
+    assert fleeb3.stackable.size == 1
 
 
-def test_add_item__no_twin__qty_2__new_stack_created(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    em.add_item(e, 2)
-    result = em.get_similar(e)
-    assert e is not result
+def test_add_item__no_twin__qty_2__new_stack_created(em, floob5):
+    em.add_item(floob5, 2)
+    result = em.get_similar(floob5)
+    assert floob5 is not result
     assert result.stackable.size == 2
 
 
-def test_add_item__no_twin__qty_0_full_stack(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e)
-    assert e.stackable.size == 3
+def test_add_item__no_twin__qty_0_full_stack(em, fleeb3):
+    em.add_item(fleeb3)
+    assert fleeb3.stackable.size == 3
 
 
-def test_add_item__no_twin__qty_0_fullstack_same_stack_(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    em.add_item(e)
-    result = em.get_similar(e)
-    assert e is result
+def test_add_item__no_twin__qty_0_fullstack_same_stack_(em, floob5):
+    em.add_item(floob5)
+    result = em.get_similar(floob5)
+    assert floob5 is result
     assert result.stackable.size == 5
-    assert e.stackable.size == 5
+    assert floob5.stackable.size == 5
 
 
-
-def test_add_item__twin_entities_len_does_not_change(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(1))
+def test_add_item__twin_entities_len_does_not_change(em, fleeb2, fleeb3):
     expected = len(em) + 1
-    em.add_item(e)
-    em.add_item(f)  # Has a twin in the container
+    em.add_item(fleeb3)
+    em.add_item(fleeb2)  # Has a twin in the container
     assert len(em) == expected
 
 
-def test_add_item__twin__returns_True(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(1))
-    em.add_item(e)
-    assert em.add_item(f)  # Has a twin in the container
+def test_add_item__twin__returns_True(em, fleeb2, fleeb3):
+    em.add_item(fleeb2)
+    assert em.add_item(fleeb3)  # Has a twin in the container
 
 
-def test_add_item__twin__qty_1_source_depleted(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(2))
-    em.add_item(e, 1)
-    em.add_item(f, 1)
-    assert f.stackable.size == 1  # -1
+def test_add_item__twin__qty_1_source_depleted(em, fleeb2, fleeb3):
+    em.add_item(fleeb2, 1)
+    em.add_item(fleeb3, 1)
+    assert fleeb2.stackable.size == 1  # -1
+    assert fleeb3.stackable.size == 2  # -1
 
 
-def test_add_item__twin__qty_1_dest_added_to(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(2))
-    em.add_item(e, 1)
-    em.add_item(f, 1)
-    result = em.get_similar(e)
+def test_add_item__twin__qty_1_dest_added_to(em, fleeb2, fleeb3):
+    em.add_item(fleeb2, 1)
+    em.add_item(fleeb3, 1)
+    result = em.get_similar(fleeb2)
     assert result.stackable.size == 2
 
 
-def test_add_item__twin__qty_arg_source_depleted(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e, 0)  # dest
-    em.add_item(f, 2)  # Adding this one to the dest entity
-    assert f.stackable.size == 1  # -2
+def test_add_item__twin__qty_arg_source_depleted(em, fleeb2, fleeb3):
+    em.add_item(fleeb2)  # Add full stack
+    em.add_item(fleeb3, 2)  # Adding this one to the dest entity
+    assert fleeb2.stackable.size == 4  # +2
+    assert fleeb3.stackable.size == 1  # -2
 
 
-def test_add_item__twin__qty_arg_dest_added_to(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e, 0)  # dest
-    em.add_item(f, 2)  # Adding this one to the dest entity
-    result = em.get_similar(e)
-    assert result.stackable.size == 7
+def test_add_item__twin__qty_arg_dest_added_to(em, fleeb2, fleeb3):
+    em.add_item(fleeb2)     # Add full stack
+    em.add_item(fleeb3, 2)  # Adding this one to the dest entity
+    result = em.get_similar(fleeb3)
+    assert result.stackable.size == 4
+    assert fleeb2.stackable.size == 4
+    assert fleeb3.stackable.size == 1
 
 
-def test_add_item__twin__qty_0_depletes_full_source_stack(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e, 0)  # dest
-    em.add_item(f, 0)  # Add full stack to the dest entity
-    assert f.stackable.size == 0
+def test_add_item__twin__qty_0_depletes_full_source_stack(em, fleeb2, fleeb3):
+    em.add_item(fleeb2)  # Add full stack
+    em.add_item(fleeb3)  # Add full stack
+    assert fleeb2.stackable.size == 5
+    assert fleeb3.stackable.size == 0  # Merged into fleeb2
+
+    # TODO: fleeb3 should equal fleeb3...
+    assert fleeb2 != fleeb3  # fleeb3 merged into fleeb2
+    assert fleeb2 is not fleeb3  # fleeb3 merged into fleeb2
 
 
-def test_add_item__twin__qty_0_adds_full_stack_to_dest(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    f = Entity(item=True, name="fleeb", stackable=StackableComponent(3))
-    em.add_item(e, 0)  # dest
-    em.add_item(f, 0)  # Add full stack to the dest entity
-    result = em.get_similar(e)
-    assert result.stackable.size == 8
+def test_add_item__twin__qty_0_adds_full_stack_to_dest(em, fleeb2, fleeb3):
+    em.add_item(fleeb2, 0)  # dest
+    em.add_item(fleeb3, 0)  # Add full stack to the dest entity
+    result = em.get_similar(fleeb2)
+    assert result.stackable.size == 5
 
 
-def test_add_item__no_twin__default_full_qty(em):
-    e = Entity(item=True, name="fleeb", stackable=StackableComponent(5))
-    em.add_item(e)
-    assert e.stackable.size == 5  # Decreased by 1
-    assert em.get_similar(e).stackable.size == 5  # Only added one
+def test_add_item__no_twin__default_full_qty(em, fleeb2):
+    em.add_item(fleeb2)
+    assert fleeb2.stackable.size == 2
+    assert em.get_similar(fleeb2).stackable.size == 2
 
 
 #########################################################################################################
@@ -370,35 +365,33 @@ def test_rm_item__no_twin__returns_None(em):
     assert em.rm_item(e) is None
 
 
-def test_rm_item__twin__returns_same_entity(em):
-    e = Entity(name="fleeb", stackable=StackableComponent(10))
-    em.add_entity(e)
-    result = em.rm_item(e, 0)
-    assert result is e
-    assert result == e
+def test_rm_item__twin__returns_same_entity(em, fleeb3):
+    em.add_entity(fleeb3)
+    result = em.rm_item(fleeb3)  # Full stack
+    assert result is fleeb3
+    assert result == fleeb3
 
 
-def test_rm_item__twin__new_stack_parent_None(em):
-    e = Entity(name="fleeb", stackable=StackableComponent(10))
-    em.add_entity(e)
-    result = em.rm_item(e, 0)
+def test_rm_item__twin__new_stack_parent_None(em, fleeb3):
+    em.add_entity(fleeb3)
+    result = em.rm_item(fleeb3, 1)
     assert result.parent is None
+    assert fleeb3.parent == em
 
 
-def test_rm_item__twin__default_qty_0_full_stack(em):
-    e = Entity(name="fleeb", stackable=StackableComponent(10))
-    em.add_entity(e)
-    result = em.rm_item(e)
-    assert result.stackable.size == 10
-    assert e not in em
+def test_rm_item__twin__default_qty_0_full_stack(em, fleeb3):
+    em.add_entity(fleeb3)
+    result = em.rm_item(fleeb3)
+    assert result.stackable.size == 3
+    assert fleeb3.stackable.size == 3  # both have same reference
+    assert fleeb3 not in em
 
 
-def test_rm_item__has_twin__qty_1(em):
-    e = Entity(name="fleeb", stackable=StackableComponent(10))
-    em.add_entity(e)
-    result = em.rm_item(e, 1)
+def test_rm_item__has_twin__qty_1(em, fleeb2):
+    em.add_entity(fleeb2)
+    result = em.rm_item(fleeb2, 1)
     assert result.stackable.size == 1
-    assert e.stackable.size == 9
+    assert fleeb2.stackable.size == 1  # 1 subtracted from 2
 
 
 @pytest.mark.skip(reason="Might not need this test...")
@@ -536,15 +529,24 @@ def test_is_full__no_capacity__never_is_full():
 
 
 def test_get_similar__has_twin_returns_entity(em):
-    e1 = Entity(name="fleeb", x=0)
-    e2 = Entity(name="fleeb", x=1)
+    e1 = Entity(name="fleeb", x=0, y=1)
+    e2 = Entity(name="fleeb", x=0, y=1)
     em.add_entities(e1)
     assert em.get_similar(e2) == e1
 
 
 def test_get_similar__no_match_returns_None(em):
-    e1 = Entity(name="fleeb", x=0)
-    assert em.get_similar(e1) is None
+    e1 = Entity(name="fleeb", x=0, y=1)
+    e2 = Entity(name="fleeb", x=0, y=0)
+    em.add_entities(e1)
+    assert em.get_similar(e2) is None
+
+
+def test_get_similar__item_coordinates_returns_entity(em):
+    e1 = Entity(name="fleeb", x=-1, y=-1)
+    e2 = Entity(name="fleeb", x=-1, y=-1)
+    em.add_entities(e1)
+    assert em.get_similar(e2) == e1
 
 
 def test_get_actor_at__DNE_returns_None(em):

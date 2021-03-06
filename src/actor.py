@@ -8,7 +8,7 @@ from src.renderorder import RenderOrder
 class Actor(entity.Entity):
     def __init__(
             self, *,
-            x=0, y=0,
+            x=-1, y=-1,
             char="?",
             color=(255, 255, 255),
             name="<Unnamed>",

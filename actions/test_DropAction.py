@@ -69,14 +69,6 @@ def test_perform__msg(test_map):
     assert a.msg == f"You dropped a {item.name}."
 
 
-def test_perform__invalid_item_raises_Impossible(test_map):
-    player = test_map.player
-    a = DropAction(entity=player, item=factory.make("riot baton"))
-
-    with pytest.raises(exceptions.Impossible):
-        a.perform()
-
-
 def test_perform__equipped_item(test_map):
     player = test_map.player
     item = player.inventory.item_dict.get('a')  # Need the actual item from inv

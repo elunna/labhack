@@ -148,10 +148,11 @@ def test_rm_item__resets_item_parent(plunger):
     assert result.parent is None
 
 
-def test_rm_item__failure_returns_False(plunger):
+def test_rm_item__failure__invalid_item_raises_ValueError(plunger):
     i = Inventory(10)
     i.add_item(plunger)
-    assert i.rm_item('dagger') is None
+    with pytest.raises(ValueError):
+        i.rm_item('dagger')
 
 
 def test_rm_item__stackable__single(dagger):
