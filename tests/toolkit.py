@@ -1,10 +1,8 @@
 """ Tools for testing """
-import copy
 
 from src import factory
 from src import gamemap
 from src import tiles
-from src import db
 
 
 def cp_player():
@@ -46,13 +44,13 @@ def test_map():
 
     # Give the player items for testing
     dagger = factory.make("dagger")
-    player.inventory.add_item(dagger)
+    player.inventory.add_inv_item(dagger)
 
     leather_armor = factory.make("leather vest")
-    player.inventory.add_item(leather_armor)
+    player.inventory.add_inv_item(leather_armor)
 
     health_vial = factory.make("healing vial")
-    player.inventory.add_item(health_vial)
+    player.inventory.add_inv_item(health_vial)
 
     # Create a grid bug at 2, 5
     factory.spawn("grid bug", new_map, 2, 5)

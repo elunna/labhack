@@ -17,7 +17,7 @@ class DropAction(ItemAction):
         else:
             amount = 1
 
-        result = self.entity.inventory.rm_item(self.item, amount)
+        result = self.entity.inventory.rm_inv_item(self.item, amount)
         result.x = self.entity.x
         result.y = self.entity.y
 

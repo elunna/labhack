@@ -30,7 +30,7 @@ class Consumable(Component):
 
         if isinstance(inventory, Inventory):
             # inventory.items.remove(entity)
-            inventory.rm_item(entity)
+            inventory.rm_inv_item(entity, 1)
 
 
 class HealConsumable(Consumable):

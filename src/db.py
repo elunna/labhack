@@ -9,7 +9,7 @@ from components.attributes import Attributes
 from components.energy import EnergyComponent
 from components.equipment import Equipment
 from components.fighter import Fighter
-from components.inventory import Inventory
+from components.inventory import Inventory, PlayerInventory
 from components.item_comp import ItemComponent
 from components.level import Level
 from components.regeneration import Regeneration
@@ -27,7 +27,7 @@ actor_dict = {
         "attack_comp": AttackComponent(Attack('punch', [2])),
         "attributes": Attributes(base_strength=5),
         # Original inventory capacity is 26 because we have 26 lowercase letters.
-        "inventory": Inventory(capacity=52),
+        "inventory": PlayerInventory(capacity=52),
         "level": Level(level_up_base=20, difficulty=0),
         "energy": EnergyComponent(threshold=10),
         "regeneration": Regeneration(),

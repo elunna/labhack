@@ -29,7 +29,7 @@ class PickupAction(Action):
             if result:
                 result.x = -1
                 result.y = -1
-                inventory.add_item(result, amount)
+                inventory.add_inv_item(result, amount)
             else:
                 raise Exception('No result from rm_item!')
 

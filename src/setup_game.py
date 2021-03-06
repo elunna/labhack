@@ -25,31 +25,31 @@ def new_game():
     )
 
     dagger = factory.make("dagger")
-    player.inventory.add_item(dagger)
+    player.inventory.add_inv_item(dagger)
     player.equipment.toggle_equip(dagger)
 
     leather_armor = factory.make("leather vest")
-    player.inventory.add_item(leather_armor)
+    player.inventory.add_inv_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
 
     # For debugging purposes, add every item to player's inventory
-    # TODO: Factory for making these
+    # TODO: Put items in a list, and add in a loop
 
     # Health Potion
     health_vial = factory.make("healing vial")
-    player.inventory.add_item(health_vial)
+    player.inventory.add_inv_item(health_vial)
 
     # Lightning scroll
     lightning_scroll = factory.make("lightning scroll")
-    player.inventory.add_item(lightning_scroll)
+    player.inventory.add_inv_item(lightning_scroll)
 
     # Confusion scroll
     confusion_scroll = factory.make("confusion scroll")
-    player.inventory.add_item(confusion_scroll)
+    player.inventory.add_inv_item(confusion_scroll)
 
     # Fireball scroll
     fireball_scroll = factory.make("fireball scroll")
-    player.inventory.add_item(fireball_scroll)
+    player.inventory.add_inv_item(fireball_scroll)
 
     return engine
 
