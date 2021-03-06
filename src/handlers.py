@@ -326,12 +326,24 @@ class InventoryHandler(AskUserHandler):
         player = self.engine.player
         modifier = event.mod
         try:
+            print(event.sym)
             key = chr(event.sym)  # Get letter the player selected
         except ValueError:
             return
 
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
-            key = key.upper()
+
+            # if key == tcod.event.K_4:
+            # if key == tcod.event.K_KP_4:
+            # if key == tcod.event.K_DOLLAR:  # event.sym 52
+            if key == '4':
+                key = '$'
+            else:
+                key = key.upper()
+
+        # Workaround until we can figure out how to get the dollar sign input working.
+        if key == tcod.event.K_4:
+            key = '$'
 
         if key in player.inventory.item_dict:
             try:

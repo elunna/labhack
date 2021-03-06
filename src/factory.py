@@ -130,7 +130,10 @@ def make(entity_name):
         return copy.deepcopy(Entity(**components))
 
     if entity_name == "money":
-        return copy.deepcopy(Item(**db.money))
+        m = copy.deepcopy(Item(**db.money))
+        # This is a crude hack, but it should work to make the inventory character always $
+        m.item.last_letter = "$"
+        return m
 
     raise ValueError(f"'{entity_name}' is not a valid Entity!")
 

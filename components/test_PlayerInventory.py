@@ -23,6 +23,13 @@ def vials5():
     return vials
 
 
+@pytest.fixture
+def money():
+    cash = factory.make('money')
+    cash.stackable.size = 10
+    return cash
+
+
 def test_init__is_Component():
     pi = PlayerInventory(10)
     assert isinstance(pi, Component)
@@ -48,10 +55,23 @@ def test_init__first_inv_letter_is_a():
     assert pi.current_letter == 'a'
 
 
-# def test_add_inv_item__adding_money_uses_dollar_sign():
-# def test_add_inv_item__adding_money_size_unchanged():
-# def test_add_inv_item__adding_money_returns_True():
-# def test_add_inv_item__adding_money_full_capacity_returns_True():
+def test_add_inv_item__adding_money_uses_dollar_sign(money):
+    pi = PlayerInventory(10)
+    assert pi.add_inv_item(money) == "$"
+
+
+def test_add_inv_item__adding_money_size_unchanged(money):
+    pi = PlayerInventory(10)
+    pi.add_inv_item(money)
+    expected = len(pi)
+    pi.add_inv_item(money)
+    assert len(pi) == expected
+
+
+def test_add_inv_item__adding_money_full_capacity_returns_True(money):
+    pi = PlayerInventory(1)
+    pi.add_inv_item(money)
+    assert pi.add_inv_item(money) == "$"
 
 
 def test_add_inv_item__added_to_stackable__size_unchanged(dagger):
