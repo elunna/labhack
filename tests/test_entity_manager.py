@@ -1,7 +1,5 @@
 from components.stackable import StackableComponent
 from pytest_mock import mocker
-
-from src import factory
 from src.entity import Entity
 from src.entity_manager import EntityManager, NO_LIMIT
 import pytest
@@ -54,22 +52,6 @@ def test_len(em):
     assert len(em) == 0
     em.add_entity(Entity(name="fleeb"))
     assert len(em) == 1
-
-
-def test_actors_property(em):
-    assert list(em.actors) == []  # None by default
-    # f = Entity(name="fighter", fighter=True)
-    f = factory.make("mouse")
-    em.add_entity(f)
-    assert f in em.actors
-
-
-def test_items_property_none_by_default(em):
-    # We get a generator, need to convert to list.
-    assert list(em.items) == []  # None by default
-    i = Entity(name="item", item=True)
-    em.add_entity(i)
-    assert i in em.items
 
 
 def test_add_entity__Entity__returns_True(em):
@@ -134,14 +116,12 @@ def test_add_entity__added__updates_entity_parent(em):
     em.add_entity(e)
     assert e.parent == em
 
+
 @pytest.mark.skip
 def test_add_entity__item_calls_add_item(em, mocker):
     e = Entity(name="fleeb")
     em.add_entity(e)
     assert e.parent == em
-
-
-#########################################################################################################
 
 
 def test_add_item__has_required_component(fleeb3):
@@ -273,7 +253,6 @@ def test_add_item__no_twin__default_full_qty(em, fleeb2):
     assert em.get_similar(fleeb2).stackable.size == 2
 
 
-#########################################################################################################
 def test_add_entities__single(em):
     e = Entity(name="fleeb")
     em.add_entities(e)
@@ -295,26 +274,6 @@ def test_add_entities__multiple_args(em):
     em.add_entities(e, f)  # as *args
     assert e in em.entities
     assert f in em.entities
-
-
-def test_place__success_returns_True(em):
-    e = Entity(name="fleeb")
-    assert em.place(e, 2, 3)
-    assert e in em
-
-
-def test_place__calls_add_entity(em, mocker):
-    mocker.patch('src.entity_manager.EntityManager.add_entity')
-    e = Entity(name="fleeb")
-    em.place(e, 2, 3)
-    em.add_entity.assert_called_once()
-
-
-def test_place__updates_xy(em):
-    e = Entity(name="fleeb")
-    em.place(e, 2, 3)
-    assert e.x == 2
-    assert e.y == 3
 
 
 def test_rm_entity__entity_DNE_returns_None(em):
@@ -342,8 +301,6 @@ def test_rm_entity__updates_entity_parent_to_None(em):
     em.add_entity(e)
     em.rm_entity(e)
     assert e.parent is None
-
-##############################################################################################################
 
 
 def test_rm_item__qty_lt_0_raises_ValueError(em):
@@ -399,10 +356,7 @@ def test_rm_item__twin__qty_gt_source__raises_ValueError(em):
     e = Entity(name="fleeb", stackable=StackableComponent(10))
     em.add_entity(e)
     with pytest.raises(ValueError):
-        result = em.rm_item(e, 11)
-
-##############################################################################################################
-
+        em.rm_item(e, 11)
 
 
 def test_rm_entities__single_arg(em):
@@ -547,24 +501,3 @@ def test_get_similar__item_coordinates_returns_entity(em):
     e2 = Entity(name="fleeb", x=-1, y=-1)
     em.add_entities(e1)
     assert em.get_similar(e2) == e1
-
-
-def test_get_actor_at__DNE_returns_None(em):
-    assert em.get_actor_at(0, 0) is None
-
-
-def test_get_actor_at__valid_actor(em):
-    e = factory.make("mouse")
-    em.place(e, 1, 1)
-    result = em.get_actor_at(1, 1)
-    assert result == e
-
-
-def test_get_trap_at__DNE_returns_None(em):
-    assert em.get_actor_at(0, 0) is None
-
-
-def test_get_trap_at__valid_actor(em):
-    e = Entity(name="banana trap", x=1, y=1, trap=True)
-    em.add_entity(e)
-    assert em.get_trap_at(1, 1) == e

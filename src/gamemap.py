@@ -1,16 +1,16 @@
-import random
 from . import settings
 from . import tiles
+from .entity import Entity
 from .entity_manager import EntityManager
 from .room import Room
 import numpy as np
+import random
 
 
 class GameMap(EntityManager):
     """ Manages the tiles and rooms in a map. Also keeps track of important info like the
     locations of stairs.
     """
-
     def __init__(self, width, height, fill_tile=tiles.wall):
         super().__init__()
         self.engine = None  # This can be set later if needed
@@ -47,6 +47,16 @@ class GameMap(EntityManager):
         :return: A reference to this map.
         """
         return self
+
+    @property
+    def actors(self):
+        """ Iterate over this maps living actors."""
+        yield from (e for e in self.has_comp("fighter") if e.is_alive)
+
+    @property
+    def items(self):
+        """ Iterate over this maps items."""
+        yield from (e for e in self.has_comp("item"))
 
     def in_bounds(self, x, y):
         """Returns True if x and y are inside of the bounds of this map."""
@@ -154,7 +164,6 @@ class GameMap(EntityManager):
         # Is it wall or floor (both are valid)
         if not self.tiles[closet_x][closet_y] in [tiles.wall, tiles.floor]:
             return False
-
         return True
 
     def get_nearest_unconnected_room(self, room):
@@ -223,3 +232,24 @@ class GameMap(EntityManager):
                 for y in range(self.height)
                 if self.tiles[x, y] == tiletype]
 
+    def get_actor_at(self, x, y):
+        """ Looks for an actor at the given coordinates and returns it if it exists. """
+        # Returns an ALIVE actor at the specified location.
+        for a in self.actors:
+            if a.x == x and a.y == y:
+                return a
+        return None
+
+    def get_trap_at(self, x, y):
+        """ Looks for an trap at the given coordinates and returns it if it exists. """
+        traps = self.filter("trap", x=x, y=y)
+        if traps:
+            return traps.pop()
+        return None
+
+    def place(self, e: Entity, x: int, y: int):
+        """ Wrapper for add_entity with coordinates."""
+        e.x, e.y = x, y
+        if self.add_entity(e):
+            return True
+        return False

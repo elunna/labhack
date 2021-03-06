@@ -2,9 +2,9 @@
 from components.item_comp import ItemComponent
 from components.stackable import StackableComponent
 from src import factory, gamemap, room, tiles
+from src.entity import Entity
 import pytest
 import toolkit
-from src.entity import Entity
 
 
 @pytest.fixture
@@ -91,8 +91,23 @@ def test_init__explored_tiles(std_map):
     assert not std_map.explored.all()  # By default none should be explored
 
 
-def test_gamemap(test_map):
+def test_gamemap_property(test_map):
     assert test_map.gamemap is test_map
+
+
+def test_actors_property(std_map):
+    assert list(std_map.actors) == []  # None by default
+    f = factory.make("mouse")
+    std_map.add_entity(f)
+    assert f in std_map.actors
+
+
+def test_items_property_none_by_default(std_map):
+    # We get a generator, need to convert to list.
+    assert list(std_map.items) == []  # None by default
+    i = Entity(name="item", item=True)
+    std_map.add_entity(i)
+    assert i in std_map.items
 
 
 def test_in_bounds__valid_loc(test_map):
@@ -318,3 +333,44 @@ def test_get_random_unoccupied_tile__1floor_1actor(player):
 
     result = m.get_random_unoccupied_tile()
     assert result == (1, 1)
+
+
+def test_get_actor_at__DNE_returns_None(std_map):
+    assert std_map.get_actor_at(0, 0) is None
+
+
+def test_get_actor_at__valid_actor(std_map):
+    e = factory.make("mouse")
+    std_map.place(e, 1, 1)
+    result = std_map.get_actor_at(1, 1)
+    assert result == e
+
+
+def test_get_trap_at__DNE_returns_None(std_map):
+    assert std_map.get_trap_at(0, 0) is None
+
+
+def test_get_trap_at__valid_actor(std_map):
+    e = Entity(name="banana trap", x=1, y=1, trap=True)
+    std_map.add_entity(e)
+    assert std_map.get_trap_at(1, 1) == e
+
+
+def test_place__success_returns_True(std_map):
+    e = Entity(name="fleeb")
+    assert std_map.place(e, 2, 3)
+    assert e in std_map
+
+
+def test_place__calls_add_entity(std_map, mocker):
+    mocker.patch('src.entity_manager.EntityManager.add_entity')
+    e = Entity(name="fleeb")
+    std_map.place(e, 2, 3)
+    std_map.add_entity.assert_called_once()
+
+
+def test_place__updates_xy(std_map):
+    e = Entity(name="fleeb")
+    std_map.place(e, 2, 3)
+    assert e.x == 2
+    assert e.y == 3

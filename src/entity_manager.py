@@ -9,7 +9,6 @@ class EntityManager:
         The purpose of this class is to be inherited by something that works with entities, but
         has other responsibilities: like the GameMap, Inventory, or a container like a Chest.
     """
-
     def __init__(self, required_comp=None, capacity=NO_LIMIT):
         self.entities = set()
         # REQUIRED_COMPONENTS: item for items, fighter for fighters, etc.
@@ -26,16 +25,6 @@ class EntityManager:
     def __len__(self):
         """ Tells us the number of entities in the set."""
         return len(self.entities)
-
-    @property
-    def actors(self):
-        """ Iterate over this maps living actors."""
-        yield from (e for e in self.has_comp("fighter") if e.is_alive)
-
-    @property
-    def items(self):
-        """ Iterate over this maps items."""
-        yield from (e for e in self.has_comp("item"))
 
     def add_entity(self, e: Entity) -> bool:
         """ Takes an Entity and adds it to the set of entities. If the EntityManager was initialized with a
@@ -119,13 +108,6 @@ class EntityManager:
         """ Adds a variable number of entities to the set."""
         for e in args:
             self.add_entity(e)
-
-    def place(self, e: Entity, x: int, y: int):
-        """ Wrapper for add_entity with coordinates."""
-        e.x, e.y = x, y
-        if self.add_entity(e):
-            return True
-        return False
 
     def rm_entity(self, e: Entity):
         """ Removes an entity from the set. """
@@ -222,21 +204,6 @@ class EntityManager:
         if self.capacity == NO_LIMIT:
             return False  # Never full if there is no limit
         return len(self) == self.capacity
-
-    def get_actor_at(self, x, y):
-        """ Looks for an actor at the given coordinates and returns it if it exists. """
-        # Returns an ALIVE actor at the specified location.
-        for a in self.actors:
-            if a.x == x and a.y == y:
-                return a
-        return None
-
-    def get_trap_at(self, x, y):
-        """ Looks for an trap at the given coordinates and returns it if it exists. """
-        traps = self.filter("trap", x=x, y=y)
-        if traps:
-            return traps.pop()
-        return None
 
     def get_similar(self, e):
         # optional x, y args for locating items at coordinates?
