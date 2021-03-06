@@ -96,11 +96,15 @@ def render_stats(console, engine, player):
     con_stat = f"Con:{player.attributes.constitution}"
     xp_lvl_stat = f"XL:{player.level.current_level}"
     turns = f"Turns:{engine.turns}"
-    # money = f"player.attributes.constitution}"
+    money = player.inventory.item_dict.get('$', 0)
 
     console.print(
         x=22, y=settings.hp_bar_y,
         string=f"{ac_stat} | {str_stat} | {dex_stat} | {con_stat} | {xp_lvl_stat} | {turns}"
+    )
+    console.print(
+        x=22, y=settings.hp_bar_y + 1, fg=tcod.gold,
+        string= f"${money}"
     )
 
     # Render states
