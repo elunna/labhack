@@ -236,7 +236,7 @@ class HistoryHandler(EventHandler):
         super().on_render(renderer)  # Draw the main state as the background.
         rendering.render_history(
             console=renderer.root,
-            engine=self.engine,
+            title="┤Message history├",
             cursor=self.cursor,
             msglog=self.engine.msglog
 
@@ -735,7 +735,7 @@ class HelpHandler(HistoryHandler):
         super().on_render(renderer)  # Draw the main state as the background.
         rendering.render_history(
             console=renderer.root,
-            engine=self.engine,
+            title="┤Command Help├",
             cursor=self.cursor,
             msglog=self.engine.helplog
         )

@@ -1,35 +1,46 @@
-Hello and welcome to LabHack!
-
-Movement:
- * "Vim keys" can be used to move around and attack
- * Cardinal: hjkl, Diagonal: yubn
- * You can also use the arrow keys or number pad for movement
- * Moving at a monster will automatically attack them
-
-Other actions:
- . Wait 1 turn
- , Pick up item
- d Drop item
- i Inventory
-
-History Viewer: v
- * Pressing up or down scrolls along the messages
- * Home: Moves directly to the first message
- * End: Moves directly to the last message
- * Page Up: Scrolls up 10 messages
- * Page Down: Scrolls down 10 messages
-
-Look: /
- * While in look mode you can use movement keys to adjust the cursor.
- * When the cursor hovers over an object, it will display it's description.
- * Pressing SHIFT (and a direction) will make the cursor jump 5 spaces.
- * Pressing CONTROL (and a direction) will make the cursor jump 10 spaces.
- * Pressing ALT (and a direction) will make the cursor jump 20 spaces.
-
-Character info: Ctrl-x
- * Displays info about your character
-
-Using items:
- * While viewing your inventory, press the associated letter to use the item.
- * Using armor or weapons will equip or unequip them.
- * Using scrolls or potions will cause an interesting effect, and consume the item.
+               Movement
+.
+.
+   Keyboard     Numpad    Arrow Keys
+	y k u       7 8 9         ^
+	 \|/         \|/          |
+	h-@-l       4-@-6       <-@->
+	 /|\         /|\          |
+	b j n       1 2 3         V
+.
+.
+.
+.
+Command    Key
+-------    ---
+.
+Wait        .
+Pick-up     ,
+Drop        d
+Inventory   i
+History     v
+Look        /
+Help        ?
+Stats       Control-X
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.

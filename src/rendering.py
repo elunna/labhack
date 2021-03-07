@@ -212,14 +212,14 @@ def render_map(console, game_map):
     #     )
 
 
-def render_history(console, engine, cursor, msglog):
+def render_history(console, title, cursor, msglog):
     log_console = tcod.Console(console.width - 6, console.height - 6)
 
     # Draw a frame with a custom banner title.
     log_console.draw_frame(0, 0, log_console.width, log_console.height)
 
     log_console.print_box(
-        0, 0, log_console.width, 1, "┤Message history├", alignment=tcod.CENTER
+        0, 0, log_console.width, 1, title, alignment=tcod.CENTER
     )
 
     # Render the message log using the cursor parameter.

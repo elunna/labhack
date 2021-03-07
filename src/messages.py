@@ -49,4 +49,4 @@ class HelpInfo(MsgLog):
         super().__init__()
         with open('help.txt') as f:
             for line in f.readlines():
-                self.add_message(line)
+                self.add_message(line, stack=False)
