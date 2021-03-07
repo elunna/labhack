@@ -177,7 +177,13 @@ class Engine:
             try:
                 current_action = action_queue[0]
                 result = current_action.perform()
+
+                if action.entity.name == "player":
+                    print(f"\t\thandling: {current_action}")
+                    print(f"\t\tresult: {result}")
+
             except exceptions.Impossible as exc:
+                print(exc)
                 self.msglog.add_message(exc.args[0], color.impossible)
                 return False  # Skip enemy turn on exceptions
 

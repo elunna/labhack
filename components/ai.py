@@ -104,35 +104,39 @@ class RunAI(BaseAI):
 
     def can_perform(self):
         target_tile = (self.parent.x + self.dx, self.parent.y + self.dy)
+        result = True
+        if not self.first_step:
+            # Stop at any entities
+            if self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}:
+                result = False
 
         # Do not run into a wall (or unwalkable tile)
         if not self.parent.gamemap.walkable(*target_tile):
-            return False
+            result = False
 
         # Do not run into another actor
-        if self.parent.gamemap.get_actor_at(*target_tile):
-            return False
+        elif self.parent.gamemap.get_actor_at(*target_tile):
+            result = False
 
         # Do not run along-side another actor
 
         # Stop at traps
-        if self.parent.gamemap.get_trap_at(self.parent.x, self.parent.y):
-            return False
-
-        # Stop at any entities
-        entities = self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}
-        if entities:
-            return False
+        elif self.parent.gamemap.get_trap_at(self.parent.x, self.parent.y):
+            result = False
 
         # Stop at cooridor ends, doors
-        if self.parent.gamemap.tiles[self.parent.x, self.parent.y] == tiles.door:
-            return False
+        elif self.parent.gamemap.tiles[self.parent.x, self.parent.y] == tiles.door:
+            result = False
 
-        return True
+        if result is False:
+            self.parent.ai = None
+
+        return result
 
     def yield_action(self):
         if self.first_step:
             self.first_step = False
+
             return BumpAction(
                 entity=self.parent,
                 dx=self.dx,

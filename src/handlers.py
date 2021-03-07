@@ -81,13 +81,12 @@ class EventHandler(BaseEventHandler):
                 self.handle_action(action)
 
             # Handle Behaviors/AI's
-            player = self.engine.player
-            while player.ai:
-                if player.ai.can_perform():
-                    action = player.ai.yield_action()
-                    self.handle_action(action)
-                else:
-                    player.ai = None
+            while self.engine.player.ai:
+                if self.engine.player.ai.can_perform():
+                    action = self.engine.player.ai.yield_action()
+
+                    if not self.handle_action(action):
+                        self.engine.player.ai = None
 
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
@@ -99,6 +98,10 @@ class EventHandler(BaseEventHandler):
         # Evaluate states here?
         # if isinstance(self.engine.player.ai, ConfusedAI):
         #     action = self.engine.player.ai.yield_action()
+
+        if action:
+            print(f"Turn {self.engine.turns} Action: {action}")
+            print(f"\t{action.__dict__}")
 
         if self.engine.handle_action(action):  # Successful action completed.
             # Here - we will evaluate the player's energy
@@ -164,7 +167,11 @@ class MainGameHandler(EventHandler):
                 player.add_comp(ai=ai.RunAI(direction=(dx, dy)))
 
                 # The first move/bump action should get handled below
-                return player.ai.yield_action()
+                if self.engine.player.ai.can_perform():
+                    return player.ai.yield_action()
+
+                # Attempt to Let the AI handle ALL of it's actions
+                # return None  # Doesn't work because handle_event doesn't recognize this as an action.
 
             if key == tcod.event.K_PERIOD:  # > (Down stairs)
                 return actions.downstairs_action.DownStairsAction(
