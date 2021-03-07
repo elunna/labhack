@@ -1,12 +1,12 @@
                Movement
 .
 .
-   Keyboard     Numpad    Arrow Keys
-	y k u       7 8 9         ^
-	 \|/         \|/          |
-	h-@-l       4-@-6       <-@->
-	 /|\         /|\          |
-	b j n       1 2 3         V
+     Walk      Run       Walk     Arrow Keys
+    y k u     Y K U     7 8 9         ^
+     \|/       \|/       \|/          |
+    h-@-l     H-@-L     4-@-6       <-@->
+     /|\       /|\       /|\          |
+    b j n     B J N     1 2 3         V
 .
 .
 .
@@ -22,6 +22,7 @@ History     v
 Look        /
 Help        ?
 Stats       Control-X
+Search      s
 .
 .
 .
