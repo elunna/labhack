@@ -21,7 +21,7 @@ actor_dict = {
     "player": {
         "char": "@",
         "color": (255, 255, 255),
-        "ai_cls": HostileAI(),
+        "ai_cls": None,
         "equipment": Equipment(),
         "fighter": Fighter(max_hp=30, base_ac=10),
         "attack_comp": AttackComponent(Attack('punch', [2])),

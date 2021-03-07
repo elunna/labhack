@@ -80,6 +80,15 @@ class EventHandler(BaseEventHandler):
                 action = self.engine.handle_auto_states(player)
                 self.handle_action(action)
 
+            # Handle Behaviors/AI's
+            player = self.engine.player
+            while player.ai:
+                if player.ai.can_perform():
+                    action = player.ai.yield_action()
+                    self.handle_action(action)
+                else:
+                    player.ai = None
+
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
 
@@ -149,6 +158,14 @@ class MainGameHandler(EventHandler):
 
         # Shift modifiers
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
+            if key in MOVE_KEYS:
+                dx, dy = MOVE_KEYS[key]
+                # Create new run behavior
+                player.add_comp(ai=ai.RunAI(direction=(dx, dy)))
+
+                # The first move/bump action should get handled below
+                return player.ai.yield_action()
+
             if key == tcod.event.K_PERIOD:  # > (Down stairs)
                 return actions.downstairs_action.DownStairsAction(
                     entity=player,

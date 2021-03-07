@@ -50,4 +50,5 @@ class Actor(entity.Entity):
     @property
     def is_alive(self):
         """Returns True as long as this actor can perform actions."""
-        return bool(self.ai)
+        # return bool(self.ai)
+        return not self.fighter.is_dead()

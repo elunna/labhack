@@ -3,7 +3,7 @@ from actions.wait_action import WaitAction
 from actions.movement_action import MovementAction
 from actions.attack_actions import MeleeAttack
 from actions.bump_action import BumpAction
-from src import settings
+from src import settings, tiles
 import numpy as np  # type: ignore
 import random
 import tcod
@@ -101,7 +101,6 @@ class RunAI(BaseAI):
     def __init__(self, direction):
         self.dx, self.dy = direction
         self.first_step = True
-        self.next_move = None
 
     def can_perform(self):
         target_tile = (self.parent.x + self.dx, self.parent.y + self.dy)
@@ -114,17 +113,34 @@ class RunAI(BaseAI):
         if self.parent.gamemap.get_actor_at(*target_tile):
             return False
 
-        # Do no run along-side another actor
+        # Do not run along-side another actor
 
-        # Stop at something interesting: items on floor, dungeon feature, etc.
+        # Stop at traps
+        if self.parent.gamemap.get_trap_at(self.parent.x, self.parent.y):
+            return False
+
+        # Stop at any entities
+        entities = self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}
+        if entities:
+            return False
 
         # Stop at cooridor ends, doors
+        if self.parent.gamemap.tiles[self.parent.x, self.parent.y] == tiles.door:
+            return False
 
         return True
 
     def yield_action(self):
+        if self.first_step:
+            self.first_step = False
+            return BumpAction(
+                entity=self.parent,
+                dx=self.dx,
+                dy=self.dy
+            )
+
         return MovementAction(
             entity=self.parent,
-            dx=self.parent.x + self.dx,
-            dy=self.parent.y + self.dy
+            dx=self.dx,
+            dy=self.dy
         )
