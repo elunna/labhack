@@ -95,14 +95,6 @@ class EventHandler(BaseEventHandler):
         """ Handle actions returned from event methods.
             Returns True if the action will advance a turn.
         """
-        # Evaluate states here?
-        # if isinstance(self.engine.player.ai, ConfusedAI):
-        #     action = self.engine.player.ai.yield_action()
-
-        if action:
-            print(f"Turn {self.engine.turns} Action: {action}")
-            print(f"\t{action.__dict__}")
-
         if self.engine.handle_action(action):  # Successful action completed.
             # Here - we will evaluate the player's energy
             # Use up a turn worth of energy

@@ -109,30 +109,25 @@ class RunAI(BaseAI):
             return True
 
         # Stop at any entities
-        print(f"{self.parent} stopped at entities.")
         if self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}:
             result = False
 
         # Do not run into a wall (or unwalkable tile)
         if not self.parent.gamemap.walkable(*target_tile):
-            print(f"{self.parent} can't run into a wall.")
             result = False
 
         # Do not run into another actor
         elif self.parent.gamemap.get_actor_at(*target_tile):
-            print(f"{self.parent} can't run into another actor.")
             result = False
 
         # Do not run along-side another actor
 
         # Stop at traps
         elif self.parent.gamemap.get_trap_at(self.parent.x, self.parent.y):
-            print(f"{self.parent} can't run into a trap.")
             result = False
 
         # Stop at cooridor ends, doors
         elif self.parent.gamemap.tiles[self.parent.x, self.parent.y] == tiles.door:
-            print(f"{self.parent} stops at doors.")
             result = False
 
         if result is False:
