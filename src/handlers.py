@@ -166,16 +166,12 @@ class MainGameHandler(EventHandler):
         # Shift modifiers
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
             if key in MOVE_KEYS:
-                dx, dy = MOVE_KEYS[key]
                 # Create new run behavior
-                player.add_comp(ai=ai.RunAI(direction=(dx, dy)))
+                player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
 
                 # The first move/bump action should get handled below
                 if self.engine.player.ai.can_perform():
                     return player.ai.yield_action()
-
-                # Attempt to Let the AI handle ALL of it's actions
-                # return None  # Doesn't work because handle_event doesn't recognize this as an action.
 
             if key == tcod.event.K_PERIOD:  # > (Down stairs)
                 return actions.downstairs_action.DownStairsAction(
@@ -192,11 +188,19 @@ class MainGameHandler(EventHandler):
             elif key == tcod.event.K_SLASH:   # ? (Help screen)
                 return HelpHandler(self.engine)
 
-        # Ctrl-X: Character Screen
-        if key == tcod.event.K_x and modifier & (
-                tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL
-        ):
-            return CharacterScreenHandler(self.engine)
+        if modifier & (tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL):
+            # For users with numpad, they can also use Control + Move key to run.
+            if key in MOVE_KEYS:
+                # Create new run behavior
+                player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
+
+                # The first move/bump action should get handled below
+                if self.engine.player.ai.can_perform():
+                    return player.ai.yield_action()
+
+            elif key == tcod.event.K_x:
+                # Ctrl-X: Character Screen
+                return CharacterScreenHandler(self.engine)
 
         if key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
