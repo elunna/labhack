@@ -73,6 +73,7 @@ class HostileAI(BaseAI):
     def __init__(self, diagonal=3):
         self.path = []
         self.diagonal = diagonal
+        self.chase_distance = 12
 
     def yield_action(self):
         target = self.engine.player
@@ -83,7 +84,8 @@ class HostileAI(BaseAI):
 
         self.path = self.get_path_to(target.x, target.y, self.diagonal)
 
-        if self.path:
+        # Only chase the player if we're under a chase distance threshold.
+        if len(self.path) < self.chase_distance:
             # Move towards the player.
             dest_x, dest_y = self.path.pop(0)
             return MovementAction(
@@ -99,6 +101,8 @@ class HostileAI(BaseAI):
             # If the player is right next to the entity, attack the player.
             return distance <= 1
         return False
+
+    # def can_chase(self):
 
 
 class GridAI(HostileAI):
