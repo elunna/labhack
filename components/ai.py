@@ -113,7 +113,7 @@ class RunAI(BaseAI):
             result = False
 
         # Do not run into a wall (or unwalkable tile)
-        if not self.parent.gamemap.walkable(*target_tile):
+        elif not self.parent.gamemap.walkable(*target_tile):
             result = False
 
         # Do not run into another actor
@@ -126,9 +126,12 @@ class RunAI(BaseAI):
         elif self.parent.gamemap.get_trap_at(self.parent.x, self.parent.y):
             result = False
 
-        # Stop at cooridor ends, doors
-        elif self.parent.gamemap.tiles[self.parent.x, self.parent.y] == tiles.door:
+        # Stop at doors, stairs
+        elif self.parent.gamemap.tiles[self.parent.x, self.parent.y] \
+                in [tiles.door, tiles.down_stairs, tiles.up_stairs]:
             result = False
+
+        # Stop at cooridor ends?
 
         if result is False:
             self.parent.ai = None
