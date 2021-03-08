@@ -77,11 +77,24 @@ class Engine:
                 lit_tiles[self.player.x + dx, self.player.y + dy] = True
 
         # Set the game_map’s visible tiles to the result of the compute_fov.
+        # radius is the maximum view distance from pov. If this is zero then the maximum distance is used.
+        # If light_walls is True then visible obstacles will be returned, otherwise only transparent areas
+        # will be.
+        # algorithm is the field-of-view algorithm to run. The default value is tcod.FOV_RESTRICTIVE.
+        # The options are:
+        # tcod.FOV_BASIC: Simple ray-cast implementation.
+        # tcod.FOV_DIAMOND
+        # tcod.FOV_SHADOW: Recursive shadow caster.
+        # tcod.FOV_PERMISSIVE(n): n starts at 0 (most restrictive) and goes up to 8 (most permissive.)
+        # tcod.FOV_RESTRICTIVE
+        # tcod.FOV_SYMMETRIC_SHADOWCAST
         self.game_map.visible[:] = tcod.map.compute_fov(
             transparency=transparent_tiles,
             pov=(self.player.x, self.player.y),
             # radius=settings.fov_radius,
             radius=15,
+            light_walls=True,
+            algorithm=tcod.FOV_RESTRICTIVE,
         )
 
         # Remove hidden blockers from visible
