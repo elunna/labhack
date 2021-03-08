@@ -46,12 +46,17 @@ class EntityFactory:
         new_map = self.dungeon.get_map(dlevel)
         for r in new_map.rooms:
             # Populate the room with monsters and items
-            if random.random() > .50:
-                # 33% for each new room to have monsters
-                self.place_monsters(new_map, r)
 
-            self.place_items(new_map, r)
-            self.place_traps(new_map, r)
+            self.place_monsters(new_map, r)
+
+            if random.random() < .50:
+                # 50% chance of each room having items.
+                self.place_items(new_map, r)
+
+            if random.random() < .25:
+                # 25% for each new room to have a trap
+                self.place_traps(new_map, r)
+
             # place secrets
 
             self.place_money(new_map, r)
@@ -95,8 +100,8 @@ class EntityFactory:
         x, y = new_room.random_point_inside()
         # 1d10 * level for the amount of the pile?
         money_pile = make("money")
-        money_min = self.dungeon.dlevel * 1
-        money_max = self.dungeon.dlevel * 10
+        money_max = (self.dungeon.dlevel ** 2) * 10
+        money_min = int(money_max * .1)
         money_pile.stackable.size = random.randint(money_min, money_max)
 
         new_map.place(money_pile, x, y)

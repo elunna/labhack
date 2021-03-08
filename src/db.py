@@ -750,8 +750,7 @@ item_chances = {
     # and the value is a list of tuples.
     0: [
         ("healing vial", 200),
-        ("poison vial", 200),
-
+        # ("poison vial", 200),
         ("extra healing vial", 35),
 
         ("confusion scroll", 45),
