@@ -78,11 +78,6 @@ class EventHandler(BaseEventHandler):
             # If the player leveled up, handle it.
             self.engine.check_level()
 
-            # Handle auto-states
-            while self.engine.player.states.autopilot:
-                log.debug('Handling Player auto-states')
-                action = self.engine.handle_auto_states(player)
-                self.handle_action(action)
 
             # Handle Behaviors/AI's
             while self.engine.player.ai:
@@ -97,6 +92,12 @@ class EventHandler(BaseEventHandler):
 
                 else:
                     log.debug('Player AI OFF ----------------')
+
+            # Handle auto-states
+            while self.engine.player.states.autopilot:
+                log.debug('Handling Player auto-states')
+                action = self.engine.handle_auto_states(player)
+                self.handle_action(action)
 
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
@@ -354,7 +355,6 @@ class InventoryHandler(AskUserHandler):
         player = self.engine.player
         modifier = event.mod
         try:
-            print(event.sym)
             key = chr(event.sym)  # Get letter the player selected
         except ValueError:
             return

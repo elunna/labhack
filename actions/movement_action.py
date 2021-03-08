@@ -7,6 +7,10 @@ class MovementAction(ActionWithDirection):
     """ Moves an entity to a new set of coordinates."""
 
     def perform(self):
+        if "trapped" in self.entity.states.states:
+            # return WriggleAction(self.entity, self.dx, self.dy)
+            raise exceptions.Impossible("Actor is trapped and cannot move!")
+
         dest_x, dest_y = self.dest_xy
 
         if not self.entity.gamemap.in_bounds(dest_x, dest_y):

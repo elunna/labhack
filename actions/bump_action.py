@@ -24,6 +24,5 @@ class BumpAction(ActionWithDirection):
         elif "trapped" in self.entity.states.states:
             return WriggleAction(self.entity, self.dx, self.dy)
         else:
-
             return MovementAction(self.entity, self.dx, self.dy)
 
