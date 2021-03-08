@@ -2,7 +2,7 @@
 import tcod
 
 from components import consumable, equippable, attack_cmp
-from components.ai import HostileAI
+from components.ai import HostileAI, GridAI
 from components.attack import Attack
 from components.attack_cmp import AttackComponent
 from components.attributes import Attributes
@@ -36,7 +36,7 @@ actor_dict = {
     "grid bug": {
         "char": "x",
         "color": tcod.purple,
-        "ai_cls": HostileAI(),
+        "ai_cls": GridAI(),
         "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),

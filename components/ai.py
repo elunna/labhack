@@ -1,11 +1,9 @@
 from components.component import Component
 from actions.wait_action import WaitAction
 from actions.movement_action import MovementAction
-from actions.attack_actions import MeleeAttack
 from actions.bump_action import BumpAction
 from src import settings, tiles
-import numpy as np  # type: ignore
-import random
+import numpy as np
 import tcod
 
 
@@ -15,7 +13,7 @@ class BaseAI(Component):
         # act will have to have an AI class that inherits from this one.
         raise NotImplementedError()
 
-    def get_path_to(self, dest_x, dest_y):
+    def get_path_to(self, dest_x, dest_y, diagonal=3):
         """ Compute and return a path to the target position.
             If there is no valid path then returns an empty list.
 
@@ -42,6 +40,9 @@ class BaseAI(Component):
             More information about TCOD’s pathfinding can be found here.
             https://python-tcod.readthedocs.io/en/latest/tcod/path.html
 
+            If diagonal is 3, the actor will use diagonal movement.
+            If diagonal is 0, the actor will only use cardinal directions.
+
         """
         # Copy the walkable array.
         cost = np.array(self.parent.gamemap.tiles["walkable"], dtype=np.int8)
@@ -56,7 +57,7 @@ class BaseAI(Component):
                 cost[entity.x, entity.y] += 10
 
         # Create a graph from the cost array and pass that graph to a new pathfinder.
-        graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=3)
+        graph = tcod.path.SimpleGraph(cost=cost, cardinal=2, diagonal=diagonal)
         pathfinder = tcod.path.Pathfinder(graph)
 
         pathfinder.add_root((self.parent.x, self.parent.y))  # Start position.
@@ -69,32 +70,47 @@ class BaseAI(Component):
 
 
 class HostileAI(BaseAI):
-    def __init__(self):
+    def __init__(self, diagonal=3):
         self.path = []
+        self.diagonal = diagonal
 
     def yield_action(self):
         target = self.engine.player
         dx = target.x - self.parent.x
         dy = target.y - self.parent.y
-        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+        if self.can_attack(target, dx, dy):
+            return BumpAction(self.parent, dx, dy)
 
-        if self.engine.game_map.visible[self.parent.x, self.parent.y]:
-            # If the player is right next to the entity, attack the player.
-            if distance <= 1:
-                return BumpAction(self.parent, dx, dy)
-
-            self.path = self.get_path_to(target.x, target.y)
+        self.path = self.get_path_to(target.x, target.y, self.diagonal)
 
         if self.path:
-            # If the player can see the entity, but the entity is too far away
-            # to attack, then move towards the player.
+            # Move towards the player.
             dest_x, dest_y = self.path.pop(0)
-            return BumpAction(
+            return MovementAction(
                 self.parent, dest_x - self.parent.x, dest_y - self.parent.y,
             )
 
         # If the entity is not in the player’s vision, simply wait.
         return WaitAction(self.parent)
+
+    def can_attack(self, target, dx, dy):
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+        if self.engine.game_map.visible[self.parent.x, self.parent.y]:
+            # If the player is right next to the entity, attack the player.
+            return distance <= 1
+        return False
+
+
+class GridAI(HostileAI):
+    def __init__(self):
+        # This just creates a hostile AI with a diagonal of 0 so the actor will only use
+        super().__init__(diagonal=0)
+
+    def can_attack(self, target, dx, dy):
+        distance = max(abs(dx), abs(dy))  # Chebyshev distance.
+        if distance > 1:
+            return False
+        return (dx, dy) in settings.CARDINAL_DIR
 
 
 class RunAI(BaseAI):
@@ -113,7 +129,7 @@ class RunAI(BaseAI):
         if not self.parent.gamemap.walkable(*target_tile):
             result = False
 
-        elif self.first_step :
+        elif self.first_step:
             if actor_in_way:
                 # For the first step, we want enable attacking - but then stop after that.
                 self.stop_after_first_stop = True
@@ -125,8 +141,6 @@ class RunAI(BaseAI):
         # Do not run into another actor
         elif actor_in_way:
             result = False
-
-
 
         # Do not run along-side another actor
 
