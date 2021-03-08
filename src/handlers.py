@@ -163,7 +163,6 @@ class MainGameHandler(EventHandler):
         player = self.engine.player
         key = event.sym
         modifier = event.mod  # modifier keys like control, alt, or shift.
-
         # Shift modifiers
         if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
             if key in MOVE_KEYS:

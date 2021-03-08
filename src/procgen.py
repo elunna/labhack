@@ -82,8 +82,14 @@ def draw_room(new_map, new_room):
     # Dig out this rooms inner area.
     new_map.tiles[new_room.inner] = tiles.room_floor
 
-    # 75% light/25% dark
-    if random.random() > .25:
+    # No dark rooms until level 5,
+    # after level 5, chance of a dark room is (dlevel * 2%)
+    dark_chance = new_map.dlevel * 2
+
+    if new_map.dlevel < 5:
+        new_map.lit[new_room.full_slice] = True
+
+    elif random.randint(0, 100) > dark_chance:
         # light up the entire room
         new_map.lit[new_room.full_slice] = True
 
@@ -265,10 +271,10 @@ def create_L_path(start, end, twist=0):
     return coordinates
 
 
-def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance):
+def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance, difficulty):
     """Generate a new dungeon map with rooms, corridors, and stairs..
     """
-    new_map = gamemap.GameMap(map_width, map_height)
+    new_map = gamemap.GameMap(map_width, map_height, dlevel=difficulty)
 
     # Create all the rooms
     generate_rooms(

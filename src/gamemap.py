@@ -11,7 +11,7 @@ class GameMap(EntityManager):
     """ Manages the tiles and rooms in a map. Also keeps track of important info like the
     locations of stairs.
     """
-    def __init__(self, width, height, fill_tile=tiles.wall):
+    def __init__(self, width, height, fill_tile=tiles.wall, dlevel=1):
         super().__init__()
         self.engine = None  # This can be set later if needed
         self.width, self.height = width, height
@@ -20,6 +20,7 @@ class GameMap(EntityManager):
         self.downstairs_location = (-1, -1)
         self.upstairs_location = (-1, -1)
         self.room_coords = None
+        self.dlevel = dlevel  # difficulty level
 
         # create a 2D array, filled with the same values: walls.
         self.tiles = np.full((width, height), fill_value=fill_tile, order="F")

@@ -48,6 +48,7 @@ class Dungeon:
                 map_width=settings.map_width,
                 map_height=settings.map_height,
                 max_distance=50,
+                difficulty=self.dlevel
             )
 
         # Add map to list
