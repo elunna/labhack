@@ -5,6 +5,9 @@ class Action:
         self.msg = ''
         self.recompute_fov = False  # Use this for actions which require redrawing after.
 
+    def __str__(self):
+        return self.__class__.__name__
+
     @property
     def engine(self):
         """Return the engine this action belongs to."""
