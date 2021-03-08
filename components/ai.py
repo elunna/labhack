@@ -101,24 +101,32 @@ class RunAI(BaseAI):
     def __init__(self, direction):
         self.dx, self.dy = direction
         self.first_step = True
+        self.stop_after_first_stop = False
 
     def can_perform(self):
         target_tile = (self.parent.x + self.dx, self.parent.y + self.dy)
         result = True
-        if self.first_step:
-            return True
-
-        # Stop at any entities
-        if self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}:
-            result = False
+        actor_in_way = self.parent.gamemap.get_actor_at(*target_tile)
 
         # Do not run into a wall (or unwalkable tile)
-        elif not self.parent.gamemap.walkable(*target_tile):
+        # Need to check this first, more important because it might prevent the first step.
+        if not self.parent.gamemap.walkable(*target_tile):
+            result = False
+
+        elif self.first_step :
+            if actor_in_way:
+                # For the first step, we want enable attacking - but then stop after that.
+                self.stop_after_first_stop = True
+            return True
+
+        elif self.stop_after_first_stop:
             result = False
 
         # Do not run into another actor
-        elif self.parent.gamemap.get_actor_at(*target_tile):
+        elif actor_in_way:
             result = False
+
+
 
         # Do not run along-side another actor
 
@@ -129,6 +137,10 @@ class RunAI(BaseAI):
         # Stop at doors, stairs
         elif self.parent.gamemap.tiles[self.parent.x, self.parent.y] \
                 in [tiles.door, tiles.down_stairs, tiles.up_stairs]:
+            result = False
+
+        # Stop at any entities
+        elif self.parent.gamemap.filter(x=self.parent.x, y=self.parent.y) - {self.parent}:
             result = False
 
         # Stop at cooridor ends?

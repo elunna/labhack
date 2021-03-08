@@ -1,4 +1,4 @@
-from . import color
+from . import color, logger
 from . import dungeon
 from . import exceptions
 from . import gamemap
@@ -11,6 +11,8 @@ import lzma
 import pickle
 import random
 import tcod
+
+log = logger.setup_logger(__name__)
 
 
 class Engine:
@@ -178,7 +180,14 @@ class Engine:
                 current_action = action_queue[0]
                 result = current_action.perform()
 
+                if action.entity.name == "player":
+                    # Just log the player's actions
+
+                    log.debug(f'Engine: handling {current_action}')
+                    log.debug(f'\tresult: {result}')
+
             except exceptions.Impossible as exc:
+                log.debug(f'\tImpossible: {exc}')
                 self.msglog.add_message(exc.args[0], color.impossible)
                 return False  # Skip enemy turn on exceptions
 

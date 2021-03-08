@@ -1,6 +1,7 @@
 from components import ai
 from . import color
 from . import exceptions
+from . import logger
 from . import rendering
 from . import settings
 from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
@@ -29,6 +30,8 @@ ActionOrHandler = Union[actions.actions.Action, "BaseEventHandler"]
     If an action is returned it will be attempted and if it's valid then
     MainGameEventHandler will become the active handler.
 """
+
+log = logger.setup_logger(__name__)
 
 
 class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
@@ -77,16 +80,23 @@ class EventHandler(BaseEventHandler):
 
             # Handle auto-states
             while self.engine.player.states.autopilot:
+                log.debug('Handling Player auto-states')
                 action = self.engine.handle_auto_states(player)
                 self.handle_action(action)
 
             # Handle Behaviors/AI's
             while self.engine.player.ai:
+                log.debug('Player AI Activated ----------------')
+
                 if self.engine.player.ai.can_perform():
                     action = self.engine.player.ai.yield_action()
 
                     if not self.handle_action(action):
                         self.engine.player.ai = None
+                        log.debug('Player AI OFF ----------------')
+
+                else:
+                    log.debug('Player AI OFF ----------------')
 
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
@@ -96,6 +106,8 @@ class EventHandler(BaseEventHandler):
             Returns True if the action will advance a turn.
         """
         if self.engine.handle_action(action):  # Successful action completed.
+            log.debug(f'########## TURN {self.engine.turns} COMPLETE ########## ')
+            log.debug('')
             # Here - we will evaluate the player's energy
             # Use up a turn worth of energy
             self.engine.player.energymeter.burn_turn()
