@@ -80,6 +80,7 @@ max_monsters_by_floor = [
 ]
 
 DIRECTIONS = [
+    (0, 0),  # Stay
     (-1, -1),  # Northwest
     (0, -1),  # North
     (1, -1),  # Northeast

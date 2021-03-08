@@ -17,6 +17,10 @@ class AttackAction(ActionWithDirection):
         target = self.target_actor
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
+        elif target == self.entity:
+            if self.entity.name == "player":
+                raise exceptions.Impossible("You cannot attack yourself!")
+            raise exceptions.Impossible(f"The {target} wobbles in place.")
 
         # Iterate through all the attacks
         for atk in self.attack_comp.attacks:
