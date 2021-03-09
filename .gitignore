@@ -28,3 +28,4 @@ logs/
 extrastuff
 todo.txt
 brainstorm.txt
+/pyproject.toml
