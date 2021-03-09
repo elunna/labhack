@@ -1,7 +1,7 @@
 """ Tests for level.py """
 
-from .level import Level
-from .component import Component
+from components.level import Level
+from components.component import Component
 import pytest
 
 

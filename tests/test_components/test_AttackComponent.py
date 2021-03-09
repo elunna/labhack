@@ -1,6 +1,6 @@
-from .attack import Attack
-from .attack_cmp import AttackComponent
-from .component import Component
+from components.attack import Attack
+from components.attack_cmp import AttackComponent
+from components.component import Component
 import pytest
 
 

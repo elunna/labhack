@@ -1,6 +1,6 @@
 """ Tests for ai.py """
-from . import ai
-from .component import Component
+from components import ai
+from components.component import Component
 from src import gamemap
 from src import tiles
 from src.engine import Engine

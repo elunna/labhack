@@ -1,7 +1,7 @@
 """ Tests for attributes.py """
 import pytest
 from src import factory
-from .attributes import Attributes
+from components.attributes import Attributes
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 """ Tests for fighter.py """
 
-from .fighter import Fighter
+from components.fighter import Fighter
 from src import factory
 import pytest
 

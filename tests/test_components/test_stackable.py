@@ -1,8 +1,8 @@
 import pytest
 from src.entity import Entity
-from .component import Component
+from components.component import Component
 from src import exceptions
-from .stackable import StackableComponent
+from components.stackable import StackableComponent
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 """ Tests for energy.py """
 
-from .component import Component
-from .energy import EnergyComponent
+from components.component import Component
+from components.energy import EnergyComponent
 from src.settings import DEFAULT_THRESHOLD
 import pytest
 

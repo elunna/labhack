@@ -1,5 +1,5 @@
-from .component import Component
-from .position import PositionComponent
+from components.component import Component
+from components.position import PositionComponent
 
 
 def test_init__is_Component():

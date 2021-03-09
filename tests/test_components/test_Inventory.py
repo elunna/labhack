@@ -1,7 +1,7 @@
 """ Tests for inventory.py """
 from src.entity_manager import EntityManager
-from .component import Component
-from .inventory import Inventory
+from components.component import Component
+from components.inventory import Inventory
 
 
 def test_init__is_Component():

@@ -1,8 +1,8 @@
 import pytest
 
 from src.entity import Entity
-from .item_comp import ItemComponent
-from .component import Component
+from components.item_comp import ItemComponent
+from components.component import Component
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 """ Tests for basecomponent.py """
 
-from .component import Component
+from components.component import Component
 import pytest
 
 

@@ -1,7 +1,7 @@
 """ Tests for consumable.py """
 
-from . import consumable
-from .component import Component
+from components import consumable
+from components.component import Component
 from actions.item_action import ItemAction
 from src import factory
 from tests import toolkit
