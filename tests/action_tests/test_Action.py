@@ -1,5 +1,5 @@
 """ Tests for actions.py """
-from .actions import Action
+from actions.actions import Action
 from tests import toolkit
 import pytest
 

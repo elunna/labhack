@@ -1,4 +1,4 @@
-from .attack_actions import WeaponAttack
+from actions.attack_actions import WeaponAttack
 from src import factory
 from tests import toolkit
 import pytest

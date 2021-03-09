@@ -1,5 +1,5 @@
-from . import actions
-from .upstairs_action import UpStairsAction
+from actions import actions
+from actions.upstairs_action import UpStairsAction
 from src import dungeon
 from src import exceptions
 from tests import toolkit

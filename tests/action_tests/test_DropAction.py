@@ -1,8 +1,7 @@
-from . import actions
-from .drop_action import DropAction
-from .item_action import ItemAction
+from actions import actions
+from actions.drop_action import DropAction
+from actions.item_action import ItemAction
 from src import factory
-from src import exceptions
 from tests import toolkit
 import pytest
 

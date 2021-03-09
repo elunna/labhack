@@ -1,4 +1,4 @@
-from .attack_actions import MeleeAttack
+from actions.attack_actions import MeleeAttack
 from src import factory
 from tests import toolkit
 import pytest

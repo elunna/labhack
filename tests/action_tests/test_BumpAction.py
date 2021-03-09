@@ -1,8 +1,8 @@
-from . import actions
-from .actions import ActionWithDirection
-from .attack_actions import AttackAction, MeleeAttack, WeaponAttack
-from .bump_action import BumpAction
-from .movement_action import MovementAction
+from actions import actions
+from actions.actions import ActionWithDirection
+from actions.attack_actions import MeleeAttack, WeaponAttack
+from actions.bump_action import BumpAction
+from actions.movement_action import MovementAction
 from tests import toolkit
 import pytest
 

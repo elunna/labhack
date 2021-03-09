@@ -1,5 +1,4 @@
 import pytest
-
 from actions.actions import Action
 from actions.search_action import SearchAction
 from tests import toolkit

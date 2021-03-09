@@ -1,5 +1,5 @@
-from . import actions
-from .wait_action import WaitAction
+from actions import actions
+from actions.wait_action import WaitAction
 from tests import toolkit
 import pytest
 

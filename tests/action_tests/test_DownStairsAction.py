@@ -1,5 +1,5 @@
-from . import actions
-from .downstairs_action import DownStairsAction
+from actions import actions
+from actions.downstairs_action import DownStairsAction
 from pytest_mock import mocker
 from types import SimpleNamespace
 from src import dungeon

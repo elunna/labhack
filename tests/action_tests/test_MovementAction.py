@@ -1,6 +1,6 @@
-from .actions import ActionWithDirection
-from . import actions
-from .movement_action import MovementAction
+from actions.actions import ActionWithDirection
+from actions import actions
+from actions.movement_action import MovementAction
 from src import exceptions
 from tests import toolkit
 import pytest
