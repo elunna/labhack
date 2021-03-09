@@ -1,4 +1,4 @@
-from src.edge import Edge
+from src.directed_graph import Edge
 
 
 def test_init__vertex():
