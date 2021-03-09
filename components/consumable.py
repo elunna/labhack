@@ -7,7 +7,7 @@ from components.component import Component
 from components.inventory import Inventory
 from src import color, quotes
 from src import exceptions
-from handlers import handlers
+from src import handlers
 
 
 class Consumable(Component):

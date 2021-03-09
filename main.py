@@ -1,17 +1,15 @@
 import traceback
 import tcod
-
-from handlers import eventhandler
-from handlers import mainmenu_handler
 from src import color
 from src import exceptions
+from src import handlers
 from src import rendering
 from src import settings
 
 
 def main():
     # Our first event handler is the Main Menu handler.
-    handler = mainmenu_handler.MainMenuHandler()
+    handler = handlers.MainMenuHandler()
     renderer = rendering.Renderer()
 
     # Game loop
@@ -38,7 +36,7 @@ def main():
             traceback.print_exc()  # Print error to stderr.
 
             # Then print the error to the message log.
-            if isinstance(handler, eventhandler.EventHandler):
+            if isinstance(handler, handlers.EventHandler):
                 handler.engine.msglog.add_message(
                     traceback.format_exc(), color.error
                 )
@@ -49,7 +47,7 @@ def main():
 
 def save_game(handler, filename):
     """If the current event handler has an active Engine then save it."""
-    if isinstance(handler, eventhandler.EventHandler):
+    if isinstance(handler, handlers.EventHandler):
         handler.engine.save_as(filename)
         print("Game saved.")
 

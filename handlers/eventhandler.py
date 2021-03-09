@@ -1,5 +1,6 @@
 from handlers.base_handler import BaseEventHandler
-# from handlers.handlers import GameOverHandler, MainGameHandler  # Below to avoid circular import
+# from handlers.handlers import GameOverHandler  # Below to avoid circular import
+# from handlers.handlers import MainGameHandler  # Below to avoid circular import
 from src import settings, logger
 
 log = logger.setup_logger(__name__)
@@ -53,7 +54,7 @@ class EventHandler(BaseEventHandler):
                 action = self.engine.handle_auto_states(player)
                 self.handle_action(action)
 
-            from handlers.handlers import MainGameHandler
+            from handlers.maingame import MainGameHandler
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
 

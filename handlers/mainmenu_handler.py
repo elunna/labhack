@@ -1,6 +1,7 @@
 from src import rendering, settings
 from handlers.base_handler import BaseEventHandler
-from handlers.handlers import MainGameHandler
+# from handlers.maingame import MainGameHandler # Below to avoid circular import
+
 from handlers.popup import PopupMsgHandler
 from handlers.mapdebugger import MapDebugHandler
 from src.setup_game import load_game, new_game
@@ -22,6 +23,7 @@ class MainMenuHandler(BaseEventHandler):
             raise SystemExit()
         elif event.sym == tcod.event.K_c:
             try:
+                from handlers.maingame import MainGameHandler
                 return MainGameHandler(
                     load_game(settings.save_file)
                 )
@@ -38,6 +40,7 @@ class MainMenuHandler(BaseEventHandler):
                 )
 
         elif event.sym == tcod.event.K_n:
+            from handlers.maingame import MainGameHandler
             return MainGameHandler(new_game())
         elif event.sym == tcod.event.K_g:
             # Generate random maps
