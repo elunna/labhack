@@ -2,7 +2,11 @@ from actions.actions import Action
 
 
 class SearchAction(Action):
+    """Has the actor search all of the surrounding tiles for hidden things."""
     def perform(self):
+        """Search the 8 surrounding tiles for entities with the hidden attibute.
+            If we uncover a hidden corridor or door, it is revealed.
+        """
         hidden_entities = self.get_hidden_entities(self.entity.x, self.entity.y)
 
         for e in hidden_entities:
@@ -20,6 +24,9 @@ class SearchAction(Action):
                 self.entity.gamemap.rm_entity(e)
 
     def get_hidden_entities(self, x, y):
+        """Checks all the tiles surrounding the x, y coordinate for hidden entities.
+            Returns a list if any are found.
+        """
         _map = self.entity.gamemap
 
         # Look at all the squares immediately surrounding the player

@@ -32,6 +32,9 @@ class Engine:
         self.dungeon = dungeon.Dungeon(engine=self)
 
     def handle_enemy_turns(self):
+        """Goes through each actor in the current gamemap (excluding the player) and
+        processes the actions provided by their AI.
+        """
         actors = set(self.game_map.actors) - {self.player}
         for actor in actors:
             if actor.ai:
@@ -52,7 +55,7 @@ class Engine:
                         pass  # Ignore impossible action exceptions from AI
 
     def add_energy(self):
-        # All actors gets an energy reboost!
+        """All actors gets an energy reboost!"""
         for entity in self.game_map.actors:
             entity.energymeter.add_energy(settings.energy_per_turn)
 
@@ -109,6 +112,7 @@ class Engine:
         self.game_map.explored |= self.game_map.visible
 
     def render(self, renderer):
+        """ Render the current GameMap and it's entities to the screen."""
         # Message Panel
         rendering.render_messages(
             console=renderer.msg_panel,
@@ -165,6 +169,7 @@ class Engine:
             f.write(save_data)
 
     def check_level(self):
+        """Checks the status of the player's experience to see if they qualify for an upgrade."""
         # Player leveled up
         if self.player.level.requires_level_up:
             next_level = self.player.level.current_level + 1
@@ -183,6 +188,10 @@ class Engine:
                 self.msglog.add_message("Your movements are getting swifter!")
 
     def handle_action(self, action):
+        """ Handles an action from the game and processes all of the results.
+        :param action: A type or subclass of Action.
+        :return: True if all of the actions and following actions were processed successfuly, False if not.
+        """
         if action is None:
             return False
 
@@ -225,12 +234,14 @@ class Engine:
         return True
 
     def generate_monster(self):
+        """ Creates a random monster in a random valid location on the current map. """
         # 1 out of 70 chance of creating a monster
         CHANCE = 70
         if random.randint(1, CHANCE) == 1:
             self.dungeon.summon_random_monster(self.player.level.current_level)
 
     def reduce_timeouts(self):
+        """ Go through all off the states that each actor has and reduce the timeout by 1."""
         for actor in self.game_map.actors:
             # Decrease all the timeouts for states in each actor
             for state in actor.states.decrease():

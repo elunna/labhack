@@ -17,6 +17,10 @@ class Entity(object):
         self.add_comp(parent=None)
 
     def __str__(self):
+        """ Returns the string representation of the entity.
+            If the entity is stackable, it will check if there is more than one and return
+            a plural version, otherwise it will just be the name.
+        """
         if 'name' in self:
             if "stackable" in self and self.stackable.size > 1:
                 return f"{self.stackable.size} {self.name}s"
@@ -24,15 +28,18 @@ class Entity(object):
         return 'Unnamed'
 
     def __contains__(self, component):
+        """Returns True if the entity contains the component, False otherwise."""
         return self.has_comp(component)
 
     def __getattr__(self, name):
+        """Returns the value of the specified component."""
         if name in self.components:
             return self.components[name]
 
         raise AttributeError('Entity has no component with attribute {}'.format(name))
 
     def __setattr__(self, key, value):
+        """Sets a component to a value. This should also set the parent of the component."""
         if key == 'components':
             super().__setattr__('components', value)
         else:
@@ -69,9 +76,13 @@ class Entity(object):
 
     @property
     def gamemap(self):
+        """Returns a reference to this entity's parent's gamemap."""
         return self.parent.gamemap
 
     def add_comp(self, **kwargs):
+        """Adds a set of component/value pairs to the collection of components.
+            If the component is a valid Component - we also set the parent.
+        """
         for k, v in kwargs.items():
             self.components[k] = v
 
@@ -80,6 +91,9 @@ class Entity(object):
                 v.parent = self
 
     def rm_comp(self, component):
+        """Removes the specified component from the entity. If it is a valid Component, it also resets the parent.
+            Returns True if the operation succeeded, False otherwise.
+        """
         if component in self.components:
             self.components.pop(component)
 
@@ -91,6 +105,7 @@ class Entity(object):
         return False
 
     def has_comp(self, component):
+        """Returns True if the entity has the specified component, False otherwise. """
         return component in self.components
 
     def has_compval(self, **kwargs):

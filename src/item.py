@@ -4,6 +4,7 @@ from src.renderorder import RenderOrder
 
 
 class Item(entity.Entity):
+    """Represents items in the game."""
     def __init__(
         self, *,
         x=-1, y=-1,

@@ -12,6 +12,11 @@ LOGDIR = 'logs/'
 
 
 def setup_logger(name):
+    """ Creates a logger that is specific to a module.
+
+    :param name: The name of the module (usually passed in as __name__ in the module)
+    :return: A new logger.
+    """
     if not os.path.exists(LOGDIR):
         os.mkdir(LOGDIR)
 
@@ -29,8 +34,9 @@ def setup_logger(name):
     debug_fh.setLevel(logging.DEBUG)
 
     # Setup console stream handler
+    # Only INFO or higher prints to console.
     ch = logging.StreamHandler()
-    ch.setLevel(logging.INFO)  # Only INFO or higher printers to console.
+    ch.setLevel(logging.INFO)
 
     # Setup formatting
     debug_fmt = logging.Formatter('%(asctime)s - %(module)s - %(levelname)s - %(message)s',

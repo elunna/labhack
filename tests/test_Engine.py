@@ -47,6 +47,14 @@ def test_init__dungeon(player):
 
 @pytest.mark.skip(reason="Skeleton")
 def test_handle_enemy_turns():
+    # Difficult to test, need to break into smaller parts?
+    pass
+
+
+@pytest.mark.skip(reason="Skeleton")
+def test_add_energy():
+    # Easy to test, see if an actor gets an energy boost
+    # Change to add_energy(actors) ? Easier to test.
     pass
 
 
@@ -57,11 +65,21 @@ def test_update_fov():
 
 @pytest.mark.skip(reason="Skeleton")
 def test_render():
+    # Mock to see if it calls Renderer stuff
     pass
 
 
 @pytest.mark.skip(reason="Skeleton")
 def test_save_as():
+    # Mock to see it calls write and saves a file.
+
     pass
 
 
+
+# check_level(self): - Move this to the Player class??
+
+# handle_action(self, action):
+#  generate_monster(self):
+# reduce_timeouts(self):
+# handle_auto_states(self, actor):

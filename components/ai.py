@@ -8,9 +8,11 @@ import tcod
 
 
 class BaseAI(Component):
+    """Contains the base functionality for actor AI's. """
     def yield_action(self):
-        # No perform implemented, since the entities which will be using AI to
-        # act will have to have an AI class that inherits from this one.
+        """No perform implemented, since the entities which will be using AI to
+        act will have to have an AI class that inherits from this one.
+        """
         raise NotImplementedError()
 
     def get_path_to(self, dest_x, dest_y, diagonal=3):
@@ -70,12 +72,16 @@ class BaseAI(Component):
 
 
 class HostileAI(BaseAI):
+    """ Makes monsters aggressively seek out and attack the player. Monsters will only chase
+    if they are within the chase_distance. They will attack if next to the player.
+    """
     def __init__(self, diagonal=3):
         self.path = []
         self.diagonal = diagonal
         self.chase_distance = 12
 
     def yield_action(self):
+        """Determines if the monster should move closer, attack, or wait."""
         target = self.engine.player
         dx = target.x - self.parent.x
         dy = target.y - self.parent.y
@@ -96,6 +102,7 @@ class HostileAI(BaseAI):
         return WaitAction(self.parent)
 
     def can_attack(self, target, dx, dy):
+        """Returns True if the monster is able to attack, otherwise False."""
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
         if self.engine.game_map.visible[self.parent.x, self.parent.y]:
             # If the player is right next to the entity, attack the player.
@@ -106,11 +113,14 @@ class HostileAI(BaseAI):
 
 
 class GridAI(HostileAI):
+    """Like HostileAI, but monsters with this AI can only move and attack in cardinal directions: N, E, S, W.
+    """
     def __init__(self):
         # This just creates a hostile AI with a diagonal of 0 so the actor will only use
         super().__init__(diagonal=0)
 
     def can_attack(self, target, dx, dy):
+        """Returns True if the monster is next to the player and directly N, E, S, or W."""
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
         if distance > 1:
             return False
@@ -118,12 +128,16 @@ class GridAI(HostileAI):
 
 
 class RunAI(BaseAI):
+    """ This is an AI for the player to auto-run in a direction until we run into an obstacle or something
+    interesting.
+    """
     def __init__(self, direction):
         self.dx, self.dy = direction
         self.first_step = True
         self.stop_after_first_stop = False
 
     def can_perform(self):
+        """Returns True if the player can move in the """
         target_tile = (self.parent.x + self.dx, self.parent.y + self.dy)
         result = True
         actor_in_way = self.parent.gamemap.get_actor_at(*target_tile)
@@ -169,6 +183,9 @@ class RunAI(BaseAI):
         return result
 
     def yield_action(self):
+        """Returns a BumpAction if it's the first step.
+        For all other steps we return a MovementAction.
+        """
         if self.first_step:
             self.first_step = False
 

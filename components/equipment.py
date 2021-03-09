@@ -4,6 +4,7 @@ from src import exceptions
 
 
 class EquipmentType(Enum):
+    """Represents all the available slots of equipment an actor can equip."""
     WEAPON = auto()     # Main Hand?
     ARMOR = auto()
     HELMET = auto()
@@ -32,6 +33,7 @@ class Equipment(Component):
             self.toggle_equip(item)
 
     def attribute_bonus(self, attribute):
+        """Calculates how much of a bonus the given attribute gets from all the equipped items."""
         equipped_items = [i for i in self.slots.values() if i]
         return sum(i.equippable.modifiers[attribute] for i in equipped_items)
 
@@ -46,9 +48,11 @@ class Equipment(Component):
         return self.slots.get(slot) is not None
 
     def unequip_message(self, item_name):
+        """Returns an unequip message."""
         return f"You remove the {item_name}. "
 
     def equip_message(self, item_name):
+        """Returns an equipment message."""
         return f"You equip the {item_name}. "
 
     def equip_to_slot(self, slot, item):

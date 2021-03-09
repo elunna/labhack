@@ -43,6 +43,7 @@ class EntityFactory:
         return choice
 
     def populate_level(self, dlevel):
+        """Adds monsters, items, traps, and features to the map."""
         new_map = self.dungeon.get_map(dlevel)
         for r in new_map.rooms:
             # Populate the room with monsters and items
@@ -62,6 +63,7 @@ class EntityFactory:
             self.place_money(new_map, r)
 
     def place_items(self, new_map, new_room):
+        """Places a random amount of items in the new room."""
         max_items = get_max_value_for_floor(settings.max_items_by_floor, self.dungeon.dlevel)
         number_of_items = random.randint(0, max_items)
 
@@ -75,6 +77,7 @@ class EntityFactory:
             spawn(entity, new_map, x, y)
 
     def place_monsters(self, new_map, new_room):
+        """Places a random amount of monsters in the new room."""
         new_monster = self.difficulty_specific_monster(
             self.dungeon.dlevel,
             self.player.level.current_level
@@ -88,6 +91,7 @@ class EntityFactory:
             spawn(new_monster, new_map, x, y)
 
     def place_traps(self, new_map, new_room):
+        """Places a random amount of traps in the new room."""
         x, y = new_room.random_point_inside()
 
         # No traps on stairs!
@@ -97,6 +101,7 @@ class EntityFactory:
             new_map.place(new_trap, x, y)
 
     def place_money(self, new_map, new_room):
+        """Places a random amount of money in the new room."""
         x, y = new_room.random_point_inside()
         # 1d10 * level for the amount of the pile?
         money_pile = make("money")
@@ -108,6 +113,7 @@ class EntityFactory:
 
 
 def make(entity_name):
+    """Generates entities from the db.py database of entities."""
     # Returns a new copy of the specified entity.
     if entity_name in db.actor_dict:
         # Create an Actor entity
@@ -153,6 +159,8 @@ def spawn(entity_name, gamemap, x, y):
 
 
 def get_max_value_for_floor(weighted_chances_by_floor, floor):
+    """Uses the weighted chances table to calculate the maximum number of entities to generate
+    (per room) for the current floor."""
     current_value = 0
 
     for floor_minimum, value in weighted_chances_by_floor:

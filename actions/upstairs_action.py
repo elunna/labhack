@@ -6,6 +6,8 @@ DUNGEON_TOP_LEVEL = 1
 
 
 class UpStairsAction(Action):
+    """Represents an entity moving from a upstair tile to the previous level."""
+
     def __init__(self, entity, dungeon):
         super().__init__(entity)
         self.dungeon = dungeon

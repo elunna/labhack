@@ -4,6 +4,7 @@ from components.attributes import AttributeType
 
 
 class Equippable(Component):
+    """Represents an item that can be equipped or wielded."""
     parent = None
 
     def __init__(
@@ -25,12 +26,14 @@ class Equippable(Component):
 
 
 class Weapon(Equippable):
+    """Represents an equippable weapon."""
     def __init__(self, attack_comp):
         super().__init__(equipment_type=EquipmentType.WEAPON)
         self.attack_comp = attack_comp
 
 
 class Armor(Equippable):
+    """Represents an equippable piece of armor."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.ARMOR,
@@ -39,6 +42,7 @@ class Armor(Equippable):
 
 
 class Helmet(Equippable):
+    """Represents an equippable piece of headgear."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.HELMET,
@@ -47,6 +51,7 @@ class Helmet(Equippable):
 
 
 class Gloves(Equippable):
+    """Represents an equippable pair of gloves."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.GLOVES,
@@ -55,6 +60,7 @@ class Gloves(Equippable):
 
 
 class Boots(Equippable):
+    """Represents an equippable pair of footwear."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.BOOTS,
@@ -63,6 +69,7 @@ class Boots(Equippable):
 
 
 class Shield(Equippable):
+    """Represents an equippable shield."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.SHIELD,
@@ -71,6 +78,7 @@ class Shield(Equippable):
 
 
 class Arms(Equippable):
+    """Represents an equippable armor for the arms, or a tool that goes on the wrist."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.ARMS,
@@ -79,6 +87,7 @@ class Arms(Equippable):
 
 
 class Belt(Equippable):
+    """Represents an equippable belt."""
     def __init__(self, ac_bonus=0):
         super().__init__(
             equipment_type=EquipmentType.BELT,

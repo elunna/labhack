@@ -54,6 +54,14 @@ class EntityManager:
         return True
 
     def add_item(self, e: Entity, qty: int = 0):
+        """ Adds the specified stackable entity to the collection of entities. This method is similar to add_entity,
+        but manages the stackable aspect of items. If no qty is passed, we assume the full stack (0 signifies a full stack).
+        If the client specifies a partial stack of the e, we will only add that number from it's stack.
+
+        :param e: The entity to add.
+        :param qty: The quantity of the entity's stack to add (default is the full amount)
+        :return: True if the operation was successful, False otherwise.
+        """
         # if "item" not in e:
         #     raise ValueError(f'add_item requires item component for entities!')
 
@@ -118,6 +126,13 @@ class EntityManager:
         return None
 
     def rm_item(self, e: Entity, qty: int = 0):
+        """ Similar to rm_entity, but meant for stackable items. We attempt to remove a certain amount of the
+        given entities stack from the one in the entities.
+
+        :param e: The entity to remove from the collection.
+        :param qty: The amount to take away from the stack (default is 0 for the full stack)
+        :return: The entity that was removed, or None if the operation was unsuccessful.
+        """
         if qty < 0:
             raise ValueError("rm_entity requires qty 0 or greater (0 = full stack for stackables)")
 
@@ -206,14 +221,14 @@ class EntityManager:
         return len(self) == self.capacity
 
     def get_similar(self, e):
-        # optional x, y args for locating items at coordinates?
-        # raise NotImplementedError()
         """ Searches for entities that match most of the components and values of the given entity.
             The purpose of this method is mostly for finding matching stackable items.
 
         :param e: The entity we want to match.
         :return: The first matching entity we find.
         """
+        # optional x, y args for locating items at coordinates?
+        # raise NotImplementedError()
         for f in self.entities:
             # Needs to match name and coordinates to be similar
             if f.name == e.name:

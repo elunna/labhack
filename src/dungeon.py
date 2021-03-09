@@ -4,7 +4,8 @@ from . import procgen
 
 
 class Dungeon:
-    """ Holds the settings for the GameMap, and generates new maps when moving down the stairs.
+    """ Manages the collection of levels in the game, keeps track of the current map,
+     and generates new maps when moving down the stairs.
     """
     def __init__(self, engine=None, test_map=None):
         self.engine = engine  # This must be set before generate_floor.
@@ -29,14 +30,15 @@ class Dungeon:
 
     @property
     def current_map(self):
-        # Returns the floor that the player is currently on.
+        """Returns the floor that the player is currently on."""
         if self.map_list:
             return self.map_list[self.dlevel - 1]
         return None
 
     def generate_floor(self):
-        # Generate new map each time we go down a floor.
-        # Adds the map to the list of maps and returns the created map.
+        """Generate new map each time we go down a floor. Adds the map to the list of maps and
+        returns the created map.
+        """
         if self.test_map:
             # Easy way to speed up testing with test maps.
             new_map = self.test_map()  # Generate a new test map each time.
@@ -61,12 +63,13 @@ class Dungeon:
         return new_map
 
     def populate_map(self, dlevel):
-        # Place entities, items, etc.
+        """Place entities, items, and actors in a new map."""
         # map_to_populate = self.get_map(dlevel)
         self.entity_factory.populate_level(dlevel)
         # factory.populate_map(map_to_populate, self.dlevel)
 
     def summon_random_monster(self, player_level):
+        """Creates a new monster for the level and places it randomly."""
         map_to_populate = self.get_map(self.dlevel)
 
         # Create a new monster based on difficulty
@@ -78,6 +81,7 @@ class Dungeon:
         factory.spawn(new_monster, self.current_map, x, y)
 
     def move_downstairs(self, entity):
+        """Moves the specified entity downstairs to the next upstair."""
         # Unlatch the player from the old level
         self.current_map.player = None
 
@@ -100,6 +104,7 @@ class Dungeon:
         return True
 
     def move_upstairs(self, entity):
+        """Moves the specified entity upstairs to the next downstair."""
         # Unlatch the player from the old level
         self.current_map.player = None
 
@@ -123,6 +128,7 @@ class Dungeon:
         return True
 
     def place_entity(self, entity, map_num, x, y):
+        """Places an entity at a map by the map level at a specific x, y coordinate."""
         # Returns True if successful, False otherwise.
 
         # Remove the entity from current map
@@ -142,8 +148,10 @@ class Dungeon:
         entity.x, entity.y = x, y
 
     def set_dlevel(self, new_dlevel):
-        # Checks that the level number is valid and sets it.
-        # Returns True if successful, False otherwise.
+        """Sets the number of the current level.
+        Checks that the level number is valid and sets it.
+        Returns True if successful, False otherwise.
+        """
 
         if new_dlevel <= 0:
             raise ValueError("Cannot set the dungeon level to 0 or less!")
@@ -158,6 +166,7 @@ class Dungeon:
         return False
 
     def get_map(self, dlevel):
+        """Returns the current map."""
         return self.map_list[dlevel - 1]
 
     # get_map(num)

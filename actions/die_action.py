@@ -3,11 +3,15 @@ from src.renderorder import RenderOrder
 
 
 class DieAction(Action):
+    """This action kills an actor and converts it's stats to a dead corpse. If the death was caused by
+    another actor, that actor will get experience points for the kill.
+    """
     def __init__(self, entity, cause):
         super().__init__(entity)
         self.cause = cause
 
     def perform(self):
+        """Performs the death of the entity."""
         # TODO: What if the cause is a non-actor? Trap, drowning, bomb, etc.
         trap_cause = "trap" in self.cause
 

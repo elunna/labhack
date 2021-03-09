@@ -2,6 +2,7 @@ from actions.actions import Action
 
 
 class ItemAction(Action):
+    """An action that uses an item in the actors inventory."""
     def __init__(self, entity, item, target_xy=None):
         super().__init__(entity)
         self.item = item

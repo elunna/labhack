@@ -9,7 +9,10 @@ import numpy as np
 import tcod
 
 
-class Renderer():
+class Renderer:
+    """Creates the main rendering root console with the tileset, and manages the rendering
+    between the different console panels.
+    """
     def __init__(self):
         tileset = tcod.tileset.load_tilesheet(
             path=settings.tileset,
@@ -55,6 +58,7 @@ class Renderer():
 
 
 def render_bar(console, current_value, maximum_value, total_width):
+    """Renders a fillable bar (like an HP bar)"""
     bar_width = int(float(current_value) / maximum_value * total_width)
 
     console.draw_rect(
@@ -84,12 +88,13 @@ def render_bar(console, current_value, maximum_value, total_width):
 
 
 def render_dungeon_lvl_text(console, dungeon_level):
-    """ Render the level the player is currently on, at the given location.  """
+    """ Render the level the player is currently on, at the given location. """
     x, y = settings.dlevel_text_location
     console.print(x=x, y=y, string=f"Dlevel: {dungeon_level}")
 
 
 def render_stats(console, engine, player):
+    """Renders all the important player stats in the stat panel."""
     ac_stat = f"AC:{player.fighter.ac}"
     str_stat = f"Str:{player.attributes.strength}"
     dex_stat = f"Dex:{player.attributes.dexterity}"
@@ -115,12 +120,10 @@ def render_stats(console, engine, player):
 
 
 def render_names_at_mouse_location(console, x, y, engine):
-    """ takes the console, x and y coordinates (the location to draw the names),
-        and the engine. From the engine, it grabs the mouse’s current x and y
-        positions, and passes them to get_names_at_location, which we can assume
-        for the moment will return the list of entity names we want. Once we
-        have these entity names as a string, we can print that string to the
-        given x and y location on the screen, with console.print.
+    """ takes the console, x and y coordinates (the location to draw the names), and the engine.
+    From the engine, it grabs the mouse’s current x and y positions, and passes them to get_names_at_location,
+    which we can assume for the moment will return the list of entity names we want. Once we have these entity
+    names as a string, we can print that string to the given x and y location on the screen, with console.print.
     """
     mouse_x, mouse_y = engine.mouse_location
 
@@ -134,10 +137,8 @@ def render_names_at_mouse_location(console, x, y, engine):
 
 def render_messages(console, x, y, width, height, msg_list):
     """Render the messages provided. Render this log over the given area.
-            `x`, `y`, `width`, `height` is the rectangular region to render onto
-            the `console`.
-    The `messages` are rendered starting at the last message and working
-    backwards.
+        `x`, `y`, `width`, `height` is the rectangular region to render onto the `console`.
+    The `messages` are rendered starting at the last message and working backwards.
     """
     y_offset = height - 1
 
@@ -157,15 +158,14 @@ def render_map(console, game_map):
     """
 
     # tiles_rgb method, much faster than using the console.print method
+    # np.select allows us to conditionally draw the tiles we want, based on
+    # what’s specified in condlist. Since we’re passing [self.visible, self.explored],
+    # it will check if the tile being drawn is either visible, then explored.
+    # If it’s visible, it uses the first value in choicelist, in this case,
+    # self.tiles["light"]. If it’s not visible, but explored, then we draw
+    # self.tiles["dark"]. If neither is true, we use the default argument,
+    # which is just the SHROUD we defined earlier.
     console.tiles_rgb[0: game_map.width, 0: game_map.height] = np.select(
-        # np.select allows us to conditionally draw the tiles we want, based on
-        # what’s specified in condlist. Since we’re passing [self.visible, self.explored],
-        # it will check if the tile being drawn is either visible, then explored.
-        # If it’s visible, it uses the first value in choicelist, in this case,
-        # self.tiles["light"]. If it’s not visible, but explored, then we draw
-        # self.tiles["dark"]. If neither is true, we use the default argument,
-        # which is just the SHROUD we defined earlier.
-
         condlist=[game_map.visible, game_map.explored],
         choicelist=[game_map.tiles["light"], game_map.tiles["dark"]],
         default=tiles.SHROUD,
@@ -213,6 +213,7 @@ def render_map(console, game_map):
 
 
 def render_history(console, title, cursor, msglog):
+    """Renders the full message history."""
     log_console = tcod.Console(console.width - 6, console.height - 6)
 
     # Draw a frame with a custom banner title.
@@ -315,11 +316,13 @@ def render_inv(console, engine, title):
 
 
 def highlight_cursor(console, x, y):
+    """Highlights the specified coordinate with a white background and black foreground. """
     console.tiles_rgb["bg"][x, y] = color.white
     console.tiles_rgb["fg"][x, y] = color.black
 
 
 def hilite_radius(console, x, y, radius):
+    """Highlights the area surrounding the specified coordinates. """
     # Highlight the affected tiles.
     max_x = x + radius
     min_x = x - radius
@@ -338,7 +341,7 @@ def distance(x1, y1, x2, y2):
 
 
 def draw_rect(console, x, y, radius):
-    # Draw a rectangle around the targeted area, so the player can see the affected tiles.
+    """Draw a rectangle around the targeted area, so the player can see the affected tiles."""
     console.draw_frame(
         x=x - radius - 1,
         y=y - radius - 1,
@@ -350,6 +353,7 @@ def draw_rect(console, x, y, radius):
 
 
 def render_popup(console, text):
+    """Renders simple popup text over a dimmed background. """
     console.tiles_rgb["fg"] //= 8
     console.tiles_rgb["bg"] //= 8
 
@@ -364,6 +368,7 @@ def render_popup(console, text):
 
 
 def render_levelup_menu(console, engine, title):
+    """Deprecated: Renders the level up menu for the player when the reach a new level. """
     if engine.player.x <= 30:
             x = 40
     else:
@@ -397,6 +402,7 @@ def render_levelup_menu(console, engine, title):
 
 
 def render_character_stats(console, engine, title):
+    """Displays all the character stats and equipped items on a special screen. """
     msgs = [
         f"Level: {engine.player.level.current_level}",
         f"XP: {engine.player.level.current_xp}",
@@ -440,6 +446,7 @@ def render_character_stats(console, engine, title):
 
 
 def render_main_menu(console):
+    """Renders the main menu and options."""
     # Load the background image and remove the alpha channel.
     background_image = tcod.image.load(settings.bg_img)[:, :, :3]
     console.draw_semigraphics(background_image, 0, 0)
@@ -480,6 +487,7 @@ def render_main_menu(console):
 
 
 def render_map_debugger(console, mode, max_rooms, min_size, max_size, max_dist, maze_path):
+    """Displays the map debugging screen and the available options."""
     maxrooms_str = f"Max Rooms:{max_rooms} +/-"
     minsize_str = f"Min Size:{min_size}"
     maxsize_str = f"Max Size:{max_size}"

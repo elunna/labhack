@@ -3,6 +3,7 @@ from src import exceptions
 
 
 class DropAction(ItemAction):
+    """Represents an entity dropping an item from their inventory."""
     def perform(self):
         """ Removes an item from an entity's inventory and places it on the
             current game map, at the entity's coordinates.

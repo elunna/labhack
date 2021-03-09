@@ -1,11 +1,12 @@
 class Action:
-    """ The template for a game action that affects gameplay."""
+    """ The template for a game action. Every action has an entity that is performing it."""
     def __init__(self, entity):
         self.entity = entity
         self.msg = ''
         self.recompute_fov = False  # Use this for actions which require redrawing after.
 
     def __str__(self):
+        """Returns the string representation of the action."""
         return self.__class__.__name__
 
     @property
@@ -25,6 +26,7 @@ class Action:
 
 
 class ActionWithDirection(Action):
+    """Represents an Action that has a direction targets in any of the immediate 8 surrounding tiles."""
     def __init__(self, entity, dx, dy):
         super().__init__(entity)
         self.dx = dx
@@ -51,4 +53,5 @@ class ActionWithDirection(Action):
         return self.entity.gamemap.get_actor_at(*self.dest_xy)
 
     def perform(self):
+        """Invokes the actor to perform the action."""
         raise NotImplementedError()

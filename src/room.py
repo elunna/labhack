@@ -1,10 +1,11 @@
 import random
 
-from src import settings, tiles
+from src import tiles
 from src.door import Door
 
 
 class Room:
+    """Represents a room in a single map."""
     def __init__(self, x, y, width, height):
         if width < 3 or height < 3:
             raise ValueError("Width and height must be at least 3 or greater.")
@@ -22,6 +23,7 @@ class Room:
 
     @property
     def center(self):
+        """ Returns the coordinate closest to the center of the room."""
         # describes the “x” and “y” coordinates of the center of a room. I
         center_x = int((self.x1 + self.x2) / 2)
         center_y = int((self.y1 + self.y2) / 2)
@@ -30,21 +32,26 @@ class Room:
 
     @property
     def nw_corner(self):
+        """Returns the coordinate representing the northwest corner."""
         return self.x1, self.y1
 
     @property
     def ne_corner(self):
+        """Returns the coordinate representing the northeast corner."""
         return self.x2, self.y1
 
     @property
     def sw_corner(self):
+        """Returns the coordinate representing the southwest corner."""
         return self.x1, self.y2
 
     @property
     def se_corner(self):
+        """Returns the coordinate representing the southeast corner."""
         return self.x2, self.y2
 
     def corners(self):
+        """Returns the coordinates of all the corners as a set."""
         return {
             self.nw_corner, self.ne_corner,
             self.sw_corner, self.se_corner
@@ -52,6 +59,7 @@ class Room:
 
     @property
     def full_slice(self):
+        """Return the inner area of this room as a 2D array index."""
         return slice(self.x1, self.x2 + 1), slice(self.y1, self.y2 + 1)
 
     @property
@@ -113,34 +121,43 @@ class Room:
         )
 
     def perimeter(self):
-        # Returns a set of coordinates that represent the perimeter of the room.
+        """Returns a set of coordinates that represent the perimeter of the room."""
         return self.horz_walls().union(self.vert_walls())  # Union of both sets
 
     def horz_walls(self):
-        # Returns a set of all coordinates that represent the horizontal lines of the room.
-        # Includes corners
+        """Returns a set of all coordinates that represent the horizontal lines of the room.
+        Includes corners. """
         return {(x, y) for y in [self.y1, self.y2] for x in range(self.x1, self.x2 + 1)}
 
     def vert_walls(self):
-        # Returns a set of all coordinates that represent the vertical lines of the room.
-        # Includes corners
+        """Returns a set of all coordinates that represent the vertical lines of the room.
+        Includes corners"""
         return {(x, y) for x in [self.x1, self.x2] for y in range(self.y1, self.y2 + 1)}
 
     def random_point_inside(self):
+        """ Returns a random coordinate anywhere in the area of the inner room floor."""
         x = random.randint(self.x1 + 1, self.x2 - 1)
         y = random.randint(self.y1 + 1, self.y2 - 1)
         return x, y
 
     def random_door_loc(self):
+        """ Returns a random location that a door could be created."""
         return random.choice(list(self.perimeter().difference(self.corners())))
 
     def all_coords(self):
+        """Returns the set of all coordinates representing the room, including walls."""
         return [(self.x1 + x, self.y1 + y) for x in range(self.width) for y in range(self.height)]
 
     def valid_door_loc(self, x, y):
+        """Returns True if the door could be a valid location, False otherwise.
+        Doors cannot appear in corners, so corner locations returns False.
+        """
         return (x, y) in self.perimeter() and (x, y) not in self.corners()
 
     def direction_facing(self, x, y):
+        """Returns which cardinal direction the coordinate is facing. The coordinate must not be a
+        corner, and must be on a wall to be facing a direction.
+        """
         # Corners face diagonally, so we won't count them yet.
         if (x, y) in self.corners():
             return None
@@ -155,6 +172,8 @@ class Room:
             return 'S'
 
     def match_facing_doors(self, room2):
+        """This finds all the valid door positions in this room and another room, it then compares all
+        the combinations to match only the doors which face each other and returns it as a list."""
         room1_doors = self.get_all_possible_doors()
         room2_doors = room2.get_all_possible_doors()
 
@@ -166,6 +185,7 @@ class Room:
         return matches
 
     def get_all_possible_doors(self):
+        """Returns a list of all the possible door locations in the room."""
         walls = self.perimeter().difference(self.corners())
         return [Door(self, x, y) for x, y in walls]
 

@@ -2,6 +2,7 @@ from actions.actions import Action
 
 
 class TrapAction(Action):
+    """Represents the effects triggered by a trap."""
     def __init__(self, entity, trap, target_xy=None):
         super().__init__(entity)
         self.trap = trap

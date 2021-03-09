@@ -8,9 +8,7 @@ class PickupAction(Action):
         super().__init__(entity)
 
     def perform(self):
-        # TODO: Support for piles
-        # TODO: Pickup menu handler
-
+        """Picks up an item from the entities' current location and adds it to their inventory."""
         inventory = self.entity.inventory
         # items_on_location = self.entity.gamemap.get_items_at(self.entity.x, self.entity.y)
         items_on_location = self.entity.gamemap.filter(

@@ -3,6 +3,7 @@ from src import exceptions
 
 
 class DownStairsAction(Action):
+    """Represents an entity moving from a downstair tile to the next level."""
     def __init__(self, entity, dungeon):
         super().__init__(entity)
         self.dungeon = dungeon

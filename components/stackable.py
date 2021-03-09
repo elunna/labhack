@@ -1,19 +1,17 @@
 import copy
-
 from components.component import Component
 
 
 class StackableComponent(Component):
+    """Manages the stackable methods and size of items."""
     def __init__(self, size=1):
         # self.max_size = 1000
         self.size = size
 
     def merge_stack(self, item, qty=0):
-        """ Merge a different item's stack into this one.
-            This stack gains an amount equal to the other stack's size
-            The other stack is depleted.
-            The default for qty is 0 - which forces the full stack to merge into this one.
-            returns True if the operation succeeded, False if it did not.
+        """ Merge a different item's stack into this one. This stack gains an amount equal to the
+        other stack's size. The other stack is depleted. The default for qty is 0 - which forces
+        the full stack to merge into this one. Returns True if the operation succeeded, False if it did not.
         """
         # if not self.parent.is_similar(item):
         #     return False
@@ -39,7 +37,5 @@ class StackableComponent(Component):
 
         cloned_item = copy.deepcopy(self.parent)
         cloned_item.stackable.size = qty
-
         self.size -= qty
-
         return cloned_item

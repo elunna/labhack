@@ -8,11 +8,6 @@ import random
 class Maze:
     """ This is the constructor for a 2D maze. """
     def __init__(self, width, height, path_width=1, start=(0, 0)):
-        """ How do we fit the maze to an outside console?
-            max_width and max_height could be the max room we have to work with.
-            The path will bloat the maze so we need to be careful.
-
-        """
         self.max_width = width * (path_width + 1)
         self.max_height = height * (path_width + 1)
 
@@ -42,9 +37,12 @@ class Maze:
         """
 
     def get_cell(self, x, y):
+        """Returns the cell at the x, y coordinate."""
         return self.maze[self.width * y + x]
 
     def create_maze(self):
+        """Runs through all the possible cells and generated a path using a stack to keep track of
+         the visited cells. We use a depth first search by default."""
         # Depth first search
         turns = 0
         while self.visited < len(self.maze):
@@ -97,6 +95,7 @@ class Maze:
             turns += 1
 
     def get_neighbors(self, x, y):
+        """Returns all the neighbors of the cell at x, y."""
         # We'll build up a dict of directions and resulting coordinates.
         # If there isn't a valid coordinate we don't add it.
         neighbors = {}
@@ -119,6 +118,7 @@ class Maze:
         return neighbors
 
     def draw(self):
+        """Draws a fully created maze to a console grid."""
         # max_width = self.width * (self.path_width + 1)
         # max_height = self.height * (self.path_width + 1)
         console = [['#' for _x in range(self.max_width)] for _y in range(self.max_height)]
@@ -149,6 +149,7 @@ class Maze:
         return console
 
     def export_gamemap(self):
+        """Exports a fully generated maze to a GameMap."""
         # max_width = self.width * (self.path_width + 1)
         # max_height = self.height * (self.path_width + 1)
 
@@ -188,6 +189,9 @@ class Maze:
 
     @staticmethod
     def dimensions_to_fit(max_width, max_height, path_width):
+        """Helper method to calculate the maximum height and width of a maze to that can fit a given console.
+        The path width directly affects this.
+        """
         width = math.floor(max_width / (path_width + 1))
         height = math.floor(max_height / (path_width + 1)) + 1
         return width, height

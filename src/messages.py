@@ -3,6 +3,7 @@ import textwrap
 
 
 class Msg:
+    """Represents a single message in the game. Can have a corresponding color."""
     def __init__(self, text, fg=(255, 255, 255)):
         self.plain_text = text
         self.fg = fg  # Foreground color: Tuple[int, int, int]
@@ -21,6 +22,7 @@ class Msg:
 
 
 class MsgLog:
+    """Manages the message history in the game."""
     def __init__(self):
         self.messages = []
 
@@ -45,6 +47,9 @@ class MsgLog:
 
 
 class HelpInfo(MsgLog):
+    """ Manages the help info and command reference in the game. Re-uses the message log and loads an
+    outside help.txt file.
+    """
     def __init__(self):
         super().__init__()
         with open('help.txt') as f:

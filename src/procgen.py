@@ -13,6 +13,7 @@ from .utils import distance
 
 
 def add_extras(new_map):
+    """After a map is created, this adds hidden corridors, hidden doors, and closets."""
     # TODO: Break up this function into subfunctions
     # Add hidden corridors.
     # For now, we'll add x hidden corridors, where x is the number of rooms divided by 2.
@@ -44,6 +45,7 @@ def add_extras(new_map):
 
 
 def dig_path(new_map, path):
+    """Digs a preformed path in the map and converts all the coordinates in the path to floor tiles."""
     # Dig out a pre-determined path
     for x, y in path:
         new_map.tiles[x, y] = tiles.floor
@@ -68,6 +70,9 @@ def draw_doors(new_map):
 
 
 def draw_door(new_map, d):
+    """Creates a single door in the map. First, verifies that the door has appropriate neighbor tiles,
+    draws the door, then creates the closet outside the door.
+    """
     if new_map.valid_door_neighbors(d.room, d.x, d.y):
         new_map.tiles[d.x, d.y] = tiles.door
 
@@ -79,6 +84,9 @@ def draw_door(new_map, d):
 
 
 def draw_room(new_map, new_room):
+    """Draws all the tiles in a new room. Consists of the walls, corners, and inner floors.
+    We also calculate if the the room will be lit or not and set the lit tiles as needed.
+    """
     # Dig out this rooms inner area.
     new_map.tiles[new_room.inner] = tiles.room_floor
 
@@ -192,12 +200,12 @@ def connect_room_to_room(new_map, room1, room2):
 
 
 def connecting_algorithm(new_map):
-    # First connect rooms with a minimum spanning tree.
+    """ Connects all the rooms in a map with a minimum spanning tree then performs an extra round
+    of connections to make the  map easier to traverse.."""
     edges = min_spanning_tree_for_rooms(new_map.rooms)
     for room1, room2 in edges:
         connect_room_to_room(new_map, room1, room2)
 
-    # We'll perform a second round of connections to make the map easier to traverse.
     # Try to add 1/2 of the room count as extra connections.
     extra_connections = len(new_map.rooms) // 2
 
@@ -230,6 +238,7 @@ def create_Astar_path_to(_map, start_x, start_y, dest_x, dest_y):
 
 
 def create_diagonal_path(start, end):
+    """Generates a diagonal path from one point to another on the map."""
     # Generate the coordinates for this tunnel.
     # line-of-sight module: draws Bresenham lines.
     x1, y1 = start
@@ -272,8 +281,7 @@ def create_L_path(start, end, twist=0):
 
 
 def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height, max_distance, difficulty):
-    """Generate a new dungeon map with rooms, corridors, and stairs..
-    """
+    """ Generate a new dungeon map with rooms, corridors, and stairs."""
     new_map = gamemap.GameMap(map_width, map_height, dlevel=difficulty)
 
     # Create all the rooms
@@ -315,6 +323,7 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
 
 
 def generate_random_room(map_width, map_height, min_size, max_size):
+    """Creates a room with random size and position."""
     room_width = random.randint(min_size, max_size)
     room_height = random.randint(min_size, max_size)
 
@@ -325,6 +334,9 @@ def generate_random_room(map_width, map_height, min_size, max_size):
 
 
 def generate_rooms(new_map, max_rooms, room_min_size, room_max_size, max_distance=50):
+    """Generates a set of rooms for a new map. We will not allow overlapping of rooms so we will try
+    max_tries times until we either have the full set of max_rooms or have exhausted our tries.
+    """
     max_tries = 100
     tries = 0
 
@@ -444,8 +456,7 @@ def valid_pair_of_doors(new_map, door1, door2):
 
 
 def valid_path(new_map, path):
-    """ Walks along a path and makes sure it doesn't dig out anything important.
-    """
+    """ Walks along a path and makes sure it doesn't dig out anything important. """
     # This takes care of A* paths that are only 1 sq long.
     if len(path) == 1:
         return False

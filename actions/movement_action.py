@@ -7,6 +7,10 @@ class MovementAction(ActionWithDirection):
     """ Moves an entity to a new set of coordinates."""
 
     def perform(self):
+        """Attempts to moves the entity a destination coordinate. We conduct a thorough set of checks to
+        make sure the move is valid, and then move the entity. If the entity walks into a trap, we return a
+        TrapAction for that trap.
+        """
         if "trapped" in self.entity.states.states:
             # return WriggleAction(self.entity, self.dx, self.dy)
             raise exceptions.Impossible("Actor is trapped and cannot move!")
@@ -48,6 +52,7 @@ class MovementAction(ActionWithDirection):
 class WriggleAction(ActionWithDirection):
     """ Lets an actor wriggle to get out of a trap """
     def perform(self):
-        # Reduce the trapped timeout by
+        # Reduce the trapped timeout by the direction.
+        # Cardinal directions reduce by one, and diagonal directions by 2.
         delta = abs(self.dx) + abs(self.dy)
         self.entity.states.states["trapped"] -= delta

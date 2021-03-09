@@ -5,6 +5,7 @@ import random
 
 
 class AttackAction(ActionWithDirection):
+    """Represents an action which has the entity attack a target entity."""
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
         # Determine if the entity will hit or miss the target entity.
@@ -14,6 +15,14 @@ class AttackAction(ActionWithDirection):
         self.attack_comp = None
 
     def perform(self):
+        """Performs the attack - first we validate if the attack is valid, then we start running through
+        all the attacks that compose the full attack. For each attack we:
+            * roll a hit die
+            * compare it to the 'target number'
+            * If the roll is less than the target, that attack will hit.
+            * We then calculate the damage and generate an appropriate message.
+            * For each additional hit, there is a -1 tohit penalty.
+        """
         target = self.target_actor
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
@@ -41,10 +50,11 @@ class AttackAction(ActionWithDirection):
             return DieAction(entity=target, cause=self.entity)
 
     def roll_hit_die(self):
-        # Rolls a 1d20 die to determine if the attacker will land the hit.
+        """Rolls a 1d20 die to determine if the attacker will land the hit."""
         return random.randint(1, self.die)
 
     def calc_target_number(self, target):
+        """Calculates the target number that the attacker has to roll under to get a successful hit."""
         # TODO: Factor in penalty for multi-hit moves.
         defender_ac = target.fighter.ac
         attacker_level = self.entity.level.current_level
@@ -61,6 +71,7 @@ class AttackAction(ActionWithDirection):
         return num
 
     def execute_damage(self, target, atk):
+        """Calculates the damage from a single attack, inflicts it on the target, and returns the amount of the damage."""
         # It's a hit! Calculate the damage
         dmg = atk.roll_dies()
 
@@ -87,6 +98,7 @@ class AttackAction(ActionWithDirection):
             return result
 
     def blocked_msg(self, target):
+        """ Creates a message describing the defender blocking an attack."""
         # TODO: Update with component type/breed check
         if self.entity.name == "player":
             self.msg = f"The {target.name} blocks your attack! "
@@ -97,6 +109,7 @@ class AttackAction(ActionWithDirection):
             self.msg = f"The {target.name} blocks the {self.entity}'s attack! "
 
     def miss(self, target):
+        """ Creates a message describing the attacker missing an attack."""
         # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
 
         # TODO: Update with component type/breed check
@@ -114,6 +127,7 @@ class AttackAction(ActionWithDirection):
 
 
 class MeleeAttack(AttackAction):
+    """Represents a close quarters attack (1-tile away with no-weapon)."""
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
         self.attack_comp = self.entity.attack_comp
@@ -134,6 +148,8 @@ class MeleeAttack(AttackAction):
 
 
 class WeaponAttack(AttackAction):
+    """Represents a close quarters attack (1-tile away with a weapon)."""
+
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
 
@@ -142,7 +158,6 @@ class WeaponAttack(AttackAction):
 
     def hit_msg(self, target, atk, dmg):
         """Creates the msg to describe one Actor hitting another Actor with a weapon."""
-
         self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
         # TODO: Update with component type/breed check

@@ -93,6 +93,7 @@ class DirectedGraph:
         self.edge_count = 0
 
     def reset_vertices(self):
+        """ Resets all the vertices so they are unvisited, cost 0, and have no predecessor."""
         for v in self.vertices.values():
             v.visited = False
             v.set_cost(0)
@@ -212,6 +213,7 @@ class DirectedGraph:
 
 
 class Vertex:
+    """Defines a single vertex in a directed graph. """
     def __init__(self, label):
         self.label = label
         self.edgelist = []  # edges to neighbors
@@ -313,6 +315,7 @@ class Vertex:
 
 
 class Edge:
+    """Defines a single edge between 2 vertices."""
     def __init__(self, end_vertex, weight):
         self.vertex = end_vertex
         self.weight = weight

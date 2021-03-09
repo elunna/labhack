@@ -5,13 +5,7 @@ AUTO_STATES = ["paralyzed", "sleeping", "raving mad", "frozen", "fainted"]
 
 class StatesComponent(Component):
     """ This is an attempt to manage the durations of states like:
-        * confused
-        * sleeping
-        * paralyzed
-        * hallucinating
-        * stunned
-        * hungry, weak, starving, fainting
-
+        * confused, sleeping, paralyzed, hallucinating, stunned, hungry, weak, starving, fainting
     """
     def __init__(self):
         # A dict of states and their timeouts.
@@ -26,7 +20,10 @@ class StatesComponent(Component):
         return False
 
     def add_state(self, new_state, timeout):
-        # If the state is already in, just add to it.
+        """Adds a state with a timeout duraction.
+        If the state already exists in the states, we just add and extend it's timeout.
+        """
+
         if new_state in self.states:
             self.states[new_state] += timeout
         else:
@@ -51,5 +48,6 @@ class StatesComponent(Component):
         return to_remove
 
     def to_string(self):
+        """Converts all of the states and their timeouts to a string for display in the status bar"""
         return ", ".join(f"{k}({v})" for k, v in self.states.items())
 

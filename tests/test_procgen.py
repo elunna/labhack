@@ -1,7 +1,5 @@
 """ Tests for procgen.py """
-import src.utils
 from src import procgen
-import pytest
 
 
 def test_generate_random_room__in_bounds():
@@ -59,9 +57,3 @@ def test_get_L_path__straight_line_vert():
 
     # corner is repeated
     assert result == [(0, 0), (0, 1), (0, 2)]
-
-
-@pytest.mark.skip(reason='Create sample rooms for testing')
-def test_minimum_spanning_tree():
-    pass
-

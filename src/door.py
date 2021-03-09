@@ -2,6 +2,7 @@ from src import settings
 
 
 class Door:
+    """Defines door for a room in a map. """
     def __init__(self, room, x, y):
         if not room.valid_door_loc(x, y):
             raise ValueError('Invalid coordinates supplied for Door!')

@@ -9,7 +9,7 @@ from components.attributes import Attributes
 from components.energy import EnergyComponent
 from components.equipment import Equipment
 from components.fighter import Fighter
-from components.inventory import Inventory, PlayerInventory
+from components.inventory import PlayerInventory
 from components.item_comp import ItemComponent
 from components.level import Level
 from components.regeneration import Regeneration

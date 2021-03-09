@@ -8,8 +8,8 @@ import random
 
 
 class GameMap(EntityManager):
-    """ Manages the tiles and rooms in a map. Also keeps track of important info like the
-    locations of stairs.
+    """ Manages the tiles and rooms in a map. Also keeps track of important map info like the stairs,
+    doors, rooms, and room coordinates.
     """
     def __init__(self, width, height, fill_tile=tiles.wall, dlevel=1):
         super().__init__()

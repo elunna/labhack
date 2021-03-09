@@ -6,6 +6,9 @@ from src.renderorder import RenderOrder
 
 
 class Actor(entity.Entity):
+    """Defines an entity which is capable of moving and performing actions. An actor is either
+    dead of alive, depending on their hit points.
+    """
     def __init__(
             self, *,
             x=-1, y=-1,

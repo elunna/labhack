@@ -1,5 +1,4 @@
 from src import factory
-import pytest
 from components.level import Level
 from src.entity import Entity
 
@@ -60,28 +59,3 @@ weighted_chances = {
     1: [('a', 10), ('c', 5)],
     2: [('a', 15), ('d', 5)],
 }
-
-
-@pytest.mark.skip(reason='Create sample tables for testing')
-def test_get_entities_at_random():
-    pass
-
-
-@pytest.mark.skip
-def test_place_items():
-    pass
-
-
-@pytest.mark.skip
-def test_place_monsters():
-    pass
-
-
-@pytest.mark.skip
-def test_populate_map__calls_place_monsters():
-    pass
-
-
-@pytest.mark.skip
-def test_populate_map__calls_place_items():
-    pass

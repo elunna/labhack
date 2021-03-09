@@ -24,7 +24,6 @@ class Consumable(Component):
 
     def consume(self):
         """Remove the consumed item from its containing inventory."""
-
         entity = self.parent
         inventory = entity.parent
 
@@ -39,6 +38,7 @@ class HealConsumable(Consumable):
         self.amount = amount
 
     def activate(self, action):
+        """Heals the consumer and consumes the entity holding this consumable."""
         consumer = action.entity
         healing_amount = self.amount + random.randint(1, self.amount)
         amount_recovered = consumer.fighter.heal(healing_amount)
@@ -56,6 +56,7 @@ class PoisonConsumable(Consumable):
         self.amount = amount
 
     def activate(self, action):
+        """Poisons the consumer and consumes the entity holding this consumable."""
         consumer = action.entity
         damage = self.amount + random.randint(1, self.amount)
 
@@ -67,11 +68,14 @@ class PoisonConsumable(Consumable):
 
 
 class LightningDamageConsumable(Consumable):
+    """Deals lightning damage to a target."""
     def __init__(self, damage, maximum_range):
         self.damage = damage  # How much damage the lightning will deal.
         self.maximum_range = maximum_range  # How far the lightning can strike.
 
     def activate(self, action):
+        """Finds the closest actor to the consumer and deals lightning damage to that actor.
+        Then consumes this consumable."""
         consumer = action.entity
         target = None
         closest_distance = self.maximum_range + 1.0
@@ -96,10 +100,12 @@ class LightningDamageConsumable(Consumable):
 
 
 class TargetedConfusionConsumable(Consumable):
+    """Lets us target an actor and confuse it."""
     def __init__(self, number_of_turns):
         self.number_of_turns = number_of_turns
 
     def get_action(self, consumer):
+        """Prompts the player to select a target within vision to confuse."""
         self.engine.msglog.add_message(
             "Select a target location.", color.needs_target
         )
@@ -112,6 +118,7 @@ class TargetedConfusionConsumable(Consumable):
         )
 
     def activate(self, action):
+        """If the selected actor is valid, confuses that actor and consumes this consumable."""
         consumer = action.entity
         # Get the actor at the location
         target = action.target_actor
@@ -130,12 +137,13 @@ class TargetedConfusionConsumable(Consumable):
 
 
 class FireballDamageConsumable(Consumable):
+    """ Let's us explode a fireball at a specific location within visual range."""
     def __init__(self, damage, radius):
         self.damage = damage
         self.radius = radius
 
     def get_action(self, consumer):
-        # asks the user to select a target, and switches the event handler
+        """Prompts the player to select a target within vision to place the fireball."""
         self.engine.msglog.add_message(
             "Select a target location.", color.needs_target
         )
@@ -146,14 +154,12 @@ class FireballDamageConsumable(Consumable):
         )
 
     def activate(self, action):
-        """ gets the target location, and ensures that it is within the line of
-            sight. It then checks for entities within the radius, damaging any
-            that are close enough to hit (take note, there’s no exception for
-            the player, so you can get blasted by your own fireball!). If no
-            enemies were hit at all, the Impossible exception is raised, and the
-            scroll isn’t consumed, as it would probably be frustrating to waste
-            a scroll on something like a misclick. Assuming at least one entity
-            was damaged, the scroll is consumed.
+        """ gets the target location, and ensures that it is within the line of sight. It then checks
+        for entities within the radius, damaging any that are close enough to hit (take note, there’s
+        no exception for the player, so you can get blasted by your own fireball!). If no enemies were
+        hit at all, the Impossible exception is raised, and the scroll isn’t consumed, as it would
+        probably be frustrating to waste a scroll on something like a misclick. Assuming at least one
+        entity was damaged, the scroll is consumed.
         """
         target_xy = action.target_xy
         consumer = action.entity
@@ -184,11 +190,15 @@ class FireballDamageConsumable(Consumable):
 
 
 class BearTrapConsumable(Consumable):
+    """Used to setup bear traps."""
     def __init__(self, damage, turns):
         self.damage = damage  # How much damage the bear trap will deal.
         self.turns = turns
 
     def activate(self, action):
+        """Deals some damage to the consumer, and causes the consumer to be trapped for a certain number of turns.
+            If the trap was hidden, it is revealed.
+        """
         consumer = action.entity
 
         action.msg = f"A bear trap snaps on the {consumer.name}!! "
@@ -204,10 +214,14 @@ class BearTrapConsumable(Consumable):
 
 
 class ConfusionTrapConsumable(Consumable):
+    """Used to setup confusion traps."""
     def __init__(self, number_of_turns):
         self.number_of_turns = number_of_turns
 
     def activate(self, action):
+        """ Causes the consumer to be confused for a certain number of turns.
+            If the trap was hidden, it is revealed.
+        """
         consumer = action.entity
         x, y = consumer.x, consumer.y
         target = action.entity.gamemap.get_actor_at(x, y)
@@ -221,10 +235,14 @@ class ConfusionTrapConsumable(Consumable):
 
 
 class ParalysisTrapConsumable(Consumable):
+    """Used to setup paralysis traps."""
     def __init__(self, number_of_turns):
         self.number_of_turns = number_of_turns
 
     def activate(self, action):
+        """ Causes the consumer to be paralyzed for a certain number of turns.
+            If the trap was hidden, it is revealed.
+        """
         consumer = action.entity
         x, y = consumer.x, consumer.y
         target = action.entity.gamemap.get_actor_at(x, y)
@@ -239,16 +257,21 @@ class ParalysisTrapConsumable(Consumable):
 
 
 class EngravingConsumable(Consumable):
+    """Used to create engravings around the dungeon."""
     def __init__(self):
         self.quote = random.choice(quotes.quote_db)
 
     def activate(self, action):
+        """If the entity that triggered this is the player, it shows the message from the
+        engraving in the message log.
+        """
         target = action.entity.gamemap.get_actor_at(action.entity.x, action.entity.y)
         if target.name == "player":
             action.msg = f"You see an engraving, it reads: '{self.quote}'"
 
 
 class CamoflaugeConsumable(Consumable):
+    """Used to hide doors on the map. We hide the door with a wall tile."""
     def __init__(self, entity, x, y):
         self.x, self.y = x, y
         self.parent = entity
@@ -261,5 +284,6 @@ class CamoflaugeConsumable(Consumable):
         self.gamemap.tiles[x, y] = room.char_dict[x, y]  # camo_tile
 
     def activate(self, action):
+        """ Causes the hiding tile to be reverted to the original door tile and consumes this."""
         # Replace the camo tile with it's original tile.
         self.gamemap.tiles[self.x, self.y] = self.original_tile
