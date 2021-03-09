@@ -4,11 +4,11 @@ from . import exceptions
 from . import logger
 from . import rendering
 from . import settings
+from .base_handler import BaseEventHandler
 from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
 from .maze import Maze
 from .setup_game import load_game, new_game
 from src import procgen
-from typing import Union
 import actions.actions
 import actions.bump_action
 import actions.downstairs_action
@@ -23,33 +23,7 @@ import tcod
 import tcod.event
 import traceback
 
-ActionOrHandler = Union[actions.actions.Action, "BaseEventHandler"]
-"""An event handler return value which can trigger an action or switch active handlers.
-
-    If a handler is returned then it will become the active handler for future events.
-    If an action is returned it will be attempted and if it's valid then
-    MainGameEventHandler will become the active handler.
-"""
-
 log = logger.setup_logger(__name__)
-
-
-class BaseEventHandler(tcod.event.EventDispatch[ActionOrHandler]):
-    def handle_events(self, event):
-        """Handle an event and return the next active event handler."""
-        state = self.dispatch(event)
-
-        if isinstance(state, BaseEventHandler):
-            return state
-
-        assert not isinstance(state, actions.actions.Action), f"{self!r} can not handle actions."
-        return self
-
-    def on_render(self, renderer):
-        raise NotImplementedError()
-
-    def ev_quit(self, event):
-        raise SystemExit()
 
 
 class EventHandler(BaseEventHandler):
