@@ -12,9 +12,7 @@ import tcod
 from .utils import distance
 
 
-def add_extras(new_map):
-    """After a map is created, this adds hidden corridors, hidden doors, and closets."""
-    # TODO: Break up this function into subfunctions
+def hide_corridors(new_map):
     # Add hidden corridors.
     # For now, we'll add x hidden corridors, where x is the number of rooms divided by 2.
     qty = len(new_map.rooms) // 2
@@ -23,6 +21,8 @@ def add_extras(new_map):
         if new_map.tiles[x, y] == tiles.floor:
             new_map.place(copy.deepcopy(db.hidden_corridor), x, y)
 
+
+def hide_doors(new_map):
     # Hide doors
     door_tiles = new_map.get_all_tiles_of(tiles.door)
     for x, y in door_tiles:
@@ -35,6 +35,8 @@ def add_extras(new_map):
 
         hidden_door.add_comp(consumable=components.consumable.CamoflaugeConsumable(hidden_door, x, y))
 
+
+def add_closets(new_map):
     # Added random closets
     CLOSET_CHANCE = 10
     for r in new_map.rooms:
@@ -317,7 +319,9 @@ def generate_map(max_rooms, room_min_size, room_max_size, map_width, map_height,
     new_map.downstairs_location = center_of_last_room
 
     # Closets, hidden stuff, traps, etc.
-    add_extras(new_map)
+    hide_corridors(new_map)
+    hide_doors(new_map)
+    add_closets(new_map)
 
     return new_map
 
