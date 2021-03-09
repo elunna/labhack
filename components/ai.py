@@ -85,7 +85,7 @@ class HostileAI(BaseAI):
         self.path = self.get_path_to(target.x, target.y, self.diagonal)
 
         # Only chase the player if we're under a chase distance threshold.
-        if len(self.path) < self.chase_distance:
+        if self.path and len(self.path) < self.chase_distance:
             # Move towards the player.
             dest_x, dest_y = self.path.pop(0)
             return MovementAction(
