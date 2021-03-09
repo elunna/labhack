@@ -1,17 +1,17 @@
 import traceback
 import tcod
 
-import src.mainmenu_handler
+from handlers import mainmenu_handler
 from src import color
 from src import exceptions
-from src import handlers
+from handlers import handlers
 from src import rendering
 from src import settings
 
 
 def main():
     # Our first event handler is the Main Menu handler.
-    handler = src.mainmenu_handler.MainMenuHandler()
+    handler = mainmenu_handler.MainMenuHandler()
     renderer = rendering.Renderer()
 
     # Game loop

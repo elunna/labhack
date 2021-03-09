@@ -1,12 +1,12 @@
 from components import ai
-from . import color
-from . import exceptions
-from . import logger
-from . import rendering
-from . import settings
-from .base_handler import BaseEventHandler
-from .input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
-from .maze import Maze
+from src import color
+from src import exceptions
+from src import logger
+from src import rendering
+from src import settings
+from handlers.base_handler import BaseEventHandler
+from src.input_keys import MOVE_KEYS, WAIT_KEYS, CURSOR_Y_KEYS, CONFIRM_KEYS
+from src.maze import Maze
 from src import procgen
 import actions.actions
 import actions.bump_action
