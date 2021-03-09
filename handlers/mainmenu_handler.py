@@ -1,6 +1,7 @@
 from src import rendering, settings
 from handlers.base_handler import BaseEventHandler
-from handlers.handlers import MainGameHandler, PopupMsgHandler, MapDebugHandler
+from handlers.handlers import MainGameHandler, PopupMsgHandler
+from handlers.mapdebugger import MapDebugHandler
 from src.setup_game import load_game, new_game
 import tcod
 import traceback
