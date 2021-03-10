@@ -89,12 +89,8 @@ class EventHandler(BaseEventHandler):
             self.engine.update_fov()
 
             if self.engine.player.energymeter.burned_out():
-                # Once player turn is complete, run the monsters turns.
-                self.engine.handle_enemy_turns()
-
                 # Handle end of turn stuff (systems, etc)
                 self.engine.end_of_turn()
-
                 return True
         return False
 

@@ -214,6 +214,12 @@ class Engine:
         return WaitAction(actor)
 
     def end_of_turn(self):
+        # All actors get an energy recharge every turn
+        self.add_energy()
+
+        # Once player turn is complete, run the monsters turns.
+        self.handle_enemy_turns()
+
         # If the player leveled up, handle it.
         self.check_level()
 
@@ -226,8 +232,7 @@ class Engine:
         # Check if player regenerates
         self.player.regeneration.activate(self.turns)
 
-        # All actors get an energy recharge every turn
-        self.add_energy()
+
 
         # Increment turns
         self.turns += 1
