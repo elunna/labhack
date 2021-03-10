@@ -26,11 +26,20 @@ def main():
         renderer.context.present(renderer.root)
 
         try:
-            # Handle Behaviors/AI's
             engine = getattr(handler, "engine", None)
-            if engine and engine.player.ai:
-                handle_ai(engine, handler)
-                continue  # Skip the input and present.n
+            if engine:
+                # Handle Behaviors/AI's
+                if engine.player.ai:
+                    handle_ai(engine, handler)
+                    continue  # Skip the input and present.
+
+                # Handle auto-states
+                if engine.player.states.autopilot:
+                    log.debug('Player Auto-State Activated ----------------')
+                    action = engine.handle_auto_states(engine.player)
+                    handler.handle_action(action)
+                    time.sleep(settings.AUTO_DELAY)
+                    continue  # Skip the input and present.
 
             for event in tcod.event.wait():
                 renderer.context.convert_event(event)
@@ -57,7 +66,7 @@ def main():
 def handle_ai(engine, handler):
     log.debug('Player AI Activated ----------------')
     if engine.player.ai.can_perform():
-        time.sleep(settings.AUTO_DELAY)
+        # time.sleep(settings.AUTO_DELAY)
         action = engine.player.ai.yield_action()
 
         if not handler.handle_action(action):

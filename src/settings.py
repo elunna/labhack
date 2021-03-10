@@ -13,7 +13,7 @@ bg_img = "images/menu_background.png"
 save_file = "savegame.sav"
 
 fov_radius = 1
-AUTO_DELAY = .02  # For adding slight delay for AI running, paralysis, etc
+AUTO_DELAY = .1  # For adding slight delay for AI running, paralysis, etc
 
 # Define screen dimensions
 screen_width = 80

@@ -75,17 +75,6 @@ class EventHandler(BaseEventHandler):
                 # The player was killed sometime during or after the action.
                 return GameOverHandler(self.engine)
 
-            # Handle end of turn stuff (systems, etc)
-            self.engine.end_of_turn()
-
-
-
-            # Handle auto-states
-            while self.engine.player.states.autopilot:
-                log.debug('Handling Player auto-states')
-                action = self.engine.handle_auto_states(player)
-                self.handle_action(action)
-
             return MainGameHandler(self.engine)  # Return to the main handler.
         return self
 
@@ -102,6 +91,9 @@ class EventHandler(BaseEventHandler):
             if self.engine.player.energymeter.burned_out():
                 # Once player turn is complete, run the monsters turns.
                 self.engine.handle_enemy_turns()
+
+                # Handle end of turn stuff (systems, etc)
+                self.engine.end_of_turn()
 
                 return True
         return False
