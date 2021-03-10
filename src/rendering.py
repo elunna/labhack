@@ -336,40 +336,6 @@ def render_popup(console, text):
     )
 
 
-def render_levelup_menu(console, engine, title):
-    """Deprecated: Renders the level up menu for the player when the reach a new level. """
-    if engine.player.x <= 30:
-            x = 40
-    else:
-        x = 0
-
-    console.draw_frame(
-        x=x, y=0,
-        width=35,
-        height=8,
-        title=title,
-        clear=True,
-        fg=(255, 255, 255),
-        bg=(0, 0, 0),
-    )
-
-    console.print(x=x + 1, y=1, string="Congratulations! You level up!")
-    console.print(x=x + 1, y=2, string="Select an attribute to increase.")
-
-    console.print(
-        x=x + 1, y=4,
-        string=f"a) Constitution (+20 HP, from {engine.player.fighter.max_hp})",
-    )
-    console.print(
-        x=x + 1, y=5,
-        string=f"b) Strength (+1 attack, from {engine.player.attributes.strength})",
-    )
-    console.print(
-        x=x + 1, y=6,
-        string=f"c) Agility (+1 defense, from {engine.player.fighter.ac})",
-    )
-
-
 def render_character_stats(console, engine, title):
     """Displays all the character stats and equipped items on a special screen. """
     msgs = [
