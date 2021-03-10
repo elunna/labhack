@@ -2,34 +2,25 @@ from components.item_comp import ItemComponent
 from src import entity
 from src.renderorder import RenderOrder
 
+default_components = {
+    "x": -1,
+    "y": -1,
+    "color": (255, 255, 255),
+    "transparent": True,
+    "blocks_movement": False,
+    "render_order": RenderOrder.ITEM,
+}
+
 
 class Item(entity.Entity):
     """Represents items in the game."""
-    def __init__(
-        self, *,
-        x=-1, y=-1,
-        char="?",
-        color=(255, 255, 255),
-        name="<Unnamed>",
-        consumable=None,
-        equippable=None,
-        stackable=None,
-        item=ItemComponent(),
-    ):
-        super().__init__(
-            x=x,
-            y=y,
-            char=char,
-            color=color,
-            name=name,
-            blocks_movement=False,
-            render_order=RenderOrder.ITEM,
-            item=item
-        )
+    def __init__(self, **kwargs):
+        super().__init__()
 
-        self.add_comp(consumable=consumable)
-        self.add_comp(equippable=equippable)
-        self.add_comp(transparent=True)
+        # Set the default core components for an Actor
+        self.add_comp(**default_components)
 
-        if stackable:
-            self.add_comp(stackable=stackable)
+        # Set the custom components afterward
+        self.add_comp(**kwargs)
+
+        self.add_comp(item=ItemComponent())

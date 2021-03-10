@@ -10,40 +10,15 @@ def test_init__is_Entity():
     assert isinstance(i, entity.Entity)
 
 
-def test_init_xy():
+def test_init_default_components():
     i = item.Item()
     assert i.x == -1
     assert i.y == -1
 
 
-def test_init_char():
-    i = item.Item()
-    assert i.char == '?'
-
-
 def test_init_color():
     i = item.Item()
     assert i.color == (255, 255, 255)
-
-
-def test_init_name():
-    i = item.Item()
-    assert i.name == "<Unnamed>"
-
-
-def test_init_consumable():
-    i = item.Item()
-    assert i.consumable is None
-
-
-def test_init_equippable():
-    i = item.Item()
-    assert i.equippable is None
-
-
-def test_init_itemcomp():
-    i = item.Item()
-    assert isinstance(i.item, ItemComponent)
 
 
 def test_init_blocks_movement():
@@ -54,3 +29,8 @@ def test_init_blocks_movement():
 def test_init_renderorder():
     i = item.Item()
     assert i.render_order == RenderOrder.ITEM
+
+
+def test_init_itemcomp():
+    i = item.Item()
+    assert isinstance(i.item, ItemComponent)

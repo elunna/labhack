@@ -61,7 +61,7 @@ class Equipment(Component):
             If not, returns an empty string.
         """
         # Check if the item is equippable
-        if not getattr(item, "equippable"):
+        if not getattr(item, "equippable", None):
             raise exceptions.Impossible("f{item.name} is not an Equippable!")
 
         # Check if item's slot is valid
@@ -105,7 +105,7 @@ class Equipment(Component):
             Returns a string describing what happened.
         """
         # Can we equip it?
-        if not getattr(item, "equippable"):
+        if not getattr(item, "equippable", None):
             raise exceptions.Impossible("f{item.name} is not an Equippable!")
 
         # Does the item slot match what is available?
