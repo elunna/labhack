@@ -1,4 +1,5 @@
 """ This is a collection of all the constants used in the project."""
+import string
 
 author = "Erik Lunna"
 version = 1.1
@@ -98,6 +99,8 @@ CARDINAL_DIR = {
     'E': (1, 0),  # East
     'S': (0, 1),  # South
 }
+
+VALID_INV_LETTERS = string.ascii_lowercase
 
 ITEM_CATEGORIES = {
     # Sets the order that the inventory is displayed in.

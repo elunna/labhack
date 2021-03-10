@@ -1,4 +1,4 @@
-import string
+from src import settings
 
 
 class LetterRoll:
@@ -6,7 +6,7 @@ class LetterRoll:
     The letter maintains a position (letter) in the roll, and can be called on to find a next letter.
     """
     def __init__(self):
-        self.letters = string.ascii_lowercase + string.ascii_uppercase
+        self.letters = settings.VALID_INV_LETTERS
         self.index = -1
 
     def __len__(self):

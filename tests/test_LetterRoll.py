@@ -1,9 +1,10 @@
+from src import settings
 from src.letterroll import LetterRoll
 
 
 def test_init():
     lr = LetterRoll()
-    assert lr.letters == 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    assert lr.letters == settings.VALID_INV_LETTERS
 
 
 def test_init_index():
@@ -13,7 +14,7 @@ def test_init_index():
 
 def test_size():
     lr = LetterRoll()
-    assert len(lr) == 52
+    assert len(lr) == len(settings.VALID_INV_LETTERS)
 
 
 def test_next_letter__1_is_a():
@@ -30,4 +31,4 @@ def test_next_letter__2_is_a():
 def test_next_letter__roll_repeats():
     lr = LetterRoll()
     roll = ''.join([lr.next_letter() for _ in range(53)])
-    assert roll[-4:] == 'XYZa'
+    assert roll[-4:] == 'xyza'
