@@ -3,8 +3,6 @@ from . import dungeon
 from . import exceptions
 from . import gamemap
 from . import messages
-from . import rendering
-from . import settings
 from actions import actions
 from actions.wait_action import WaitAction
 import lzma
@@ -31,28 +29,30 @@ class Engine:
         self.turns = 0
         self.dungeon = dungeon.Dungeon(engine=self)
 
-    def handle_enemy_turns(self):
+    def enemy_turns(self):
         """Goes through each actor in the current gamemap (excluding the player) and
         processes the actions provided by their AI.
         """
         actors = set(self.game_map.actors) - {self.player}
         for actor in actors:
-            if actor.ai:
-                while not actor.energymeter.burned_out() and actor.is_alive:
-                    # We'll use the energy regardless.
-                    actor.energymeter.burn_turn()
+            self.handle_actor_turn(actor)
 
-                    # Check for auto-states (like paralysis)
-                    if actor.states.autopilot:
-                        action = self.handle_auto_states(actor)
-                    else:
-                        action = actor.ai.yield_action()
+    def handle_actor_turn(self, actor):
+        """Processes a single actor's turn and gets their action from their AI."""
+        while not actor.energymeter.burned_out() and actor.is_alive:
+            actor.energymeter.burn_turn()
 
-                    try:
-                        # Get the next calculated action from the AI.
-                        self.handle_action(action)
-                    except exceptions.Impossible:
-                        pass  # Ignore impossible action exceptions from AI
+            # Check for auto-states (like paralysis)
+            if actor.states.autopilot:
+                action = self.handle_auto_states(actor)
+            else:
+                action = actor.ai.yield_action()
+
+            try:
+                # Get the next calculated action from the AI.
+                self.handle_action(action)
+            except exceptions.Impossible:
+                pass  # Ignore impossible action exceptions from AI
 
     def add_energy(self):
         """All actors gets an energy reboost!"""
@@ -218,7 +218,7 @@ class Engine:
         self.add_energy()
 
         # Once player turn is complete, run the monsters turns.
-        self.handle_enemy_turns()
+        self.enemy_turns()
 
         # If the player leveled up, handle it.
         self.check_level()
