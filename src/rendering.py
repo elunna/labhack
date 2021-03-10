@@ -289,7 +289,13 @@ def render_inv(console, engine, title):
     if qty_of_items > 0:
         i = 0  # Counter for vertical spacing
         for line in inv_contents:
-            console.print(x + 1, y + i + 1, line)
+            fg = tcod.white
+            if "Equipped" in line:
+                # fg = tcod.light_blue
+                fg = tcod.light_cyan
+
+            console.print(x + 1, y + i + 1, line, fg=fg)
+
             i += 1
     else:
         console.print(x + 1, y + 1, "(Empty)")
