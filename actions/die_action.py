@@ -12,10 +12,8 @@ class DieAction(Action):
 
     def perform(self):
         """Performs the death of the entity."""
-        # TODO: What if the cause is a non-actor? Trap, drowning, bomb, etc.
         trap_cause = "trap" in self.cause
 
-        # if self.entity == self.engine.player:
         # TODO: Update with component type/breed check
         if self.entity.name == "player":
             self.msg = "You died!"
@@ -36,7 +34,6 @@ class DieAction(Action):
 
         # Kill the entity
         self.entity.char = "%"
-        self.entity.color = (191, 0, 0)
         self.entity.blocks_movement = False
         self.entity.ai = None
         self.entity.name = f"{self.entity.name} corpse"
