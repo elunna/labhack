@@ -4,57 +4,38 @@ from components.states import StatesComponent
 from src import entity
 from src.renderorder import RenderOrder
 
+default_components = {
+    "x": -1,
+    "y": -1,
+    "color": (255, 255, 255),
+    "transparent": True,
+    "blocks_movement": True,
+    "render_order": RenderOrder.ACTOR,
+    "actor": True  # Included for all Actors
+}
+
 
 class Actor(entity.Entity):
     """Defines an entity which is capable of moving and performing actions. An actor is either
     dead of alive, depending on their hit points.
     """
-    def __init__(
-            self, *,
-            name,
-            char,
-            color=(255, 255, 255),
-            x=-1,
-            y=-1,
-            transparent=True,
+    def __init__(self, **kwargs):
+        super().__init__()
 
-            fighter,
-            ai,
-            attack_comp,
-            level,
-            energy,
-            inventory=Inventory(capacity=0),
-            equipment=Equipment(),
-            states=StatesComponent(),
-            attributes=None,
-            regeneration=None
-    ):
-        super().__init__(
-            name=name,
-            char=char,
-            color=color,
-            x=x,
-            y=y,
+        # Set the default core components for an Actor
+        self.add_comp(**default_components)
 
-            blocks_movement=True,
-            render_order=RenderOrder.ACTOR,
-            transparent=transparent,
+        # Set the custom components afterward
+        self.add_comp(**kwargs)
 
-            fighter=fighter,
-            ai=ai,
-            attack_comp=attack_comp,
-            level=level,
-            energy=energy,
-            inventory=inventory,
-            equipment=equipment,
-            states=states,
-        )
+        if not self.has_comp("inventory"):
+            self.add_comp(inventory=Inventory(capacity=0))
 
+        if not self.has_comp("equipment"):
+            self.add_comp(equipment=Equipment())
 
-        if attributes:
-            self.add_comp(attributes=attributes)
-        if regeneration:
-            self.add_comp(regeneration=regeneration)
+        if not self.has_comp("states"):
+            self.add_comp(states=StatesComponent())
 
     @property
     def is_alive(self):

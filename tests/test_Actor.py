@@ -16,6 +16,7 @@ from src.actor import Actor
 @pytest.fixture
 def test_actor():
     components = {
+        "name": "actor",
         "char": "x",
         "color": (255, 255, 255),
         "ai": HostileAI(),
@@ -24,7 +25,7 @@ def test_actor():
         "level": Level(xp_given=1, difficulty=0),
         "energy": EnergyComponent(refill=10)
     }
-    return Actor(name="actor", **components)
+    return Actor(**components)
 
 
 def test_init__is_Entity(test_actor):
