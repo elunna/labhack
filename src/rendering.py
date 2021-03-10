@@ -39,21 +39,9 @@ class Renderer:
         self.root = tcod.Console(settings.screen_width, settings.screen_height, order="F")
 
         # Define separate panels for the map, messages, and stats.
-        self.msg_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.msg_panel_height
-        )
-
-        self.map_panel = tcod.Console(
-            width=settings.map_width,
-            height=settings.map_height,
-            order="F",
-        )
-
-        self.stat_panel = tcod.Console(
-            width=settings.screen_width,
-            height=settings.stat_panel_height
-        )
+        self.msg_panel = tcod.Console(width=settings.screen_width, height=settings.msg_panel_height)
+        self.map_panel = tcod.Console(width=settings.map_width, height=settings.map_height, order="F",)
+        self.stat_panel = tcod.Console(width=settings.screen_width, height=settings.stat_panel_height)
 
     def render_all(self, engine):
         # Message Panel
@@ -82,11 +70,15 @@ class Renderer:
             player=engine.player
         )
 
+        # Render HP Bar
         render_bar(
             console=self.stat_panel,
-            current_value=engine.player.fighter.hp,
-            maximum_value=engine.player.fighter.max_hp,
+            x=settings.hp_bar_x,
+            y=settings.hp_bar_y,
+            val=engine.player.fighter.hp,
+            max_val=engine.player.fighter.max_hp,
             total_width=settings.hp_bar_width,
+            label="HP"
         )
 
         render_dungeon_lvl_text(
@@ -102,34 +94,30 @@ class Renderer:
         self.stat_panel.clear()
 
 
-def render_bar(console, current_value, maximum_value, total_width):
+def render_bar(console, x, y, val, max_val, total_width, label=''):
     """Renders a fillable bar (like an HP bar)"""
-    bar_width = int(float(current_value) / maximum_value * total_width)
+    bar_width = int(float(val) / max_val * total_width)
 
     console.draw_rect(
-        x=settings.hp_bar_x,
-        y=settings.hp_bar_y,
+        x=x,
+        y=y,
         width=settings.hp_bar_width,
-        height=settings.hp_bar_height,
+        height=settings.bar_height,
         ch=1,
         bg=color.bar_empty
     )
 
     if bar_width > 0:
         console.draw_rect(
-            x=settings.hp_bar_x,
-            y=settings.hp_bar_y,
+            x=x,
+            y=y,
             width=bar_width,
-            height=settings.hp_bar_height,
+            height=settings.bar_height,
             ch=1,
             bg=color.bar_filled
         )
 
-    console.print(
-        x=1, y=settings.hp_bar_y,
-        string=f"HP: {current_value}/{maximum_value}",
-        fg=color.bar_text
-    )
+    console.print(x=1, y=y, string=f"{label}: {val}/{max_val}", fg=color.bar_text)
 
 
 def render_dungeon_lvl_text(console, dungeon_level):

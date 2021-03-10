@@ -39,7 +39,7 @@ stat_panel_height = 5
 hp_bar_x = 0
 hp_bar_y = 0
 hp_bar_width = 20
-hp_bar_height = 1
+bar_height = 1
 
 dlevel_text_location = (0, 1)
 
