@@ -18,7 +18,7 @@ def test_actor():
     components = {
         "char": "x",
         "color": (255, 255, 255),
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),

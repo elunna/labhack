@@ -19,7 +19,7 @@ class Actor(entity.Entity):
             transparent=True,
 
             fighter,
-            ai_cls,
+            ai,
             attack_comp,
             level,
             energy,
@@ -41,7 +41,7 @@ class Actor(entity.Entity):
             transparent=transparent,
 
             fighter=fighter,
-            ai=ai_cls,
+            ai=ai,
             attack_comp=attack_comp,
             level=level,
             energymeter=energy,

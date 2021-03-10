@@ -21,7 +21,7 @@ actor_dict = {
     "player": {
         "char": "@",
         "color": (255, 255, 255),
-        "ai_cls": None,
+        "ai": None,
         "equipment": Equipment(),
         "fighter": Fighter(max_hp=30, base_ac=10),
         "attack_comp": AttackComponent(Attack('punch', [2])),
@@ -36,7 +36,7 @@ actor_dict = {
     "grid bug": {
         "char": "x",
         "color": tcod.purple,
-        "ai_cls": GridAI(),
+        "ai": GridAI(),
         "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
@@ -46,7 +46,7 @@ actor_dict = {
     "larva": {
         "char": "w",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=8, difficulty=2),
@@ -56,7 +56,7 @@ actor_dict = {
     "grasshopper": {
         "char": "a",
         "color": tcod.green,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=7),
         "attack_comp": AttackComponent(Attack('bite', [1])),
         "level": Level(xp_given=8, difficulty=1),
@@ -66,7 +66,7 @@ actor_dict = {
     "maggot": {
         "char": "w",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=17, difficulty=3),
@@ -76,7 +76,7 @@ actor_dict = {
     "centipede": {
         "char": "s",
         "color": tcod.yellow,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=3),
         "attack_comp": AttackComponent(Attack('bite', [3])),  # Poisonous
         "level": Level(xp_given=19, difficulty=4),
@@ -86,7 +86,7 @@ actor_dict = {
     "mouse": {
         "char": "r",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=1, difficulty=1),
@@ -96,7 +96,7 @@ actor_dict = {
     "black rat": {
         "char": "r",
         "color": tcod.dark_gray,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=10),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=1, difficulty=1),
@@ -106,7 +106,7 @@ actor_dict = {
     "guinea pig": {
         "char": "r",
         "color": tcod.amber,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=8, difficulty=2),
@@ -116,7 +116,7 @@ actor_dict = {
     "monkey": {
         "char": "Y",
         "color": tcod.gray,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=6),
         "attack_comp": AttackComponent(
             Attack('claw', [1]),
@@ -129,7 +129,7 @@ actor_dict = {
     "chimpanzee": {
         "char": "Y",
         "color": tcod.light_gray,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=4),
         "attack_comp": AttackComponent(
             Attack('claw', [2]),
@@ -142,7 +142,7 @@ actor_dict = {
     "chicken": {
         "char": "c",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=7, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=20, difficulty=3),
@@ -152,7 +152,7 @@ actor_dict = {
     "lamb": {
         "char": "q",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=10),
         "attack_comp": AttackComponent(
             Attack('head butt', [2]),
@@ -165,7 +165,7 @@ actor_dict = {
     "sheep": {
         "char": "q",
         "color": tcod.white,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=10),
         "attack_comp": AttackComponent(
             Attack('head butt', [4]),
@@ -178,7 +178,7 @@ actor_dict = {
     "bat": {
         "char": "B",
         "color": tcod.orange,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=6, difficulty=3),
@@ -188,7 +188,7 @@ actor_dict = {
     "spider drone": {
         "char": "s",
         "color": tcod.silver,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=7),
         "attack_comp": AttackComponent(Attack('claw', [3])),
         "level": Level(xp_given=35, difficulty=3),
@@ -198,7 +198,7 @@ actor_dict = {
     "med school dropout": {
         "char": "@",
         "color": tcod.dark_gray,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('kick', [5])),
         "level": Level(xp_given=55, difficulty=3),
@@ -208,7 +208,7 @@ actor_dict = {
     "giant leech": {
         "char": "L",
         "color": tcod.light_green,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=11, base_ac=-2),
         "attack_comp": AttackComponent(Attack('suck', [6])),
         "level": Level(current_level=4, xp_given=100, difficulty=4),
@@ -218,7 +218,7 @@ actor_dict = {
     "henchman": {
         "char": "@",
         "color": tcod.dark_gray,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('punch', [5])),
         "level": Level(xp_given=55, difficulty=4),
@@ -228,7 +228,7 @@ actor_dict = {
     "cyber cat": {
         "char": "f",
         "color": tcod.dark_blue,
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=3),
         "attack_comp": AttackComponent(Attack('claw', [6])),
         "level": Level(xp_given=55, difficulty=6),
@@ -238,7 +238,7 @@ actor_dict = {
     "storm drone": {
         "char": "x",
         "color": (0, 127, 0),
-        "ai_cls": HostileAI(),
+        "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=-20),
         "attack_comp": AttackComponent(Attack('zap', [5])),
         "level": Level(current_level=4, xp_given=55, difficulty=20),
