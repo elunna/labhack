@@ -85,10 +85,10 @@ class EventHandler(BaseEventHandler):
         if self.engine.handle_action(action):  # Successful action completed.
             log.debug(f'TURN {self.engine.turns} COMPLETE ')
             # Player uses up a turn worth of energy
-            self.engine.player.energymeter.burn_turn()
+            self.engine.player.energy.burn_turn()
             self.engine.update_fov()
 
-            if self.engine.player.energymeter.burned_out():
+            if self.engine.player.energy.burned_out():
                 # Handle end of turn stuff (systems, etc)
                 self.engine.end_of_turn()
                 return True

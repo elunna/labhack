@@ -73,7 +73,7 @@ def test_init_level(test_actor):
 
 
 def test_init_energy(test_actor):
-    assert isinstance(test_actor.energymeter, EnergyComponent)
+    assert isinstance(test_actor.energy, EnergyComponent)
 
 
 def test_init_inventory(test_actor):

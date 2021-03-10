@@ -44,7 +44,7 @@ class Actor(entity.Entity):
             ai=ai,
             attack_comp=attack_comp,
             level=level,
-            energymeter=energy,
+            energy=energy,
             inventory=inventory,
             equipment=equipment,
             states=states,

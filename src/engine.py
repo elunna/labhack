@@ -39,8 +39,8 @@ class Engine:
 
     def handle_actor_turn(self, actor):
         """Processes a single actor's turn and gets their action from their AI."""
-        while not actor.energymeter.burned_out() and actor.is_alive:
-            actor.energymeter.burn_turn()
+        while not actor.energy.burned_out() and actor.is_alive:
+            actor.energy.burn_turn()
 
             # Check for auto-states (like paralysis)
             if actor.states.autopilot:
@@ -57,7 +57,7 @@ class Engine:
     def add_energy(self):
         """All actors gets an energy reboost!"""
         for entity in self.game_map.actors:
-            entity.energymeter.add_energy()
+            entity.energy.add_energy()
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""
