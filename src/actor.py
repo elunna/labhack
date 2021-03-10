@@ -11,39 +11,45 @@ class Actor(entity.Entity):
     """
     def __init__(
             self, *,
-            x=-1, y=-1,
-            char="?",
+            name,
+            char,
             color=(255, 255, 255),
-            name="<Unnamed>",
-            ai_cls,
+            x=-1,
+            y=-1,
+            transparent=True,
+
             fighter,
+            ai_cls,
             attack_comp,
-            attributes=None,
             level,
             energy,
             inventory=Inventory(capacity=0),
             equipment=Equipment(),
+            states=StatesComponent(),
+            attributes=None,
             regeneration=None
     ):
         super().__init__(
-            x=x,
-            y=y,
+            name=name,
             char=char,
             color=color,
-            name=name,
+            x=x,
+            y=y,
+
             blocks_movement=True,
             render_order=RenderOrder.ACTOR,
-            transparent=True,
-        )
-        self.add_comp(ai=ai_cls)
-        self.add_comp(fighter=fighter)
-        self.add_comp(attack_comp=attack_comp)
-        self.add_comp(level=level)
-        self.add_comp(energymeter=energy)
-        self.add_comp(inventory=inventory)
-        self.add_comp(equipment=equipment)
+            transparent=transparent,
 
-        self.add_comp(states=StatesComponent())
+            fighter=fighter,
+            ai=ai_cls,
+            attack_comp=attack_comp,
+            level=level,
+            energymeter=energy,
+            inventory=inventory,
+            equipment=equipment,
+            states=states,
+        )
+
 
         if attributes:
             self.add_comp(attributes=attributes)
