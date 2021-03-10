@@ -34,7 +34,7 @@ def test_perform__player_kills_enemy(test_map):
     a.perform()
 
     assert henchman.char == "%"
-    assert henchman.color == (191, 0, 0)
+    # assert henchman.color == (191, 0, 0)  # Color no longer changes
     assert henchman.blocks_movement is False
     assert henchman.ai is None
     assert henchman.name == "henchman corpse"
@@ -66,7 +66,7 @@ def test_perform__enemy_kills_player(test_map):
     a.perform()
 
     assert player.char == "%"
-    assert player.color == (191, 0, 0)
+    # assert player.color == (191, 0, 0)  # Color no longer changes.
     assert player.blocks_movement is False
     assert player.ai is None
     assert player.name == "player corpse"
