@@ -24,10 +24,7 @@ class DropAction(ItemAction):
 
         if result:
             # Put it on the map
-            place_result = self.entity.gamemap.add_item(result)
-
-            print(f'Attempt to place {self.item.name}: {place_result}')
-            print(self.item.components)
+            self.entity.gamemap.add_item(result)
             if amount == 1:
                 self.msg = f"You dropped a {result.name}."
             else:

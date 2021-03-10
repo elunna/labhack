@@ -18,7 +18,7 @@ class ItemAction(Action):
 
     def perform(self):
         """Invoke the items ability, this action will be given to provide context."""
-        if self.item.consumable:
+        if self.item.has_comp("consumable"):
             # TODO: Get msg
             # self.item.consumable.activate(self)
             return self.item.consumable.activate(self)

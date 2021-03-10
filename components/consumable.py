@@ -4,7 +4,7 @@ import src.utils
 from actions.die_action import DieAction
 from actions.item_action import ItemAction
 from components.component import Component
-from components.inventory import Inventory
+from components.inventory import Inventory, PlayerInventory
 from src import color, quotes
 from src import exceptions
 from src import handlers
@@ -25,11 +25,13 @@ class Consumable(Component):
     def consume(self):
         """Remove the consumed item from its containing inventory."""
         entity = self.parent
-        inventory = entity.parent
+        parent = entity.parent
 
-        if isinstance(inventory, Inventory):
-            # inventory.items.remove(entity)
-            inventory.rm_inv_item(entity, 1)
+        if isinstance(parent, Inventory) or isinstance(parent, PlayerInventory):
+            parent.rm_inv_item(entity, 1)
+        else:
+            # Maybe it's on the gamemap?
+            parent.rm_item(entity, 1)
 
 
 class HealConsumable(Consumable):

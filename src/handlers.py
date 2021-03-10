@@ -348,10 +348,10 @@ class InventoryActivateHandler(InventoryHandler):
 
     def on_item_selected(self, item):
         """Return the action for the selected item."""
-        if item.consumable:
+        if item.has_comp("consumable"):
             # Return the action for the selected item.
             return item.consumable.get_action(self.engine.player)
-        elif item.equippable:
+        elif item.has_comp("equippable"):
             return actions.equip_action.EquipAction(self.engine.player, item)
         else:
             return None

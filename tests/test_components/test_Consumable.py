@@ -43,11 +43,9 @@ def test_Consumable_activate():
 
 
 def test_Consumable_consume(player):
-    c = consumable.Consumable()
     vial = factory.make('healing vial')
-    c.parent = vial
-    player.inventory.add_item(c.parent)  # Add potion to players inv.
-    c.consume()
+    player.inventory.add_inv_item(vial)  # Add potion to players inv.
+    vial.consumable.consume()
 
     # Item should be removed from inventory
     # assert player.inventory.rm_item(vial) is None
