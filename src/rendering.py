@@ -4,7 +4,6 @@ from . import messages
 from . import settings
 from . import tiles
 from components import equipment
-import math
 import numpy as np
 import tcod
 
@@ -377,13 +376,9 @@ def hilite_radius(console, x, y, radius):
 
     for x2 in range(min_x, max_x + 1):
         for y2 in range(min_y, max_y + 1):
-            if distance(x, y, x2, y2) <= radius:
+            if utils.distance(x, y, x2, y2) <= radius:
                 console.tiles_rgb["bg"][x2, y2] = color.red
                 console.tiles_rgb["fg"][x2, y2] = color.black
-
-
-def distance(x1, y1, x2, y2):
-    return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
 
 
 def draw_rect(console, x, y, radius):
