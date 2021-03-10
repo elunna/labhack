@@ -29,7 +29,7 @@ actor_dict = {
         # Original inventory capacity is 26 because we have 26 lowercase letters.
         "inventory": PlayerInventory(capacity=52),
         "level": Level(level_up_base=20, difficulty=0),
-        "energy": EnergyComponent(threshold=10),
+        "energy": EnergyComponent(refill=12),
         "regeneration": Regeneration(),
     },
 
@@ -40,7 +40,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
-        "energy": EnergyComponent(threshold=10)
+        "energy": EnergyComponent(refill=12)
     },
 
     "larva": {
@@ -50,7 +50,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=8, difficulty=2),
-        "energy": EnergyComponent(threshold=13)
+        "energy": EnergyComponent(refill=6)
     },
 
     "grasshopper": {
@@ -60,7 +60,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=2, base_ac=7),
         "attack_comp": AttackComponent(Attack('bite', [1])),
         "level": Level(xp_given=8, difficulty=1),
-        "energy": EnergyComponent(threshold=7)
+        "energy": EnergyComponent(refill=15)
     },
 
     "maggot": {
@@ -70,7 +70,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=1, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=17, difficulty=3),
-        "energy": EnergyComponent(threshold=13)
+        "energy": EnergyComponent(refill=9)
     },
 
     "centipede": {
@@ -80,7 +80,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=1, base_ac=3),
         "attack_comp": AttackComponent(Attack('bite', [3])),  # Poisonous
         "level": Level(xp_given=19, difficulty=4),
-        "energy": EnergyComponent(threshold=15)
+        "energy": EnergyComponent(refill=4)
     },
 
     "mouse": {
@@ -90,7 +90,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=2, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [2])),
         "level": Level(xp_given=1, difficulty=1),
-        "energy": EnergyComponent(threshold=9)
+        "energy": EnergyComponent(refill=10)
     },
 
     "black rat": {
@@ -100,7 +100,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=2, base_ac=10),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=1, difficulty=1),
-        "energy": EnergyComponent(threshold=9)
+        "energy": EnergyComponent(refill=12)
     },
 
     "guinea pig": {
@@ -110,7 +110,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=4, base_ac=9),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=8, difficulty=2),
-        "energy": EnergyComponent(threshold=9)
+        "energy": EnergyComponent(refill=12)
     },
 
     "monkey": {
@@ -123,7 +123,7 @@ actor_dict = {
             Attack('bite', [3]),
         ),
         "level": Level(xp_given=1, difficulty=4),
-        "energy": EnergyComponent(threshold=10)
+        "energy": EnergyComponent(refill=12)
     },
 
     "chimpanzee": {
@@ -136,7 +136,7 @@ actor_dict = {
             Attack('bite', [5]),
         ),
         "level": Level(xp_given=1, difficulty=6),
-        "energy": EnergyComponent(threshold=7)
+        "energy": EnergyComponent(refill=12)
     },
 
     "chicken": {
@@ -146,7 +146,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=7, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [3])),
         "level": Level(xp_given=20, difficulty=3),
-        "energy": EnergyComponent(threshold=7)
+        "energy": EnergyComponent(refill=15)
     },
 
     "lamb": {
@@ -159,7 +159,7 @@ actor_dict = {
             Attack('kick', [2]),
         ),
         "level": Level(xp_given=8, difficulty=3),
-        "energy": EnergyComponent(threshold=8)
+        "energy": EnergyComponent(refill=12)
     },
 
     "sheep": {
@@ -172,7 +172,7 @@ actor_dict = {
             Attack('kick', [3]),
         ),
         "level": Level(xp_given=28, difficulty=5),
-        "energy": EnergyComponent(threshold=10)
+        "energy": EnergyComponent(refill=12)
     },
 
     "bat": {
@@ -182,7 +182,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=4, base_ac=8),
         "attack_comp": AttackComponent(Attack('bite', [4])),
         "level": Level(xp_given=6, difficulty=3),
-        "energy": EnergyComponent(threshold=4)
+        "energy": EnergyComponent(refill=22)
     },
 
     "spider drone": {
@@ -192,7 +192,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=4, base_ac=7),
         "attack_comp": AttackComponent(Attack('claw', [3])),
         "level": Level(xp_given=35, difficulty=3),
-        "energy": EnergyComponent(threshold=13)
+        "energy": EnergyComponent(refill=15)
     },
 
     "med school dropout": {
@@ -202,7 +202,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('kick', [5])),
         "level": Level(xp_given=55, difficulty=3),
-        "energy": EnergyComponent(threshold=12)
+        "energy": EnergyComponent(refill=10)
     },
 
     "giant leech": {
@@ -212,7 +212,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=11, base_ac=-2),
         "attack_comp": AttackComponent(Attack('suck', [6])),
         "level": Level(current_level=4, xp_given=100, difficulty=4),
-        "energy": EnergyComponent(threshold=16),
+        "energy": EnergyComponent(refill=8),
     },
 
     "henchman": {
@@ -222,7 +222,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=6, base_ac=6),
         "attack_comp": AttackComponent(Attack('punch', [5])),
         "level": Level(xp_given=55, difficulty=4),
-        "energy": EnergyComponent(threshold=12)
+        "energy": EnergyComponent(refill=10)
     },
 
     "cyber cat": {
@@ -232,7 +232,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=6, base_ac=3),
         "attack_comp": AttackComponent(Attack('claw', [6])),
         "level": Level(xp_given=55, difficulty=6),
-        "energy": EnergyComponent(threshold=7)
+        "energy": EnergyComponent(refill=15)
     },
 
     "storm drone": {
@@ -242,7 +242,7 @@ actor_dict = {
         "fighter": Fighter(max_hp=1, base_ac=-20),
         "attack_comp": AttackComponent(Attack('zap', [5])),
         "level": Level(current_level=4, xp_given=55, difficulty=20),
-        "energy": EnergyComponent(threshold=8)
+        "energy": EnergyComponent(refill=18)
     },
 }
 

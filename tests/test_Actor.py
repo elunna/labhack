@@ -22,7 +22,7 @@ def test_actor():
         "fighter": Fighter(max_hp=1, base_ac=10),
         "attack_comp": AttackComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
-        "energy": EnergyComponent(threshold=10)
+        "energy": EnergyComponent(refill=10)
     }
     return Actor(name="actor", **components)
 

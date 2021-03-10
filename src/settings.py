@@ -66,8 +66,7 @@ sw_corner = "└"
 closed_door = '+'
 
 # Entity settings
-energy_per_turn = 10  # This is how much energy each actor regains per turn
-DEFAULT_THRESHOLD = 10
+ENERGY_THRESHOLD = 12
 
 max_items_by_floor = [
     (1, 1),

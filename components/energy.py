@@ -1,5 +1,5 @@
 from components.component import Component
-from src.settings import DEFAULT_THRESHOLD
+from src.settings import ENERGY_THRESHOLD
 import random
 
 
@@ -8,19 +8,20 @@ class EnergyComponent(Component):
         Each turn the engine provides a refill, which is determined by the refill amount in this
         component. The standard threshold is 12.
     """
-    def __init__(self, threshold=DEFAULT_THRESHOLD):
-        if threshold <= 0:
-            raise ValueError("EnergyMeter threshold must be a positive integer!")
+    def __init__(self, refill):
+        if refill <= 0:
+            raise ValueError("refill amount must be a positive integer!")
 
-        self.threshold = threshold
+        self.threshold = ENERGY_THRESHOLD  # Standard is 12 for all actors.
+        self.refill = refill
 
         # Start each actor with a random amount of energy so movements
         # are staggered for like enemies.
-        self.energy = random.randint(0, threshold)
+        self.energy = random.randint(0, refill)
 
-    def add_energy(self, amt):
+    def add_energy(self):
         """ Adds the refill amount to the actor's entergy."""
-        self.energy += amt
+        self.energy += self.refill
 
     def burn_turn(self):
         """ Depletes the actor's energy by a turn's amount (standard is 12)"""

@@ -57,7 +57,7 @@ class Engine:
     def add_energy(self):
         """All actors gets an energy reboost!"""
         for entity in self.game_map.actors:
-            entity.energymeter.add_energy(settings.energy_per_turn)
+            entity.energymeter.add_energy()
 
     def update_fov(self):
         """Recompute the visible area based on the players point of view."""

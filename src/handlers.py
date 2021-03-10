@@ -541,7 +541,6 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         radius_tiles = utils.radius(x, y, self.radius)
         rendering.hilite_tiles(renderer.root, radius_tiles)
 
-
     def on_index_selected(self, x, y):
         # Hack to fix the msg_panel offset.
         return self.callback((x, y - 5))
