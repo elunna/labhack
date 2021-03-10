@@ -212,3 +212,23 @@ class Engine:
         """
         # For now just use WaitAction
         return WaitAction(actor)
+
+    def end_of_turn(self):
+        # If the player leveled up, handle it.
+        self.check_level()
+
+        # Random chance at summoning new dungeon monster.
+        self.generate_monster()
+
+        # Handle end-of-turn states ..Decrease timeouts on states
+        self.reduce_timeouts()
+
+        # Check if player regenerates
+        self.player.regeneration.activate(self.turns)
+
+        # All actors get an energy recharge every turn
+        self.add_energy()
+
+        # Increment turns
+        self.turns += 1
+

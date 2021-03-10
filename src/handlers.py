@@ -75,9 +75,8 @@ class EventHandler(BaseEventHandler):
                 # The player was killed sometime during or after the action.
                 return GameOverHandler(self.engine)
 
-            # If the player leveled up, handle it.
-            self.engine.check_level()
-
+            # Handle end of turn stuff (systems, etc)
+            self.engine.end_of_turn()
 
             # Handle Behaviors/AI's
             while self.engine.player.ai:
@@ -107,49 +106,24 @@ class EventHandler(BaseEventHandler):
             Returns True if the action will advance a turn.
         """
         if self.engine.handle_action(action):  # Successful action completed.
-            log.debug(f'########## TURN {self.engine.turns} COMPLETE ########## ')
-            log.debug('')
-            # Here - we will evaluate the player's energy
-            # Use up a turn worth of energy
+            log.debug(f'TURN {self.engine.turns} COMPLETE ')
+            # Player uses up a turn worth of energy
             self.engine.player.energymeter.burn_turn()
-
             self.engine.update_fov()
 
-            # If the player doesn't have enough energy for another turn, we'll
-            # run the enemy turns.
             if self.engine.player.energymeter.burned_out():
-                # TODO: Move all this crap to an end_of_turn method in Engine
-
-                # Handle end-of-turn states ..Decrease timeouts on states
-                self.engine.reduce_timeouts()
-
-                # Increment turns
-                self.engine.turns += 1
-
-                # All actors get an energy recharge every turn
-                self.engine.add_energy()
-
+                # Once player turn is complete, run the monsters turns.
                 self.engine.handle_enemy_turns()
-
-                # Random chance at summoning new dungeon monster.
-                self.engine.generate_monster()
-
-                # Check if player regenerates
-                self.engine.player.regeneration.activate(self.engine.turns)
 
                 return True
         return False
 
     def ev_mousemotion(self, event):
-        # if self.engine.game_map.in_bounds(event.tile.x, event.tile.y):
-            # self.engine.mouse_location = event.tile.x, event.tile.y
-
         # Correct for msg_panel offset
         if self.engine.game_map.in_bounds(event.tile.x, event.tile.y - settings.msg_panel_height):
             self.engine.mouse_location = event.tile.x, event.tile.y
 
     def on_render(self, renderer):
-        # render_map(renderer, self.engine.game_map)
         self.engine.render(renderer)
 
 
