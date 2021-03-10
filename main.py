@@ -1,10 +1,13 @@
 import traceback
 import tcod
-from src import color
+import time
+from src import color, logger
 from src import exceptions
 from src import handlers
 from src import rendering
 from src import settings
+
+log = logger.setup_logger(__name__)
 
 
 def main():
@@ -23,6 +26,12 @@ def main():
         renderer.context.present(renderer.root)
 
         try:
+            # Handle Behaviors/AI's
+            engine = getattr(handler, "engine", None)
+            if engine and engine.player.ai:
+                handle_ai(engine, handler)
+                continue  # Skip the input and present.n
+
             for event in tcod.event.wait():
                 renderer.context.convert_event(event)
                 handler = handler.handle_events(event)
@@ -43,6 +52,19 @@ def main():
         except BaseException:  # Save on any other unexpected exception
             save_game(handler, settings.save_file)
             raise
+
+
+def handle_ai(engine, handler):
+    log.debug('Player AI Activated ----------------')
+    if engine.player.ai.can_perform():
+        time.sleep(settings.AUTO_DELAY)
+        action = engine.player.ai.yield_action()
+
+        if not handler.handle_action(action):
+            engine.player.ai = None
+            log.debug('Player AI OFF ----------------')
+    else:
+        log.debug('Player AI OFF ----------------')
 
 
 def save_game(handler, filename):

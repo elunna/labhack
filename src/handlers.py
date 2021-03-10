@@ -78,19 +78,7 @@ class EventHandler(BaseEventHandler):
             # Handle end of turn stuff (systems, etc)
             self.engine.end_of_turn()
 
-            # Handle Behaviors/AI's
-            while self.engine.player.ai:
-                log.debug('Player AI Activated ----------------')
 
-                if self.engine.player.ai.can_perform():
-                    action = self.engine.player.ai.yield_action()
-
-                    if not self.handle_action(action):
-                        self.engine.player.ai = None
-                        log.debug('Player AI OFF ----------------')
-
-                else:
-                    log.debug('Player AI OFF ----------------')
 
             # Handle auto-states
             while self.engine.player.states.autopilot:
