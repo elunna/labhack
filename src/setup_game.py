@@ -32,24 +32,16 @@ def new_game():
     player.inventory.add_inv_item(leather_armor)
     player.equipment.toggle_equip(leather_armor)
 
-    # For debugging purposes, add every item to player's inventory
-    # TODO: Put items in a list, and add in a loop
+    starting_items = [
+        "healing vial",
+        "lightning scroll",
+        "confusion scroll",
+        "fireball scroll",
+    ]
 
-    # Health Potion
-    health_vial = factory.make("healing vial")
-    player.inventory.add_inv_item(health_vial)
-
-    # Lightning scroll
-    lightning_scroll = factory.make("lightning scroll")
-    player.inventory.add_inv_item(lightning_scroll)
-
-    # Confusion scroll
-    confusion_scroll = factory.make("confusion scroll")
-    player.inventory.add_inv_item(confusion_scroll)
-
-    # Fireball scroll
-    fireball_scroll = factory.make("fireball scroll")
-    player.inventory.add_inv_item(fireball_scroll)
+    for item in starting_items:
+        new_item = factory.make(item)
+        player.inventory.add_inv_item(new_item)
 
     return engine
 
