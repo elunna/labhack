@@ -1,6 +1,7 @@
 from collections import defaultdict
 from components.component import Component
 from components.equippable import Weapon
+from components.letter import LetterComponent
 from src import exceptions, settings, utils
 from src.entity_manager import EntityManager
 from src.letterroll import LetterRoll
@@ -47,7 +48,7 @@ class PlayerInventory(Component, EntityManager):
         if result and not size_changed:
             # it added to a stackable. Letter is already set
             twin = self.get_similar(item)
-            return twin.item.last_letter
+            return twin.letter.letter
 
         elif result and size_changed:
             # a new slot was occupied
@@ -55,7 +56,9 @@ class PlayerInventory(Component, EntityManager):
             new_item = [e for e in self.entities if e not in current_items][0]
 
             # See if this item has a previous letter
-            letter = new_item.item.last_letter
+            letter = None
+            if new_item.has_comp("letter"):
+                letter = new_item.letter.letter
 
             # We'll need to find a new letter if there the last_letter is being used or is None.
             # Otherwise, we can just use it by default!
@@ -63,14 +66,13 @@ class PlayerInventory(Component, EntityManager):
                 letter = self.find_next_letter()
 
             # Also set the letter in the ItemComponent
-            new_item.item.last_letter = letter
+            new_item.add_comp(letter=LetterComponent(letter))
 
             self.item_dict[letter] = new_item
             return letter
 
         # Something went wrong...
         raise exceptions.Impossible
-
 
     def rm_inv_item(self, item, qty=0):
         """ Removes an item from the inventory and returns it.
@@ -79,7 +81,7 @@ class PlayerInventory(Component, EntityManager):
         """
         if item in self.entities:
             # First, get the letter of the item
-            letter = item.item.last_letter
+            letter = item.letter.letter
             result = self.rm_item(item, qty)
 
             if item not in self.entities:

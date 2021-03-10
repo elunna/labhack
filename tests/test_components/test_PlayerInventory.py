@@ -2,6 +2,7 @@ import pytest
 
 from components.component import Component
 from components.inventory import PlayerInventory
+from components.letter import LetterComponent
 from src import factory, exceptions
 from src.entity_manager import EntityManager
 
@@ -110,14 +111,14 @@ def test_add_inv_item__new_slot__full_stack__size_increased(vials5):
 
 def test_add_inv_item__new_slot__full_stack__last_letter_unoccupied(vials5):
     pi = PlayerInventory(10)
-    vials5.item.last_letter = 'z'
+    vials5.add_comp(letter=LetterComponent('z'))
     assert pi.add_inv_item(vials5) == 'z'
     assert pi.item_dict['z'] == vials5
 
 
 def test_add_inv_item__new_slot__full_stack__last_letter_occupied(dagger, vials5):
     pi = PlayerInventory(10)
-    vials5.item.last_letter = 'a'
+    vials5.add_comp(letter=LetterComponent('a'))
     pi.add_inv_item(dagger)
     pi.add_inv_item(vials5)
     assert pi.item_dict['a'] == dagger
@@ -146,7 +147,7 @@ def test_add_inv_item__new_slot__partial_stack__size_increased(vials5):
 
 def test_add_inv_item__new_slot__partial_stack__last_letter_unoccupied(vials5):
     pi = PlayerInventory(10)
-    vials5.item.last_letter = 'z'
+    vials5.add_comp(letter=LetterComponent('z'))
     pi.add_inv_item(vials5, 2)
     result = pi.item_dict['z']
     assert result.name == "healing vial"
@@ -155,7 +156,7 @@ def test_add_inv_item__new_slot__partial_stack__last_letter_unoccupied(vials5):
 
 def test_add_inv_item__new_slot__partial_stack__last_letter_occupied(dagger, vials5):
     pi = PlayerInventory(10)
-    vials5.item.last_letter = 'a'
+    vials5.add_comp(letter=LetterComponent('a'))
     pi.add_inv_item(dagger)
     pi.add_inv_item(vials5, 2)
     result = pi.item_dict['b']  # rolls to next available letter
@@ -187,14 +188,14 @@ def test_add_inv_item__new_slot__nonstackable__size_increased(plunger):
 
 def test_add_inv_item__new_slot__nonstackable__last_letter_unoccupied(plunger):
     pi = PlayerInventory(10)
-    plunger.item.last_letter = 'z'
+    plunger.add_comp(letter=LetterComponent('z'))
     pi.add_inv_item(plunger)
     assert pi.item_dict['z'] == plunger
 
 
 def test_add_inv_item__new_slot__nonstackable__last_letter_occupied(dagger, plunger):
     pi = PlayerInventory(10)
-    plunger.item.last_letter = 'a'
+    plunger.add_comp(letter=LetterComponent('a'))
     pi.add_inv_item(dagger)
     pi.add_inv_item(plunger)
     assert pi.item_dict['a'] == dagger

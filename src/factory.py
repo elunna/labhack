@@ -1,4 +1,6 @@
 import math
+
+from components.letter import LetterComponent
 from . import settings, tiles
 from . import db
 import copy
@@ -143,7 +145,7 @@ def make(entity_name):
     if entity_name == "money":
         m = copy.deepcopy(Item(**db.money))
         # This is a crude hack, but it should work to make the inventory character always $
-        m.item.last_letter = "$"
+        m.add_comp(letter=LetterComponent("$"))
         return m
 
     raise ValueError(f"'{entity_name}' is not a valid Entity!")
