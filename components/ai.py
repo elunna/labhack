@@ -123,8 +123,8 @@ class GridAI(HostileAI):
         """Returns True if the monster is next to the player and directly N, E, S, or W."""
         distance = max(abs(dx), abs(dy))  # Chebyshev distance.
         if distance > 1:
-            return False
-        return (dx, dy) in settings.CARDINAL_DIR
+           return False
+        return  (dx, dy) in settings.CARDINAL_DIR.values()
 
 
 class RunAI(BaseAI):
