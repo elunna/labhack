@@ -301,19 +301,12 @@ def highlight_cursor(console, x, y):
     console.tiles_rgb["fg"][x, y] = color.black
 
 
-def hilite_radius(console, x, y, radius):
+def hilite_tiles(console, tileset):
     """Highlights the area surrounding the specified coordinates. """
     # Highlight the affected tiles.
-    max_x = x + radius
-    min_x = x - radius
-    max_y = y + radius
-    min_y = y - radius
-
-    for x2 in range(min_x, max_x + 1):
-        for y2 in range(min_y, max_y + 1):
-            if utils.distance(x, y, x2, y2) <= radius:
-                console.tiles_rgb["bg"][x2, y2] = color.red
-                console.tiles_rgb["fg"][x2, y2] = color.black
+    for x, y in tileset:
+        console.tiles_rgb["bg"][x, y] = color.red
+        console.tiles_rgb["fg"][x, y] = color.black
 
 
 def draw_rect(console, x, y, radius):

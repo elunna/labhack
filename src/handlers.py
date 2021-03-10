@@ -1,5 +1,5 @@
 from components import ai
-from . import color
+from . import color, utils
 from . import exceptions
 from . import logger
 from . import rendering
@@ -538,13 +538,11 @@ class AreaRangedAttackHandler(SelectIndexHandler):
         super().on_render(renderer)
 
         x, y = self.engine.mouse_location
-        # rendering.draw_rect(renderer.root, x, y, self.radius)
-        rendering.hilite_radius(renderer.root, x, y, self.radius)
+        radius_tiles = utils.radius(x, y, self.radius)
+        rendering.hilite_tiles(renderer.root, radius_tiles)
+
 
     def on_index_selected(self, x, y):
-        # same as the one we defined for SingleRangedAttackHandler.
-        # return self.callback((x, y))
-
         # Hack to fix the msg_panel offset.
         return self.callback((x, y - 5))
 

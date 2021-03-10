@@ -18,3 +18,19 @@ def pluralize_str(string):
 
     # broken_up = string.split()
     # last_word = broken_up[-1]
+
+
+def radius(x, y, radius):
+    """Highlights the area surrounding the specified coordinates. """
+    # Highlight the affected tiles.
+    max_x = x + radius
+    min_x = x - radius
+    max_y = y + radius
+    min_y = y - radius
+    tiles = set()
+
+    for x2 in range(min_x, max_x + 1):
+        for y2 in range(min_y, max_y + 1):
+            if distance(x, y, x2, y2) <= radius:
+                tiles.add((x2, y2))
+    return tiles
