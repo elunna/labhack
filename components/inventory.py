@@ -1,6 +1,7 @@
 from collections import defaultdict
 from components.component import Component
-from src import exceptions
+from components.equippable import Weapon
+from src import exceptions, settings, utils
 from src.entity_manager import EntityManager
 from src.letterroll import LetterRoll
 
@@ -113,3 +114,35 @@ class PlayerInventory(Component, EntityManager):
         for key_letter, item in sorted(self.item_dict.items()):
             result[item.char].append(key_letter)
         return result
+
+    def list_contents(self):
+        contents = []
+        item_groups = self.sorted_dict()
+
+        for char in settings.ITEM_CATEGORIES:
+            groups = item_groups.get(char)
+            if groups:
+                group_name = settings.ITEM_CATEGORIES[char]
+                contents.append(f" {char}  {group_name}:")
+            else:
+                continue
+
+            for group in groups:
+                for letter in group:
+                    item_key = letter
+                    item = self.item_dict[letter]
+                    is_equipped = self.parent.equipment.is_equipped(item)
+                    item_string = f"({item_key}) {item}"
+
+                    # Weapon notation strings
+                    if "equippable" in item and isinstance(item.equippable, Weapon):
+                        dnotation = item.equippable.attack_comp.attacks[0].to_text()
+                        item_string += f"({dnotation})"
+
+                    if is_equipped:
+                        item_string += f" (Equipped)"
+
+                    contents.append(item_string)
+
+            contents.append('')  # Blank line between groups.
+        return contents

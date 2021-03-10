@@ -220,23 +220,13 @@ def render_map(console, game_map):
 
             # Make sure it is not hidden or invisible!
             if "hidden" not in entity:
-                console.print(
-                    x=entity.x,
-                    y=entity.y,
-                    string=entity.char,
-                    fg=entity.color
-                )
+                console.print(x=entity.x, y=entity.y, string=entity.char, fg=entity.color)
 
         # Also remember items/traps that are on explored tiles
         if game_map.explored[entity.x, entity.y]:
             item_or_trap = "item" in entity or "trap" in entity
             if item_or_trap and "hidden" not in entity:
-                console.print(
-                    x=entity.x,
-                    y=entity.y,
-                    string=entity.char,
-                    fg=entity.color
-                )
+                console.print(x=entity.x, y=entity.y, string=entity.char, fg=entity.color)
 
     # TODO: Move to separate function
     # For testing: Render the room numbers
@@ -257,9 +247,7 @@ def render_history(console, title, cursor, msglog):
     # Draw a frame with a custom banner title.
     log_console.draw_frame(0, 0, log_console.width, log_console.height)
 
-    log_console.print_box(
-        0, 0, log_console.width, 1, title, alignment=tcod.CENTER
-    )
+    log_console.print_box(0, 0, log_console.width, 1, title, alignment=tcod.CENTER)
 
     # Render the message log using the cursor parameter.
     render_messages(
@@ -276,26 +264,15 @@ def render_inv(console, engine, title):
     """ Displays a nicely formatted list of our inventory, separated by category
         Categories: weapons, armor, potions, scrolls
     """
+    inv_contents = engine.player.inventory.list_contents()
     qty_of_items = len(engine.player.inventory.item_dict)
-    item_groups = engine.player.inventory.sorted_dict()
-
-    height_for_groups = (len(item_groups) * 2)
     padding_space = 2
-    height = qty_of_items + height_for_groups + padding_space
+    height = len(inv_contents) + padding_space
 
     if height <= 3:
         height = 3
-
-    # TODO: Design decision, should inventory stay in one place?
     x = console.width // 2
-    # if engine.player.x <= 30:
-    #     x = 40
-    # else:
-    #     x = 0
-
     y = 0
-
-    # width = len(title) + 10
     width = x - 2
 
     console.draw_frame(
@@ -311,44 +288,9 @@ def render_inv(console, engine, title):
 
     if qty_of_items > 0:
         i = 0  # Counter for vertical spacing
-        for char in settings.ITEM_CATEGORIES:
-            groups = item_groups.get(char)
-            if groups:
-                group_name = settings.ITEM_CATEGORIES[char]
-                console.print(x + 1, y + i + 1, f" {char}  {group_name}:")
-                i += 1
-            else:
-                continue
-
-            for group in groups:
-                for letter in group:
-                    item_key = letter
-                    item = engine.player.inventory.item_dict[letter]
-                    is_equipped = engine.player.equipment.is_equipped(item)
-                    if "stackable" in item:
-                        qty = item.stackable.size
-                    else:
-                        qty = 1
-
-                    if qty > 1:
-                        # Pluralize the last word
-                        item_string = f"({item_key}) {qty} {utils.pluralize_str(item.name)}"
-                    else:
-
-                        item_string = f"({item_key}) {item.name}"
-
-                    # Weapon notation strings
-                    if "equippable" in item and isinstance(item.equippable, Weapon):
-                        dnotation = item.equippable.attack_comp.attacks[0].to_text()
-                        item_string += f"({dnotation})"
-
-                    if is_equipped:
-                        item_string += f" (Equipped)"
-
-                    console.print(x + 1, y + i + 1, item_string)
-                    i += 1
-            i += 1  # Adds a space between categories
-
+        for line in inv_contents:
+            console.print(x + 1, y + i + 1, line)
+            i += 1
     else:
         console.print(x + 1, y + 1, "(Empty)")
 
