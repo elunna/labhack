@@ -56,6 +56,52 @@ class Renderer:
             height=settings.stat_panel_height
         )
 
+    def render_all(self, engine):
+        # Message Panel
+        render_messages(
+            console=self.msg_panel,
+            x=settings.msg_panel_x, y=0,
+            width=settings.screen_width,
+            height=settings.msg_panel_height,
+            msg_list=engine.msglog.messages,
+        )
+
+        # Map Panel
+        render_map(self.map_panel, engine.game_map)
+
+        # Stat Panel
+        render_names_at_mouse_location(
+            console=self.stat_panel,
+            x=settings.tooltip_x,
+            y=settings.tooltip_y,
+            engine=engine
+        )
+
+        render_stats(
+            console=self.stat_panel,
+            engine=engine,
+            player=engine.player
+        )
+
+        render_bar(
+            console=self.stat_panel,
+            current_value=engine.player.fighter.hp,
+            maximum_value=engine.player.fighter.max_hp,
+            total_width=settings.hp_bar_width,
+        )
+
+        render_dungeon_lvl_text(
+            console=self.stat_panel,
+            dungeon_level=engine.dungeon.dlevel,
+        )
+
+        self.msg_panel.blit(self.root, 0, settings.msg_panel_y)
+        self.map_panel.blit(self.root, 0, settings.map_panel_y)
+        self.stat_panel.blit(self.root, 0, settings.stat_panel_y)
+
+        self.msg_panel.clear()
+        self.stat_panel.clear()
+
 
 def render_bar(console, current_value, maximum_value, total_width):
     """Renders a fillable bar (like an HP bar)"""

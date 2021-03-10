@@ -113,50 +113,7 @@ class Engine:
 
     def render(self, renderer):
         """ Render the current GameMap and it's entities to the screen."""
-        # Message Panel
-        rendering.render_messages(
-            console=renderer.msg_panel,
-            x=settings.msg_panel_x, y=0,
-            width=settings.screen_width,
-            height=settings.msg_panel_height,
-            msg_list=self.msglog.messages,
-        )
-
-        # Map Panel
-        rendering.render_map(renderer.map_panel, self.game_map)
-
-        # Stat Panel
-        rendering.render_names_at_mouse_location(
-            console=renderer.stat_panel,
-            x=settings.tooltip_x,
-            y=settings.tooltip_y,
-            engine=self
-        )
-
-        rendering.render_stats(
-            console=renderer.stat_panel,
-            engine=self,
-            player=self.player
-        )
-
-        rendering.render_bar(
-            console=renderer.stat_panel,
-            current_value=self.player.fighter.hp,
-            maximum_value=self.player.fighter.max_hp,
-            total_width=settings.hp_bar_width,
-        )
-
-        rendering.render_dungeon_lvl_text(
-            console=renderer.stat_panel,
-            dungeon_level=self.dungeon.dlevel,
-        )
-
-        renderer.msg_panel.blit(renderer.root, 0, settings.msg_panel_y)
-        renderer.map_panel.blit(renderer.root, 0, settings.map_panel_y)
-        renderer.stat_panel.blit(renderer.root, 0, settings.stat_panel_y)
-
-        renderer.msg_panel.clear()
-        renderer.stat_panel.clear()
+        renderer.render_all(self)
 
     def save_as(self, filename):
         """Save this Engine instance as a compressed file."""
