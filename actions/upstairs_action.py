@@ -1,8 +1,6 @@
 from actions.actions import Action
 from src import exceptions
-
-
-DUNGEON_TOP_LEVEL = 1
+from src.settings import DUNGEON_TOP_LEVEL
 
 
 class UpStairsAction(Action):

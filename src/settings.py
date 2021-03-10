@@ -47,6 +47,7 @@ tooltip_x = 0
 tooltip_y = 4
 
 # Room Generation
+DUNGEON_TOP_LEVEL = 1
 room_max_size = 10
 room_min_size = 6
 max_rooms = 15
