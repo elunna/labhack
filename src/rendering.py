@@ -44,6 +44,8 @@ class Renderer:
         self.stat_panel = tcod.Console(width=settings.screen_width, height=settings.stat_panel_height)
 
     def render_all(self, engine):
+        player = engine.player
+
         # Message Panel
         render_messages(
             console=self.msg_panel,
@@ -64,10 +66,46 @@ class Renderer:
             engine=engine
         )
 
-        render_stats(
-            console=self.stat_panel,
-            engine=engine,
-            player=engine.player
+        ac_stat = f"AC:{player.fighter.ac}"
+        str_stat = f"Str:{player.attributes.strength}"
+        dex_stat = f"Dex:{player.attributes.dexterity}"
+        con_stat = f"Con:{player.attributes.constitution}"
+        xp_lvl_stat = f"XL:{player.level.current_level}"
+        turns = f"Turns:{engine.turns}"
+
+        render_text(
+            self.stat_panel,
+            x=22,
+            y=settings.hp_bar_y,
+            text=f"{ac_stat} | {str_stat} | {dex_stat} | {con_stat} | {xp_lvl_stat} | {turns}",
+        )
+
+        # Render players money
+        money = player.inventory.item_dict.get('$', 0)
+        render_text(
+            self.stat_panel,
+            x=22,
+            y=settings.hp_bar_y + 1,
+            text=f"${money}",
+            fg=tcod.gold,
+        )
+
+        # Render player states
+        render_text(
+            self.stat_panel,
+            x=22,
+            y=settings.tooltip_y - 2,
+            text=f"{player.states.to_string()}",
+            fg=tcod.red,
+        )
+
+        # Render current dungeon level
+        x, y = settings.dlevel_text_location
+        render_text(
+            self.stat_panel,
+            x=x,
+            y=y,
+            text=f"Dlevel: {engine.dungeon.dlevel}",
         )
 
         # Render HP Bar
@@ -75,15 +113,10 @@ class Renderer:
             console=self.stat_panel,
             x=settings.hp_bar_x,
             y=settings.hp_bar_y,
-            val=engine.player.fighter.hp,
-            max_val=engine.player.fighter.max_hp,
+            val=player.fighter.hp,
+            max_val=player.fighter.max_hp,
             total_width=settings.hp_bar_width,
             label="HP"
-        )
-
-        render_dungeon_lvl_text(
-            console=self.stat_panel,
-            dungeon_level=engine.dungeon.dlevel,
         )
 
         self.msg_panel.blit(self.root, 0, settings.msg_panel_y)
@@ -92,6 +125,10 @@ class Renderer:
 
         self.msg_panel.clear()
         self.stat_panel.clear()
+
+
+def render_text(console, x, y, text, fg=tcod.white):
+    console.print(x=x, y=y, fg=fg, string=text)
 
 
 def render_bar(console, x, y, val, max_val, total_width, label=''):
@@ -118,38 +155,6 @@ def render_bar(console, x, y, val, max_val, total_width, label=''):
         )
 
     console.print(x=1, y=y, string=f"{label}: {val}/{max_val}", fg=color.bar_text)
-
-
-def render_dungeon_lvl_text(console, dungeon_level):
-    """ Render the level the player is currently on, at the given location. """
-    x, y = settings.dlevel_text_location
-    console.print(x=x, y=y, string=f"Dlevel: {dungeon_level}")
-
-
-def render_stats(console, engine, player):
-    """Renders all the important player stats in the stat panel."""
-    ac_stat = f"AC:{player.fighter.ac}"
-    str_stat = f"Str:{player.attributes.strength}"
-    dex_stat = f"Dex:{player.attributes.dexterity}"
-    con_stat = f"Con:{player.attributes.constitution}"
-    xp_lvl_stat = f"XL:{player.level.current_level}"
-    turns = f"Turns:{engine.turns}"
-    money = player.inventory.item_dict.get('$', 0)
-
-    console.print(
-        x=22, y=settings.hp_bar_y,
-        string=f"{ac_stat} | {str_stat} | {dex_stat} | {con_stat} | {xp_lvl_stat} | {turns}"
-    )
-    console.print(
-        x=22, y=settings.hp_bar_y + 1, fg=tcod.gold,
-        string= f"${money}"
-    )
-
-    # Render states
-    console.print(
-        x=22, y=settings.tooltip_y - 2, fg=tcod.red,
-        string=f"{player.states.to_string()}"
-    )
 
 
 def render_names_at_mouse_location(console, x, y, engine):
