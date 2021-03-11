@@ -27,8 +27,9 @@ class AttackAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
         elif target == self.entity:
-            if self.entity.has_comp("player"):
+            if self.entity.is_player():
                 raise exceptions.Impossible("You cannot attack yourself!")
+
             raise exceptions.Impossible(f"The {target} wobbles in place.")
 
         # Iterate through all the attacks
@@ -71,7 +72,9 @@ class AttackAction(ActionWithDirection):
         return num
 
     def execute_damage(self, target, atk):
-        """Calculates the damage from a single attack, inflicts it on the target, and returns the amount of the damage."""
+        """Calculates the damage from a single attack, inflicts it on the target, and returns the amount of
+        the damage.
+        """
         # It's a hit! Calculate the damage
         dmg = atk.roll_dies()
 
@@ -99,9 +102,9 @@ class AttackAction(ActionWithDirection):
 
     def blocked_msg(self, target):
         """ Creates a message describing the defender blocking an attack."""
-        if self.entity.has_comp("player"):
+        if self.entity.is_player():
             self.msg = f"The {target.name} blocks your attack! "
-        elif target.has_comp("player"):
+        elif target.is_player():
             self.msg = f"You block the {self.entity}'s attack! "
         else:
             self.msg = f"The {target.name} blocks the {self.entity}'s attack! "
@@ -110,9 +113,9 @@ class AttackAction(ActionWithDirection):
         """ Creates a message describing the attacker missing an attack."""
         # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
 
-        if self.entity.has_comp("player"):
+        if self.entity.is_player():
             self.msg = f"You miss the {target.name}. "
-        elif target.has_comp("player"):
+        elif target.is_player():
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
@@ -133,9 +136,9 @@ class MeleeAttack(AttackAction):
 
         self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
 
-        if self.entity.has_comp("player"):
+        if self.entity.is_player():
             self.msg = f"You {atk.name} the {target.name} for {dmg}! "
-        elif target.has_comp("player"):
+        elif target.is_player():
             self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
         else:
             self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
@@ -154,9 +157,9 @@ class WeaponAttack(AttackAction):
         """Creates the msg to describe one Actor hitting another Actor with a weapon."""
         self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
-        if self.entity.has_comp("player"):
+        if self.entity.is_player():
             self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
-        elif target.has_comp("player"):
+        elif target.is_player():
             self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
             self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "

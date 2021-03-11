@@ -23,7 +23,7 @@ class MovementAction(ActionWithDirection):
 
         if not self.entity.gamemap.walkable(dest_x, dest_y):
             # Destination is blocked by a tile.
-            if self.entity.has_comp("player"):
+            if self.entity.is_player():
                 raise exceptions.Impossible("That way is not walkable!")
 
             # No msg for other monsters
@@ -32,7 +32,7 @@ class MovementAction(ActionWithDirection):
         # Theoretically, this won’t ever trigger, it's a safeguard.
         if self.blocking_entity:
             # Destination is blocked by an entity.
-            if self.entity.has_comp("player"):
+            if self.entity.is_player:
                 raise exceptions.Impossible("That way is blocked.")
 
             # No msg for other monsters
