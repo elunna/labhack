@@ -7,10 +7,11 @@ class EnergyComponent(Component):
     """ Manages the actor's energy which allows them to perform actions during a turn.
         Each turn the engine provides a refill, which is determined by the refill amount in this
         component. The standard threshold is 12.
+        A refill value of 0 makes the actor a stationary actor, since it will never act.
     """
     def __init__(self, refill):
-        if refill <= 0:
-            raise ValueError("refill amount must be a positive integer!")
+        if refill < 0:
+            raise ValueError("refill amount must be greater than or equal to 0!")
 
         self.threshold = ENERGY_THRESHOLD  # Standard is 12 for all actors.
         self.refill = refill

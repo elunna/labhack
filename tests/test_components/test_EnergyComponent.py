@@ -22,9 +22,14 @@ def test_init__energy_is_random():
     assert ec.energy <= ENERGY_THRESHOLD
 
 
-def test_init__0_refill__raises_ValueError():
+def test_init__0_refill__valid_for_stationary_actors():
+    ec = EnergyComponent(refill=0)
+    assert ec.refill == 0
+
+
+def test_init__negative_refill__raises_ValueError():
     with pytest.raises(ValueError):
-        EnergyComponent(refill=0)
+        ec = EnergyComponent(refill=-1)
 
 
 def test_add_energy():
