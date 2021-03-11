@@ -22,6 +22,9 @@ class Fighter(Component):
         """
         self._hp = max(0, min(value, self.max_hp))
 
+    def hp_full(self):
+        return self.hp == self.max_hp
+
     @property
     def ac(self):
         """Returns the actor's current AC with any bonuses."""

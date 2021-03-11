@@ -159,8 +159,6 @@ class RunAI(BaseAI):
         elif actor_in_way:
             result = False
 
-
-
         # Do not run along-side another actor
 
         # Stop at traps
@@ -201,3 +199,38 @@ class RunAI(BaseAI):
             dx=self.dx,
             dy=self.dy
         )
+
+
+class RestAI(BaseAI):
+    """ This is an AI for the player to rest in place until HP is fully restored or something interesting
+    happens near us.
+    """
+    def __init__(self):
+        self.first_turn = True
+
+    def can_perform(self):
+        """Returns True if the player can safely rest. """
+        if self.first_turn:
+            return True
+
+        gamemap = self.parent.gamemap
+        x, y = self.parent.x, self.parent.y
+
+        radius = 1.5  # Try to get actors within 1 square.
+        # Is there an enemy next to us?
+
+        close_actors = gamemap.get_entities_within(x, y, radius) - {self.parent}
+        if close_actors:
+            self.parent.ai = None
+            return False
+
+        # Is our HP full?
+        if self.parent.fighter.hp_full():
+            self.parent.ai = None
+            return False
+        return True
+
+    def yield_action(self):
+        """Returns a WaitAction. """
+        self.first_turn = False
+        return WaitAction(self.parent)

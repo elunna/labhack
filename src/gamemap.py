@@ -1,4 +1,4 @@
-from . import settings
+from . import settings, utils
 from . import tiles
 from .entity import Entity
 from .entity_manager import EntityManager
@@ -114,6 +114,16 @@ class GameMap(EntityManager):
         # Create a helper Rect so we can use it's perimeter.
         temp_rect = Room(x - radius, y - radius, length, length)
         return temp_rect.perimeter()
+
+    def get_entities_within(self, x, y, radius):
+        """Returns all visible actors within a radius from x, y"""
+        actors = set()
+        for actor in self.actors:
+            visible = self.visible[actor.x, actor.y]
+            close = utils.distance(actor.x, actor.y, x, y) <= radius
+            if close and visible:
+                actors.add(actor)
+        return actors
 
     def valid_door_neighbors(self, room, x, y):
         """ Checks if the tiles around the point allow for placing a door (and more importantly, a closet)

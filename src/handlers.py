@@ -180,6 +180,15 @@ class MainGameHandler(EventHandler):
         elif key == tcod.event.K_s:
             action = actions.search_action.SearchAction(player)
 
+        elif key == tcod.event.K_r:
+            # Rest Action
+            log.debug(f'Rest action input')
+
+            player.add_comp(ai=ai.RestAI())
+
+            if self.engine.player.ai.can_perform():
+                return player.ai.yield_action()
+
         # No valid key was pressed
         return action
 
