@@ -143,7 +143,6 @@ class RunAI(BaseAI):
         actor_in_way = self.parent.gamemap.get_actor_at(*target_tile)
 
         # Do not run into a wall (or unwalkable tile)
-        # Need to check this first, more important because it might prevent the first step.
         if not self.parent.gamemap.walkable(*target_tile):
             result = False
 
@@ -159,6 +158,8 @@ class RunAI(BaseAI):
         # Do not run into another actor
         elif actor_in_way:
             result = False
+
+
 
         # Do not run along-side another actor
 

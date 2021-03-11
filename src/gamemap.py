@@ -85,7 +85,7 @@ class GameMap(EntityManager):
         :param y: The y coordinate
         :return: True if the tile is walkable, False if not.
         """
-        return self.tiles["walkable"][x, y]
+        return self.in_bounds(x, y) and self.tiles["walkable"][x, y]
 
     def room_coordinates(self):
         """ Creates a dict of coordinate keys and room values so we have an easy reference
