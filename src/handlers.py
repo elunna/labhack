@@ -196,6 +196,13 @@ class MainGameHandler(EventHandler):
 
         if self.engine.game_map.in_bounds(mx, my):
             if event.button == 1:
+                dx, dy = mx - player.x, my - player.y
+
+                # Check if the user clicked directly around the player
+                if max(abs(dx), abs(dy)) == 1:
+                    return actions.bump_action.BumpAction(player, dx, dy)
+
+                # Otherwise we'll start a TravelAI to walk to the clicked spot.
                 player.add_comp(ai=ai.TravelAI(player, mx, my))
                 # return self.on_index_selected(*event.tile)
 
