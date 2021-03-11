@@ -12,7 +12,7 @@ class AttackAction(ActionWithDirection):
         # The entity will roll a 20 sided die, and try to get below a target number.
         self.target_base = 10
         self.die = 20
-        self.attack_comp = None
+        self.offense = None
 
     def perform(self):
         """Performs the attack - first we validate if the attack is valid, then we start running through
@@ -33,7 +33,7 @@ class AttackAction(ActionWithDirection):
             raise exceptions.Impossible(f"The {target} wobbles in place.")
 
         # Iterate through all the attacks
-        for atk in self.attack_comp.attacks:
+        for atk in self.offense.attacks:
             if self.roll_hit_die() < self.calc_target_number(target):
                 dmg = self.execute_damage(target, atk)
 
@@ -129,7 +129,7 @@ class MeleeAttack(AttackAction):
     """Represents a close quarters attack (1-tile away with no-weapon)."""
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
-        self.attack_comp = self.entity.offense
+        self.offense = self.entity.offense
 
     def hit_msg(self, target, atk, dmg):
         """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
@@ -151,7 +151,7 @@ class WeaponAttack(AttackAction):
         super().__init__(entity, dx, dy)
 
         self.weapon = self.entity.equipment.slots['WEAPON']
-        self.attack_comp = self.weapon.equippable.offense
+        self.offense = self.weapon.equippable.offense
 
     def hit_msg(self, target, atk, dmg):
         """Creates the msg to describe one Actor hitting another Actor with a weapon."""
@@ -163,3 +163,4 @@ class WeaponAttack(AttackAction):
             self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
             self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "
+

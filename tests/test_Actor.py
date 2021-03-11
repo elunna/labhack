@@ -55,7 +55,7 @@ def test_init_fighter(test_actor):
     assert test_actor.fighter
 
 
-def test_init_attack_comp(test_actor):
+def test_init_offense(test_actor):
     assert isinstance(test_actor.offense, OffenseComponent)
 
 

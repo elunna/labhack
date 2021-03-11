@@ -3,10 +3,36 @@ from collections import defaultdict
 
 
 class Attack:
-    """Represents a single attack in a monsters arsenal or a weapon."""
+    """ Represents the capabilities of a single attack in a monster, weapon, item, or trap (or other entity)."""
     def __init__(self, name, dies):
+        # the attack name:
         self.name = name
+
+        # The attack "verbs" (ie: kicks, bites, punches, etc)
+        # self.verbs = verbs
+
+        # The die(s) to roll for each attack
         self.dies = dies
+
+        # Any special power associated with the attack (cold, fire, poison)
+        # self.special = ...
+
+        # bonus to-hit
+
+        # bonus damage
+
+        # against specific breeds of monsters, we can also add (or subtract) certain bonuses:
+        # Water vs metallic enemies
+        # Poison vs non-poison resistant enemies
+        # Cold vs Fire-resistant enemies
+        # Fire vs cold-resistant enemies
+
+        # Also good to note what kind of attack this falls into:
+        # Melee: standard
+        # Ranged (thrown object)
+        # Ray (Wand/gun)
+        # Firearms
+        # Explosive (huge to-hit bonus
 
     def min_dmg(self):
         """Returns the lowest possible damage this can deal."""
