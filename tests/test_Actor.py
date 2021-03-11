@@ -1,16 +1,14 @@
 """ Tests for actors.py """
-import pytest
-
 from components.ai import HostileAI, BaseAI
 from components.attack import Attack
-from components.attack_cmp import AttackComponent
 from components.energy import EnergyComponent
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.level import Level
-from src import factory
+from components.offense_comp import OffenseComponent
 from src import entity
 from src.actor import Actor
+import pytest
 
 
 @pytest.fixture
@@ -21,7 +19,7 @@ def test_actor():
         "color": (255, 255, 255),
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=10),
-        "attack_comp": AttackComponent(Attack('zap', [1])),
+        "offense": OffenseComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
         "energy": EnergyComponent(refill=10)
     }
@@ -58,7 +56,7 @@ def test_init_fighter(test_actor):
 
 
 def test_init_attack_comp(test_actor):
-    assert isinstance(test_actor.attack_comp, AttackComponent)
+    assert isinstance(test_actor.offense, OffenseComponent)
 
 
 def test_init_attributes(test_actor):

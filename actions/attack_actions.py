@@ -129,7 +129,7 @@ class MeleeAttack(AttackAction):
     """Represents a close quarters attack (1-tile away with no-weapon)."""
     def __init__(self, entity, dx, dy):
         super().__init__(entity, dx, dy)
-        self.attack_comp = self.entity.attack_comp
+        self.attack_comp = self.entity.offense
 
     def hit_msg(self, target, atk, dmg):
         """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
@@ -151,7 +151,7 @@ class WeaponAttack(AttackAction):
         super().__init__(entity, dx, dy)
 
         self.weapon = self.entity.equipment.slots['WEAPON']
-        self.attack_comp = self.weapon.equippable.attack_comp
+        self.attack_comp = self.weapon.equippable.offense
 
     def hit_msg(self, target, atk, dmg):
         """Creates the msg to describe one Actor hitting another Actor with a weapon."""

@@ -52,7 +52,7 @@ def test_init__fighter_hp_30_max():
 
 def test_init__has_attack_comp():
     p = Player()
-    assert p.has_comp("attack_comp")
+    assert p.has_comp("offense")
 
 
 def test_init__has_attributes():

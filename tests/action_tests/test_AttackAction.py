@@ -101,7 +101,7 @@ def test_execute_damage__with_weapon(test_map):
 
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.make("henchman")
-    atk = player.equipment.slots['WEAPON'].equippable.attack_comp.attacks[0]
+    atk = player.equipment.slots['WEAPON'].equippable.offense.attacks[0]
     result = a.execute_damage(target, atk)
     assert result >= atk.min_dmg()
     assert result <= atk.max_dmg()
@@ -113,7 +113,7 @@ def test_execute_damage__no_weapon(test_map):
 
     a = AttackAction(entity=player, dx=-1, dy=-1)
     target = factory.make("henchman")
-    atk = player.attack_comp.attacks[0]
+    atk = player.offense.attacks[0]
     result = a.execute_damage(target, atk)
     assert result >= atk.min_dmg()
     assert result <= atk.max_dmg()

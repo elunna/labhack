@@ -27,9 +27,9 @@ class Equippable(Component):
 
 class Weapon(Equippable):
     """Represents an equippable weapon."""
-    def __init__(self, attack_comp):
+    def __init__(self, offense):
         super().__init__(equipment_type=EquipmentType.WEAPON)
-        self.attack_comp = attack_comp
+        self.offense = offense
 
 
 class Armor(Equippable):

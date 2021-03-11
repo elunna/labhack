@@ -1,10 +1,10 @@
 """ Database of entities for the project. """
 import tcod
 
-from components import consumable, equippable, attack_cmp
+from components import consumable, equippable, offense_comp
 from components.ai import HostileAI, GridAI
 from components.attack import Attack
-from components.attack_cmp import AttackComponent
+from components.offense_comp import OffenseComponent
 from components.energy import EnergyComponent
 from components.fighter import Fighter
 from components.item_comp import ItemComponent
@@ -19,7 +19,7 @@ actor_dict = {
         "color": tcod.purple,
         "ai": GridAI(),
         "fighter": Fighter(max_hp=1, base_ac=10),
-        "attack_comp": AttackComponent(Attack('zap', [1])),
+        "offense": OffenseComponent(Attack('zap', [1])),
         "level": Level(xp_given=1, difficulty=0),
         "energy": EnergyComponent(refill=12)
     },
@@ -29,7 +29,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=9),
-        "attack_comp": AttackComponent(Attack('bite', [2])),
+        "offense": OffenseComponent(Attack('bite', [2])),
         "level": Level(xp_given=8, difficulty=2),
         "energy": EnergyComponent(refill=6)
     },
@@ -48,7 +48,7 @@ actor_dict = {
         "color": tcod.green,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=7),
-        "attack_comp": AttackComponent(Attack('bite', [1])),
+        "offense": OffenseComponent(Attack('bite', [1])),
         "level": Level(xp_given=8, difficulty=1),
         "energy": EnergyComponent(refill=15)
     },
@@ -58,7 +58,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=9),
-        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "offense": OffenseComponent(Attack('bite', [3])),
         "level": Level(xp_given=17, difficulty=3),
         "energy": EnergyComponent(refill=9)
     },
@@ -68,7 +68,7 @@ actor_dict = {
         "color": tcod.yellow,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=3),
-        "attack_comp": AttackComponent(Attack('bite', [3])),  # Poisonous
+        "offense": OffenseComponent(Attack('bite', [3])),  # Poisonous
         "level": Level(xp_given=19, difficulty=4),
         "energy": EnergyComponent(refill=4)
     },
@@ -78,7 +78,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=9),
-        "attack_comp": AttackComponent(Attack('bite', [2])),
+        "offense": OffenseComponent(Attack('bite', [2])),
         "level": Level(xp_given=1, difficulty=1),
         "energy": EnergyComponent(refill=10)
     },
@@ -88,7 +88,7 @@ actor_dict = {
         "color": tcod.dark_gray,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=10),
-        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "offense": OffenseComponent(Attack('bite', [3])),
         "level": Level(xp_given=1, difficulty=1),
         "energy": EnergyComponent(refill=12)
     },
@@ -98,7 +98,7 @@ actor_dict = {
         "color": tcod.amber,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=9),
-        "attack_comp": AttackComponent(Attack('bite', [4])),
+        "offense": OffenseComponent(Attack('bite', [4])),
         "level": Level(xp_given=8, difficulty=2),
         "energy": EnergyComponent(refill=12)
     },
@@ -108,7 +108,7 @@ actor_dict = {
         "color": tcod.gray,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=2, base_ac=6),
-        "attack_comp": AttackComponent(
+        "offense": OffenseComponent(
             Attack('claw', [1]),
             Attack('bite', [3]),
         ),
@@ -121,7 +121,7 @@ actor_dict = {
         "color": tcod.light_gray,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=4),
-        "attack_comp": AttackComponent(
+        "offense": OffenseComponent(
             Attack('claw', [2]),
             Attack('bite', [5]),
         ),
@@ -134,7 +134,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=7, base_ac=8),
-        "attack_comp": AttackComponent(Attack('bite', [3])),
+        "offense": OffenseComponent(Attack('bite', [3])),
         "level": Level(xp_given=20, difficulty=3),
         "energy": EnergyComponent(refill=15)
     },
@@ -144,7 +144,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=10),
-        "attack_comp": AttackComponent(
+        "offense": OffenseComponent(
             Attack('head butt', [2]),
             Attack('kick', [2]),
         ),
@@ -157,7 +157,7 @@ actor_dict = {
         "color": tcod.white,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=12, base_ac=10),
-        "attack_comp": AttackComponent(
+        "offense": OffenseComponent(
             Attack('head butt', [4]),
             Attack('kick', [3]),
         ),
@@ -170,7 +170,7 @@ actor_dict = {
         "color": tcod.orange,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=8),
-        "attack_comp": AttackComponent(Attack('bite', [4])),
+        "offense": OffenseComponent(Attack('bite', [4])),
         "level": Level(xp_given=6, difficulty=3),
         "energy": EnergyComponent(refill=22)
     },
@@ -180,7 +180,7 @@ actor_dict = {
         "color": tcod.silver,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=4, base_ac=7),
-        "attack_comp": AttackComponent(Attack('claw', [3])),
+        "offense": OffenseComponent(Attack('claw', [3])),
         "level": Level(xp_given=35, difficulty=3),
         "energy": EnergyComponent(refill=15)
     },
@@ -190,7 +190,7 @@ actor_dict = {
         "color": tcod.dark_gray,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=6),
-        "attack_comp": AttackComponent(Attack('kick', [5])),
+        "offense": OffenseComponent(Attack('kick', [5])),
         "level": Level(xp_given=55, difficulty=3),
         "energy": EnergyComponent(refill=10)
     },
@@ -200,7 +200,7 @@ actor_dict = {
         "color": tcod.light_green,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=11, base_ac=-2),
-        "attack_comp": AttackComponent(Attack('suck', [6])),
+        "offense": OffenseComponent(Attack('suck', [6])),
         "level": Level(current_level=4, xp_given=100, difficulty=4),
         "energy": EnergyComponent(refill=8),
     },
@@ -210,7 +210,7 @@ actor_dict = {
         "color": tcod.dark_gray,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=6),
-        "attack_comp": AttackComponent(Attack('punch', [5])),
+        "offense": OffenseComponent(Attack('punch', [5])),
         "level": Level(xp_given=55, difficulty=4),
         "energy": EnergyComponent(refill=10)
     },
@@ -220,7 +220,7 @@ actor_dict = {
         "color": tcod.dark_blue,
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=6, base_ac=3),
-        "attack_comp": AttackComponent(Attack('claw', [6])),
+        "offense": OffenseComponent(Attack('claw', [6])),
         "level": Level(xp_given=55, difficulty=6),
         "energy": EnergyComponent(refill=15)
     },
@@ -230,7 +230,7 @@ actor_dict = {
         "color": (0, 127, 0),
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=1, base_ac=-20),
-        "attack_comp": AttackComponent(Attack('zap', [5])),
+        "offense": OffenseComponent(Attack('zap', [5])),
         "level": Level(current_level=4, xp_given=55, difficulty=20),
         "energy": EnergyComponent(refill=18)
     },
@@ -292,7 +292,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('dagger', [3])),
+            offense=offense_comp.OffenseComponent(Attack('dagger', [3])),
         ),
     },
 
@@ -301,7 +301,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('baton', [8])),
+            offense=offense_comp.OffenseComponent(Attack('baton', [8])),
         ),
     },
 
@@ -310,7 +310,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('scalpal', [4])),
+            offense=offense_comp.OffenseComponent(Attack('scalpal', [4])),
         ),
     },
 
@@ -319,7 +319,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
+            offense=offense_comp.OffenseComponent(Attack('club', [4])),
         ),
     },
 
@@ -328,7 +328,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
+            offense=offense_comp.OffenseComponent(Attack('club', [5])),
         ),
     },
 
@@ -337,7 +337,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
+            offense=offense_comp.OffenseComponent(Attack('club', [5])),
         ),
     },
 
@@ -346,7 +346,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [7])),
+            offense=offense_comp.OffenseComponent(Attack('club', [7])),
         ),
     },
 
@@ -355,7 +355,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
+            offense=offense_comp.OffenseComponent(Attack('club', [4])),
         ),
     },
 
@@ -364,7 +364,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [5])),
+            offense=offense_comp.OffenseComponent(Attack('club', [5])),
         ),
     },
 
@@ -373,7 +373,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [6])),
+            offense=offense_comp.OffenseComponent(Attack('club', [6])),
         ),
     },
 
@@ -382,7 +382,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [2])),
+            offense=offense_comp.OffenseComponent(Attack('club', [2])),
         ),
     },
 
@@ -391,7 +391,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [6])),
+            offense=offense_comp.OffenseComponent(Attack('club', [6])),
         ),
     },
 
@@ -400,7 +400,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [10])),
+            offense=offense_comp.OffenseComponent(Attack('club', [10])),
         ),
     },
 
@@ -409,7 +409,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('club', [4])),
+            offense=offense_comp.OffenseComponent(Attack('club', [4])),
         ),
     },
 
@@ -418,7 +418,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('lightsaber', [3, 9])),
+            offense=offense_comp.OffenseComponent(Attack('lightsaber', [3, 9])),
         ),
     },
 
@@ -427,7 +427,7 @@ item_dict = {
         "char": "/",
         "color": (0, 191, 255),
         "equippable": equippable.Weapon(
-            attack_comp=attack_cmp.AttackComponent(Attack('lightsaber', [5, 8])),
+            offense=offense_comp.OffenseComponent(Attack('lightsaber', [5, 8])),
         ),
     },
 

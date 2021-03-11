@@ -1,6 +1,5 @@
 from components.component import Component
-
-""" Describes the attack that a player, monster, or item has.
+""" Describes the attacks that a player, monster, or item has.
     Consists of:
         * the attack "verbs" (ie: kicks, bites, punches, etc)
         * The die(s) to roll for each attack
@@ -57,7 +56,7 @@ from components.component import Component
 """
 
 
-class AttackComponent(Component):
+class OffenseComponent(Component):
     """Manages the attacks that an entity can perform."""
     def __init__(self, *args):
         # args is a tuple of Attack named tuples

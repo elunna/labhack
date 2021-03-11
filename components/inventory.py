@@ -138,7 +138,7 @@ class PlayerInventory(Component, EntityManager):
 
                     # Weapon notation strings
                     if "equippable" in item and isinstance(item.equippable, Weapon):
-                        dnotation = item.equippable.attack_comp.attacks[0].to_text()
+                        dnotation = item.equippable.offense.attacks[0].to_text()
                         item_string += f"({dnotation})"
 
                     if is_equipped:

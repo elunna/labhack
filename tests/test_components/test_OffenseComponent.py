@@ -1,5 +1,5 @@
 from components.attack import Attack
-from components.attack_cmp import AttackComponent
+from components.offense_comp import OffenseComponent
 from components.component import Component
 import pytest
 
@@ -14,28 +14,28 @@ def testattacks():
 
 
 def test_init__is_Component(testattacks):
-    ac = AttackComponent(*testattacks)
-    assert isinstance(ac, Component)
+    oc = OffenseComponent(*testattacks)
+    assert isinstance(oc, Component)
 
 
 def test_init__tuple():
     atk = Attack('bite', [8])
-    ac = AttackComponent(atk)
-    assert ac.attacks == (atk,)  # Single tuple
+    oc = OffenseComponent(atk)
+    assert oc.attacks == (atk,)  # Single tuple
 
 
 def test_init__2_attacks_tuple_():
     atk = Attack('bite', [8])
-    ac = AttackComponent(atk, atk)
-    assert ac.attacks == (atk, atk)
+    oc = OffenseComponent(atk, atk)
+    assert oc.attacks == (atk, atk)
 
 
 def test_len(testattacks):
-    ac = AttackComponent(*testattacks)
-    assert len(ac) == 3
+    oc = OffenseComponent(*testattacks)
+    assert len(oc) == 3
 
 
 def test_init__single_attack():
-    ac = AttackComponent(Attack('bite', [8]))
-    assert len(ac) == 1
-    assert isinstance(ac.attacks, tuple)
+    oc = OffenseComponent(Attack('bite', [8]))
+    assert len(oc) == 1
+    assert isinstance(oc.attacks, tuple)

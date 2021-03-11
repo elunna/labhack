@@ -1,5 +1,5 @@
 from components.attack import Attack
-from components.attack_cmp import AttackComponent
+from components.offense_comp import OffenseComponent
 from components.attributes import Attributes
 from components.energy import EnergyComponent
 from components.equipment import Equipment
@@ -20,7 +20,7 @@ class Player(Actor):
             ai=None,
             equipment=Equipment(),
             fighter=Fighter(max_hp=30, base_ac=10),
-            attack_comp=AttackComponent(Attack('punch', [2])),
+            offense=OffenseComponent(Attack('punch', [2])),
             attributes=Attributes(base_strength=5),
 
             # Original inventory capacity is 267 because we have 26 lowercase letters plus $
