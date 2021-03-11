@@ -165,9 +165,12 @@ def render_names_at_mouse_location(console, x, y, engine):
     """
     mouse_x, mouse_y = engine.mouse_location
 
+    # Need to correct for message window offset.
+    mouse_y -= settings.msg_panel_height
+
     names_at_mouse_location = engine.game_map.get_names_at(
         x=mouse_x,
-        y=mouse_y - settings.msg_panel_height,      # Need to correct for message window offset.
+        y=mouse_y,
     )
 
     console.print(x=x, y=y, string=f"({mouse_x},{mouse_y}): {names_at_mouse_location}")
