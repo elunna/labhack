@@ -176,9 +176,6 @@ class RunAI(BaseAI):
 
         # Stop at cooridor ends?
 
-        if result is False:
-            self.parent.ai = None
-
         return result
 
     def yield_action(self):
@@ -221,12 +218,10 @@ class RestAI(BaseAI):
 
         close_actors = gamemap.get_entities_within(x, y, radius) - {self.parent}
         if close_actors:
-            self.parent.ai = None
             return False
 
         # Is our HP full?
         if self.parent.fighter.hp_full():
-            self.parent.ai = None
             return False
         return True
 

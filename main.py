@@ -74,6 +74,7 @@ def handle_ai(engine, handler):
             log.debug('Player AI OFF ----------------')
     else:
         log.debug('Player AI OFF ----------------')
+        engine.player.ai = None
 
 
 def save_game(handler, filename):
