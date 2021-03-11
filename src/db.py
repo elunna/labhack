@@ -34,6 +34,15 @@ actor_dict = {
         "energy": EnergyComponent(refill=6)
     },
 
+    "brown mold": {
+        "char": "F",
+        "color": (139, 69, 19),  # Saddle-Brown
+        "ai": HostileAI(),
+        "fighter": Fighter(max_hp=10, base_ac=9),
+        "level": Level(xp_given=9, difficulty=2),
+        "energy": EnergyComponent(refill=0)
+    },
+
     "grasshopper": {
         "char": "a",
         "color": tcod.green,
