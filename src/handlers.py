@@ -113,36 +113,36 @@ class MainGameHandler(EventHandler):
         player = self.engine.player
         key = event.sym
         modifier = event.mod  # modifier keys like control, alt, or shift.
-        # Shift modifiers
-        if modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT):
-            if key in MOVE_KEYS:
-                # Create new run behavior
-                player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
+        shift_down = modifier & (tcod.event.KMOD_LSHIFT | tcod.event.KMOD_RSHIFT)
+        control_down = modifier & (tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL)
 
-            elif key == tcod.event.K_PERIOD:  # > (Down stairs)
-                return actions.downstairs_action.DownStairsAction(
-                    entity=player,
-                    dungeon=self.engine.dungeon
-                )
+        if shift_down and key == tcod.event.K_PERIOD:
+            # > (Down stairs)
+            return actions.downstairs_action.DownStairsAction(
+                entity=player,
+                dungeon=self.engine.dungeon
+            )
 
-            elif key == tcod.event.K_COMMA:  # < (Up stairs)
-                return actions.upstairs_action.UpStairsAction(
-                    entity=player,
-                    dungeon=self.engine.dungeon
-                )
+        elif shift_down and key == tcod.event.K_COMMA:
+            # < (Up stairs)
+            return actions.upstairs_action.UpStairsAction(
+                entity=player,
+                dungeon=self.engine.dungeon
+            )
 
-            elif key == tcod.event.K_SLASH:   # ? (Help screen)
-                return HelpHandler(self.engine)
+        elif shift_down and key == tcod.event.K_SLASH:
+            # ? (Help screen)
+            return HelpHandler(self.engine)
 
-        elif modifier & (tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL):
+        elif control_down and key == tcod.event.K_x:
+            # Ctrl-X: Character Screen
+            return CharacterScreenHandler(self.engine)
+
+        elif shift_down and key in MOVE_KEYS \
+                or control_down and key in MOVE_KEYS:
+            # Create new run behavior
             # For users with numpad, they can also use Control + Move key to run.
-            if key in MOVE_KEYS:
-                # Create new run behavior
-                player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
-
-            elif key == tcod.event.K_x:
-                # Ctrl-X: Character Screen
-                return CharacterScreenHandler(self.engine)
+            player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
 
         elif key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
@@ -175,7 +175,6 @@ class MainGameHandler(EventHandler):
         elif key == tcod.event.K_r:
             # Rest Action
             log.debug(f'Rest action input')
-
             player.add_comp(ai=ai.RestAI())
 
         # Check for AI, use the AI action of available.
