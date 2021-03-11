@@ -3,14 +3,13 @@
 from components import consumable
 from components.component import Component
 from actions.item_action import ItemAction
-from src import factory
-from tests import toolkit
+from src import factory, player
 import pytest
 
 
 @pytest.fixture
-def player():
-    return toolkit.cp_player()
+def test_player():
+    return player.Player()
 
 
 def test_Consumable__is_Component():
@@ -23,16 +22,16 @@ def test_Consumable_init():
     assert c.parent is None
 
 
-def test_Consumable_get_action(player):
+def test_Consumable_get_action(test_player):
     # This returns an ItemAction initialized with the consumer and this
     # Consumables parent.
     c = consumable.Consumable()
     vial = factory.make("healing vial")
     c.parent = vial
-    result = c.get_action(consumer=player)
+    result = c.get_action(consumer=test_player)
 
     assert isinstance(result, ItemAction)
-    assert result.entity == player
+    assert result.entity == test_player
     assert result.item == vial
 
 
@@ -42,11 +41,11 @@ def test_Consumable_activate():
         c.activate('fake_action')
 
 
-def test_Consumable_consume(player):
+def test_Consumable_consume(test_player):
     vial = factory.make('healing vial')
-    player.inventory.add_inv_item(vial)  # Add potion to players inv.
+    test_player.inventory.add_inv_item(vial)  # Add potion to test_players inv.
     vial.consumable.consume()
 
     # Item should be removed from inventory
-    # assert player.inventory.rm_item(vial) is None
-    assert vial not in player.inventory.item_dict.values()
+    # assert test_player.inventory.rm_item(vial) is None
+    assert vial not in test_player.inventory.item_dict.values()

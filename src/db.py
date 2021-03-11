@@ -5,34 +5,15 @@ from components import consumable, equippable, attack_cmp
 from components.ai import HostileAI, GridAI
 from components.attack import Attack
 from components.attack_cmp import AttackComponent
-from components.attributes import Attributes
 from components.energy import EnergyComponent
-from components.equipment import Equipment
 from components.fighter import Fighter
-from components.inventory import PlayerInventory
 from components.item_comp import ItemComponent
 from components.level import Level
-from components.regeneration import Regeneration
 from components.stackable import StackableComponent
 from src.entity import Entity
 from src.renderorder import RenderOrder
 
 actor_dict = {
-    "player": {
-        "char": "@",
-        "color": (255, 255, 255),
-        "ai": None,
-        "equipment": Equipment(),
-        "fighter": Fighter(max_hp=30, base_ac=10),
-        "attack_comp": AttackComponent(Attack('punch', [2])),
-        "attributes": Attributes(base_strength=5),
-        # Original inventory capacity is 26 because we have 26 lowercase letters.
-        "inventory": PlayerInventory(capacity=52),
-        "level": Level(level_up_base=20, difficulty=0),
-        "energy": EnergyComponent(refill=12),
-        "regeneration": Regeneration(),
-    },
-
     "grid bug": {
         "char": "x",
         "color": tcod.purple,

@@ -13,6 +13,7 @@ from src.actor import Actor
 class Player(Actor):
     def __init__(self):
         super().__init__(
+            name="player",
             player=True,  # Let's us work with the player component around the game.
             char="@",
             color=(255, 255, 255),

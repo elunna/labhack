@@ -1,13 +1,14 @@
 """ Tests for fighter.py """
 
 from components.fighter import Fighter
-from src import factory
 import pytest
+
+from src import player
 
 
 @pytest.fixture
-def player():
-    return factory.make("player")
+def test_player():
+    return player.Player()
 
 
 @pytest.fixture
@@ -24,8 +25,8 @@ def test_hp_property(test_fighter):
     assert test_fighter.hp == 10
 
 
-def test_hp_setter__negative(test_fighter, player):
-    test_fighter.parent = player  # Needs parent to check it's ai
+def test_hp_setter__negative(test_fighter, test_player):
+    test_fighter.parent = test_player  # Needs parent to check it's ai
     test_fighter.hp = -1
     assert test_fighter.hp == 0
 
@@ -40,14 +41,14 @@ def test_hp_setter__over_max(test_fighter):
     assert test_fighter.hp == 10
 
 
-def test_ac_property(test_fighter, player):
-    test_fighter.parent = player  # Needs parent to check it's equipment
+def test_ac_property(test_fighter, test_player):
+    test_fighter.parent = test_player  # Needs parent to check it's equipment
     assert test_fighter.ac == 15  # No bonus
 
 
-def test_bonus__ac(test_fighter, player):
-    test_fighter.parent = player  # Needs parent to check it's ai
-    # No bonus when player has no equipment
+def test_bonus__ac(test_fighter, test_player):
+    test_fighter.parent = test_player  # Needs parent to check it's ai
+    # No bonus when test_player has no equipment
     assert test_fighter.ac_bonus() == 0
 
 

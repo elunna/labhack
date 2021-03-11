@@ -1,5 +1,6 @@
 """ Tests for actions.py """
 from actions.actions import Action
+from src import player
 from tests import toolkit
 import pytest
 
@@ -10,24 +11,24 @@ def test_map():
 
 
 @pytest.fixture
-def player():
-    return toolkit.cp_player()
+def test_player():
+    return player.Player()
 
 
-def test_init(player):
-    a = Action(player)
-    assert a.entity == player
+def test_init(test_player):
+    a = Action(test_player)
+    assert a.entity == test_player
     assert a.msg == ''
 
 
 def test_engine(test_map):
-    player = test_map.player
-    a = Action(player)
+    test_player = test_map.player
+    a = Action(test_player)
     result = a.engine
     assert result is None
 
 
-def test_perform__not_implemented(player):
-    a = Action(player)
+def test_perform__not_implemented(test_player):
+    a = Action(test_player)
     with pytest.raises(NotImplementedError):
         a.perform()

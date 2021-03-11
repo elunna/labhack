@@ -1,5 +1,5 @@
 """Handle the loading and initialization of game sessions."""
-from . import color
+from . import color, player
 from . import factory
 from .engine import Engine
 import lzma
@@ -8,15 +8,15 @@ import pickle
 
 def new_game():
     """Return a brand new game session as an Engine instance."""
-    player = factory.make("player")
-    engine = Engine(player=player)
+    new_player = player.Player()
+    engine = Engine(player=new_player)
 
     new_map = engine.dungeon.current_map
 
     # Add player
     startx, starty = new_map.upstairs_location
-    new_map.place(player, startx, starty)
-    new_map.player = player
+    new_map.place(new_player, startx, starty)
+    new_map.player = new_player
 
     engine.update_fov()
 
@@ -25,12 +25,12 @@ def new_game():
     )
 
     dagger = factory.make("dagger")
-    player.inventory.add_inv_item(dagger)
-    player.equipment.toggle_equip(dagger)
+    new_player.inventory.add_inv_item(dagger)
+    new_player.equipment.toggle_equip(dagger)
 
     leather_armor = factory.make("leather vest")
-    player.inventory.add_inv_item(leather_armor)
-    player.equipment.toggle_equip(leather_armor)
+    new_player.inventory.add_inv_item(leather_armor)
+    new_player.equipment.toggle_equip(leather_armor)
 
     starting_items = [
         "healing vial",
@@ -41,7 +41,7 @@ def new_game():
 
     for item in starting_items:
         new_item = factory.make(item)
-        player.inventory.add_inv_item(new_item)
+        new_player.inventory.add_inv_item(new_item)
 
     return engine
 

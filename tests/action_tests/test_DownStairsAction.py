@@ -2,7 +2,7 @@ from actions import actions
 from actions.downstairs_action import DownStairsAction
 from pytest_mock import mocker
 from types import SimpleNamespace
-from src import dungeon
+from src import dungeon, player
 from src import exceptions
 from tests import toolkit
 import pytest
@@ -11,12 +11,12 @@ import pytest
 @pytest.fixture
 def test_dungeon():
     # Create a dungeon with 1 floor and add the Player to it.
-    player = toolkit.cp_player()
-    e = SimpleNamespace(game_map='testmap', player=player)
+    plyr = player.Player()
+    e = SimpleNamespace(game_map='testmap', player=plyr)
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()
-    d.current_map.place(player, 0, 0)
-    d.current_map.player = player
+    d.current_map.place(plyr, 0, 0)
+    d.current_map.player = plyr
     return d
 
 

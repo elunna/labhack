@@ -14,12 +14,11 @@ class DieAction(Action):
         """Performs the death of the entity."""
         trap_cause = "trap" in self.cause
 
-        # TODO: Update with component type/breed check
-        if self.entity.name == "player":
+        if self.entity.has_comp("player"):
             self.msg = "You died!"
 
         # TODO: Update with component type/breed check
-        elif self.cause.name == "player":
+        elif self.cause.has_comp("player"):
             self.msg = f"You kill the {self.entity.name}!"
 
             # You get xp for the kill
@@ -36,5 +35,9 @@ class DieAction(Action):
         self.entity.char = "%"
         self.entity.blocks_movement = False
         self.entity.ai = None
-        self.entity.name = f"{self.entity.name} corpse"
+        if self.entity.has_comp("player"):
+            self.entity.name = f"player corpse"
+        else:
+            self.entity.name = f"{self.entity.name} corpse"
+
         self.entity.render_order = RenderOrder.CORPSE

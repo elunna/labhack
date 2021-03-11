@@ -1,47 +1,45 @@
 """ Tests for engine.py """
-from src import engine, messages, dungeon
+from src import engine, dungeon, player
 import pytest
-
-from tests import toolkit
 
 
 @pytest.fixture
-def player():
-    return toolkit.cp_player()
+def test_player():
+    return player.Player()
 
 
-def test_init__msglog(player):
-    e = engine.Engine(player=player)
+def test_init__msglog(test_player):
+    e = engine.Engine(player=test_player)
     assert e.msglog.messages == []
 
 
-def test_init__mouse_location(player):
-    e = engine.Engine(player=player)
+def test_init__mouse_location(test_player):
+    e = engine.Engine(player=test_player)
     assert e.mouse_location == (0, 0)
 
 
-def test_init__player(player):
-    e = engine.Engine(player=player)
-    assert e.player == player
+def test_init__test_player(test_player):
+    e = engine.Engine(player=test_player)
+    assert e.player == test_player
 
 
-def test_init__helplog(player):
-    e = engine.Engine(player=player)
+def test_init__helplog(test_player):
+    e = engine.Engine(player=test_player)
     assert e.helplog  # Make sure it exists
 
 
-def test_init__renderer(player):
-    e = engine.Engine(player=player)
+def test_init__renderer(test_player):
+    e = engine.Engine(player=test_player)
     assert e.renderer is None
 
 
-def test_init__turns(player):
-    e = engine.Engine(player=player)
+def test_init__turns(test_player):
+    e = engine.Engine(player=test_player)
     assert e.turns == 0
 
 
-def test_init__dungeon(player):
-    e = engine.Engine(player=player)
+def test_init__dungeon(test_player):
+    e = engine.Engine(player=test_player)
     assert isinstance(e.dungeon, dungeon.Dungeon)
 
 
@@ -77,7 +75,7 @@ def test_save_as():
 
 
 
-# check_level(self): - Move this to the Player class??
+# check_level(self): - Move this to the test_player class??
 
 # handle_action(self, action):
 #  generate_monster(self):

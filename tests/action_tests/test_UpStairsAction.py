@@ -1,6 +1,6 @@
 from actions import actions
 from actions.upstairs_action import UpStairsAction
-from src import dungeon
+from src import dungeon, player
 from src import exceptions
 from tests import toolkit
 from types import SimpleNamespace
@@ -10,14 +10,14 @@ import pytest
 @pytest.fixture
 def test_dungeon():
     # Create a dungeon with 3 floors and adds the player to the floor 2 for easy testing situations.
-    player = toolkit.cp_player()
-    e = SimpleNamespace(game_map='testmap', player=player)
+    plyr = player.Player()
+    e = SimpleNamespace(game_map='testmap', player=plyr)
     d = dungeon.Dungeon(engine=e, test_map=toolkit.stair_map)
     d.generate_floor()  # Floor 2
     d.generate_floor()  # Floor 3
 
-    d.place_entity(player, 2, 0, 0)  # Put the player on level 2
-    d.current_map.player = player  # We'll set this manually
+    d.place_entity(plyr, 2, 0, 0)  # Put the player on level 2
+    d.current_map.player = plyr  # We'll set this manually
     assert d.dlevel == 2
     return d
 

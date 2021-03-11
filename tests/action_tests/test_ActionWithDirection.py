@@ -1,4 +1,5 @@
 from actions.actions import Action, ActionWithDirection
+from src import player
 from tests import toolkit
 import pytest
 
@@ -9,50 +10,49 @@ def test_map():
 
 
 @pytest.fixture
-def player():
-    return toolkit.cp_player()
+def test_player():
+    return player.Player()
 
 
 def test_init_is_Action(test_map):
-    player = test_map.player
-    a = ActionWithDirection(entity=player, dx=1, dy=-1)
+    plyr = test_map.player
+    a = ActionWithDirection(entity=plyr, dx=1, dy=-1)
     assert isinstance(a, Action)
 
 
 def test_init(test_map):
-    player = test_map.player
-    a = ActionWithDirection(entity=player, dx=1, dy=-1)
-    assert a.entity == player
+    plyr = test_map.player
+    a = ActionWithDirection(entity=plyr, dx=1, dy=-1)
+    assert a.entity == plyr
     assert a.dx == 1
     assert a.dy == -1
     assert a.msg == ''
 
 
 def test_dest_xy(test_map):
-    player = test_map.player
+    plyr = test_map.player
     dx, dy = 1, -1
-    a = ActionWithDirection(entity=player, dx=dx, dy=dy)
-    assert a.dest_xy == (player.x + dx, player.y + dy)
+    a = ActionWithDirection(entity=plyr, dx=dx, dy=dy)
+    assert a.dest_xy == (plyr.x + dx, plyr.y + dy)
 
 
-def test_blocking_entity(player):
+def test_blocking_entity(test_player):
     testmap = toolkit.test_map()
-    testmap.place(player, 1, 2)
+    testmap.place(test_player, 1, 2)
     # Blocked by a wall, not an entity
-    a = ActionWithDirection(entity=player, dx=0, dy=-1)
+    a = ActionWithDirection(entity=test_player, dx=0, dy=-1)
     assert not a.blocking_entity
 
 
-def test_target_actor(player):
+def test_target_actor(test_player):
     testmap = toolkit.test_map()
-    testmap.place(player, 2, 4)
-    a = ActionWithDirection(entity=player, dx=0, dy=1)
+    testmap.place(test_player, 2, 4)
+    a = ActionWithDirection(entity=test_player, dx=0, dy=1)
     assert a.target_actor.name == "grid bug"
 
 
-def test_perform(player):
-    testmap = toolkit.test_map()
-    player.x, player.y = 2, 4
-    a = ActionWithDirection(entity=player, dx=0, dy=1)
+def test_perform(test_player):
+    test_player.x, test_player.y = 2, 4
+    a = ActionWithDirection(entity=test_player, dx=0, dy=1)
     with pytest.raises(NotImplementedError):
         a.perform()

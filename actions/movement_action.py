@@ -23,8 +23,7 @@ class MovementAction(ActionWithDirection):
 
         if not self.entity.gamemap.walkable(dest_x, dest_y):
             # Destination is blocked by a tile.
-            # TODO: Update with component type/breed check
-            if self.entity.name == "player":
+            if self.entity.has_comp("player"):
                 raise exceptions.Impossible("That way is not walkable!")
 
             # No msg for other monsters
@@ -33,8 +32,7 @@ class MovementAction(ActionWithDirection):
         # Theoretically, this won’t ever trigger, it's a safeguard.
         if self.blocking_entity:
             # Destination is blocked by an entity.
-            # TODO: Update with component type/breed check
-            if self.entity.name == "player":
+            if self.entity.has_comp("player"):
                 raise exceptions.Impossible("That way is blocked.")
 
             # No msg for other monsters

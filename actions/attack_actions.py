@@ -27,7 +27,7 @@ class AttackAction(ActionWithDirection):
         if not target:
             raise exceptions.Impossible("Nothing to attack!")
         elif target == self.entity:
-            if self.entity.name == "player":
+            if self.entity.has_comp("player"):
                 raise exceptions.Impossible("You cannot attack yourself!")
             raise exceptions.Impossible(f"The {target} wobbles in place.")
 
@@ -99,11 +99,9 @@ class AttackAction(ActionWithDirection):
 
     def blocked_msg(self, target):
         """ Creates a message describing the defender blocking an attack."""
-        # TODO: Update with component type/breed check
-        if self.entity.name == "player":
+        if self.entity.has_comp("player"):
             self.msg = f"The {target.name} blocks your attack! "
-        # TODO: Update with component type/breed check
-        elif target.name == "player":
+        elif target.has_comp("player"):
             self.msg = f"You block the {self.entity}'s attack! "
         else:
             self.msg = f"The {target.name} blocks the {self.entity}'s attack! "
@@ -112,11 +110,9 @@ class AttackAction(ActionWithDirection):
         """ Creates a message describing the attacker missing an attack."""
         # TODO Add "Just Miss" for one off roll, wildly miss for 15+ off
 
-        # TODO: Update with component type/breed check
-        if self.entity.name == "player":
+        if self.entity.has_comp("player"):
             self.msg = f"You miss the {target.name}. "
-        # TODO: Update with component type/breed check
-        elif target.name == "player":
+        elif target.has_comp("player"):
             self.msg = f"The {self.entity} misses you. "
         else:
             self.msg = f"The {self.entity} misses the {target.name}. "
@@ -137,11 +133,9 @@ class MeleeAttack(AttackAction):
 
         self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
 
-        # TODO: Update with component type/breed check
-        if self.entity.name == "player":
+        if self.entity.has_comp("player"):
             self.msg = f"You {atk.name} the {target.name} for {dmg}! "
-        # TODO: Update with component type/breed check
-        elif target.name == "player":
+        elif target.has_comp("player"):
             self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
         else:
             self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
@@ -160,11 +154,9 @@ class WeaponAttack(AttackAction):
         """Creates the msg to describe one Actor hitting another Actor with a weapon."""
         self.msg = f"The {self.entity} hits the {target.name} with a {atk.name} for {dmg}! "
 
-        # TODO: Update with component type/breed check
-        if self.entity.name == "player":
+        if self.entity.has_comp("player"):
             self.msg = f"You hit the {target.name} with your {atk.name} for {dmg}! "
-        # TODO: Update with component type/breed check
-        elif target.name == "player":
+        elif target.has_comp("player"):
             self.msg = f"The {self.entity} hits you with it's {atk.name} for {dmg}! "
         else:
             self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "

@@ -1,7 +1,7 @@
 """ Tests for gamemap.py """
 from components.item_comp import ItemComponent
 from components.stackable import StackableComponent
-from src import factory, gamemap, room, tiles
+from src import factory, gamemap, room, tiles, player
 from src.entity import Entity
 import pytest
 import toolkit
@@ -32,8 +32,8 @@ def room_map():
 
 
 @pytest.fixture
-def player():
-    p = toolkit.cp_player()
+def test_player():
+    p = player.Player()
     p.parent = None  # Gotta set this...
     return p
 
@@ -154,7 +154,7 @@ def test_walkable__wall_tile(test_map):
 def test_walkable__all_floor(test_map):
     # Open floor at 5, 4
     assert test_map.walkable(5, 4)
-    # Player is on the floor at 5, 5
+    # player is on the floor at 5, 5
     assert test_map.walkable(5, 5)
 
 
@@ -325,11 +325,11 @@ def test_get_random_unoccupied_tile__1_valid_tile():
     assert result == (1, 1)
 
 
-def test_get_random_unoccupied_tile__1floor_1actor(player):
+def test_get_random_unoccupied_tile__1floor_1actor(test_player):
     m = gamemap.GameMap(width=3, height=3)
     m.tiles[0][0] = tiles.floor
     m.tiles[1][1] = tiles.floor
-    m.place(player, 0, 0)
+    m.place(test_player, 0, 0)
 
     result = m.get_random_unoccupied_tile()
     assert result == (1, 1)

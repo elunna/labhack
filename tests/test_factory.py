@@ -3,7 +3,7 @@ from components.level import Level
 from src.entity import Entity
 
 actor_dict = {
-    "player": {"level": Level(level_up_base=20, difficulty=0)},
+    "guinea pig": {"level": Level(level_up_base=20, difficulty=5)},
     "grid bug": {"level": Level(xp_given=1, difficulty=1)},
     "storm drone": {"level": Level(current_level=4, xp_given=55, difficulty=20)},
 }

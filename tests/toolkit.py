@@ -1,12 +1,8 @@
 """ Tools for testing """
 
-from src import factory
+from src import factory, player
 from src import gamemap
 from src import tiles
-
-
-def cp_player():
-    return factory.make("player")
 
 
 def test_map():
@@ -20,11 +16,8 @@ def test_map():
     # 4 # # . . # o
     # 5 # # x . . @
 
-    new_map = gamemap.GameMap(
-        width=6,
-        height=6,
-        fill_tile=tiles.floor
-    )
+    new_map = gamemap.GameMap(width=6, height=6, fill_tile=tiles.floor)
+
     walls = [(0, 0), (1, 0),
              (0, 1), (1, 1),
              (0, 3), (1, 3), (4, 3),
@@ -36,21 +29,19 @@ def test_map():
         new_map.tiles[x, y] = tiles.wall
 
     # Create a player at 5, 5
-    player = factory.spawn("player", new_map, 5, 5)
-    new_map.player = player
-
-    # Set the player parent to the map
-    player.parent = new_map
+    new_player = player.Player()
+    new_map.place(new_player, 5, 5)
+    new_map.player = new_player
 
     # Give the player items for testing
     dagger = factory.make("dagger")
-    player.inventory.add_inv_item(dagger)
+    new_player.inventory.add_inv_item(dagger)
 
     leather_armor = factory.make("leather vest")
-    player.inventory.add_inv_item(leather_armor)
+    new_player.inventory.add_inv_item(leather_armor)
 
     health_vial = factory.make("healing vial")
-    player.inventory.add_inv_item(health_vial)
+    new_player.inventory.add_inv_item(health_vial)
 
     # Create a grid bug at 2, 5
     factory.spawn("grid bug", new_map, 2, 5)
@@ -71,19 +62,17 @@ def hidden_map():
     # 3 # # ^ # #   ^=hidden bear trap
     # 4 # # . # #
 
-    new_map = gamemap.GameMap(
-        width=6,
-        height=6,
-        fill_tile=tiles.wall
-    )
+    new_map = gamemap.GameMap(width=6, height=6, fill_tile=tiles.wall
+                              )
     floors = [(2, 0), (2, 1), (0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (2, 3), (2, 4)]
 
     for x, y in floors:
         new_map.tiles[x, y] = tiles.floor
 
     # Create a player at 5, 5
-    player = factory.spawn("player", new_map, 2, 2)
-    new_map.player = player
+    new_player = player.Player()
+    new_map.place(new_player, 2, 2)
+    new_map.player = new_player
 
     # Create bear trap at 2, 3
     new_trap = factory.make("bear trap")
