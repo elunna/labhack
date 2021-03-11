@@ -198,6 +198,31 @@ class RunAI(BaseAI):
         )
 
 
+class TravelAI(BaseAI):
+    """ This is an AI for the player to auto-walk to a destination tile until we run into an obstacle
+    or encounter something interesting.
+    """
+    def __init__(self, entity, x, y):
+        self.parent = entity
+        self.path = self.get_path_to(x, y, 3)
+        # self.first_step = True
+
+    def can_perform(self):
+        if self.path:
+            return True
+        return False
+
+    def yield_action(self):
+        # Move towards the target.
+        dest_x, dest_y = self.path.pop(0)
+
+        return MovementAction(
+            self.parent,
+            dest_x - self.parent.x,
+            dest_y - self.parent.y,
+        )
+
+
 class RestAI(BaseAI):
     """ This is an AI for the player to rest in place until HP is fully restored or something interesting
     happens near us.

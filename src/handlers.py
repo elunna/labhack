@@ -189,21 +189,17 @@ class MainGameHandler(EventHandler):
         """ Left click confirms a selection.
              also returns the location, if the clicked space is within the map boundaries.
         """
-
+        player = self.engine.player
         # Hack to fix the msg_panel offset.
         mx, my = event.tile
         my -= settings.msg_panel_height
 
         if self.engine.game_map.in_bounds(mx, my):
-            # print(f'Clicked ({mx}, {my})!')
             if event.button == 1:
-                return actions.wait_action.WaitAction(self.engine.player)
+                player.add_comp(ai=ai.TravelAI(player, mx, my))
                 # return self.on_index_selected(*event.tile)
 
-        # print('Button clicked (out of bounds)!')
         # return super().ev_mousebuttondown(event)
-
-
 
     def on_index_selected(self, x, y):
         """ Called when an index is selected."""
