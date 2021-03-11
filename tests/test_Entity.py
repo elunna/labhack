@@ -1,6 +1,7 @@
 import pytest
 
 from components.stackable import StackableComponent
+from src import player
 from src.entity import Entity
 import toolkit
 
@@ -149,3 +150,13 @@ def test_distance__1_diagonal_tile_away():
     result = e.distance(1, 1)
     result = round(result, 2)  # Round to 2 decimal places
     assert result == 1.41
+
+
+def test_is_player__non_player_returns_False():
+    e = Entity(x=0, y=0)
+    assert not e.is_player()
+
+
+def test_is_player__player_returns_True():
+    e = player.Player()
+    assert e.is_player()

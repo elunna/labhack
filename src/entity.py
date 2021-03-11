@@ -123,3 +123,7 @@ class Entity(object):
         """Return the distance between the current entity and the given (x, y) coordinate.
         """
         return utils.distance(self.x, self.y, x, y)
+
+    def is_player(self):
+        """Returns True if this entity represents the player, otherwise returns False. """
+        return self.has_comp("player")
