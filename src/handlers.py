@@ -119,11 +119,7 @@ class MainGameHandler(EventHandler):
                 # Create new run behavior
                 player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
 
-                # The first move/bump action should get handled below
-                if self.engine.player.ai.can_perform():
-                    return player.ai.yield_action()
-
-            if key == tcod.event.K_PERIOD:  # > (Down stairs)
+            elif key == tcod.event.K_PERIOD:  # > (Down stairs)
                 return actions.downstairs_action.DownStairsAction(
                     entity=player,
                     dungeon=self.engine.dungeon
@@ -138,21 +134,17 @@ class MainGameHandler(EventHandler):
             elif key == tcod.event.K_SLASH:   # ? (Help screen)
                 return HelpHandler(self.engine)
 
-        if modifier & (tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL):
+        elif modifier & (tcod.event.KMOD_LCTRL | tcod.event.KMOD_RCTRL):
             # For users with numpad, they can also use Control + Move key to run.
             if key in MOVE_KEYS:
                 # Create new run behavior
                 player.add_comp(ai=ai.RunAI(direction=MOVE_KEYS[key]))
 
-                # The first move/bump action should get handled below
-                if self.engine.player.ai.can_perform():
-                    return player.ai.yield_action()
-
             elif key == tcod.event.K_x:
                 # Ctrl-X: Character Screen
                 return CharacterScreenHandler(self.engine)
 
-        if key in MOVE_KEYS:
+        elif key in MOVE_KEYS:
             dx, dy = MOVE_KEYS[key]
             action = actions.bump_action.BumpAction(player, dx, dy)
 
@@ -186,8 +178,10 @@ class MainGameHandler(EventHandler):
 
             player.add_comp(ai=ai.RestAI())
 
-            if self.engine.player.ai.can_perform():
-                return player.ai.yield_action()
+        # Check for AI, use the AI action of available.
+        player_ai = self.engine.player.ai
+        if player_ai and player_ai.can_perform():
+            return player_ai.yield_action()
 
         # No valid key was pressed
         return action
