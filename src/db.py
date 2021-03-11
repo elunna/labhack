@@ -40,7 +40,8 @@ actor_dict = {
         "ai": HostileAI(),
         "fighter": Fighter(max_hp=10, base_ac=9),
         "level": Level(xp_given=9, difficulty=2),
-        "energy": EnergyComponent(refill=0)
+        "energy": EnergyComponent(refill=0),
+        "passive": OffenseComponent(Attack('freeze', [10])),
     },
 
     "grasshopper": {

@@ -84,6 +84,10 @@ class EntityFactory:
             self.dungeon.dlevel,
             self.player.level.current_level
         )
+
+        # Test insertion area
+        # new_monster = "brown mold"
+
         x, y = new_room.random_point_inside()
 
         # Don't spawn them on top of each other.

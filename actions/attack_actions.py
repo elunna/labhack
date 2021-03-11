@@ -32,6 +32,8 @@ class AttackAction(ActionWithDirection):
 
             raise exceptions.Impossible(f"The {target} wobbles in place.")
 
+        results = []
+
         # Iterate through all the attacks
         for atk in self.offense.attacks:
             if self.roll_hit_die() < self.calc_target_number(target):
@@ -43,12 +45,25 @@ class AttackAction(ActionWithDirection):
                 else:
                     # Blocking message
                     self.blocked_msg(target)
+
+                # A hit was executed - check for any passive reactions
+                if target.has_comp("passive"):
+                    # Hopefully we can just reverse the dx and dy to target the attacker.
+                    results.append(
+                        PassiveAttack(
+                            entity=target,
+                            dx=self.dx * -1,
+                            dy=self.dy * -1
+                        )
+                    )
             else:
                 self.miss(target)
 
         # Check if the target is dead...
         if target.fighter.is_dead():
-            return DieAction(entity=target, cause=self.entity)
+            results.append(DieAction(entity=target, cause=self.entity))
+
+        return results
 
     def roll_hit_die(self):
         """Rolls a 1d20 die to determine if the attacker will land the hit."""
@@ -164,3 +179,17 @@ class WeaponAttack(AttackAction):
         else:
             self.msg = f"The {self.entity} hits the {target.name} with it's {atk.name} for {dmg}! "
 
+
+class PassiveAttack(AttackAction):
+    """Represents a close quarters attack (1-tile away with no-weapon)."""
+    def __init__(self, entity, dx, dy):
+        super().__init__(entity, dx, dy)
+        self.offense = self.entity.passive
+
+    def hit_msg(self, target, atk, dmg):
+        """Creates the msg to describe one Actor hitting another Actor with a melee attack."""
+
+        if target.is_player():
+            self.msg = f"The {self.entity} {atk.name}s you for {dmg}! "
+        else:
+            self.msg = f"The {self.entity} {atk.name}s the {target.name} for {dmg}! "
