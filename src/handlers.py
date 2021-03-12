@@ -1,3 +1,4 @@
+from actions.click_actions import ClickSelfAction
 from components import ai
 from . import color, utils
 from . import exceptions
@@ -196,6 +197,11 @@ class MainGameHandler(EventHandler):
 
         if self.engine.game_map.in_bounds(mx, my):
             if event.button == 1:
+                # Clicked self
+                if player.x == mx and player.y == my:
+                    return ClickSelfAction(player)
+
+                # todo: Move the below code to ClickLeftAction
                 dx, dy = mx - player.x, my - player.y
 
                 # Check if the user clicked directly around the player
