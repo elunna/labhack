@@ -647,7 +647,7 @@ item_dict = {
 
 # Money
 money = {
-    "name": 'dollar',
+    "name": 'money',
     "char": '$',
     "color": tcod.gold,
     "stackable": StackableComponent(),

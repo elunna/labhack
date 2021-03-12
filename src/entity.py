@@ -23,6 +23,11 @@ class Entity(object):
         """
         if 'name' in self:
             if "stackable" in self and self.stackable.size > 1:
+                # Money is a strange exception to formatting.
+                # TODO: Maybe entities can have a formatting method?
+                if self.name == "money":
+                    return f"${self.stackable.size}"
+
                 return f"{self.stackable.size} {self.name}s"
             return self.name
         return 'Unnamed'

@@ -81,12 +81,13 @@ class Renderer:
         )
 
         # Render players money
-        money = player.inventory.item_dict.get('$', 0)
+        money = player.inventory.item_dict.get('$', '$0')
+
         render_text(
             self.stat_panel,
             x=22,
             y=settings.hp_bar_y + 1,
-            text=f"${money}",
+            text=f"{money}",
             fg=tcod.gold,
         )
 

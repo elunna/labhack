@@ -31,10 +31,12 @@ class PickupAction(Action):
             else:
                 raise Exception('No result from rm_item!')
 
-            if amount > 1:
-                self.msg = f"({letter}) - {amount} {result.name}s"
+            if result.name == "money":
+                self.msg = f"({letter}) - ${amount}"
+            elif amount > 1:
+                self.msg = f"({letter}) - {result}s"
             else:
-                self.msg = f"({letter}) - {result.name}"
+                self.msg = f"({letter}) - {result}"
             return
 
         raise exceptions.Impossible("There is nothing here to pick up.")
