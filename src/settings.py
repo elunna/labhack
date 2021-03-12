@@ -2,7 +2,7 @@
 import string
 
 author = "Erik Lunna"
-version = 1.1
+version = 1.2
 title = f"Lab Hack Version {version}"
 title_extended = "Lab Hack: A Roguelike Venture in Super-Science!"
 
