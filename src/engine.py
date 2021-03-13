@@ -90,7 +90,7 @@ class Engine:
         # algorithm is the field-of-view algorithm to run. The default value is tcod.FOV_RESTRICTIVE.
         # The options are:
         # tcod.FOV_BASIC: Simple ray-cast implementation.
-        # tcod.FOV_DIAMOND
+        #
         # tcod.FOV_SHADOW: Recursive shadow caster.
         # tcod.FOV_PERMISSIVE(n): n starts at 0 (most restrictive) and goes up to 8 (most permissive.)
         # tcod.FOV_RESTRICTIVE
@@ -101,8 +101,9 @@ class Engine:
             # radius=settings.fov_radius,
             radius=0,
             light_walls=True,
-            algorithm=tcod.FOV_RESTRICTIVE,
+            # algorithm=tcod.FOV_RESTRICTIVE,
             # algorithm=tcod.FOV_BASIC,
+            algorithm=tcod.FOV_DIAMOND
         )
 
         # Add walls that are in player's fov
