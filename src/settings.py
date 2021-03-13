@@ -57,7 +57,7 @@ max_rooms = 15
 # tile_graphics
 wall = ' '
 floor = "░"
-room_floor_dark = ' '
+room_floor_dark = '.'
 room_floor_light = '.'
 vert_wall = "│"
 horz_wall = "─"
