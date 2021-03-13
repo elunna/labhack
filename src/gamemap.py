@@ -34,6 +34,8 @@ class GameMap(EntityManager):
         # Track which tiles are light
         self.lit = np.full((width, height), fill_value=False, order="F")
 
+        self.lighters = {}  # Tracks floor tiles which "light up" adjacent walls.
+
     @property
     def gamemap(self):
         """Direct reference to self. Other Entities will use this via their parent referene.
@@ -257,3 +259,6 @@ class GameMap(EntityManager):
         if self.add_entity(e):
             return True
         return False
+
+    def get_visible_tiles(self):
+        return {(x, y) for x in range(self.width) for y in range(self.height) if self.visible[x, y]}

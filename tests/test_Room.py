@@ -234,3 +234,56 @@ def test_direction_facing__inner_point_returns_None():
 def test_direction_facing__corner_returns_None():
     r = room.Room(0, 0, 3, 3)
     assert r.direction_facing(0, 0) is None
+
+
+def test_wall_light_dict__3x3_room():
+    r = room.Room(0, 0, 3, 3)
+    assert r.wall_light_dict() == {
+        (0, 0): (1, 1),
+        (1, 0): (1, 1),
+        (2, 0): (1, 1),
+        (0, 1): (1, 1),
+        (2, 1): (1, 1),
+        (0, 2): (1, 1),
+        (1, 2): (1, 1),
+        (2, 2): (1, 1),
+    }
+
+
+def test_wall_light_dict__4x4_room():
+    r = room.Room(0, 0, 4, 4)
+    assert r.wall_light_dict() == {
+        (0, 0): (1, 1),
+        (1, 0): (1, 1),
+        (2, 0): (2, 1),
+        (3, 0): (2, 1),
+        (0, 1): (1, 1),
+        (3, 1): (2, 1),
+        (0, 2): (1, 2),
+        (3, 2): (2, 2),
+        (0, 3): (1, 2),
+        (1, 3): (1, 2),
+        (2, 3): (2, 2),
+        (3, 3): (2, 2)
+    }
+
+
+def test_floor_light_dict__3x3_room():
+    r = room.Room(0, 0, 3, 3)
+    assert r.floor_light_dict() == {
+        (1, 1): {
+            (0, 0), (1, 0), (2, 0),
+            (0, 1), (2, 1),
+            (0, 2), (1, 2), (2, 2)
+        }
+    }
+
+
+def test_floor_light_dict__4x4_room():
+    r = room.Room(0, 0, 4, 4)
+    assert r.floor_light_dict() == {
+        (1, 1): {(0, 0), (1, 0), (0, 1)},
+        (2, 1): {(2, 0), (3, 0), (3, 1)},
+        (1, 2): {(0, 2), (0, 3), (1, 3)},
+        (2, 2): {(3, 2), (2, 3), (3, 3)}
+    }

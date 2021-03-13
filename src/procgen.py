@@ -97,11 +97,13 @@ def draw_room(new_map, new_room):
     dark_chance = new_map.dlevel * 2
 
     if new_map.dlevel < 5:
-        new_map.lit[new_room.full_slice] = True
+        # new_map.lit[new_room.full_slice] = True
+        new_map.lit[new_room.inner] = True
 
     elif random.randint(0, 100) > dark_chance:
         # light up the entire room
-        new_map.lit[new_room.full_slice] = True
+        # new_map.lit[new_room.full_slice] = True
+        new_map.lit[new_room.inner] = True
 
     # Draw walls
     for point in new_room.horz_walls():
@@ -367,6 +369,9 @@ def generate_rooms(new_map, max_rooms, room_min_size, room_max_size, max_distanc
         # Label the room to match it's index in new_map.rooms
         label = len(new_map.rooms)
         new_room.label = label
+
+        # Add the floor and wall lighting info to the lighters dict.
+        new_map.lighters.update(new_room.floor_light_dict())
 
         # Add this room to the map's list.
         new_map.rooms.append(new_room)

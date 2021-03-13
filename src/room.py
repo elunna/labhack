@@ -1,4 +1,5 @@
 import random
+from collections import defaultdict
 
 from src import tiles
 from src.door import Door
@@ -206,3 +207,36 @@ class Room:
         char_dict[self.se_corner] = tiles.room_se_corner
         char_dict[self.sw_corner] = tiles.room_sw_corner
         return char_dict
+
+    def wall_light_dict(self):
+        d = {}
+        for x in range(self.x1, self.x2 + 1):
+            d[(x, self.y1)] = (x, self.y1 + 1)  # top row (add 1 y)
+            d[(x, self.y2)] = (x, self.y2 - 1)  # bottom row (minus 1 y)
+
+        for y in range(self.y1, self.y2 + 1):
+            d[(self.x1, y)] = (self.x1 + 1, y)  # left col (add 1 x)
+            d[(self.x2, y)] = (self.x2 - 1, y)  # right col (minux 1 x)
+
+        d[self.nw_corner] = self.x1 + 1, self.y1 + 1  # nw corner: (+1, +1)
+        d[self.ne_corner] = self.x2 - 1, self.y1 + 1  # ne corner: (-1, +1)
+        d[self.sw_corner] = self.x1 + 1, self.y2 - 1  # sw corner: (+1, -1)
+        d[self.se_corner] = self.x2 - 1, self.y2 - 1  # se corner: (-1, -1)
+        return d
+
+    def floor_light_dict(self):
+        d = defaultdict(set)
+        for x in range(self.x1 + 1, self.x2):  # Ignore corners
+            d[(x, self.y1 + 1)].add((x, self.y1))  # top row (add 1 y)
+            d[(x, self.y2 - 1)].add((x, self.y2))  # bottom row (minus 1 y)
+
+        for y in range(self.y1 + 1, self.y2):  # Ignore corners
+            d[(self.x1 + 1, y)].add((self.x1, y))  # left col (add 1 x)
+            d[(self.x2 - 1, y)].add((self.x2, y))  # right col (minux 1 x)
+
+        d[self.x1 + 1, self.y1 + 1].add(self.nw_corner)  # nw corner: (+1, +1)
+        d[self.x2 - 1, self.y1 + 1].add(self.ne_corner)  # ne corner: (-1, +1)
+        d[self.x1 + 1, self.y2 - 1].add(self.sw_corner)  # sw corner: (+1, -1)
+        d[self.x2 - 1, self.y2 - 1].add(self.se_corner)  # se corner: (-1, -1)
+
+        return d

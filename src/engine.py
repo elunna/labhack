@@ -1,4 +1,4 @@
-from . import color, logger
+from . import color, logger, tiles
 from . import dungeon
 from . import exceptions
 from . import gamemap
@@ -73,11 +73,15 @@ class Engine:
 
         # Scan all entities for light components and add their light to the lit_tiles.
 
-        for e in self.game_map.entities:
-            if "light" in e:
-                for x, y in e.light.area():
-                    if self.game_map.in_bounds(x, y):
-                        lit_tiles[x, y] = True
+        for e in self.game_map.has_comp("light"):
+            for x, y in e.light.area():
+                # Bounds safety check
+                if not self.game_map.in_bounds(x, y):
+                    continue
+                # Skip room walls
+                if self.game_map.tiles[x, y] in tiles.room_walls:
+                    continue
+                lit_tiles[x, y] = True
 
         # Set the game_map’s visible tiles to the result of the compute_fov.
         # radius is the maximum view distance from pov. If this is zero then the maximum distance is used.
@@ -95,10 +99,16 @@ class Engine:
             transparency=transparent_tiles,
             pov=(self.player.x, self.player.y),
             # radius=settings.fov_radius,
-            radius=15,
+            radius=0,
             light_walls=True,
             algorithm=tcod.FOV_RESTRICTIVE,
+            # algorithm=tcod.FOV_BASIC,
         )
+
+        # Add walls that are in player's fov
+        for x, y in self.game_map.get_visible_tiles():
+            for x, y in self.game_map.lighters.get((x, y), {}):
+                lit_tiles[x, y] = True
 
         # Remove hidden blockers from visible
         for e in blocking_entities:
