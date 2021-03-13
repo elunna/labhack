@@ -1,4 +1,5 @@
 from components.attack import Attack
+from components.light import LightComponent
 from components.offense_comp import OffenseComponent
 from components.attributes import Attributes
 from components.energy import EnergyComponent
@@ -29,4 +30,6 @@ class Player(Actor):
             level=Level(level_up_base=20, difficulty=0),
             energy=EnergyComponent(refill=12),
             regeneration=Regeneration(),
+
+            light=LightComponent(radius=1),
         )

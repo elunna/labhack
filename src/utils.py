@@ -21,8 +21,7 @@ def pluralize_str(string):
 
 
 def radius(x, y, radius):
-    """Highlights the area surrounding the specified coordinates. """
-    # Highlight the affected tiles.
+    """Generates coordinates for an area surrounding the specified coordinates. """
     max_x = x + radius
     min_x = x - radius
     max_y = y + radius

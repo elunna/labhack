@@ -71,13 +71,13 @@ class Engine:
 
         lit_tiles = self.game_map.lit.copy()
 
-        # Set the lit tiles immediately around the player.
-        radius = 3
-        for x in range(radius):
-            for y in range(radius):
-                dx = -1 + x
-                dy = -1 + y
-                lit_tiles[self.player.x + dx, self.player.y + dy] = True
+        # Scan all entities for light components and add their light to the lit_tiles.
+
+        for e in self.game_map.entities:
+            if "light" in e:
+                for x, y in e.light.area():
+                    if self.game_map.in_bounds(x, y):
+                        lit_tiles[x, y] = True
 
         # Set the game_map’s visible tiles to the result of the compute_fov.
         # radius is the maximum view distance from pov. If this is zero then the maximum distance is used.
