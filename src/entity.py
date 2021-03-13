@@ -22,12 +22,12 @@ class Entity(object):
             a plural version, otherwise it will just be the name.
         """
         if 'name' in self:
-            if "stackable" in self and self.stackable.size > 1:
-                # Money is a strange exception to formatting.
-                # TODO: Maybe entities can have a formatting method?
-                if self.name == "money":
-                    return f"${self.stackable.size}"
+            # Money is a strange exception to formatting.
+            # TODO: Maybe entities can have a formatting method?
+            if self.name == "money":
+                return f"${self.stackable.size}"
 
+            if "stackable" in self and self.stackable.size > 1:
                 return f"{self.stackable.size} {self.name}s"
             return self.name
         return 'Unnamed'
