@@ -74,8 +74,8 @@ room_vert_wall = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.vert_wall), (100, 100, 100), (0, 0, 0)),  # Old dark setting
-    dark=(ord(settings.vert_wall), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.vert_wall), (100, 100, 100), (0, 0, 0)),  # Old dark setting
+    # dark=(ord(settings.vert_wall), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.vert_wall), (200, 200, 200), (0, 0, 0)),
 )
 
@@ -83,8 +83,8 @@ room_horz_wall = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.horz_wall), (100, 100, 100), (0, 0, 0)),  # Old dark setting
-    dark=(ord(settings.horz_wall), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.horz_wall), (100, 100, 100), (0, 0, 0)),  # Old dark setting
+    # dark=(ord(settings.horz_wall), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.horz_wall), (200, 200, 200), (0, 0, 0)),
 )
 
@@ -92,8 +92,8 @@ room_ne_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.ne_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
-    dark=(ord(settings.ne_corner), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.ne_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
+    # dark=(ord(settings.ne_corner), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.ne_corner), (200, 200, 200), (0, 0, 0)),
 )
 
@@ -101,8 +101,8 @@ room_sw_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.sw_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
-    dark=(ord(settings.sw_corner), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.sw_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
+    # dark=(ord(settings.sw_corner), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.sw_corner), (200, 200, 200), (0, 0, 0)),
 )
 
@@ -111,8 +111,8 @@ room_nw_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.nw_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
-    dark=(ord(settings.nw_corner), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.nw_corner), (100, 100, 100), (0, 0, 0)),  # Old dark setting
+    # dark=(ord(settings.nw_corner), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.nw_corner), (200, 200, 200), (0, 0, 0)),
 )
 
@@ -120,8 +120,8 @@ room_se_corner = new_tile(
     walkable=False,
     transparent=False,
     diggable=False,
-    # dark=(ord(settings.se_corner), (100, 100, 100), (0, 0, 0)),# Old dark setting
-    dark=(ord(settings.se_corner), (200, 200, 200), (0, 0, 0)),
+    dark=(ord(settings.se_corner), (100, 100, 100), (0, 0, 0)),# Old dark setting
+    # dark=(ord(settings.se_corner), (200, 200, 200), (0, 0, 0)),
     light=(ord(settings.se_corner), (200, 200, 200), (0, 0, 0)),
 )
 
